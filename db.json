@@ -1,0 +1,160 @@
+{
+    "orders": [
+        {
+            "id": 1,
+            "nameClient": "Петров Іван Іванович, +380950000000, Кам'янець-Подільський, 1 СЦ ЛД",
+            "dateShipment": "31.03.2022",
+            "dateTransfer": "29.03.2022",
+            "status": [
+                "готово",
+                "в роботі",
+                "нове"
+            ],
+            "deliveredOnBase": "22.09.2022",
+            "shippingMethod": "Нова Пошта",
+            "sentForExcavation": "21.09.2022",
+            "orderItems": [
+                {
+                    "id": 11,
+                    "name": "Chamaecyparis pisifera 'Squarrosa' Form, Кипарисовик 'Сквароза' Формований",
+                    "characteristics": "CWRB110, H160-180, FORM/CHUPA CHUPS",
+                    "quantity": 2,
+                    "placing": "Барвінок",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 22,
+                    "name": "Acer rubrum 'Burgundy Belle', Клен червоний 'Бургунді Бель'",
+                    "characteristics": "Acer rubrum 'Burgundy Belle', Клен червоний 'Бургунді Бель'",
+                    "quantity": 20,
+                    "placing": "Барвінок",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 33,
+                    "name": "Platanus x acerifolia, Платан кленолистий",
+                    "characteristics": "WRB, H250-300, TG10-12",
+                    "quantity": 1000,
+                    "placing": "Барвінок",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 44,
+                    "name": "Chamaecyparis pisifera 'Squarrosa' Form, Кипарисовик 'Сквароза' Формований",
+                    "characteristics": "CWRB110, H160-180, FORM/CHUPA CHUPS",
+                    "quantity": 2,
+                    "placing": "Перечин",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "nameClient": "Гурава Сергій Іванович, +380950000000, Кам'янець-Подільський, 1 СЦ ЛД",
+            "dateShipment": "31.03.2022",
+            "dateTransfer": "29.03.2022",
+            "status": [
+                "готово",
+                "в роботі",
+                "нове"
+            ],
+            "deliveredOnBase": "22.09.2022",
+            "shippingMethod": "Нова Пошта",
+            "sentForExcavation": "21.09.2022",
+            "orderItems": [
+                {
+                    "id": 111,
+                    "name": "Chamaecyparis pisifera 'Squarrosa' Form, Кипарисовик 'Сквароза' Формований",
+                    "characteristics": "CWRB110, H160-180, FORM/CHUPA CHUPS",
+                    "quantity": 2,
+                    "placing": "Перечин",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 222,
+                    "name": "Acer rubrum 'Burgundy Belle', Клен червоний 'Бургунді Бель'",
+                    "characteristics": "Acer rubrum 'Burgundy Belle', Клен червоний 'Бургунді Бель'",
+                    "quantity": 2,
+                    "placing": "Перечин",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 333,
+                    "name": "Platanus x acerifolia, Платан кленолистий",
+                    "characteristics": "WRB, H250-300, TG10-12",
+                    "quantity": 100,
+                    "placing": "Перечин",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 444,
+                    "name": "Chamaecyparis pisifera 'Squarrosa' Form, Кипарисовик 'Сквароза' Формований",
+                    "characteristics": "CWRB110, H160-180, FORM/CHUPA CHUPS",
+                    "quantity": 2,
+                    "placing": "Дубриничі",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "nameClient": "Конюх Гавриїл Іванович, +380950000000, Кам'янець-Подільський, 1 СЦ ЛД",
+            "dateShipment": "31.03.2022",
+            "dateTransfer": "29.03.2022",
+            "status": [
+                "готово",
+                "в роботі",
+                "нове"
+            ],
+            "deliveredOnBase": "22.09.2022",
+            "shippingMethod": "Нова Пошта",
+            "sentForExcavation": "21.09.2022",
+            "orderItems": [
+                {
+                    "id": 1111,
+                    "name": "Chamaecyparis pisifera 'Squarrosa' Form, Кипарисовик 'Сквароза' Формований",
+                    "characteristics": "CWRB110, H160-180, FORM/CHUPA CHUPS",
+                    "quantity": 2,
+                    "placing": "Дубриничі",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 2222,
+                    "name": "Acer rubrum 'Burgundy Belle', Клен червоний 'Бургунді Бель'",
+                    "characteristics": "Acer rubrum 'Burgundy Belle', Клен червоний 'Бургунді Бель'",
+                    "quantity": 2,
+                    "placing": "Дубриничі",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 3333,
+                    "name": "Platanus x acerifolia, Платан кленолистий",
+                    "characteristics": "WRB, H250-300, TG10-12",
+                    "quantity": 100,
+                    "placing": "Дубриничі",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                },
+                {
+                    "id": 4444,
+                    "name": "Chamaecyparis pisifera 'Squarrosa' Form, Кипарисовик 'Сквароза' Формований",
+                    "characteristics": "CWRB110, H160-180, FORM/CHUPA CHUPS",
+                    "quantity": 2,
+                    "placing": "Барвінок",
+                    "statusDig": false,
+                    "quantityExcavation": 1
+                }
+            ]
+        }
+    ]
+}
