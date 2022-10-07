@@ -65,13 +65,13 @@ const styles = StyleSheet.create({
 
     },
     costLineWrapper: {
-        height: 50,
+        height: 'auto',
         flex: 1,
         flexDirection: 'row',
     },
     orderClient: {
-        height: 50,
-        lineHeight: 50,
+        height: 'auto',
+        lineHeight: 20,
         width: 300,
         flex: 2,
         paddingLeft: 20,
@@ -99,6 +99,6 @@ const styles = StyleSheet.create({
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         justifyContent: 'center',
-        height: 50,
+        height: 'auto',
     },
 })

@@ -25,7 +25,7 @@ function FildScreen({ route, dataArray, orders }) {
             screenOptions={{
                 tabBarActiveTintColor: '#e91e63',
                 tabBarLabelStyle: { fontSize: 12 },
-                tabBarStyle: { backgroundColor: 'powderblue' },
+                tabBarStyle: { backgroundColor: '#CCC' },
             }}
         >
             <Tab.Screen
