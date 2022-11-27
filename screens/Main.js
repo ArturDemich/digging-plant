@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
+        backgroundColor: '#f2f5f8'
 
     },
     text: {
@@ -21,7 +22,7 @@ const styles = StyleSheet.create({
     },
     button: {
         marginTop: 15,
-        borderRadius: 20,
+        borderRadius: 10,
         textAlign: "center",
         backgroundColor: "green",
         fontSize: 35,
@@ -29,6 +30,8 @@ const styles = StyleSheet.create({
         minWidth: "63%",
         minHeight: "11%",
         textAlignVertical: 'center',
+        color: 'white',
+        boxShadow: 'rgb(5 5 6 / 50%) 0px 7px 7px'
     }
 })
 

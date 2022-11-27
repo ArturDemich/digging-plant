@@ -200,12 +200,15 @@ const styles = StyleSheet.create({
     },
     rowFront: {
         alignItems: 'center',
-        backgroundColor: '#CCC',
+        backgroundColor: '#fff',
         borderBottomColor: 'black',
-        borderBottomWidth: 1,
+        //borderBottomWidth: 1,
         justifyContent: 'center',
         height: 'auto',
-        margin: 1,
+        marginBottom: 20,
+        boxShadow: '0 7px 7px #0505061a',
+        borderRadius: 5,
+        margin: 5
     },
 
     centeredView: {
