@@ -204,7 +204,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         boxShadow: '0 7px 7px #0505061a',
         borderRadius: 5,
-        margin: 5
+        margin: 5,
+        elevation: 10,
+        shadowColor: '#52006A'
     },
 
     centeredView: {

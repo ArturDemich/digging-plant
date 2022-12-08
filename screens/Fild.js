@@ -23,9 +23,10 @@ function FildScreen({ route, dataArray, orders }) {
         <Tab.Navigator
             initialRouteName="Замовлення"
             screenOptions={{
-                tabBarActiveTintColor: '#e91e63',
-                tabBarLabelStyle: { fontSize: 12 },
-                tabBarStyle: { backgroundColor: '#CCC' },
+                tabBarActiveTintColor: '#ffff',
+                tabBarLabelStyle: { fontSize: 14, fontWeight: '700' },
+                tabBarStyle: { backgroundColor: '#CCC' },               
+                tabBarIndicatorStyle: {backgroundColor: '#ffff', height: 4, }
             }}
         >
             <Tab.Screen

@@ -23,11 +23,15 @@ function OrdersScreen({ navigation, filterOrders, currentFild }) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
-                    <Text style={styles.orderClient}>{item.nameClient}</Text>
-                    <Text style={styles.orderShipment}>Тип відправлення: {item.shippingMethod}</Text>
-                    <Text style={styles.orderShipment}>Дата відгрузки: {item.dateShipment}</Text>
-                    <Text style={styles.orderShipment}>К-сть рослин: {item.orderItems.length}</Text>
-                    <Text style={styles.orderShipment}>Статус: {item.status[1]}</Text>
+                    <Text style={styles.orderClient}>{item.nameClient}</Text>    
+                    <View style={styles.viewGroup}>
+                        <Text style={styles.orderShipment}>Відгрузка: {item.dateShipment}</Text>
+                        <Text style={styles.orderShipment}>К-сть рослин: {item.orderItems.length} шт </Text>
+                    </View> 
+                    <View style={styles.viewGroup}>   
+                        <Text style={styles.orderShipment}>Спосіб: {item.shippingMethod}</Text>                        
+                        <Text style={styles.orderShipment}>Статус: {item.status[1]}</Text>
+                    </View>
                 </View>
             </TouchableHighlight>
         )
@@ -58,7 +62,7 @@ export default connect(mapStateToProps, null)(OrdersScreen)
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%'
+        width: '100%',
     },
     text: {
         color: 'black',
@@ -71,13 +75,22 @@ const styles = StyleSheet.create({
         height: 'auto',
         flex: 1,
         flexDirection: 'column',
+        width: '100%',
+        paddingLeft: 5,
+        paddingRight: 5
+        
     },
     orderClient: {
         height: 'auto',
-        lineHeight: 20,
-        //width: 'auto',
-        flex: 2,
-        //paddingLeft: 0,
+        lineHeight: 20,        
+        paddingBottom: 5,
+        borderBottomWidth: 2,
+        borderBottomColor: '#b0acb0'      
+    },
+    viewGroup: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+       
     },
     orderItems: {
         height: 'auto',
@@ -93,19 +106,21 @@ const styles = StyleSheet.create({
     orderShipment: {
         height: 'auto',
         lineHeight: 30,
-        flex: 1,
+        //flex: 1,
         //paddingRight: 20,
     },
     rowFront: {
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderBottomColor: 'black',
-        //borderBottomWidth: 1,
+        borderBottomColor: 'black',       
         justifyContent: 'center',
         height: 'auto',
+        //width: 'auto',
         marginBottom: 20,
         boxShadow: '0 7px 7px #0505061a',
         borderRadius: 5,
-        margin: 5
+        margin: 5,
+        elevation: 10,
+        shadowColor: 'black'
     },
 })

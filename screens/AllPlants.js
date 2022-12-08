@@ -30,7 +30,7 @@ function AllPlantsScreen({ filterPlants, route, orders, currentFild }) {
                 <View style={styles.costLineWrapper}>
                     <Text style={styles.plantName}>{item.name}</Text>
                     <Text style={styles.characteristics}>{item.characteristics}</Text>
-                    <Text style={styles.quantity}> {item.quantity}шт</Text>
+                    <Text style={styles.quantity}> Кількість: {item.quantity}шт</Text>
                     <TouchableHighlight
                         style={[styles.button, isSelected === true && styles.buttonPress]}
                         onPress={(el) => {
@@ -125,17 +125,48 @@ const styles = StyleSheet.create({
         marginBottom: 14,
     },
     costLineWrapper: {
+        height: 'auto',
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
+        width: '100%',
+        paddingLeft: 3,
+        paddingRight: 3,
+        
+        
 
 
     },
     plantName: {
-        height: 50,
-        width: 100,
-        flex: 3,
-        paddingLeft: 10,
+        height: 'auto',
+        width: 'auto',
+        fontSize: 16,
+        fontWeight: '500',
+        paddingBottom: 3,
+        //flex: 3,
+        //paddingLeft: 10,
+       // textAlignVertical: 'center',
+
+    },
+    characteristics: {
+        height: 'auto',
+        fontSize: 13,
         textAlignVertical: 'center',
+        paddingLeft: 10,
+        paddingBottom: 5,
+
+    },
+    quantity: {
+        height: 'auto',
+        flex: 1,
+        textAlignVertical: 'center',
+
+    },
+    statusDig: {
+        height: 'auto',
+        flex: 2,
+        textAlignVertical: 'center',
+        fontSize: 12,
+        margin: 5
 
     },
     orderItems: {
@@ -151,7 +182,8 @@ const styles = StyleSheet.create({
         backgroundColor: "green",
         minWidth: "10%",
         textAlignVertical: 'center',
-        margin: 2
+        margin: 2,
+        
 
     },
     buttonPress: {
@@ -178,37 +210,21 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 18,
     },
-    characteristics: {
-        height: 50,
-        flex: 3,
-        textAlignVertical: 'center',
-
-    },
-    quantity: {
-        height: 50,
-        flex: 1,
-        textAlignVertical: 'center',
-
-    },
-    statusDig: {
-        height: 50,
-        flex: 2,
-        textAlignVertical: 'center',
-        fontSize: 12,
-        margin: 5
-
-    },
+    
     rowFront: {
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderBottomColor: 'black',
-        //borderBottomWidth: 1,
+        borderBottomColor: 'black',        
         justifyContent: 'center',
         height: 'auto',
-        marginBottom: 20,
+        marginBottom: 10,
         boxShadow: '0 7px 7px #0505061a',
         borderRadius: 5,
-        margin: 5
+        margin: 5,
+        elevation: 7,
+        shadowColor: '#52006A',
+        paddingTop: 7,
+        paddingBottom: 7,
     },
 
     centeredView: {
