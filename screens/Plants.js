@@ -28,7 +28,7 @@ function PlantsScreen({ filterPlants, route }) {
                 <View style={styles.costLineWrapper}>
                     <Text style={styles.plantName}>{item.name}</Text>
                     <Text style={styles.characteristics}>{item.characteristics}</Text>
-                    <Text style={styles.quantity}> {item.quantity}шт</Text>
+                    <Text style={styles.quantity}>кількіст: {item.quantity}шт</Text>
                     <TouchableHighlight
                         style={[styles.button, isSelected === true && styles.buttonPress]}
                         onPress={(el) => {
@@ -121,17 +121,43 @@ const styles = StyleSheet.create({
         marginBottom: 14,
     },
     costLineWrapper: {
+        height: 'auto',
         flex: 1,
-        flexDirection: 'row',
+        flexDirection: 'column',
+        width: '100%',
+        paddingLeft: 3,
+        paddingRight: 3,
 
 
     },
     plantName: {
-        height: 50,
-        width: 100,
-        flex: 3,
-        paddingLeft: 10,
+        height: 'auto',
+        width: 'auto',
+        fontSize: 16,
+        fontWeight: '500',
+        paddingBottom: 3,
+
+    },
+    characteristics: {
+        height: 'auto',
+        fontSize: 13,
         textAlignVertical: 'center',
+        paddingLeft: 10,
+        paddingBottom: 5,
+
+    },
+    quantity: {
+        height: 'auto',
+        flex: 1,
+        textAlignVertical: 'center',
+
+    },
+    statusDig: {
+        height: 'auto',
+        flex: 2,
+        textAlignVertical: 'center',
+        fontSize: 12,
+        margin: 5
 
     },
     orderItems: {
@@ -174,26 +200,8 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 18,
     },
-    characteristics: {
-        height: 50,
-        flex: 3,
-        textAlignVertical: 'center',
 
-    },
-    quantity: {
-        height: 50,
-        flex: 1,
-        textAlignVertical: 'center',
 
-    },
-    statusDig: {
-        height: 50,
-        flex: 2,
-        textAlignVertical: 'center',
-        fontSize: 12,
-        margin: 5
-
-    },
     rowFront: {
         alignItems: 'center',
         backgroundColor: '#fff',
