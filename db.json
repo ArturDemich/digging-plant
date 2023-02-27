@@ -156,84 +156,8 @@
                 }
             ]
         }
-    ],
-    "orders2": [
-        {
-            "orderId": "26f0bf06-9319-11ed-8367-00c12700489e",
-            "orderNo": "N_000000001",
-            "shipmentDate": "20230113",
-            "customerName": "фізособа - НЕ РЕДАГУВАТИ ЦЬОГО КОНТРАГЕНТА!!!!",
-            "products": [
-                {
-                    "product": {
-                        "id": "6eebae20-c613-11e1-b1d8-9c95dd2a622e",
-                        "name": "Thuja occidentalis 'Danica', Туя західна 'Даніка'"
-                    },
-                    "characteristic": {
-                        "id": "ae60b77d-7a74-11ea-8248-00c12700489e",
-                        "name": "WRB, D20-30"
-                    },
-                    "unit": {
-                        "id": "b0e167a1-ae88-11e7-831a-5cac4cc0aa5a",
-                        "name": "шт"
-                    },
-                    "qty": 10,
-                    "storage": {
-                        "id": "32d5b85f-552a-11e9-81a1-00c12700489e",
-                        "name": "Перечин"
-                    },
-                    "step": {
-                        "id": "80b807a4-aed1-11ed-836a-00c12700489e",
-                        "name": "Взято в копку"
-                    }
-                },
-                {
-                    "product": {
-                        "id": "600ae0ef-4eec-11e5-8e2f-240a64d6a972",
-                        "name": "Thuja occidentalis 'Europe Gold', Туя західна 'Юроп Голд'"
-                    },
-                    "characteristic": {
-                        "id": "a119f1dc-4c28-11ec-830b-00c12700489e",
-                        "name": "WRB, H140-160"
-                    },
-                    "unit": {
-                        "id": "7c0b3cfd-ae88-11e7-831a-5cac4cc0aa5a",
-                        "name": "шт"
-                    },
-                    "qty": 50,
-                    "storage": {
-                        "id": "32d5b85f-552a-11e9-81a1-00c12700489e",
-                        "name": "Перечин"
-                    },
-                    "step": {
-                        "id": "80b807a6-aed1-11ed-836a-00c12700489e",
-                        "name": "Викопано (готово до транспорту)"
-                    }
-                },
-                {
-                    "product": {
-                        "id": "6eebae20-c613-11e1-b1d8-9c95dd2a622e",
-                        "name": "Thuja occidentalis 'Danica', Туя західна 'Даніка'"
-                    },
-                    "characteristic": {
-                        "id": "ae60b77d-7a74-11ea-8248-00c12700489e",
-                        "name": "WRB, D20-30"
-                    },
-                    "unit": {
-                        "id": "b0e167a1-ae88-11e7-831a-5cac4cc0aa5a",
-                        "name": "шт"
-                    },
-                    "qty": 10,
-                    "storage": {
-                        "id": "1a70db70-0d53-11e7-94c9-ccb0da71c396",
-                        "name": "Дубриничі"
-                    },
-                    "step": {
-                        "id": "80b807a6-aed1-11ed-836a-00c12700489e",
-                        "name": "Викопано (готово до транспорту)"
-                    }
-                }
-            ]
-        }
+    ]
+    
+       
        
 }
