@@ -30,7 +30,7 @@ function AllPlantsScreen({ filterPlants, route, orders, currentFild }) {
                 <View style={styles.costLineWrapper}>
                     <Text style={styles.plantName}>{item.name}</Text>
                     <Text style={styles.characteristics}>{item.characteristics}</Text>
-                    <Text style={styles.quantity}> Кількість: {item.quantity}шт</Text>
+                    <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.quantity}  шт</Text></Text>
                     <TouchableHighlight
                         style={[styles.button, isSelected === true && styles.buttonPress]}
                         onPress={(el) => {
@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         marginBottom: 14,
     },
+    textStr: {
+        fontWeight: 600,
+    },
     costLineWrapper: {
         height: 'auto',
         flex: 1,
@@ -131,8 +134,8 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: 3,
         paddingRight: 3,
-        
-        
+
+
 
 
     },
@@ -144,7 +147,7 @@ const styles = StyleSheet.create({
         paddingBottom: 3,
         //flex: 3,
         //paddingLeft: 10,
-       // textAlignVertical: 'center',
+        // textAlignVertical: 'center',
 
     },
     characteristics: {
@@ -183,7 +186,7 @@ const styles = StyleSheet.create({
         minWidth: "10%",
         textAlignVertical: 'center',
         margin: 2,
-        
+
 
     },
     buttonPress: {
@@ -210,11 +213,11 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 18,
     },
-    
+
     rowFront: {
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderBottomColor: 'black',        
+        borderBottomColor: 'black',
         justifyContent: 'center',
         height: 'auto',
         marginBottom: 10,

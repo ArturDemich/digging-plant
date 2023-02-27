@@ -28,7 +28,7 @@ function PlantsScreen({ filterPlants, route }) {
                 <View style={styles.costLineWrapper}>
                     <Text style={styles.plantName}>{item.name}</Text>
                     <Text style={styles.characteristics}>{item.characteristics}</Text>
-                    <Text style={styles.quantity}>кількіст: {item.quantity}шт</Text>
+                    <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.quantity}  шт</Text></Text>
                     <TouchableHighlight
                         style={[styles.button, isSelected === true && styles.buttonPress]}
                         onPress={(el) => {
@@ -119,6 +119,9 @@ const styles = StyleSheet.create({
         fontSize: 18,
         textAlign: 'left',
         marginBottom: 14,
+    },
+    textStr: {
+        fontWeight: 600,
     },
     costLineWrapper: {
         height: 'auto',
