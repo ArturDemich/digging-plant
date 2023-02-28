@@ -31,10 +31,10 @@ const styles = StyleSheet.create({
         minHeight: "11%",
         textAlignVertical: 'center',
         color: 'white',
-        boxShadow: 'rgb(5 5 6 / 50%) 0px 7px 7px',
+        //boxShadow: 'rgb(5 5 6 / 50%) 0px 7px 7px',
         elevation: 20,
         shadowColor: '#302f30'
-        
+
     }
 })
 
@@ -47,7 +47,7 @@ function MainScreen({ navigation, dataArray }) {
     }, [])
 
     // const dataArray = useSelector(state => state.data.fetchedData)
-    console.log('main', dataArray)
+    //console.log('main', dataArray)
 
 
 

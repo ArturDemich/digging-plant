@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, StyleSheet, TouchableHighlight, View, FlatList, Pressable, Modal, Alert, } from 'react-native'
+import { Text, TextInput, StyleSheet, TouchableHighlight, View, FlatList, Pressable, Modal, Alert, } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector, connect } from 'react-redux';
 
@@ -7,7 +7,7 @@ import { useDispatch, useSelector, connect } from 'react-redux';
 
 
 function PlantsScreen({ filterPlants, route }) {
-    console.log('palnt', filterPlants)
+    //console.log('palnt', filterPlants)
 
     const dispatch = useDispatch()
 
@@ -28,17 +28,33 @@ function PlantsScreen({ filterPlants, route }) {
                 <View style={styles.costLineWrapper}>
                     <Text style={styles.plantName}>{item.name}</Text>
                     <Text style={styles.characteristics}>{item.characteristics}</Text>
-                    <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.quantity}  шт</Text></Text>
-                    <TouchableHighlight
-                        style={[styles.button, isSelected === true && styles.buttonPress]}
-                        onPress={(el) => {
-                            setSelection(!isSelected)
-                            /* dispatch(changeStatusDigPlant(filterPlants)) */
-                            console.log(el)
-                        }
-                        } >
-                        <Text style={styles.statusDig}  >Готово{item.statusDig}</Text>
-                    </TouchableHighlight>
+                    <View style={styles.info}>
+                        <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.quantity}  шт</Text></Text>
+                        <Text style={styles.status}>{'Викопано (готово до транспорту)'}</Text>
+                    </View>
+                    <View style={styles.changeinfo}>
+                        <Text style={styles.quantity}>
+                            к-сть:
+                            <TextInput
+                                style={styles.input}
+                                //onChangeText={onChangeNumber}
+                                //value={number}
+                                placeholder="0"
+                                keyboardType="numeric"
+                            />
+                        </Text>
+                        <TouchableHighlight
+                            style={[styles.button, isSelected === true && styles.buttonPress]}
+                            onPress={(el) => {
+                                setSelection(!isSelected)
+                                /* dispatch(changeStatusDigPlant(filterPlants)) */
+                                //console.log(el)
+                            }
+                            } >
+                            <Text style={styles.statusDig}>Змінити статус{item.statusDig}</Text>
+                        </TouchableHighlight>
+                    </View>
+
                 </View>
             </TouchableHighlight>
         )
@@ -130,8 +146,6 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: 3,
         paddingRight: 3,
-
-
     },
     plantName: {
         height: 'auto',
@@ -139,7 +153,9 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
         paddingBottom: 3,
-
+    },
+    info: {
+        flexDirection: 'row',
     },
     characteristics: {
         height: 'auto',
@@ -151,17 +167,17 @@ const styles = StyleSheet.create({
     },
     quantity: {
         height: 'auto',
-        flex: 1,
-        textAlignVertical: 'center',
-
-    },
-    statusDig: {
-        height: 'auto',
         flex: 2,
         textAlignVertical: 'center',
-        fontSize: 12,
-        margin: 5
+        alignSelf: 'center',
 
+    },
+    status: {
+        height: 'auto',
+        fontSize: 13,
+        textAlignVertical: 'center',
+        paddingLeft: 10,
+        paddingBottom: 5,
     },
     orderItems: {
         height: 50,
@@ -169,15 +185,33 @@ const styles = StyleSheet.create({
         width: 200,
         flex: 2,
     },
+    changeinfo: {
+        flexDirection: 'row'
+    },
+    statusDig: {
+        height: 'auto',
+        textAlignVertical: 'center',
+        fontSize: 12,
+        margin: 5
+    },
+    input: {
+        height: 30,
+        width: 40,
+        margin: 12,
+        borderWidth: 1,
+        borderColor: 'black',
+        padding: 10,
+    },
     button: {
         marginRight: 5,
         borderRadius: 3,
         textAlign: "center",
         backgroundColor: "green",
-        minWidth: "10%",
+        width: 130,
         textAlignVertical: 'center',
+        //height: 'min-content',
+        alignSelf: 'center',
         margin: 2
-
     },
     buttonPress: {
         marginRight: 5,
@@ -213,7 +247,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 'auto',
         marginBottom: 20,
-        boxShadow: '0 7px 7px #0505061a',
+        //boxShadow: '0 7px 7px #0505061a',
         borderRadius: 5,
         margin: 5,
         elevation: 10,

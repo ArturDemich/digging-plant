@@ -6,12 +6,12 @@ import { setNameClient } from '../state/dataSlice'
 import { filterPlants } from '../state/dataThunk'
 
 function OrdersScreen({ navigation, filterOrders, currentFild }) {
-    console.log('order', filterOrders.orderItems)
+    // console.log('order', filterOrders.orderItems)
 
     const dispatch = useDispatch()
 
     function renderOrders({ item }) {
-        console.log('order', item.orderItems.length)
+        //console.log('order', item.orderItems.length)
         return (
             <TouchableHighlight
                 onPress={() => {
@@ -23,13 +23,13 @@ function OrdersScreen({ navigation, filterOrders, currentFild }) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
-                    <Text style={styles.orderClient}>{item.nameClient}</Text>    
+                    <Text style={styles.orderClient}>{item.nameClient}</Text>
                     <View style={styles.viewGroup}>
                         <Text style={styles.orderShipment}>Відгрузка: {item.dateShipment}</Text>
                         <Text style={styles.orderShipment}>К-сть рослин: {item.orderItems.length} шт </Text>
-                    </View> 
-                    <View style={styles.viewGroup}>   
-                        <Text style={styles.orderShipment}>Спосіб: {item.shippingMethod}</Text>                        
+                    </View>
+                    <View style={styles.viewGroup}>
+                        <Text style={styles.orderShipment}>Спосіб: {item.shippingMethod}</Text>
                         <Text style={styles.orderShipment}>Статус: {item.status[1]}</Text>
                     </View>
                 </View>
@@ -78,19 +78,19 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: 5,
         paddingRight: 5
-        
+
     },
     orderClient: {
         height: 'auto',
-        lineHeight: 20,        
+        lineHeight: 20,
         paddingBottom: 5,
         borderBottomWidth: 2,
-        borderBottomColor: '#b0acb0'      
+        borderBottomColor: '#b0acb0'
     },
     viewGroup: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-       
+
     },
     orderItems: {
         height: 'auto',
@@ -112,12 +112,12 @@ const styles = StyleSheet.create({
     rowFront: {
         alignItems: 'center',
         backgroundColor: '#fff',
-        borderBottomColor: 'black',       
+        borderBottomColor: 'black',
         justifyContent: 'center',
         height: 'auto',
         //width: 'auto',
         marginBottom: 20,
-        boxShadow: '0 7px 7px #0505061a',
+        //boxShadow: '0 7px 7px #0505061a',
         borderRadius: 5,
         margin: 5,
         elevation: 10,

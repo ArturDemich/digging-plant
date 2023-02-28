@@ -6,7 +6,7 @@ export const getDataFromEndpoint = () => async (dispatch) => {
   try {
     const res = await DataService.getData();
     if (res) {
-      console.log('thunk', res.data)
+      //console.log('thunk', res.data)
       dispatch(setData(res.data));
     } else {
       console.log('Something went wrong!')
@@ -26,7 +26,7 @@ export const filterOrders = (prevState, fild) => (dispatch) => {
       }
     }
   })
-  console.log('thunkOrders', orderFilter)
+  // console.log('thunkOrders', orderFilter)
   dispatch(setFilterOrders(orderFilter))
 }
 
@@ -38,7 +38,7 @@ export const filterPlants = (prevState, fild, name) => (dispatch) => {
       for (let i = 0; i < order.orderItems.length; i++) {
         if (order.orderItems[i].placing == fild) {
           plantOrders.push(order.orderItems[i])
-          console.log('thunk', plantOrders)
+          // console.log('thunk', plantOrders)
         }
       }
     }
@@ -53,7 +53,7 @@ export const filterAllPlants = (prevState, fild) => (dispatch) => {
     for (let i = 0; i < order.orderItems.length; i++) {
       if (order.orderItems[i].placing == fild) {
         orders.push(order.orderItems[i])
-        console.log('thunkAll', orders)
+        //console.log('thunkAll', orders)
       }
     }
 

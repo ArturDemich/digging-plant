@@ -14,28 +14,28 @@ export const dataSlice = createSlice({
     initialState,
     reducers: {
         setData(state, action) {
-            console.log('slice', action)
+            // console.log('slice', action)
             state.data = action.payload
         },
 
 
         setFilterOrders(state, action) {
-            console.log('slice2', action)
+            // console.log('slice2', action)
             state.filterOrders = action.payload
         },
 
         setFilterPlants(state, action) {
-            console.log('slice3', action)
+            //console.log('slice3', action)
             state.filterPlants = action.payload
         },
         setFilterAllPlants(state, action) {
-            console.log('slice3', action)
+            //console.log('slice3', action)
             state.filterAllPlants = action.payload
         },
 
         setCurrentFild(state, action) {
             state.currentFild = action.payload
-            console.log('slice4', state.currentFild)
+            //console.log('slice4', state.currentFild)
         },
 
         setNameClient(state, action) {

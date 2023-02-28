@@ -8,7 +8,7 @@ import { filterAllPlants } from '../state/dataThunk';
 
 
 function AllPlantsScreen({ filterPlants, route, orders, currentFild }) {
-    console.log('Allpalnt', filterPlants)
+    //console.log('Allpalnt', filterPlants)
 
     const dispatch = useDispatch()
 
@@ -21,7 +21,7 @@ function AllPlantsScreen({ filterPlants, route, orders, currentFild }) {
 
 
     function renderPlants({ item }) {
-        console.log('renderPlants', item)
+        // console.log('renderPlants', item)
         return (
             <TouchableHighlight
                 style={styles.rowFront}
@@ -31,6 +31,7 @@ function AllPlantsScreen({ filterPlants, route, orders, currentFild }) {
                     <Text style={styles.plantName}>{item.name}</Text>
                     <Text style={styles.characteristics}>{item.characteristics}</Text>
                     <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.quantity}  шт</Text></Text>
+                    <Text style={styles.status}>{'Викопано (готово до транспорту)'}</Text>
                     <TouchableHighlight
                         style={[styles.button, isSelected === true && styles.buttonPress]}
                         onPress={(el) => {
@@ -39,7 +40,7 @@ function AllPlantsScreen({ filterPlants, route, orders, currentFild }) {
                             console.log(el)
                         }
                         } >
-                        <Text style={styles.statusDig}  >Готово{item.statusDig}</Text>
+                        <Text style={styles.statusDig}>Змінити статус{item.statusDig}</Text>
                     </TouchableHighlight>
                 </View>
             </TouchableHighlight>
@@ -134,10 +135,6 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: 3,
         paddingRight: 3,
-
-
-
-
     },
     plantName: {
         height: 'auto',
@@ -148,7 +145,6 @@ const styles = StyleSheet.create({
         //flex: 3,
         //paddingLeft: 10,
         // textAlignVertical: 'center',
-
     },
     characteristics: {
         height: 'auto',
@@ -158,11 +154,17 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
 
     },
+    status: {
+        height: 'auto',
+        fontSize: 13,
+        textAlignVertical: 'center',
+        paddingLeft: 10,
+        paddingBottom: 5,
+    },
     quantity: {
         height: 'auto',
         flex: 1,
         textAlignVertical: 'center',
-
     },
     statusDig: {
         height: 'auto',
@@ -221,7 +223,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 'auto',
         marginBottom: 10,
-        boxShadow: '0 7px 7px #0505061a',
+        //boxShadow: '0 7px 7px #0505061a',
         borderRadius: 5,
         margin: 5,
         elevation: 7,

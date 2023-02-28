@@ -17,7 +17,7 @@ function FildScreen({ route, dataArray, orders }) {
         dispatch(filterOrders(dataArray, route.params.title))
     }, [])
 
-    console.log('Fild', orders)
+    // console.log('Fild', orders)
 
     return (
         <Tab.Navigator
@@ -25,8 +25,8 @@ function FildScreen({ route, dataArray, orders }) {
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 14, fontWeight: '700' },
-                tabBarStyle: { backgroundColor: '#CCC' },               
-                tabBarIndicatorStyle: {backgroundColor: '#ffff', height: 4, }
+                tabBarStyle: { backgroundColor: '#CCC' },
+                tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, }
             }}
         >
             <Tab.Screen
