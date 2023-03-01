@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native'
 
 import FildScreen from '../screens/Fild'
 import MainScreen from '../screens/Main'
+import FildsScreen from '../screens/FildsScreen'
 import OrdersScreen from '../screens/Order'
 import PlantsScreen from '../screens/Plants'
 import { useDispatch } from 'react-redux'
@@ -19,10 +20,20 @@ export default function Navigate() {
 
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName="Викопка">
+            <Stack.Navigator initialRouteName="Роль">
+                <Stack.Screen
+                    name='Роль'
+                    component={MainScreen}
+                    option={{ title: 'Виберіть роль' }}
+                />
                 <Stack.Screen
                     name='Викопка'
-                    component={MainScreen}
+                    component={FildsScreen}
+                    option={{ title: 'Виберіть поле' }}
+                />
+                <Stack.Screen
+                    name='Загрузка'
+                    component={FildsScreen}
                     option={{ title: 'Виберіть поле' }}
                 />
                 <Stack.Screen

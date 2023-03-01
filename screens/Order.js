@@ -41,6 +41,11 @@ function OrdersScreen({ navigation, filterOrders, currentFild }) {
 
         <SafeAreaView style={styles.container} >
             <Text title='Замовлення з поля' style={styles.text}> Замовлення з поля {currentFild} </Text>
+            <View style={styles.infoblock}>
+                <Text style={styles.textinfo}> всього замовлень: 2 </Text>
+                <Text style={styles.textinfo}> всього рослин: 8 </Text>
+            </View>
+
             <FlatList
                 data={filterOrders}
                 renderItem={renderOrders}
@@ -68,8 +73,17 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 20,
         textAlign: 'center',
+        marginTop: -20,
+    },
+    textinfo: {
+        color: 'black',
+        fontSize: 15,
+        textAlign: 'center',
+    },
+    infoblock: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
         marginBottom: 20,
-
     },
     costLineWrapper: {
         height: 'auto',

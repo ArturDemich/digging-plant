@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        backgroundColor: '#f2f5f8'
-
+        backgroundColor: '#f2f5f8',
+        justifyContent: 'center',
     },
     text: {
         color: 'black',
@@ -31,48 +31,31 @@ const styles = StyleSheet.create({
         minHeight: "11%",
         textAlignVertical: 'center',
         color: 'white',
-        //boxShadow: 'rgb(5 5 6 / 50%) 0px 7px 7px',
         elevation: 20,
-        shadowColor: '#302f30'
-
+        shadowColor: '#302f30',
     }
 })
 
 
 function MainScreen({ navigation, dataArray }) {
-    const dispatch = useDispatch()
-
-    useEffect(() => {
-        dispatch(getDataFromEndpoint())
-    }, [])
-
-    // const dataArray = useSelector(state => state.data.fetchedData)
-    //console.log('main', dataArray)
-
-
 
     return (
 
         <View style={styles.container}>
-            <Text style={styles.text}> Виберіть поле </Text>
             <TouchableOpacity  >
-                <Text style={styles.button} title='Барвінок' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Барвінок' })
-                    dispatch(setCurrentFild('Барвінок'))
-                }} > Барвінок </Text>
-                <Text style={styles.button} title='Перечин' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Перечин' })
-                    dispatch(setCurrentFild('Перечин'))
+                <Text style={styles.button} title='Викопка' onPress={() => {
+                    navigation.navigate('Викопка', { title: 'Викопка' })
 
-                }} > Перечин </Text>
-                <Text style={styles.button} title='Дубриничі' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Дубриничі' })
-                    dispatch(setCurrentFild('Дубриничі'))
-                }} > Дубриничі </Text>
-                <Text style={styles.button} title='База' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Поле' })
+                }}>
+                    Викопка
+                </Text>
+                <Text style={styles.button} title='Загрузка' onPress={() => {
+                    navigation.navigate('Загрузка', { title: 'Загрузка' })
 
-                }} > База </Text>
+                }}>
+                    Загрузка
+                </Text>
+
             </TouchableOpacity>
         </View>
     )

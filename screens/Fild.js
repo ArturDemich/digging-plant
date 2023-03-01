@@ -50,14 +50,3 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(FildScreen)
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        color: 'black',
-        fontSize: 20,
-    },
-})

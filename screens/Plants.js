@@ -33,8 +33,10 @@ function PlantsScreen({ filterPlants, route }) {
                         <Text style={styles.status}>{'Викопано (готово до транспорту)'}</Text>
                     </View>
                     <View style={styles.changeinfo}>
-                        <Text style={styles.quantity}>
-                            к-сть:
+                        <View style={styles.changeinfoblock}>
+                            <Text style={styles.quantity}>
+                                Викопано:
+                            </Text>
                             <TextInput
                                 style={styles.input}
                                 //onChangeText={onChangeNumber}
@@ -42,7 +44,7 @@ function PlantsScreen({ filterPlants, route }) {
                                 placeholder="0"
                                 keyboardType="numeric"
                             />
-                        </Text>
+                        </View>
                         <TouchableHighlight
                             style={[styles.button, isSelected === true && styles.buttonPress]}
                             onPress={(el) => {
@@ -105,7 +107,7 @@ function PlantsScreen({ filterPlants, route }) {
 
             />
             <Pressable style={styles.statusButton} onPress={() => setModalVisible(true)} >
-                <Text style={styles.textStatus} >Викопано! </Text>
+                <Text style={styles.textStatus} >Змінити статус всіх! </Text>
             </Pressable>
         </SafeAreaView>
     )
@@ -167,7 +169,7 @@ const styles = StyleSheet.create({
     },
     quantity: {
         height: 'auto',
-        flex: 2,
+
         textAlignVertical: 'center',
         alignSelf: 'center',
 
@@ -186,6 +188,10 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     changeinfo: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    changeinfoblock: {
         flexDirection: 'row'
     },
     statusDig: {
@@ -200,7 +206,9 @@ const styles = StyleSheet.create({
         margin: 12,
         borderWidth: 1,
         borderColor: 'black',
-        padding: 10,
+        textAlign: 'center',
+        alignSelf: 'flex-start',
+
     },
     button: {
         marginRight: 5,
@@ -225,7 +233,7 @@ const styles = StyleSheet.create({
     statusButton: {
         borderRadius: 15,
         backgroundColor: "green",
-        width: "35%",
+        width: 200,
         minHeight: 40,
         margin: 2,
         alignItems: 'center',

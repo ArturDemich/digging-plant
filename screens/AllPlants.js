@@ -84,7 +84,7 @@ function AllPlantsScreen({ filterPlants, route, orders, currentFild }) {
             </Modal>
 
 
-            <Text style={styles.text}> Замовлення з поля {currentFild} </Text>
+            <Text style={styles.text}> Всі рослини з поля {currentFild} </Text>
             <FlatList
                 data={filterPlants}
                 renderItem={renderPlants}
