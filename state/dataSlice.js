@@ -14,7 +14,7 @@ export const dataSlice = createSlice({
     initialState,
     reducers: {
         setData(state, action) {
-            // console.log('slice', action)
+            console.log('slice', action)
             state.data = action.payload
         },
 

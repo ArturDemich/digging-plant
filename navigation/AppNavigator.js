@@ -39,13 +39,13 @@ export default function Navigate() {
                 <Stack.Screen
                     name='Поле'
                     component={FildScreen}
-                    option={{ title: 'Поле' }}
+                    options={({ route }) => ({ title: route.params.name })}
                 />
-                <Stack.Screen
+                {/* <Stack.Screen
                     name='Замовлення'
                     component={OrdersScreen}
                     option={{ title: 'Замовлення' }}
-                />
+                /> */}
                 <Stack.Screen
                     name='Рослини'
                     component={PlantsScreen}

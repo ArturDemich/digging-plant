@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { setCurrentFild } from '../state/dataSlice'
 //import { filterOrders } from '../state/actions'
-import { filterOrders, getDataFromEndpoint } from '../state/dataThunk'
+import { filterOrders, getDataFromEndpoint, getOrdersStep } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -43,7 +43,7 @@ function MainScreen({ navigation, dataArray }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getDataFromEndpoint())
+        dispatch(getOrdersStep('80b807a6-aed1-11ed-836a-00c12700489e'))
     }, [])
 
     // const dataArray = useSelector(state => state.data.fetchedData)

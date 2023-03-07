@@ -2,6 +2,22 @@ import { DataService } from "./dataService";
 import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants } from "./dataSlice";
 
 
+export const getOrdersStep = (stepId) => async (dispatch) => {
+  console.log('thunk', stepId)
+  try {
+    const res = await DataService.getStepOrders(stepId)
+    console.log(res)
+    if (res) {
+
+      dispatch(setData(res.data));
+    } else {
+      console.log('Something went wrong!')
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const getDataFromEndpoint = () => async (dispatch) => {
   try {
     const res = await DataService.getData();
