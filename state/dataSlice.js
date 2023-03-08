@@ -6,13 +6,22 @@ const initialState = {
     filterPlants: [],
     filterAllPlants: [],
     currentFild: '',
-    nameClientOrders: ''
+    nameClientOrders: '',
+    digStorages: []
 }
 
 export const dataSlice = createSlice({
     name: 'data_from_endpoint',
     initialState,
     reducers: {
+
+        setDigStorages(state, action) {
+            state.digStorages = action.payload
+            console.log('sliceSDig', state.digStorages)
+        },
+
+
+
         setData(state, action) {
             console.log('slice', action)
             state.data = action.payload
@@ -44,6 +53,6 @@ export const dataSlice = createSlice({
     },
 })
 
-export const { setData, setFilterOrders, setFilterPlants, setCurrentFild, setNameClient, setFilterAllPlants } = dataSlice.actions
+export const { setData, setFilterOrders, setFilterPlants, setCurrentFild, setNameClient, setFilterAllPlants, setDigStorages } = dataSlice.actions
 
 export default dataSlice.reducer

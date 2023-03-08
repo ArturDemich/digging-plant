@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { setCurrentFild } from '../state/dataSlice'
 //import { filterOrders } from '../state/actions'
-import { filterOrders, getDataFromEndpoint, getOrdersStep } from '../state/dataThunk'
+import { filterOrders, getDataFromEndpoint, getOrdersStep, getDigStorages } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -39,15 +39,17 @@ const styles = StyleSheet.create({
 })
 
 
-function MainScreen({ navigation, dataArray }) {
+function MainScreen({ navigation, dataArray, digStorages }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getOrdersStep('80b807a6-aed1-11ed-836a-00c12700489e'))
+        //dispatch(getOrdersStep('80b807a6-aed1-11ed-836a-00c12700489e'))
+        dispatch(getDataFromEndpoint())
+        dispatch(getDigStorages())
     }, [])
 
     // const dataArray = useSelector(state => state.data.fetchedData)
-    //console.log('main', dataArray)
+    console.log('main', digStorages)
 
 
 
@@ -56,7 +58,7 @@ function MainScreen({ navigation, dataArray }) {
         <View style={styles.container}>
             <Text style={styles.text}> Виберіть поле </Text>
             <TouchableOpacity  >
-                <Text style={styles.button} title='Барвінок' onPress={() => {
+                {/* <Text style={styles.button} title='Барвінок' onPress={() => {
                     navigation.navigate('Поле', { title: 'Барвінок' })
                     dispatch(setCurrentFild('Барвінок'))
                 }} > Барвінок </Text>
@@ -72,14 +74,24 @@ function MainScreen({ navigation, dataArray }) {
                 <Text style={styles.button} title='База' onPress={() => {
                     navigation.navigate('Поле', { title: 'Поле' })
 
-                }} > База </Text>
+                }} > База </Text> */}
+
+                {digStorages ? digStorages.map((storage) => {
+                    return (
+                        <Text key={storage.id} style={styles.button} title={storage.name} onPress={() => {
+                            navigation.navigate('Поле', { title: storage.name })
+                            dispatch(setCurrentFild(storage.name))
+                        }} > {storage.name} </Text>
+                    )
+                }) : console.log('main', 'digStorages')}
             </TouchableOpacity>
         </View>
     )
 }
 
 const mapStateToProps = (state) => ({
-    dataArray: state.data
+    dataArray: state.data,
+    digStorages: state.digStorages
 })
 
 export default connect(mapStateToProps)(MainScreen)

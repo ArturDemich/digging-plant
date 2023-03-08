@@ -1,5 +1,5 @@
 import { DataService } from "./dataService";
-import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants } from "./dataSlice";
+import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants, setDigStorages } from "./dataSlice";
 
 
 export const getOrdersStep = (stepId) => async (dispatch) => {
@@ -17,6 +17,27 @@ export const getOrdersStep = (stepId) => async (dispatch) => {
     console.log(error);
   }
 }
+
+export const getDigStorages = () => async (dispatch) => {
+  //console.log('thunk', stepId)
+  try {
+    const res = await DataService.getStoragesDig()
+    if (res) {
+
+      dispatch(setDigStorages(res.data));
+    } else {
+      console.log('Something went wrong!')
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
+
+
+
 
 export const getDataFromEndpoint = () => async (dispatch) => {
   try {

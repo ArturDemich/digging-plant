@@ -19,4 +19,10 @@ export class DataService {
         return stepOrders
     }
 
+
+    static getStoragesDig() {
+
+        return axios.get('https://my-json-server.typicode.com/ArturDemich/server-plant/storages')
+    }
+
 } 
