@@ -44,13 +44,29 @@ function MainScreen({ navigation, dataArray }) {
         <View style={styles.container}>
             <TouchableOpacity  >
                 <Text style={styles.button} title='Викопка' onPress={() => {
-                    navigation.navigate('Викопка', { title: 'Викопка' })
+                    navigation.navigate('Викопка', {
+                        title: 'Викопка', steps: [{
+                            id: "80b807a8-aed1-11ed-836a-00c12700489e",
+                            name: "Можна на копку"
+                        }, {
+                            id: "80b807a4-aed1-11ed-836a-00c12700489e",
+                            name: "Взято в копку"
+                        }]
+                    })
 
                 }}>
                     Викопка
                 </Text>
                 <Text style={styles.button} title='Загрузка' onPress={() => {
-                    navigation.navigate('Загрузка', { title: 'Загрузка' })
+                    navigation.navigate('Загрузка', {
+                        title: 'Загрузка', steps: [{
+                            id: "80b807a6-aed1-11ed-836a-00c12700489e",
+                            name: "Викопано (готово до транспорту)"
+                        }, {
+                            id: "80b807a5-aed1-11ed-836a-00c12700489e",
+                            name: "Взято на транспорт"
+                        }]
+                    })
 
                 }}>
                     Загрузка

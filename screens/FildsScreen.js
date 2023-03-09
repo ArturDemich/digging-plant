@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { setCurrentFild } from '../state/dataSlice'
 //import { filterOrders } from '../state/actions'
@@ -8,30 +9,34 @@ import { filterOrders, getDataFromEndpoint, getOrdersStep, getDigStorages } from
 
 const styles = StyleSheet.create({
     container: {
+        width: '100%',
+        height: '100%',
+        flex: 1,
+    },
+    containerView: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        backgroundColor: '#f2f5f8'
-
+        backgroundColor: '#f2f5f8',
     },
     text: {
         color: 'black',
         fontSize: 20,
-        marginBottom: 100,
+        marginBottom: 60,
         marginTop: 15,
     },
     button: {
         marginTop: 15,
+        marginBottom: 20,
         borderRadius: 10,
         textAlign: "center",
         backgroundColor: "green",
         fontSize: 35,
         fontWeight: "500",
         minWidth: "63%",
-        minHeight: "11%",
+        minHeight: 50,
         textAlignVertical: 'center',
         color: 'white',
-        //boxShadow: 'rgb(5 5 6 / 50%) 0px 7px 7px',
         elevation: 20,
         shadowColor: '#302f30'
 
@@ -39,7 +44,7 @@ const styles = StyleSheet.create({
 })
 
 
-function MainScreen({ navigation, dataArray, digStorages }) {
+function MainScreen({ navigation, dataArray, digStorages, route }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -49,43 +54,34 @@ function MainScreen({ navigation, dataArray, digStorages }) {
     }, [])
 
     // const dataArray = useSelector(state => state.data.fetchedData)
-    console.log('main', digStorages)
+    console.log('main', route.params.steps)
+
+    function renderFildsButton({ item }) {
+
+        return (
+            <TouchableOpacity>
+                <Text key={item.id} style={styles.button} title={item.name} onPress={() => {
+                    navigation.navigate('Поле', { title: item.name })
+                    dispatch(setCurrentFild(item.name))
+                }} > {item.name} </Text>
+            </TouchableOpacity>
+        )
+    }
 
 
 
     return (
 
-        <View style={styles.container}>
-            <Text style={styles.text}> Виберіть поле </Text>
-            <TouchableOpacity  >
-                {/* <Text style={styles.button} title='Барвінок' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Барвінок' })
-                    dispatch(setCurrentFild('Барвінок'))
-                }} > Барвінок </Text>
-                <Text style={styles.button} title='Перечин' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Перечин' })
-                    dispatch(setCurrentFild('Перечин'))
-
-                }} > Перечин </Text>
-                <Text style={styles.button} title='Дубриничі' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Дубриничі' })
-                    dispatch(setCurrentFild('Дубриничі'))
-                }} > Дубриничі </Text>
-                <Text style={styles.button} title='База' onPress={() => {
-                    navigation.navigate('Поле', { title: 'Поле' })
-
-                }} > База </Text> */}
-
-                {digStorages ? digStorages.map((storage) => {
-                    return (
-                        <Text key={storage.id} style={styles.button} title={storage.name} onPress={() => {
-                            navigation.navigate('Поле', { title: storage.name })
-                            dispatch(setCurrentFild(storage.name))
-                        }} > {storage.name} </Text>
-                    )
-                }) : console.log('main', 'digStorages')}
-            </TouchableOpacity>
-        </View>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.containerView}>
+                <Text style={styles.text}> Виберіть поле </Text>
+                <FlatList
+                    data={digStorages}
+                    renderItem={renderFildsButton}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </View>
+        </SafeAreaView>
     )
 }
 
