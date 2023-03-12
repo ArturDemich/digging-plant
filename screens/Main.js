@@ -37,35 +37,29 @@ const styles = StyleSheet.create({
 })
 
 
-function MainScreen({ navigation, dataArray }) {
+function MainScreen({ navigation, dataArray, route }) {
 
     return (
 
         <View style={styles.container}>
             <TouchableOpacity  >
                 <Text style={styles.button} title='Викопка' onPress={() => {
-                    navigation.navigate('Викопка', {
-                        title: 'Викопка', steps: [{
-                            id: "80b807a8-aed1-11ed-836a-00c12700489e",
-                            name: "Можна на копку"
-                        }, {
-                            id: "80b807a4-aed1-11ed-836a-00c12700489e",
-                            name: "Взято в копку"
-                        }]
+                    navigation.navigate('Всі поля', {
+                        title: 'Викопка', steps: {
+                            needDig: "80b807a8-aed1-11ed-836a-00c12700489e",
+                            digStart: "80b807a4-aed1-11ed-836a-00c12700489e"
+                        }
                     })
 
                 }}>
                     Викопка
                 </Text>
                 <Text style={styles.button} title='Загрузка' onPress={() => {
-                    navigation.navigate('Загрузка', {
-                        title: 'Загрузка', steps: [{
-                            id: "80b807a6-aed1-11ed-836a-00c12700489e",
-                            name: "Викопано (готово до транспорту)"
-                        }, {
-                            id: "80b807a5-aed1-11ed-836a-00c12700489e",
-                            name: "Взято на транспорт"
-                        }]
+                    navigation.navigate('Всі поля', {
+                        title: 'Загрузка', steps: {
+                            digEnd: "80b807a6-aed1-11ed-836a-00c12700489e",
+                            takenOn: "80b807a5-aed1-11ed-836a-00c12700489e"
+                        }
                     })
 
                 }}>

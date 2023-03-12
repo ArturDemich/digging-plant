@@ -1,36 +1,37 @@
 import React from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector, connect } from 'react-redux'
+import { useDispatch, connect } from 'react-redux'
 import { setNameClient } from '../state/dataSlice'
 import { filterPlants } from '../state/dataThunk'
 
-function OrdersScreen({ navigation, filterOrders, currentFild }) {
-    // console.log('order', filterOrders.orderItems)
-
+function OrdersScreen({ navigation, filterOrders, currentFild, orders }) {
+    console.log('order:', orders)
     const dispatch = useDispatch()
 
     function renderOrders({ item }) {
-        //console.log('order', item.orderItems.length)
+        let qty = 0
+        item.products.forEach(el => qty += el.qty)
+        console.log(qty)
         return (
             <TouchableHighlight
                 onPress={() => {
-                    navigation.navigate('Рослини', { title: currentFild, clientName: item.nameClient, })
-                    dispatch(filterPlants(filterOrders, currentFild, item.nameClient))
+                    navigation.navigate('Рослини', { title: currentFild, clientName: item.customerName, product: item.products })
+                    dispatch(filterPlants(filterOrders, currentFild, item.customerName))
 
                 }}
                 style={styles.rowFront}
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
-                    <Text style={styles.orderClient}>{item.nameClient}</Text>
+                    <Text style={styles.orderClient}>{item.customerName}</Text>
                     <View style={styles.viewGroup}>
-                        <Text style={styles.orderShipment}>Відгрузка: {item.dateShipment}</Text>
-                        <Text style={styles.orderShipment}>К-сть рослин: {item.orderItems.length} шт </Text>
+                        <Text style={styles.orderShipment}>Відгрузка: {item.shipmentDate}</Text>
+                        <Text style={styles.orderShipment}>К-сть рослин: {qty} шт </Text>
                     </View>
                     <View style={styles.viewGroup}>
-                        <Text style={styles.orderShipment}>Спосіб: {item.shippingMethod}</Text>
-                        <Text style={styles.orderShipment}>Статус: {item.status[1]}</Text>
+                        <Text style={styles.orderShipment}>Спосіб: *</Text>
+                        <Text style={styles.orderShipment}>Статус: *</Text>
                     </View>
                 </View>
             </TouchableHighlight>
@@ -47,9 +48,9 @@ function OrdersScreen({ navigation, filterOrders, currentFild }) {
             </View>
 
             <FlatList
-                data={filterOrders}
+                data={orders}
                 renderItem={renderOrders}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item.orderId.toString()}
             />
         </SafeAreaView>
     )
@@ -58,7 +59,8 @@ function OrdersScreen({ navigation, filterOrders, currentFild }) {
 const mapStateToProps = state => {
     return {
         filterOrders: state.filterOrders,
-        currentFild: state.currentFild
+        currentFild: state.currentFild,
+        orders: state.stepOrders
     }
 }
 export default connect(mapStateToProps, null)(OrdersScreen)

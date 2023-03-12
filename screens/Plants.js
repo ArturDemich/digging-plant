@@ -6,8 +6,8 @@ import { useDispatch, useSelector, connect } from 'react-redux';
 
 
 
-function PlantsScreen({ filterPlants, route }) {
-    //console.log('palnt', filterPlants)
+function PlantsScreen({ filterPlants, route, }) {
+    console.log('palnt', filterPlants)
 
     const dispatch = useDispatch()
 
@@ -17,7 +17,7 @@ function PlantsScreen({ filterPlants, route }) {
     const fild = route.params.title
     const clientName = route.params.clientName
 
-
+    const products = route.params.product
 
     function renderPlants({ item }) {
         return (
@@ -26,11 +26,11 @@ function PlantsScreen({ filterPlants, route }) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
-                    <Text style={styles.plantName}>{item.name}</Text>
-                    <Text style={styles.characteristics}>{item.characteristics}</Text>
+                    <Text style={styles.plantName}>{item.product.name}</Text>
+                    <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                     <View style={styles.info}>
-                        <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.quantity}  шт</Text></Text>
-                        <Text style={styles.status}>{'Викопано (готово до транспорту)'}</Text>
+                        <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.qty}  шт</Text></Text>
+                        <Text style={styles.status}>{item.step.name}</Text>
                     </View>
                     <View style={styles.changeinfo}>
                         <View style={styles.changeinfoblock}>
@@ -101,9 +101,9 @@ function PlantsScreen({ filterPlants, route }) {
 
             <Text style={styles.text}> Замовлення {clientName} з поля {fild} </Text>
             <FlatList
-                data={filterPlants}
+                data={products}
                 renderItem={renderPlants}
-                keyExtractor={item => item.id.toString()}
+                keyExtractor={item => item.product.id.toString()}
 
             />
             <Pressable style={styles.statusButton} onPress={() => setModalVisible(true)} >
@@ -115,7 +115,8 @@ function PlantsScreen({ filterPlants, route }) {
 
 const mapStateToProps = state => {
     return {
-        filterPlants: state.filterPlants
+        filterPlants: state.filterPlants,
+        orders: state.stepOrders
     }
 }
 

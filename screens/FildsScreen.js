@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect, useDispatch, useSelector } from 'react-redux'
 import { setCurrentFild } from '../state/dataSlice'
 //import { filterOrders } from '../state/actions'
-import { filterOrders, getDataFromEndpoint, getOrdersStep, getDigStorages } from '../state/dataThunk'
+import { filterOrders, getDataFromEndpoint, getOrdersStep, getDigStorages, } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -48,20 +48,20 @@ function MainScreen({ navigation, dataArray, digStorages, route }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        //dispatch(getOrdersStep('80b807a6-aed1-11ed-836a-00c12700489e'))
         dispatch(getDataFromEndpoint())
         dispatch(getDigStorages())
+        //dispatch(getOrdersStep("80b807a6-aed1-11ed-836a-00c12700489e", "32d5b85f-552a-11e9-81a1-00c12700489e",))
     }, [])
 
     // const dataArray = useSelector(state => state.data.fetchedData)
-    console.log('main', route.params.steps)
+    console.log('main', route)
 
     function renderFildsButton({ item }) {
 
         return (
             <TouchableOpacity>
                 <Text key={item.id} style={styles.button} title={item.name} onPress={() => {
-                    navigation.navigate('Поле', { title: item.name })
+                    navigation.navigate('Поле', { title: item.name, steps: route.params.steps, storageId: item.id })
                     dispatch(setCurrentFild(item.name))
                 }} > {item.name} </Text>
             </TouchableOpacity>

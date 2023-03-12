@@ -27,19 +27,19 @@ export default function Navigate() {
                     option={{ title: 'Виберіть роль' }}
                 />
                 <Stack.Screen
-                    name='Викопка'
+                    name='Всі поля'
                     component={FildsScreen}
-                    option={{ title: 'Виберіть поле' }}
+                    options={({ route }) => ({ title: route.params.title })}
                 />
-                <Stack.Screen
+                {/*  <Stack.Screen
                     name='Загрузка'
                     component={FildsScreen}
                     option={{ title: 'Виберіть поле' }}
-                />
+                /> */}
                 <Stack.Screen
                     name='Поле'
                     component={FildScreen}
-                    options={({ route }) => ({ title: route.params.name })}
+                    options={({ route }) => ({ title: route.params.title })}
                 />
                 {/* <Stack.Screen
                     name='Замовлення'

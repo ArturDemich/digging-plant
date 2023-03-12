@@ -1,15 +1,15 @@
 import { DataService } from "./dataService";
-import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants, setDigStorages } from "./dataSlice";
+import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants, setDigStorages, setStepOrders } from "./dataSlice";
 
 
-export const getOrdersStep = (stepId) => async (dispatch) => {
-  console.log('thunk', stepId)
+export const getOrdersStep = (stepId, storageId) => async (dispatch) => {
+  console.log('thunk', stepId, storageId)
   try {
-    const res = await DataService.getStepOrders(stepId)
+    const res = await DataService.getStepOrders(stepId, storageId)
     console.log(res)
     if (res) {
 
-      dispatch(setData(res.data));
+      dispatch(setStepOrders(res));
     } else {
       console.log('Something went wrong!')
     }
