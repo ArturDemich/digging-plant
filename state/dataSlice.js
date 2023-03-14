@@ -19,6 +19,7 @@ export const dataSlice = createSlice({
 
         setDigStorages(state, action) {
             state.digStorages = action.payload
+            console.log('sliceSStor', state.digStorages)
         },
 
         setStepOrders(state, action) {

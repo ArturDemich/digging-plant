@@ -49,12 +49,12 @@ function MainScreen({ navigation, dataArray, digStorages, route }) {
 
     useEffect(() => {
         dispatch(getDataFromEndpoint())
-        dispatch(getDigStorages())
+        dispatch(getDigStorages('6F577D523246AF2DC71555986A32786E'))
         //dispatch(getOrdersStep("80b807a6-aed1-11ed-836a-00c12700489e", "32d5b85f-552a-11e9-81a1-00c12700489e",))
     }, [])
 
     // const dataArray = useSelector(state => state.data.fetchedData)
-    console.log('main', route)
+    console.log('main', digStorages)
 
     function renderFildsButton({ item }) {
 
