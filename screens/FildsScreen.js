@@ -37,37 +37,36 @@ const styles = StyleSheet.create({
         minHeight: 50,
         textAlignVertical: 'center',
         color: 'white',
-        elevation: 20,
+        elevation: 3,
         shadowColor: '#302f30'
 
     }
 })
 
 
-function MainScreen({ navigation, dataArray, digStorages, route }) {
+function MainScreen({ navigation, dataArray, digStorages, route, steps }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getDataFromEndpoint())
-        dispatch(getDigStorages('6F577D523246AF2DC71555986A32786E'))
+        //dispatch(getDigStorages(route.params.token))
         //dispatch(getOrdersStep("80b807a6-aed1-11ed-836a-00c12700489e", "32d5b85f-552a-11e9-81a1-00c12700489e",))
     }, [])
 
-    // const dataArray = useSelector(state => state.data.fetchedData)
-    console.log('main', digStorages)
+
+    console.log('main', digStorages, digStorages.length)
 
     function renderFildsButton({ item }) {
 
         return (
             <TouchableOpacity>
                 <Text key={item.id} style={styles.button} title={item.name} onPress={() => {
-                    navigation.navigate('Поле', { title: item.name, steps: route.params.steps, storageId: item.id })
+                    navigation.navigate('Поле', { title: item.name, storageId: item.id, token: route.params.token })
                     dispatch(setCurrentFild(item.name))
                 }} > {item.name} </Text>
             </TouchableOpacity>
         )
     }
-
 
 
     return (
@@ -87,7 +86,8 @@ function MainScreen({ navigation, dataArray, digStorages, route }) {
 
 const mapStateToProps = (state) => ({
     dataArray: state.data,
-    digStorages: state.digStorages
+    digStorages: state.digStorages,
+    steps: state.steps
 })
 
 export default connect(mapStateToProps)(MainScreen)

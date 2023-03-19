@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native'
 import Order from './Order'
 import AllPlants from './AllPlants'
 import { connect, useDispatch } from 'react-redux';
-import { filterOrders, getOrdersStep } from '../state/dataThunk';
+import { filterOrders, getOrdersStep, getStep } from '../state/dataThunk';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -16,10 +16,9 @@ function FildScreen({ route, dataArray, orders }) {
 
     useEffect(() => {
         dispatch(filterOrders(dataArray, route.params.title))
-        dispatch(getOrdersStep("80b807a6-aed1-11ed-836a-00c12700489e", "32d5b85f-552a-11e9-81a1-00c12700489e",))
     }, [])
 
-    console.log('Fild', route)
+
 
     return (
         <Tab.Navigator
@@ -35,19 +34,20 @@ function FildScreen({ route, dataArray, orders }) {
                 name="Замовлення"
                 component={Order}
                 options={{ tabBarLabel: 'Замовлення' }}
+                initialParams={{ token: route.params.token, storageId: route.params.storageId }}
             />
             <Tab.Screen
                 name="Рослини Замовлення"
                 component={AllPlants}
                 options={{ tabBarLabel: 'Всі Рослини' }}
+                initialParams={{ token: route.params.token, storageId: route.params.storageId }}
             />
         </Tab.Navigator>
     )
 }
 const mapStateToProps = (state) => ({
     dataArray: state.data,
-    orders: state.filterOrders,
-    palnts: state.filterPlants
+    orders: state.filterOrders
 })
 
 export default connect(mapStateToProps)(FildScreen)

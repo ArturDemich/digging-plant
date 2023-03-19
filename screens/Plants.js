@@ -1,15 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Text, TextInput, StyleSheet, TouchableHighlight, View, FlatList, Pressable, Modal, Alert, } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector, connect } from 'react-redux';
+import { useDispatch, useSelector, connect } from 'react-redux'
+import ButtonsBar from '../components/ButtonsBar'
+import shortid from 'shortid'
 
 
 
 
-function PlantsScreen({ filterPlants, route, }) {
-    console.log('palnt', filterPlants)
-
+function PlantsScreen({ orders, route }) {
+    const { storageId, token, orderId } = route.params
     const dispatch = useDispatch()
+
+
+    useEffect(() => {
+        if (orders.length > 0) {
+            const idx = orders.findIndex((value) => {
+                return value.orderId === orderId
+            })
+            orders[idx] ? setProducts(orders[idx].products) : setProducts([])
+        } else if (orders.length === 0) {
+            setProducts([])
+        }
+    }, [orders])
+
+
+
+    const [products, setProducts] = useState([])
+
+
+
+
+
+    console.log('palnt', products)
+
+
+
 
     const [isSelected, setSelection] = useState(false);
     const [modalVisible, setModalVisible] = useState(false)
@@ -17,9 +43,10 @@ function PlantsScreen({ filterPlants, route, }) {
     const fild = route.params.title
     const clientName = route.params.clientName
 
-    const products = route.params.product
+    // const products = route.params.product
 
     function renderPlants({ item }) {
+
         return (
             <TouchableHighlight
                 style={styles.rowFront}
@@ -100,27 +127,30 @@ function PlantsScreen({ filterPlants, route, }) {
 
 
             <Text style={styles.text}> Замовлення {clientName} з поля {fild} </Text>
-            <FlatList
-                data={products}
-                renderItem={renderPlants}
-                keyExtractor={item => item.product.id.toString()}
+            {products.length == 0 ?
+                <View style={styles.costLineWrapper}>
+                    <Text style={styles.noneData}>В замовленні немає рослин з таким сатусом</Text>
+                </View> :
+                <FlatList
+                    data={products}
+                    renderItem={renderPlants}
+                    keyExtractor={() => shortid.generate()}
 
-            />
+                />
+            }
+
             <Pressable style={styles.statusButton} onPress={() => setModalVisible(true)} >
                 <Text style={styles.textStatus} >Змінити статус всіх! </Text>
             </Pressable>
+            <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )
 }
 
-const mapStateToProps = state => {
-    return {
-        filterPlants: state.filterPlants,
-        orders: state.stepOrders
-    }
-}
-
-
+const mapStateToProps = state => ({
+    filterPlants: state.filterPlants,
+    orders: state.stepOrders
+})
 
 export default connect(mapStateToProps, null)(PlantsScreen)
 
@@ -142,6 +172,18 @@ const styles = StyleSheet.create({
     textStr: {
         fontWeight: 600,
     },
+    rowFront: {
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderBottomColor: 'black',
+        justifyContent: 'center',
+        height: 'auto',
+        marginBottom: 20,
+        borderRadius: 5,
+        margin: 5,
+        elevation: 10,
+        shadowColor: '#52006A'
+    },
     costLineWrapper: {
         height: 'auto',
         flex: 1,
@@ -157,9 +199,6 @@ const styles = StyleSheet.create({
         fontWeight: '500',
         paddingBottom: 3,
     },
-    info: {
-        flexDirection: 'row',
-    },
     characteristics: {
         height: 'auto',
         fontSize: 13,
@@ -168,9 +207,11 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
 
     },
+    info: {
+        flexDirection: 'row',
+    },
     quantity: {
         height: 'auto',
-
         textAlignVertical: 'center',
         alignSelf: 'center',
 
@@ -211,6 +252,12 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
 
     },
+    noneData: {
+        fontSize: 20,
+        textAlign: 'center',
+        fontWeight: 900,
+        color: 'gray',
+    },
     button: {
         marginRight: 5,
         borderRadius: 3,
@@ -218,7 +265,6 @@ const styles = StyleSheet.create({
         backgroundColor: "green",
         width: 130,
         textAlignVertical: 'center',
-        //height: 'min-content',
         alignSelf: 'center',
         margin: 2
     },
@@ -245,22 +291,6 @@ const styles = StyleSheet.create({
     textStatus: {
         color: 'black',
         fontSize: 18,
-    },
-
-
-    rowFront: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        borderBottomColor: 'black',
-        //borderBottomWidth: 1,
-        justifyContent: 'center',
-        height: 'auto',
-        marginBottom: 20,
-        //boxShadow: '0 7px 7px #0505061a',
-        borderRadius: 5,
-        margin: 5,
-        elevation: 10,
-        shadowColor: '#52006A'
     },
 
     centeredView: {

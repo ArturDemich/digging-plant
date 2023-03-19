@@ -1,5 +1,5 @@
 import { DataService } from "./dataService";
-import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants, setDigStorages, setStepOrders } from "./dataSlice";
+import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants, setDigStorages, setStepOrders, setSteps } from "./dataSlice";
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
@@ -7,14 +7,14 @@ export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
   try {
     const res = await DataService.getStepOrders(stepId, storageId, token)
     console.log(res)
-    if (res) {
+    if (res.success) {
 
       dispatch(setStepOrders(res));
     } else {
-      console.log('Something went wrong!')
+      console.log('Something went wrong!', res.errors)
     }
   } catch (error) {
-    console.log(error);
+    console.log("GetStep_ORDERS ERROR Thunk: " + JSON.stringify(error));
   }
 }
 
@@ -22,17 +22,32 @@ export const getDigStorages = (token) => async (dispatch) => {
 
   try {
     const res = await DataService.getStoragesDig(token)
-    if (res) {
+    if (res.success) {
       console.log('thunk', res)
+
       dispatch(setDigStorages(res));
     } else {
-      console.log('Something went wrong!')
+      console.log('Something went wrong!', res.errors)
     }
   } catch (error) {
-    console.log(error);
+    console.log("GetDig_STORAGES ERROR Thunk: " + JSON.stringify(error));
   }
 }
 
+export const getStep = (token) => async (dispatch) => {
+
+  try {
+    const res = await DataService.getSteps(token)
+    if (res.success) {
+      console.log('thunk', res)
+      dispatch(setSteps(res));
+    } else {
+      console.log('Something went wrong!', res.errors)
+    }
+  } catch (error) {
+    console.log("Get_STEP ERROR Thunk: " + JSON.stringify(error));
+  }
+}
 
 
 

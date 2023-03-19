@@ -1,13 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
+import ButtonsBar from '../components/ButtonsBar'
 import { setNameClient } from '../state/dataSlice'
-import { filterPlants } from '../state/dataThunk'
+import { filterPlants, getOrdersStep } from '../state/dataThunk'
 
-function OrdersScreen({ navigation, filterOrders, currentFild, orders }) {
+function OrdersScreen({ navigation, filterOrders, currentFild, orders, route, steps }) {
     console.log('order:', orders)
+    const { storageId, token } = route.params
     const dispatch = useDispatch()
+
+    let productQty = 0
+    orders.forEach(elem => elem.products.forEach(el => productQty += el.qty))
+    console.log('prqty', productQty)
+    useEffect(() => {
+        if (steps.length >= 1) {
+            dispatch(getOrdersStep(steps[0].id, storageId, token))
+        }
+
+    }, [steps])
 
     function renderOrders({ item }) {
         let qty = 0
@@ -16,7 +28,13 @@ function OrdersScreen({ navigation, filterOrders, currentFild, orders }) {
         return (
             <TouchableHighlight
                 onPress={() => {
-                    navigation.navigate('Рослини', { title: currentFild, clientName: item.customerName, product: item.products })
+                    navigation.navigate('Рослини', {
+                        title: currentFild,
+                        clientName: item.customerName,
+                        token: token,
+                        orderId: item.orderId,
+                        storageId: storageId
+                    })
                     dispatch(filterPlants(filterOrders, currentFild, item.customerName))
 
                 }}
@@ -43,15 +61,21 @@ function OrdersScreen({ navigation, filterOrders, currentFild, orders }) {
         <SafeAreaView style={styles.container} >
             <Text title='Замовлення з поля' style={styles.text}> Замовлення з поля {currentFild} </Text>
             <View style={styles.infoblock}>
-                <Text style={styles.textinfo}> всього замовлень: 2 </Text>
-                <Text style={styles.textinfo}> всього рослин: 8 </Text>
+                <Text style={styles.textinfo}> всього замовлень: {orders.length} </Text>
+                <Text style={styles.textinfo}> всього рослин: {productQty} </Text>
             </View>
+            {orders.length === 0 ?
+                <View style={styles.costLineWrapper}>
+                    <Text style={styles.noneData}>Немає замовлень з таким сатусом</Text>
+                </View> :
 
-            <FlatList
-                data={orders}
-                renderItem={renderOrders}
-                keyExtractor={item => item.orderId.toString()}
-            />
+                <FlatList
+                    data={orders}
+                    renderItem={renderOrders}
+                    keyExtractor={item => item.orderId.toString()}
+                />
+            }
+            <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )
 }
@@ -60,7 +84,8 @@ const mapStateToProps = state => {
     return {
         filterOrders: state.filterOrders,
         currentFild: state.currentFild,
-        orders: state.stepOrders
+        orders: state.stepOrders,
+        steps: state.steps
     }
 }
 export default connect(mapStateToProps, null)(OrdersScreen)
@@ -69,7 +94,9 @@ export default connect(mapStateToProps, null)(OrdersScreen)
 
 const styles = StyleSheet.create({
     container: {
-        width: '100%',
+        flex: 1,
+        justifyContent: 'center',
+        marginBottom: 1,
     },
     text: {
         color: 'black',
@@ -138,5 +165,11 @@ const styles = StyleSheet.create({
         margin: 5,
         elevation: 10,
         shadowColor: 'black'
+    },
+    noneData: {
+        fontSize: 20,
+        textAlign: 'center',
+        fontWeight: 900,
+        color: 'gray',
     },
 })

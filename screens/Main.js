@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { setCurrentFild } from '../state/dataSlice'
-//import { filterOrders } from '../state/actions'
-import { filterOrders, getDataFromEndpoint } from '../state/dataThunk'
+import { connect, useDispatch } from 'react-redux'
+import { getDigStorages, getStep } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -36,33 +34,45 @@ const styles = StyleSheet.create({
     }
 })
 
+const TOKEN_FOR_DRIVER = '85BB86DA0A80D47B39780CDBA04B6BD1'
+const TOKEN_FOR_DIGER_B = '6F577D523246AF2DC71555986A32786E'
+const TOKEN_FOR_DIGER_P = 'B8E57417FE0FAACEAC9FB0B6F3DD1D33'
 
-function MainScreen({ navigation, dataArray, route }) {
+function MainScreen({ navigation, digStorages }) {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        digStorages.length == 1 ?
+            checkState(TOKEN_FOR_DIGER_P) :
+            checkState(TOKEN_FOR_DRIVER)
+    }, [digStorages])
+    console.log('main', digStorages)
+
+    const checkState = (token, stepsId, title) => {
+        if (digStorages.length == 1) {
+            navigation.navigate('Поле', {
+                title: digStorages[0].name,
+                token: token,
+                storageId: digStorages[0].id
+            })
+            dispatch(getStep(token))
+        } else if (digStorages.length > 1) {
+            navigation.navigate('Всі поля', {
+                title: 'Загрузка',
+                token: token
+            })
+            dispatch(getStep(token))
+        }
+    }
 
     return (
 
         <View style={styles.container}>
             <TouchableOpacity  >
-                <Text style={styles.button} title='Викопка' onPress={() => {
-                    navigation.navigate('Всі поля', {
-                        title: 'Викопка', steps: {
-                            needDig: "80b807a8-aed1-11ed-836a-00c12700489e",
-                            digStart: "80b807a4-aed1-11ed-836a-00c12700489e"
-                        }
-                    })
-
-                }}>
+                <Text style={styles.button} title='Викопка' onPress={() => dispatch(getDigStorages(TOKEN_FOR_DIGER_P))}>
                     Викопка
                 </Text>
-                <Text style={styles.button} title='Загрузка' onPress={() => {
-                    navigation.navigate('Всі поля', {
-                        title: 'Загрузка', steps: {
-                            digEnd: "80b807a6-aed1-11ed-836a-00c12700489e",
-                            takenOn: "80b807a5-aed1-11ed-836a-00c12700489e"
-                        }
-                    })
-
-                }}>
+                <Text style={styles.button} title='Загрузка' onPress={() => dispatch(getDigStorages(TOKEN_FOR_DRIVER))}>
                     Загрузка
                 </Text>
 
@@ -72,7 +82,7 @@ function MainScreen({ navigation, dataArray, route }) {
 }
 
 const mapStateToProps = (state) => ({
-    dataArray: state.data
+    digStorages: state.digStorages
 })
 
 export default connect(mapStateToProps)(MainScreen)

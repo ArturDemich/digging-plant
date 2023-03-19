@@ -27,6 +27,11 @@ export default function Navigate() {
                     option={{ title: 'Виберіть роль' }}
                 />
                 <Stack.Screen
+                    name='Поле'
+                    component={FildScreen}
+                    options={({ route }) => ({ title: route.params.title })}
+                />
+                <Stack.Screen
                     name='Всі поля'
                     component={FildsScreen}
                     options={({ route }) => ({ title: route.params.title })}
@@ -36,11 +41,7 @@ export default function Navigate() {
                     component={FildsScreen}
                     option={{ title: 'Виберіть поле' }}
                 /> */}
-                <Stack.Screen
-                    name='Поле'
-                    component={FildScreen}
-                    options={({ route }) => ({ title: route.params.title })}
-                />
+
                 {/* <Stack.Screen
                     name='Замовлення'
                     component={OrdersScreen}
