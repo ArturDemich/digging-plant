@@ -9,18 +9,22 @@ import OrdersScreen from '../screens/Order'
 import PlantsScreen from '../screens/Plants'
 import { useDispatch } from 'react-redux'
 import { getDataFromEndpoint } from '../state/dataThunk'
+import LoginScreen from '../screens/Login'
 
 
 
 const Stack = createNativeStackNavigator()
 
 export default function Navigate() {
-    const dispatch = useDispatch()
-    dispatch(getDataFromEndpoint())
 
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName="Роль">
+            <Stack.Navigator initialRouteName="Вхід">
+                <Stack.Screen
+                    name='Вхід'
+                    component={LoginScreen}
+                    option={{ title: 'Вхід' }}
+                />
                 <Stack.Screen
                     name='Роль'
                     component={MainScreen}

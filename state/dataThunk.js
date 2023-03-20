@@ -1,5 +1,10 @@
 import { DataService } from "./dataService";
-import { setData, setFilterAllPlants, setFilterOrders, setFilterPlants, setDigStorages, setStepOrders, setSteps } from "./dataSlice";
+import {
+  setData, setFilterAllPlants,
+  setFilterOrders, setFilterPlants,
+  setDigStorages, setStepOrders,
+  setSteps, setToken
+} from "./dataSlice";
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
@@ -41,6 +46,21 @@ export const getStep = (token) => async (dispatch) => {
     if (res.success) {
       console.log('thunk', res)
       dispatch(setSteps(res));
+    } else {
+      console.log('Something went wrong!', res.errors)
+    }
+  } catch (error) {
+    console.log("Get_STEP ERROR Thunk: " + JSON.stringify(error));
+  }
+}
+
+export const getTokenThunk = (log, pass) => async (dispatch) => {
+
+  try {
+    const res = await DataService.getToken(log, pass)
+    if (res.success) {
+      console.log('thunk', res)
+      dispatch(setToken(res));
     } else {
       console.log('Something went wrong!', res.errors)
     }

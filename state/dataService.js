@@ -58,4 +58,17 @@ export class DataService {
             })
     }
 
-} 
+
+    static getToken(log, pass) {
+
+        return axios.post('http://194.42.196.141:41001/UTPT/hs/api/getToken', { login: log, password: pass }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
+        })
+            .then((response) => response.data)
+            .catch((error) => {
+                console.log(error);
+            })
+    }
+
+}
+

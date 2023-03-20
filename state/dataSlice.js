@@ -10,7 +10,8 @@ const initialState = {
 
     digStorages: [],
     stepOrders: [],
-    steps: []
+    steps: [],
+    token: ''
 }
 
 export const dataSlice = createSlice({
@@ -26,6 +27,10 @@ export const dataSlice = createSlice({
         setSteps(state, action) {
             state.steps = action.payload.data
             console.log('sliceStep', state.steps)
+        },
+        setToken(state, action) {
+            state.token = action.payload.data
+            console.log('sliceToken', state.token)
         },
 
         setStepOrders(state, action) {
@@ -69,7 +74,7 @@ export const dataSlice = createSlice({
 export const {
     setData, setFilterOrders, setFilterPlants,
     setCurrentFild, setNameClient, setFilterAllPlants,
-    setDigStorages, setStepOrders, setSteps
+    setDigStorages, setStepOrders, setSteps, setToken
 } = dataSlice.actions
 
 export default dataSlice.reducer
