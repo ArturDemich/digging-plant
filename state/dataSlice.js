@@ -11,7 +11,7 @@ const initialState = {
     digStorages: [],
     stepOrders: [],
     steps: [],
-    token: ''
+    token: []
 }
 
 export const dataSlice = createSlice({
@@ -21,7 +21,7 @@ export const dataSlice = createSlice({
 
         setDigStorages(state, action) {
             state.digStorages = action.payload.data
-            // console.log('sliceSStor', state.digStorages)
+            console.log('sliceSStor', state.digStorages)
         },
 
         setSteps(state, action) {

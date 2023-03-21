@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, SafeAreaView, TextInput } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { getTokenThunk } from '../state/dataThunk'
+import { getDigStorages, getStep, getTokenThunk } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -46,14 +46,38 @@ const styles = StyleSheet.create({
     }
 })
 
-const TOKEN_FOR_DRIVER = '85BB86DA0A80D47B39780CDBA04B6BD1'
-const TOKEN_FOR_DIGER_B = '6F577D523246AF2DC71555986A32786E'
-const TOKEN_FOR_DIGER_P = 'B8E57417FE0FAACEAC9FB0B6F3DD1D33'
-
-function LoginScreen() {
+function LoginScreen({ navigation, digStorages, token }) {
+    console.log(token, digStorages)
     const dispatch = useDispatch()
     const [login, onChangeText] = useState('')
     const [password, onChangeNumber] = useState('')
+
+    useEffect(() => {
+        token.length === 1 && digStorages.length === 0 ? callData() : null
+        digStorages.length > 0 ? checkStorages() : null
+    }, [token, digStorages])
+
+    const callData = () => {
+        dispatch(getDigStorages(token[0].token))
+        dispatch(getStep(token[0].token))
+    }
+
+    const checkStorages = () => {
+        if (digStorages.length == 1) {
+            navigation.navigate('Поле', {
+                title: digStorages[0].name,
+                token: token[0].token,
+                storageId: digStorages[0].id
+            })
+
+        } else if (digStorages.length > 1) {
+            navigation.navigate('Всі поля', {
+                title: 'Загрузка',
+                token: token[0].token
+            })
+
+        }
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -85,7 +109,10 @@ function LoginScreen() {
     );
 };
 
+const mapStateToProps = (state) => ({
+    digStorages: state.digStorages,
+    token: state.token
+})
 
-
-export default LoginScreen
+export default connect(mapStateToProps)(LoginScreen)
 
