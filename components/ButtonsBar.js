@@ -55,7 +55,11 @@ function ButtonsBar({ steps, storageId, token }) {
 
         <View style={styles.statusBar}>
             {steps.map((step) => (
-                <TouchableHighlight key={step.id} style={[styles.buttonsBar, selected === step.id && styles.selectedButtons]} onPress={() => changeOrderSteps(step.id)} >
+                <TouchableHighlight
+                    key={step.id}
+                    style={[styles.buttonsBar, selected === step.id && styles.selectedButtons]}
+                    onPress={() => changeOrderSteps(step.id)}
+                >
                     <Text style={styles.textBtnBar}> {step.name} </Text>
                 </TouchableHighlight>
             ))}

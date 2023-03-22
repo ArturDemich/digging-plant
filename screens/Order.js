@@ -35,7 +35,7 @@ function OrdersScreen({ navigation, filterOrders, currentFild, orders, route, st
                         orderId: item.orderId,
                         storageId: storageId
                     })
-                    dispatch(filterPlants(filterOrders, currentFild, item.customerName))
+
 
                 }}
                 style={styles.rowFront}

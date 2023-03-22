@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
 import shortid from 'shortid'
+import RenderPlants from '../components/RenderPlants'
 
 
 
@@ -24,18 +25,9 @@ function PlantsScreen({ orders, route }) {
         }
     }, [orders])
 
-
-
     const [products, setProducts] = useState([])
 
-
-
-
-
     console.log('palnt', products)
-
-
-
 
     const [isSelected, setSelection] = useState(false);
     const [modalVisible, setModalVisible] = useState(false)
@@ -43,10 +35,8 @@ function PlantsScreen({ orders, route }) {
     const fild = route.params.title
     const clientName = route.params.clientName
 
-    // const products = route.params.product
-
-    function renderPlants({ item }) {
-
+    /* function renderPlants({ item }) {
+        let qty = item.qty
         return (
             <TouchableHighlight
                 style={styles.rowFront}
@@ -66,8 +56,8 @@ function PlantsScreen({ orders, route }) {
                             </Text>
                             <TextInput
                                 style={styles.input}
-                                //onChangeText={onChangeNumber}
-                                //value={number}
+                                onChangeText={onChangeNumber}
+                                value={qty}
                                 placeholder="0"
                                 keyboardType="numeric"
                             />
@@ -76,8 +66,8 @@ function PlantsScreen({ orders, route }) {
                             style={[styles.button, isSelected === true && styles.buttonPress]}
                             onPress={(el) => {
                                 setSelection(!isSelected)
-                                /* dispatch(changeStatusDigPlant(filterPlants)) */
-                                //console.log(el)
+                                 dispatch(changeStatusDigPlant(filterPlants)) 
+                                console.log(el)
                             }
                             } >
                             <Text style={styles.statusDig}>Змінити статус{item.statusDig}</Text>
@@ -87,7 +77,7 @@ function PlantsScreen({ orders, route }) {
                 </View>
             </TouchableHighlight>
         )
-    }
+    } */
 
 
 
@@ -133,7 +123,7 @@ function PlantsScreen({ orders, route }) {
                 </View> :
                 <FlatList
                     data={products}
-                    renderItem={renderPlants}
+                    renderItem={(product) => <RenderPlants product={product} orderId={orderId} />}
                     keyExtractor={() => shortid.generate()}
 
                 />

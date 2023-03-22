@@ -69,6 +69,21 @@ export const getTokenThunk = (log, pass) => async (dispatch) => {
   }
 }
 
+export const setNextStepThunk = (token, storageId, currentstepId, orderId, productid, characteristicid, unitid, actionqty) => async () => {
+
+  try {
+    const res = await DataService.setNextStep(token, storageId, currentstepId, orderId, productid, characteristicid, unitid, actionqty)
+    if (res.success) {
+      console.log('thunkSet', res.errors)
+
+    } else {
+      console.log('Something went wrong!', res.errors)
+    }
+  } catch (error) {
+    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+  }
+}
+
 
 
 
