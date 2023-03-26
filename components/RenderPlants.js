@@ -4,21 +4,37 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector, connect } from 'react-redux'
 import ButtonsBar from './ButtonsBar'
 import shortid from 'shortid'
-import { setNextStepThunk } from '../state/dataThunk'
+import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 
 
 
 
-function RenderPlants({ product, token, orderId }) {
-    console.log('renderItem: ', token[0].token)
+function RenderPlants({ product, token, orderId, storageId, currentStep }) {
+
     let item = product.item
     const dispatch = useDispatch()
     const [qty, setQty] = useState(item.qty)
     useEffect(() => {
 
     }, [])
-    console.log('renderItem: ', typeof qty)
-
+    console.log('renderItem: ', item)
+    const checkCorrectStep = (productId, characteristicId, unitId) => {
+        if (currentStep.rightToChange) {
+            dispatch(setNextStepThunk(
+                token[0].token,
+                storageId,
+                currentStep.id,
+                orderId,
+                productId,
+                characteristicId,
+                unitId,
+                Number(qty)
+            ))
+            dispatch(getOrdersStep(currentStep, storageId, token[0].token))
+        } else {
+            alert("Ви не можете змінити цей етап! Змініть користувача")
+        }
+    }
 
     return (
         <TouchableHighlight
@@ -30,9 +46,9 @@ function RenderPlants({ product, token, orderId }) {
                 <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                 <View style={styles.info}>
                     <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.qty}  шт</Text></Text>
-                    <Text style={styles.status}>{item.step.name}</Text>
+                    {/* <Text style={styles.status}>{item.step.name}</Text> */}
                 </View>
-                <View style={styles.changeinfo}>
+                <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
                     <View style={styles.changeinfoblock}>
                         <Text style={styles.quantity}>
                             Викопано:
@@ -47,18 +63,7 @@ function RenderPlants({ product, token, orderId }) {
                     </View>
                     <TouchableHighlight
                         style={[styles.button]}
-                        onPress={() => dispatch(setNextStepThunk(
-                            token[0].token,
-                            item.storage.id,
-                            item.step.id,
-                            orderId,
-                            item.product.id,
-                            item.characteristic.id,
-                            item.unit.id,
-                            Number(qty)
-                        ))
-
-                        } >
+                        onPress={() => checkCorrectStep(item.product.id, item.characteristic.id, item.unit.id)} >
                         <Text style={styles.statusDig}>Змінити статус{item.statusDig}</Text>
                     </TouchableHighlight>
                 </View>
@@ -70,6 +75,7 @@ function RenderPlants({ product, token, orderId }) {
 
 const mapStateToProps = state => ({
     token: state.token,
+    currentStep: state.currentStep
 
 })
 
@@ -118,11 +124,13 @@ const styles = StyleSheet.create({
     },
     info: {
         flexDirection: 'row',
+        paddingBottom: 5
     },
     quantity: {
         height: 'auto',
         textAlignVertical: 'center',
         alignSelf: 'center',
+        paddingBottom: 5
 
     },
     status: {
@@ -142,7 +150,9 @@ const styles = StyleSheet.create({
     statusDig: {
         height: 'auto',
         textAlignVertical: 'center',
-        fontSize: 12,
+        fontSize: 13,
+        color: 'white',
+        fontWeight: 700,
         margin: 5
     },
     input: {
@@ -159,11 +169,13 @@ const styles = StyleSheet.create({
         marginRight: 5,
         borderRadius: 3,
         textAlign: "center",
-        backgroundColor: "green",
-        width: 130,
+        backgroundColor: "#45aa45",
+        minWidth: 100,
         textAlignVertical: 'center',
         alignSelf: 'center',
-        margin: 2
+        margin: 2,
+        height: 30,
+        elevation: 3
     },
     buttonPress: {
         marginRight: 5,

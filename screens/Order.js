@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
-import { setNameClient } from '../state/dataSlice'
-import { filterPlants, getOrdersStep } from '../state/dataThunk'
+import { getOrdersStep } from '../state/dataThunk'
 
-function OrdersScreen({ navigation, filterOrders, currentFild, orders, route, steps }) {
+function OrdersScreen({ navigation, currentFild, orders, route, steps }) {
     console.log('order:', orders)
     const { storageId, token } = route.params
     const dispatch = useDispatch()
@@ -16,9 +15,8 @@ function OrdersScreen({ navigation, filterOrders, currentFild, orders, route, st
     console.log('prqty', productQty)
     useEffect(() => {
         if (steps.length >= 1) {
-            dispatch(getOrdersStep(steps[0].id, storageId, token))
+            dispatch(getOrdersStep(steps[0], storageId, token.token))
         }
-
     }, [steps])
 
     function renderOrders({ item }) {
@@ -29,7 +27,7 @@ function OrdersScreen({ navigation, filterOrders, currentFild, orders, route, st
             <TouchableHighlight
                 onPress={() => {
                     navigation.navigate('Рослини', {
-                        title: currentFild,
+                        title: 'Рослини з замовлення',
                         clientName: item.customerName,
                         token: token,
                         orderId: item.orderId,

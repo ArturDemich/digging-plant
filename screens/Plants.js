@@ -10,7 +10,7 @@ import RenderPlants from '../components/RenderPlants'
 
 
 function PlantsScreen({ orders, route }) {
-    const { storageId, token, orderId } = route.params
+    const { storageId, token, orderId, fild, clientName } = route.params
     const dispatch = useDispatch()
 
 
@@ -31,54 +31,6 @@ function PlantsScreen({ orders, route }) {
 
     const [isSelected, setSelection] = useState(false);
     const [modalVisible, setModalVisible] = useState(false)
-
-    const fild = route.params.title
-    const clientName = route.params.clientName
-
-    /* function renderPlants({ item }) {
-        let qty = item.qty
-        return (
-            <TouchableHighlight
-                style={styles.rowFront}
-                underlayColor={'#AAA'}
-            >
-                <View style={styles.costLineWrapper}>
-                    <Text style={styles.plantName}>{item.product.name}</Text>
-                    <Text style={styles.characteristics}>{item.characteristic.name}</Text>
-                    <View style={styles.info}>
-                        <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.qty}  шт</Text></Text>
-                        <Text style={styles.status}>{item.step.name}</Text>
-                    </View>
-                    <View style={styles.changeinfo}>
-                        <View style={styles.changeinfoblock}>
-                            <Text style={styles.quantity}>
-                                Викопано:
-                            </Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={onChangeNumber}
-                                value={qty}
-                                placeholder="0"
-                                keyboardType="numeric"
-                            />
-                        </View>
-                        <TouchableHighlight
-                            style={[styles.button, isSelected === true && styles.buttonPress]}
-                            onPress={(el) => {
-                                setSelection(!isSelected)
-                                 dispatch(changeStatusDigPlant(filterPlants)) 
-                                console.log(el)
-                            }
-                            } >
-                            <Text style={styles.statusDig}>Змінити статус{item.statusDig}</Text>
-                        </TouchableHighlight>
-                    </View>
-
-                </View>
-            </TouchableHighlight>
-        )
-    } */
-
 
 
 
@@ -123,7 +75,7 @@ function PlantsScreen({ orders, route }) {
                 </View> :
                 <FlatList
                     data={products}
-                    renderItem={(product) => <RenderPlants product={product} orderId={orderId} />}
+                    renderItem={(product) => <RenderPlants product={product} orderId={orderId} storageId={storageId} />}
                     keyExtractor={() => shortid.generate()}
 
                 />
@@ -138,7 +90,6 @@ function PlantsScreen({ orders, route }) {
 }
 
 const mapStateToProps = state => ({
-    filterPlants: state.filterPlants,
     orders: state.stepOrders
 })
 

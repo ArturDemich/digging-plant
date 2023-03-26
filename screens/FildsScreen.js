@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect, useDispatch, useSelector } from 'react-redux'
-import { setCurrentFild } from '../state/dataSlice'
-//import { filterOrders } from '../state/actions'
-import { filterOrders, getDataFromEndpoint, getOrdersStep, getDigStorages, } from '../state/dataThunk'
+import { connect } from 'react-redux'
 
 
 const styles = StyleSheet.create({
@@ -44,17 +41,17 @@ const styles = StyleSheet.create({
 })
 
 
-function MainScreen({ navigation, dataArray, digStorages, route, steps }) {
-    const dispatch = useDispatch()
+function MainScreen({ navigation, digStorages, route }) {
 
     useEffect(() => {
-        dispatch(getDataFromEndpoint())
+        //dispatch(getDataFromEndpoint())
         //dispatch(getDigStorages(route.params.token))
         //dispatch(getOrdersStep("80b807a6-aed1-11ed-836a-00c12700489e", "32d5b85f-552a-11e9-81a1-00c12700489e",))
     }, [])
 
 
-    console.log('main', digStorages, digStorages.length)
+    const st = navigation.getState()
+    console.log('Filds', st, digStorages, digStorages.length)
 
     function renderFildsButton({ item }) {
 
@@ -62,7 +59,6 @@ function MainScreen({ navigation, dataArray, digStorages, route, steps }) {
             <TouchableOpacity>
                 <Text key={item.id} style={styles.button} title={item.name} onPress={() => {
                     navigation.navigate('Поле', { title: item.name, storageId: item.id, token: route.params.token })
-                    dispatch(setCurrentFild(item.name))
                 }} > {item.name} </Text>
             </TouchableOpacity>
         )
@@ -85,9 +81,7 @@ function MainScreen({ navigation, dataArray, digStorages, route, steps }) {
 }
 
 const mapStateToProps = (state) => ({
-    dataArray: state.data,
     digStorages: state.digStorages,
-    steps: state.steps
 })
 
 export default connect(mapStateToProps)(MainScreen)

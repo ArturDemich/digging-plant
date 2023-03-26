@@ -11,7 +11,8 @@ const initialState = {
     digStorages: [],
     stepOrders: [],
     steps: [],
-    token: []
+    token: [],
+    currentStep: []
 }
 
 export const dataSlice = createSlice({
@@ -36,6 +37,19 @@ export const dataSlice = createSlice({
         setStepOrders(state, action) {
             state.stepOrders = action.payload.data
             // console.log('sliceSDig', state.stepOrders)
+        },
+
+        setCurrentStep(state, action) {
+            state.currentStep = action.payload
+            console.log('sliceCurrentStep', state.currentStep)
+        },
+
+        cleanState(state) {
+            state.token = []
+            state.steps = []
+            state.digStorages = []
+            state.stepOrders = []
+            state.currentStep = []
         },
 
 
@@ -74,7 +88,8 @@ export const dataSlice = createSlice({
 export const {
     setData, setFilterOrders, setFilterPlants,
     setCurrentFild, setNameClient, setFilterAllPlants,
-    setDigStorages, setStepOrders, setSteps, setToken
+    setDigStorages, setStepOrders, setSteps, setToken,
+    cleanState, setCurrentStep
 } = dataSlice.actions
 
 export default dataSlice.reducer

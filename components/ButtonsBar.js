@@ -37,18 +37,9 @@ const styles = StyleSheet.create({
     },
 })
 
-function ButtonsBar({ steps, storageId, token }) {
+function ButtonsBar({ steps, storageId, token, currentStep }) {
     const dispatch = useDispatch()
-    const [selected, setSelected] = useState()
 
-    useEffect(() => {
-        steps.length > 0 ? setSelected(steps[0].id) : null
-    }, [steps])
-
-    const changeOrderSteps = (id) => {
-        dispatch(getOrdersStep(id, storageId, token))
-        setSelected(id)
-    }
     console.log('ButtonBar', steps, storageId, token)
 
     return (
@@ -57,8 +48,8 @@ function ButtonsBar({ steps, storageId, token }) {
             {steps.map((step) => (
                 <TouchableHighlight
                     key={step.id}
-                    style={[styles.buttonsBar, selected === step.id && styles.selectedButtons]}
-                    onPress={() => changeOrderSteps(step.id)}
+                    style={[styles.buttonsBar, currentStep.id === step.id && styles.selectedButtons]}
+                    onPress={() => dispatch(getOrdersStep(step, storageId, token.token))}
                 >
                     <Text style={styles.textBtnBar}> {step.name} </Text>
                 </TouchableHighlight>
@@ -72,7 +63,8 @@ function ButtonsBar({ steps, storageId, token }) {
 }
 
 const mapStateToProps = (state) => ({
-    steps: state.steps
+    steps: state.steps,
+    currentStep: state.currentStep
 })
 
 export default connect(mapStateToProps)(ButtonsBar)

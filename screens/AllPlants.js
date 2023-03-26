@@ -19,7 +19,7 @@ function AllPlantsScreen({ route, orders, currentFild, steps }) {
     const dispatch = useDispatch()
     useEffect(() => {
         if (orders.length > 0) {
-            dispatch(getOrdersStep(steps[0].id, storageId, token))
+            dispatch(getOrdersStep(steps[0].id, storageId, token.token))
         }
     }, [])
 
@@ -49,7 +49,7 @@ function AllPlantsScreen({ route, orders, currentFild, steps }) {
                     <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                     <View style={styles.info}>
                         <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.qty}  шт</Text></Text>
-                        <Text style={styles.status}>{item.step.name}</Text>
+                        {/* <Text style={styles.status}>{item.step.name}</Text> */}
                     </View>
                     <View style={styles.changeinfo}>
                         <View style={styles.changeinfoblock}>
@@ -261,15 +261,13 @@ const styles = StyleSheet.create({
         marginRight: 5,
         borderRadius: 3,
         textAlign: "center",
-        backgroundColor: "green",
+        backgroundColor: "#45aa45",
         minWidth: 100,
         textAlignVertical: 'center',
         alignSelf: 'center',
         margin: 2,
         height: 30,
         elevation: 3
-
-
     },
     buttonPress: {
         marginRight: 5,

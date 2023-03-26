@@ -1,60 +1,68 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
+import { HeaderBackButton } from '@react-navigation/elements'
 
 import FildScreen from '../screens/Fild'
-import MainScreen from '../screens/Main'
 import FildsScreen from '../screens/FildsScreen'
-import OrdersScreen from '../screens/Order'
 import PlantsScreen from '../screens/Plants'
 import { useDispatch } from 'react-redux'
-import { getDataFromEndpoint } from '../state/dataThunk'
 import LoginScreen from '../screens/Login'
+import { cleanState } from '../state/dataSlice'
 
 
 
 const Stack = createNativeStackNavigator()
 
 export default function Navigate() {
-
+    const dispatch = useDispatch()
+    const goBack = (navigation) => {
+        const { routes } = navigation.getState()
+        if (routes.length === 2) {
+            dispatch(cleanState())
+            navigation.goBack()
+        } else if (routes.length > 2) {
+            navigation.goBack()
+        }
+    }
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName="Вхід">
+            <Stack.Navigator initialRouteName="Вхід" >
                 <Stack.Screen
                     name='Вхід'
                     component={LoginScreen}
-                    option={{ title: 'Вхід' }}
-                />
-                <Stack.Screen
-                    name='Роль'
-                    component={MainScreen}
-                    option={{ title: 'Виберіть роль' }}
+                    options={{ title: 'Вхід' }}
                 />
                 <Stack.Screen
                     name='Поле'
                     component={FildScreen}
-                    options={({ route }) => ({ title: route.params.title })}
+                    options={({ route, navigation }) => ({
+                        title: route.params.token.username + ': ' + route.params.title,
+                        headerLeft: () => (
+                            <HeaderBackButton
+                                onPress={() => goBack(navigation)}
+                            />
+                        )
+                    })}
                 />
                 <Stack.Screen
                     name='Всі поля'
                     component={FildsScreen}
-                    options={({ route }) => ({ title: route.params.title })}
+                    options={({ route, navigation }) => ({
+                        title: route.params.token.username + ': ' + route.params.title,
+                        headerLeft: () => (
+                            <HeaderBackButton
+                                onPress={() => goBack(navigation)}
+                            />
+                        )
+                    })}
                 />
-                {/*  <Stack.Screen
-                    name='Загрузка'
-                    component={FildsScreen}
-                    option={{ title: 'Виберіть поле' }}
-                /> */}
-
-                {/* <Stack.Screen
-                    name='Замовлення'
-                    component={OrdersScreen}
-                    option={{ title: 'Замовлення' }}
-                /> */}
                 <Stack.Screen
                     name='Рослини'
                     component={PlantsScreen}
-                    option={{ title: 'Рослини' }}
+                    options={({ route }) => ({
+                        title: route.params.token.username + ': ' + route.params.title
+                    })}
                 />
             </Stack.Navigator>
         </NavigationContainer>

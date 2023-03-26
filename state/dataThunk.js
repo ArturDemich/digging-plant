@@ -3,14 +3,15 @@ import {
   setData, setFilterAllPlants,
   setFilterOrders, setFilterPlants,
   setDigStorages, setStepOrders,
-  setSteps, setToken
+  setSteps, setToken, setCurrentStep
 } from "./dataSlice";
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
   console.log('thunk', stepId, storageId, token)
+  dispatch(setCurrentStep(stepId))
   try {
-    const res = await DataService.getStepOrders(stepId, storageId, token)
+    const res = await DataService.getStepOrders(stepId.id, storageId, token)
     console.log(res)
     if (res.success) {
 
@@ -28,7 +29,7 @@ export const getDigStorages = (token) => async (dispatch) => {
   try {
     const res = await DataService.getStoragesDig(token)
     if (res.success) {
-      console.log('thunk', res)
+      console.log('thunkSTORAGE:', res)
 
       dispatch(setDigStorages(res));
     } else {
@@ -44,7 +45,7 @@ export const getStep = (token) => async (dispatch) => {
   try {
     const res = await DataService.getSteps(token)
     if (res.success) {
-      console.log('thunk', res)
+      console.log('thunkSTEP:', res)
       dispatch(setSteps(res));
     } else {
       console.log('Something went wrong!', res.errors)
@@ -59,10 +60,10 @@ export const getTokenThunk = (log, pass) => async (dispatch) => {
   try {
     const res = await DataService.getToken(log, pass)
     if (res.success) {
-      console.log('thunk', res)
+      console.log('thunkTOKEN: ', res)
       dispatch(setToken(res));
     } else {
-      console.log('Something went wrong!', res.errors)
+      alert(res.errors[0])
     }
   } catch (error) {
     console.log("Get_STEP ERROR Thunk: " + JSON.stringify(error));
@@ -73,8 +74,8 @@ export const setNextStepThunk = (token, storageId, currentstepId, orderId, produ
 
   try {
     const res = await DataService.setNextStep(token, storageId, currentstepId, orderId, productid, characteristicid, unitid, actionqty)
-    if (res.success) {
-      console.log('thunkSet', res.errors)
+    if (res.errors.length > 0) {
+      alert(res.errors[0])
 
     } else {
       console.log('Something went wrong!', res.errors)

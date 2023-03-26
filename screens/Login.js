@@ -47,10 +47,10 @@ const styles = StyleSheet.create({
 })
 
 function LoginScreen({ navigation, digStorages, token }) {
-    console.log(token, digStorages)
+    console.log(token, navigation)
     const dispatch = useDispatch()
-    const [login, onChangeText] = useState('')
-    const [password, onChangeNumber] = useState('')
+    const [login, onChangeLogin] = useState('')
+    const [password, onChangePass] = useState('')
 
     useEffect(() => {
         token.length === 1 && digStorages.length === 0 ? callData() : null
@@ -66,17 +66,24 @@ function LoginScreen({ navigation, digStorages, token }) {
         if (digStorages.length == 1) {
             navigation.navigate('Поле', {
                 title: digStorages[0].name,
-                token: token[0].token,
+                token: token[0],
                 storageId: digStorages[0].id
             })
 
         } else if (digStorages.length > 1) {
             navigation.navigate('Всі поля', {
                 title: 'Загрузка',
-                token: token[0].token
+                token: token[0]
             })
 
         }
+    }
+
+    const getToken = () => {
+        dispatch(getTokenThunk(login, password))
+        onChangeLogin('')
+        onChangePass('')
+
     }
 
     return (
@@ -84,7 +91,7 @@ function LoginScreen({ navigation, digStorages, token }) {
             <View style={styles.containerView}>
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeText}
+                    onChangeText={onChangeLogin}
                     value={login}
                     placeholder="Введіть користувача"
                     inputMode='text'
@@ -92,15 +99,16 @@ function LoginScreen({ navigation, digStorages, token }) {
                 />
                 <TextInput
                     style={styles.input}
-                    onChangeText={onChangeNumber}
+                    onChangeText={onChangePass}
                     value={password}
                     placeholder="Введіть пароль"
                     secureTextEntry={true}
 
+
                 />
                 <TouchableHighlight
                     style={styles.button}
-                    onPress={() => dispatch(getTokenThunk(login, password))}
+                    onPress={() => getToken()}
                 >
                     <Text style={styles.text}> Увійти </Text>
                 </TouchableHighlight>
