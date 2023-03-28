@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         backgroundColor: "#7b7b7b",
         minWidth: "18%",
-        height: 40,
+        height: 60,
         margin: 4,
         alignItems: 'center',
         alignSelf: 'center',
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 
     },
     selectedButtons: {
-        backgroundColor: '#afb2ae',
+        backgroundColor: '#cacaca',
 
         borderColor: '#f8f8f8',
         borderWidth: 1
@@ -54,10 +54,6 @@ function ButtonsBar({ steps, storageId, token, currentStep }) {
                     <Text style={styles.textBtnBar}> {step.name} </Text>
                 </TouchableHighlight>
             ))}
-
-            <TouchableHighlight style={styles.buttonsBar} onPress={() => setModalVisible(true)} >
-                <Text style={styles.textBtnBar} >Всі </Text>
-            </TouchableHighlight>
         </View>
     )
 }

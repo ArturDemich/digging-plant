@@ -12,7 +12,8 @@ const initialState = {
     stepOrders: [],
     steps: [],
     token: [],
-    currentStep: []
+    currentStep: [],
+    groupOrders: []
 }
 
 export const dataSlice = createSlice({
@@ -22,26 +23,30 @@ export const dataSlice = createSlice({
 
         setDigStorages(state, action) {
             state.digStorages = action.payload.data
-            console.log('sliceSStor', state.digStorages)
+            // console.log('sliceSStor', state.digStorages)
         },
 
         setSteps(state, action) {
             state.steps = action.payload.data
-            console.log('sliceStep', state.steps)
+            // console.log('sliceStep', state.steps)
         },
         setToken(state, action) {
             state.token = action.payload.data
-            console.log('sliceToken', state.token)
+            //console.log('sliceToken', state.token)
         },
 
         setStepOrders(state, action) {
             state.stepOrders = action.payload.data
-            // console.log('sliceSDig', state.stepOrders)
+            // console.log('sliceSDig', state.stepOrders) setGroupOrders
+        },
+        setGroupOrders(state, action) {
+            state.groupOrders = action.payload.data
+            console.log('sliceGroup', action.payload)
         },
 
         setCurrentStep(state, action) {
             state.currentStep = action.payload
-            console.log('sliceCurrentStep', state.currentStep)
+            //console.log('sliceCurrentStep', state.currentStep)
         },
 
         cleanState(state) {
@@ -50,6 +55,7 @@ export const dataSlice = createSlice({
             state.digStorages = []
             state.stepOrders = []
             state.currentStep = []
+            state.groupOrders = []
         },
 
 
@@ -89,7 +95,7 @@ export const {
     setData, setFilterOrders, setFilterPlants,
     setCurrentFild, setNameClient, setFilterAllPlants,
     setDigStorages, setStepOrders, setSteps, setToken,
-    cleanState, setCurrentStep
+    cleanState, setCurrentStep, setGroupOrders
 } = dataSlice.actions
 
 export default dataSlice.reducer

@@ -64,7 +64,7 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
                     <TouchableHighlight
                         style={[styles.button]}
                         onPress={() => checkCorrectStep(item.product.id, item.characteristic.id, item.unit.id)} >
-                        <Text style={styles.statusDig}>Змінити статус{item.statusDig}</Text>
+                        <Text style={styles.statusDig}>{currentStep.nextStepName}{item.statusDig}</Text>
                     </TouchableHighlight>
                 </View>
 

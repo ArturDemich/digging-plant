@@ -36,6 +36,24 @@ export class DataService {
         return stepOrders
     }
 
+    static getGroupOrders(stepId, storageId, token) {
+
+        let groupOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/getStepOrders', {
+            token: token,
+            stepId: stepId,
+            storageId: storageId,
+            groupByOrder: false
+        }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
+        })
+            .then((response) => response.data)
+            .catch((error) => {
+                console.log(error);
+            })
+
+        return groupOrders
+    }
+
     static getStoragesDig(token) {
 
         return axios.post('http://194.42.196.141:41001/UTPT/hs/api/getStorages', { token: token }, {

@@ -3,19 +3,37 @@ import {
   setData, setFilterAllPlants,
   setFilterOrders, setFilterPlants,
   setDigStorages, setStepOrders,
-  setSteps, setToken, setCurrentStep
+  setSteps, setToken, setCurrentStep,
+  setGroupOrders
 } from "./dataSlice";
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
-  console.log('thunk', stepId, storageId, token)
+  // console.log('thunk', stepId, storageId, token)
   dispatch(setCurrentStep(stepId))
   try {
     const res = await DataService.getStepOrders(stepId.id, storageId, token)
-    console.log(res)
+    //console.log(res)
     if (res.success) {
 
       dispatch(setStepOrders(res));
+    } else {
+      console.log('Something went wrong!', res.errors)
+    }
+  } catch (error) {
+    console.log("GetStep_ORDERS ERROR Thunk: " + JSON.stringify(error));
+  }
+}
+
+export const getGroupOrdersThunk = (stepId, storageId, token) => async (dispatch) => {
+
+  dispatch(setCurrentStep(stepId))
+  try {
+    const res = await DataService.getGroupOrders(stepId.id, storageId, token)
+    console.log('GroupThunk', res)
+    if (res.success) {
+      console.log('thunkGroup', res)
+      dispatch(setGroupOrders(res));
     } else {
       console.log('Something went wrong!', res.errors)
     }
@@ -29,7 +47,7 @@ export const getDigStorages = (token) => async (dispatch) => {
   try {
     const res = await DataService.getStoragesDig(token)
     if (res.success) {
-      console.log('thunkSTORAGE:', res)
+      //console.log('thunkSTORAGE:', res)
 
       dispatch(setDigStorages(res));
     } else {
@@ -45,7 +63,7 @@ export const getStep = (token) => async (dispatch) => {
   try {
     const res = await DataService.getSteps(token)
     if (res.success) {
-      console.log('thunkSTEP:', res)
+      // console.log('thunkSTEP:', res)
       dispatch(setSteps(res));
     } else {
       console.log('Something went wrong!', res.errors)
@@ -60,7 +78,7 @@ export const getTokenThunk = (log, pass) => async (dispatch) => {
   try {
     const res = await DataService.getToken(log, pass)
     if (res.success) {
-      console.log('thunkTOKEN: ', res)
+      // console.log('thunkTOKEN: ', res)
       dispatch(setToken(res));
     } else {
       alert(res.errors[0])

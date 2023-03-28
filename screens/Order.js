@@ -40,14 +40,17 @@ function OrdersScreen({ navigation, currentFild, orders, route, steps }) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
-                    <Text style={styles.orderClient}>{item.customerName}</Text>
-                    <View style={styles.viewGroup}>
-                        <Text style={styles.orderShipment}>Відгрузка: {item.shipmentDate}</Text>
-                        <Text style={styles.orderShipment}>К-сть рослин: {qty} шт </Text>
+                    <View style={styles.orderInfo}>
+                        <Text style={styles.orderClient}>{item.customerName}</Text>
+                        <Text style={styles.orderNum}>Номер: <Text style={styles.textStr}>{item.orderNo}</Text> </Text>
                     </View>
                     <View style={styles.viewGroup}>
-                        <Text style={styles.orderShipment}>Спосіб: *</Text>
-                        <Text style={styles.orderShipment}>Статус: *</Text>
+                        <Text style={styles.orderShipment}>Відгрузка: <Text style={styles.textStr}>{item.shipmentDate}</Text> </Text>
+                        <Text style={styles.orderShipment}>К-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
+                    </View>
+                    <View style={styles.viewGroup}>
+                        <Text style={styles.orderShipment}>Спосіб: <Text style={styles.textStr}>{item.shipmentMethod}</Text> </Text>
+
                     </View>
                 </View>
             </TouchableHighlight>
@@ -96,11 +99,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 1,
     },
+    orderInfo: {
+        borderBottomWidth: 2,
+        borderBottomColor: '#b0acb0',
+        height: 'auto',
+    },
     text: {
         color: 'black',
         fontSize: 20,
         textAlign: 'center',
         marginTop: -20,
+    },
+    textStr: {
+        fontWeight: 500,
     },
     textinfo: {
         color: 'black',
@@ -125,8 +136,11 @@ const styles = StyleSheet.create({
         height: 'auto',
         lineHeight: 20,
         paddingBottom: 5,
-        borderBottomWidth: 2,
-        borderBottomColor: '#b0acb0'
+        fontWeight: 700,
+    },
+    orderNum: {
+        lineHeight: 20,
+        paddingBottom: 5,
     },
     viewGroup: {
         flexDirection: 'row',

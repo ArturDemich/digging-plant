@@ -4,12 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux';
 import shortid from 'shortid';
 import ButtonsBar from '../components/ButtonsBar';
-import { getOrdersStep } from '../state/dataThunk';
+import { getGroupOrdersThunk } from '../state/dataThunk';
 
 
 
 
-function AllPlantsScreen({ route, orders, currentFild, steps }) {
+function AllPlantsScreen({ route, orders, currentFild, steps, groupOrders, currentStep }) {
     //console.log('Allpalnt', filterPlants)
     const [isSelected, setSelection] = useState(false);
     const [modalVisible, setModalVisible] = useState(false)
@@ -18,27 +18,20 @@ function AllPlantsScreen({ route, orders, currentFild, steps }) {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        if (orders.length > 0) {
-            dispatch(getOrdersStep(steps[0].id, storageId, token.token))
-        }
-    }, [])
 
-    const allProducts = []
+        dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
 
-    for (let i = 0; i < orders.length; i++) {
-        let productsOrder = {}
-        let products = orders[i].products
-        for (let ip = 0; ip < products.length; ip++) {
-            let product = {}
-            allProducts.push(products[ip])
-        }
-    }
+    }, [currentStep])
 
-    console.log('allPr', allProducts)
+
+
+    console.log('allPr', groupOrders)
 
 
     function renderPlants({ item }) {
-        console.log('renderPlants', item)
+        console.log('renderPlants', currentStep)
+        let qty = 0
+        item.orders.forEach(elem => qty += elem.qty)
         return (
             <TouchableHighlight
                 style={styles.rowFront}
@@ -48,31 +41,22 @@ function AllPlantsScreen({ route, orders, currentFild, steps }) {
                     <Text style={styles.plantName}>{item.product.name}</Text>
                     <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                     <View style={styles.info}>
-                        <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.qty}  шт</Text></Text>
-                        {/* <Text style={styles.status}>{item.step.name}</Text> */}
+                        <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
                     <View style={styles.changeinfo}>
-                        <View style={styles.changeinfoblock}>
-                            <Text style={styles.quantity}>
-                                Викопано:
-                            </Text>
-                            <TextInput
-                                style={styles.input}
-                                //onChangeText={onChangeNumber}
-                                //value={number}
-                                placeholder="0"
-                                keyboardType="numeric"
-                            />
+                        <View style={styles.orderInfoBlock}>
+                            {item.orders.map(elem => (
+                                <Text key={shortid.generate()} style={styles.orderInfo}> {elem.orderNo}: <Text style={styles.orderQty}>{elem.qty} шт</Text> </Text>
+                            ))}
                         </View>
                         <TouchableHighlight
                             style={[styles.button, isSelected === true && styles.buttonPress]}
                             onPress={(el) => {
                                 setSelection(!isSelected)
-                                /*  dispatch(changeStatusDigPlant(filterPlants)) */
                                 console.log(el)
                             }
                             } >
-                            <Text style={styles.statusDig}>Змінити статус{item.statusDig}</Text>
+                            <Text style={styles.statusDig}>{currentStep.nextStepName}{item.statusDig}</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -118,20 +102,17 @@ function AllPlantsScreen({ route, orders, currentFild, steps }) {
 
 
             <Text style={styles.text}> Всі рослини з поля {currentFild} </Text>
-            {allProducts.length == 0 ?
+            {groupOrders.length == 0 ?
                 <View style={styles.costLineWrapper}>
                     <Text style={styles.noneData}>В цьому полі немає рослин з таким сатусом</Text>
                 </View> :
                 <FlatList
-                    data={allProducts}
+                    data={groupOrders}
                     renderItem={renderPlants}
                     keyExtractor={() => shortid.generate()}
 
                 />
             }
-            <Pressable style={styles.statusButton} onPress={() => setModalVisible(true)} >
-                <Text style={styles.textStatus}> Змінити статус всіх! </Text>
-            </Pressable>
 
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
@@ -142,7 +123,9 @@ const mapStateToProps = state => {
     return {
         orders: state.stepOrders,
         currentFild: state.currentFild,
-        steps: state.steps
+        steps: state.steps,
+        groupOrders: state.groupOrders,
+        currentStep: state.currentStep
     }
 }
 
@@ -175,6 +158,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 'auto',
         marginBottom: 20,
+        paddingBottom: 5,
         borderRadius: 5,
         margin: 5,
         elevation: 10,
@@ -223,8 +207,20 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
-    changeinfoblock: {
-        flexDirection: 'row'
+    orderInfoBlock: {
+        flexDirection: 'column',
+        marginTop: 3,
+    },
+    orderInfo: {
+        margin: 3,
+        fontSize: 12,
+        color: 'gray',
+        fontWeight: 500,
+    },
+    orderQty: {
+        fontWeight: 800,
+        color: '#6a6161',
+        fontSize: 13,
     },
     input: {
         height: 30,
@@ -250,6 +246,7 @@ const styles = StyleSheet.create({
 
     statusDig: {
         height: 'auto',
+        maxWidth: 130,
         textAlignVertical: 'center',
         fontSize: 13,
         color: 'white',
@@ -266,7 +263,7 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         alignSelf: 'center',
         margin: 2,
-        height: 30,
+        height: 'auto',
         elevation: 3
     },
     buttonPress: {
