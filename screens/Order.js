@@ -60,7 +60,7 @@ function OrdersScreen({ navigation, orders, route, steps }) {
     return (
 
         <SafeAreaView style={styles.container} >
-            <Text title='Замовлення з поля' style={styles.text}> Замовлення з поля {currentFild} </Text>
+            <Text title='Замовлення з поля' style={styles.text}> Замовлення з поля * </Text>
             <View style={styles.infoblock}>
                 <Text style={styles.textinfo}> всього замовлень: {orders.length} </Text>
                 <Text style={styles.textinfo}> всього рослин: {productQty} </Text>

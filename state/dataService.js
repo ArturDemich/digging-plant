@@ -81,7 +81,7 @@ export class DataService {
         })
             .then((response) => response.data)
             .catch((error) => {
-                alert(error)
+                alert(error.response.data)
                 console.log(error);
             })
     }

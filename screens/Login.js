@@ -94,7 +94,8 @@ function LoginScreen({ navigation, digStorages, token }) {
                     onChangeText={onChangeLogin}
                     value={login}
                     placeholder="Введіть користувача"
-                    inputMode='text'
+
+
 
                 />
                 <TextInput
