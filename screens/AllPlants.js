@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, StyleSheet, TouchableHighlight, View, FlatList, Pressable, Modal, Alert, TextInput, } from 'react-native'
+import { Text, StyleSheet, TouchableHighlight, View, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux';
 import shortid from 'shortid';
@@ -11,24 +11,18 @@ import { getGroupOrdersThunk } from '../state/dataThunk';
 
 
 
-function AllPlantsScreen({ route, orders, currentFild, steps, groupOrders, currentStep, showAllPlantsM }) {
+function AllPlantsScreen({ route, groupOrders, currentStep, showAllPlantsM }) {
     //console.log('Allpalnt', filterPlants)
     const [isSelected, setSelection] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false)
 
     const { storageId, token } = route.params
 
     const dispatch = useDispatch()
     useEffect(() => {
-
         dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
-
     }, [currentStep])
 
-
-
     console.log('allPr', groupOrders)
-
 
     function renderPlants({ item }) {
         console.log('renderPlants', currentStep)
@@ -69,44 +63,8 @@ function AllPlantsScreen({ route, orders, currentFild, steps, groupOrders, curre
         )
     }
 
-
-
-
     return (
         <SafeAreaView style={styles.container}>
-
-            {/*  <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalText}>Всі рослини викопані?</Text>
-                        <View style={styles.modalRow}>
-                            <Pressable
-                                style={styles.buttonClose}
-                                onPress={() => setModalVisible(!modalVisible)}
-                            >
-                                <Text style={styles.textStyle}>Ні</Text>
-                            </Pressable>
-                            <Pressable
-                                style={styles.buttonModal}
-                                onPress={() => setSelection(!isSelected) ? true : setModalVisible(!modalVisible)}
-                            >
-                                <Text style={styles.textStyle}>Всі!</Text>
-                            </Pressable>
-                        </View>
-
-                    </View>
-                </View>
-            </Modal> 
-            */}
-
-
             <Text style={styles.text}> Всі рослини з поля {currentFild} </Text>
             {groupOrders.length == 0 ?
                 <View style={styles.costLineWrapper}>
@@ -116,10 +74,8 @@ function AllPlantsScreen({ route, orders, currentFild, steps, groupOrders, curre
                     data={groupOrders}
                     renderItem={renderPlants}
                     keyExtractor={() => shortid.generate()}
-
                 />
             }
-
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )
@@ -127,17 +83,11 @@ function AllPlantsScreen({ route, orders, currentFild, steps, groupOrders, curre
 
 const mapStateToProps = state => {
     return {
-        orders: state.stepOrders,
-        currentFild: state.currentFild,
-        steps: state.steps,
         groupOrders: state.groupOrders,
         currentStep: state.currentStep,
         showAllPlantsM: state.showAllPlantsM
     }
 }
-
-
-
 export default connect(mapStateToProps, null)(AllPlantsScreen)
 
 

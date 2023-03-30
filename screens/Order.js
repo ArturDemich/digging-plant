@@ -5,7 +5,7 @@ import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
 import { getOrdersStep } from '../state/dataThunk'
 
-function OrdersScreen({ navigation, currentFild, orders, route, steps }) {
+function OrdersScreen({ navigation, orders, route, steps }) {
     console.log('order:', orders)
     const { storageId, token } = route.params
     const dispatch = useDispatch()
@@ -83,8 +83,6 @@ function OrdersScreen({ navigation, currentFild, orders, route, steps }) {
 
 const mapStateToProps = state => {
     return {
-        filterOrders: state.filterOrders,
-        currentFild: state.currentFild,
         orders: state.stepOrders,
         steps: state.steps
     }

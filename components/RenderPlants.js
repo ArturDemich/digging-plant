@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Text, TextInput, StyleSheet, TouchableHighlight, View, FlatList, Pressable, Modal, Alert, } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector, connect } from 'react-redux'
-import ButtonsBar from './ButtonsBar'
-import shortid from 'shortid'
+import { Text, TextInput, StyleSheet, TouchableHighlight, View } from 'react-native'
+import { useDispatch, connect } from 'react-redux'
 import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 
 
@@ -46,7 +43,6 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
                 <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                 <View style={styles.info}>
                     <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.qty}  шт</Text></Text>
-                    {/* <Text style={styles.status}>{item.step.name}</Text> */}
                 </View>
                 <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
                     <View style={styles.changeinfoblock}>
@@ -67,7 +63,6 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
                         <Text style={styles.statusDig}>{currentStep.nextStepName}{item.statusDig}</Text>
                     </TouchableHighlight>
                 </View>
-
             </View>
         </TouchableHighlight>
     )
@@ -78,10 +73,7 @@ const mapStateToProps = state => ({
     currentStep: state.currentStep
 
 })
-
 export default connect(mapStateToProps)(RenderPlants)
-
-
 
 
 const styles = StyleSheet.create({

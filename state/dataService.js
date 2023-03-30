@@ -5,19 +5,12 @@ import { Buffer } from 'buffer'
 const username = 'alex';
 const password = '';
 
-const basicAuth = 'Basic ';
 const tok = `${username}:${password}`
 const encodedToken = Buffer.from(tok).toString('base64')
-const data = "85BB86DA0A80D47B39780CDBA04B6BD1"
 
 
 
 export class DataService {
-    static getData() {
-
-        return axios.get('https://my-json-server.typicode.com/ArturDemich/digging-plant/orders')
-    }
-
 
     static getStepOrders(stepId, storageId, token) {
 
@@ -30,6 +23,7 @@ export class DataService {
         })
             .then((response) => response.data)
             .catch((error) => {
+                alert(error)
                 console.log(error);
             })
 
@@ -48,6 +42,7 @@ export class DataService {
         })
             .then((response) => response.data)
             .catch((error) => {
+                alert(error)
                 console.log(error);
             })
 
@@ -61,6 +56,7 @@ export class DataService {
         })
             .then((response) => response.data)
             .catch((error) => {
+                alert(error)
                 console.log(error);
             })
     }
@@ -72,6 +68,7 @@ export class DataService {
         })
             .then((response) => response.data)
             .catch((error) => {
+                alert(error)
                 console.log(error);
             })
     }
@@ -84,6 +81,7 @@ export class DataService {
         })
             .then((response) => response.data)
             .catch((error) => {
+                alert(error)
                 console.log(error);
             })
     }
@@ -109,6 +107,7 @@ export class DataService {
         })
             .then((response) => response.data)
             .catch((error) => {
+                alert(error)
                 console.log(error);
             })
 

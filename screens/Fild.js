@@ -1,23 +1,13 @@
-import React, { useEffect } from 'react'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 
-import { StyleSheet } from 'react-native'
 import Order from './Order'
 import AllPlants from './AllPlants'
-import { connect, useDispatch } from 'react-redux'
 
 const Tab = createMaterialTopTabNavigator();
 
 
 function FildScreen({ route }) {
-    const dispatch = useDispatch()
     console.log('fild', route)
-
-    useEffect(() => {
-        //dispatch(filterOrders(dataArray, route.params.title))
-    }, [])
-
-
 
     return (
         <Tab.Navigator
@@ -44,9 +34,6 @@ function FildScreen({ route }) {
         </Tab.Navigator>
     )
 }
-const mapStateToProps = (state) => ({
 
-})
-
-export default connect(mapStateToProps)(FildScreen)
+export default FildScreen
 

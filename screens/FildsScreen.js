@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
@@ -42,13 +41,6 @@ const styles = StyleSheet.create({
 
 
 function MainScreen({ navigation, digStorages, route }) {
-
-    useEffect(() => {
-        //dispatch(getDataFromEndpoint())
-        //dispatch(getDigStorages(route.params.token))
-        //dispatch(getOrdersStep("80b807a6-aed1-11ed-836a-00c12700489e", "32d5b85f-552a-11e9-81a1-00c12700489e",))
-    }, [])
-
 
     const st = navigation.getState()
     console.log('Filds', st, digStorages, digStorages.length)

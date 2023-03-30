@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Text, TextInput, StyleSheet, TouchableHighlight, View, FlatList, Pressable, Modal, Alert, } from 'react-native'
+import { Text, StyleSheet, View, FlatList, Pressable, Modal, Alert, } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector, connect } from 'react-redux'
+import { connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
 import shortid from 'shortid'
 import RenderPlants from '../components/RenderPlants'
@@ -11,8 +11,6 @@ import RenderPlants from '../components/RenderPlants'
 
 function PlantsScreen({ orders, route }) {
     const { storageId, token, orderId, fild, clientName } = route.params
-    const dispatch = useDispatch()
-
 
     useEffect(() => {
         if (orders.length > 0) {
@@ -31,8 +29,6 @@ function PlantsScreen({ orders, route }) {
 
     const [isSelected, setSelection] = useState(false);
     const [modalVisible, setModalVisible] = useState(false)
-
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -67,7 +63,6 @@ function PlantsScreen({ orders, route }) {
                 </View>
             </Modal>
 
-
             <Text style={styles.text}> Замовлення {clientName} з поля {fild} </Text>
             {products.length == 0 ?
                 <View style={styles.costLineWrapper}>
@@ -77,7 +72,6 @@ function PlantsScreen({ orders, route }) {
                     data={products}
                     renderItem={(product) => <RenderPlants product={product} orderId={orderId} storageId={storageId} />}
                     keyExtractor={() => shortid.generate()}
-
                 />
             }
 
@@ -93,7 +87,7 @@ const mapStateToProps = state => ({
     orders: state.stepOrders
 })
 
-export default connect(mapStateToProps, null)(PlantsScreen)
+export default connect(mapStateToProps)(PlantsScreen)
 
 
 

@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getOrdersStep } from '../state/dataThunk'

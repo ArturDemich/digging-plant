@@ -1,5 +1,4 @@
 import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { connect, useDispatch } from "react-redux";
 import { setShowAllPlantsM } from "../state/dataSlice";
 
@@ -14,7 +13,7 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 20,
         backgroundColor: "white",
-        borderRadius: 10,        
+        borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
         paddingBottom: 20,
@@ -60,7 +59,7 @@ const styles = StyleSheet.create({
     },
     modalProduct: {
         fontWeight: 600,
-        
+
     },
 })
 
@@ -82,9 +81,9 @@ function AllPlantsModal({ showAllPlantsM, product, characteristic, ordersPlant }
                     <Text style={styles.modalProduct}> {product.name} </Text>
                     <Text style={styles.modalProduct}> {characteristic.name} </Text>
                     <View>
-                    <Text>client Name</Text>
-                    <Text>order #</Text>
-                    <Text>qty</Text>
+                        <Text>client Name</Text>
+                        <Text>order #</Text>
+                        <Text>qty</Text>
                     </View>
                     <View style={styles.modalRow}>
                         <Pressable

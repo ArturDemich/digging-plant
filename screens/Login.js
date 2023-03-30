@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableOpacity, TouchableHighlight, SafeAreaView, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getDigStorages, getStep, getTokenThunk } from '../state/dataThunk'
 
