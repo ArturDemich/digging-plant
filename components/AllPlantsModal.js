@@ -14,8 +14,11 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 20,
         backgroundColor: "white",
-        borderRadius: 20,
-        padding: 35,
+        borderRadius: 10,        
+        paddingLeft: 10,
+        paddingRight: 10,
+        paddingBottom: 20,
+        paddingTop: 5,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -55,11 +58,15 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: "center"
     },
+    modalProduct: {
+        fontWeight: 600,
+        
+    },
 })
 
 function AllPlantsModal({ showAllPlantsM, product, characteristic, ordersPlant }) {
     const dispatch = useDispatch()
-
+    console.log(ordersPlant)
     return (
 
         <Modal
@@ -72,7 +79,13 @@ function AllPlantsModal({ showAllPlantsM, product, characteristic, ordersPlant }
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text style={styles.modalText}> {product.name} </Text>
+                    <Text style={styles.modalProduct}> {product.name} </Text>
+                    <Text style={styles.modalProduct}> {characteristic.name} </Text>
+                    <View>
+                    <Text>client Name</Text>
+                    <Text>order #</Text>
+                    <Text>qty</Text>
+                    </View>
                     <View style={styles.modalRow}>
                         <Pressable
                             style={styles.buttonClose}

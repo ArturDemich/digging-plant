@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
         marginBottom: 14,
     },
     textStr: {
-        fontWeight: 600,
+        fontWeight: 900,
+        fontSize: 15,
     },
     rowFront: {
         alignItems: 'center',
