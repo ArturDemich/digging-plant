@@ -1,5 +1,7 @@
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { connect, useDispatch } from "react-redux";
+import shortid from "shortid";
 import { setShowAllPlantsM } from "../state/dataSlice";
 
 
@@ -16,7 +18,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         paddingLeft: 10,
         paddingRight: 10,
-        paddingBottom: 20,
+        paddingBottom: 5,
         paddingTop: 5,
         alignItems: "center",
         shadowColor: "#000",
@@ -30,23 +32,32 @@ const styles = StyleSheet.create({
     },
     modalRow: {
         flexDirection: 'row',
-
+        marginTop: 10,
+        justifyContent: 'space-between',
+        gap: 50
     },
     buttonModal: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        minWidth: 90,
-        backgroundColor: "#2196F3",
+        marginRight: 5,
+        borderRadius: 3,
+        textAlign: "center",
+        backgroundColor: "#45aa45",
+        minWidth: 100,
+        textAlignVertical: 'center',
+        alignSelf: 'center',
+        height: 35,
+        elevation: 3,
+        justifyContent: 'center'
     },
 
     buttonClose: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2,
-        minWidth: 70,
+        borderRadius: 3,
+        height: 35,
+        elevation: 3,
+        minWidth: 100,
         backgroundColor: "red",
         marginEnd: 5,
+        justifyContent: 'center',
+
     },
     textStyle: {
         color: "white",
@@ -57,44 +68,119 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         textAlign: "center"
     },
-    modalProduct: {
+    productName: {
         fontWeight: 600,
+        alignSelf: 'flex-start',
+        fontSize: 14,
+    },
+    characteristicName: {
+        fontWeight: 500,
+        alignSelf: 'flex-start',
+        fontSize: 13,
+    },
+    input: {
+        height: 30,
+        width: 40,
+        margin: 12,
+        borderWidth: 1,
+        borderColor: 'black',
+        textAlign: 'center',
+        alignSelf: 'flex-start',
+    },
+    infoBlock: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        borderBottomWidth: 2,
+        borderBottomColor: '#b0acb0',
+    },
+    orderInfoBlock: {
+        flexDirection: 'row'
+    },
+    orderNames: {
+        alignSelf: 'center',
+        maxWidth: '92%',
+        padding: 3,
 
+    },
+    qtyInfo: {
+        alignSelf: 'center',
+        marginLeft: 5,
+        fontSize: 14,
+        fontWeight: 700,
+    },
+    listOrders: {
+        width: '100%',
+    },
+    textClient: {
+        fontSize: 11,
+        fontWeight: 500,
+    },
+    textNumOrder: {
+        fontSize: 12,
+        fontWeight: 700,
     },
 })
 
-function AllPlantsModal({ showAllPlantsM, product, characteristic, ordersPlant }) {
+function AllPlantsModal({ showAllPlantsM, product, characteristic, ordersPlant, show, close }) {
     const dispatch = useDispatch()
-    console.log(ordersPlant)
-    return (
+    const [showM, setShowM] = useState(show)
+    console.log(show)
 
+    function renderOrdersInfo({ item }) {
+
+        return (
+            <View style={styles.infoBlock}>
+                <View style={styles.orderInfoBlock}>
+                    <View style={styles.orderNames}>
+                        <Text style={styles.textNumOrder}>{item.orderNo}</Text>
+                        <Text style={styles.textClient}>{item.customerName}</Text>
+                    </View>
+                    <Text style={styles.qtyInfo}>- {item.qty} шт</Text>
+                </View>
+                <View>
+                    <TextInput
+                        style={styles.input}
+                        //onChangeText={setQty}
+                        //value={String(qty)}
+                        inputMode='numeric'
+                        keyboardType="numeric"
+                    />
+                </View>
+            </View>
+        )
+    }
+
+
+
+    return (
         <Modal
             animationType="slide"
             transparent={true}
-            visible={showAllPlantsM}
-            onRequestClose={() => {
-                dispatch(setShowAllPlantsM(!showAllPlantsM));
-            }}
+            visible={show}
+            onRequestClose={() => close()}
         >
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
-                    <Text style={styles.modalProduct}> {product.name} </Text>
-                    <Text style={styles.modalProduct}> {characteristic.name} </Text>
-                    <View>
-                        <Text>client Name</Text>
-                        <Text>order #</Text>
-                        <Text>qty</Text>
+                    <Text style={styles.productName}> {product.name} </Text>
+                    <Text style={styles.characteristicName}> {characteristic.name} </Text>
+                    <View style={styles.listOrders}>
+                        <FlatList
+                            data={ordersPlant}
+                            renderItem={renderOrdersInfo}
+                            keyExtractor={() => shortid.generate()}
+                        />
                     </View>
                     <View style={styles.modalRow}>
                         <Pressable
                             style={styles.buttonClose}
-                            onPress={() => dispatch(setShowAllPlantsM(!showAllPlantsM))}
+                            onPress={() => close()}
                         >
                             <Text style={styles.textStyle}>Ні</Text>
                         </Pressable>
                         <Pressable
                             style={styles.buttonModal}
-                            onPress={() => dispatch(setShowAllPlantsM(!showAllPlantsM))}
+                            onPress={() => close()}
                         >
                             <Text style={styles.textStyle}>Всі!</Text>
                         </Pressable>

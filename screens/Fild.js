@@ -15,7 +15,7 @@ function FildScreen({ route }) {
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 14, fontWeight: '700' },
-                tabBarStyle: { backgroundColor: '#CCC' },
+                tabBarStyle: { backgroundColor: '#CCC', elevation: 5 },
                 tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, }
             }}
         >

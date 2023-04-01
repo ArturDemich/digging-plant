@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import { Text, StyleSheet, TouchableHighlight, View, FlatList } from 'react-native'
+import { Text, StyleSheet, View, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux';
 import shortid from 'shortid';
-import AllPlantsModal from '../components/AllPlantsModal';
 import ButtonsBar from '../components/ButtonsBar';
-import { setShowAllPlantsM } from '../state/dataSlice';
+import RenderPlantsGroup from '../components/RenderPlantsGroup';
 import { getGroupOrdersThunk } from '../state/dataThunk';
 
 
 
 
-function AllPlantsScreen({ route, groupOrders, currentStep, showAllPlantsM }) {
+function AllPlantsScreen({ route, groupOrders, currentStep }) {
     //console.log('Allpalnt', filterPlants)
-    const [isSelected, setSelection] = useState(false);
 
     const { storageId, token } = route.params
 
@@ -24,45 +22,6 @@ function AllPlantsScreen({ route, groupOrders, currentStep, showAllPlantsM }) {
 
     console.log('allPr', groupOrders)
 
-    function renderPlants({ item }) {
-        console.log('renderPlants', currentStep)
-        let qty = 0
-        item.orders.forEach(elem => qty += elem.qty)
-        return (
-            <View>
-                <TouchableHighlight
-                    style={styles.rowFront}
-                    underlayColor={'#AAA'}
-                >
-                    <View style={styles.costLineWrapper}>
-                        <Text style={styles.plantName}>{item.product.name}</Text>
-                        <Text style={styles.characteristics}>{item.characteristic.name}</Text>
-                        <View style={styles.info}>
-                            <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
-                        </View>
-                        <View style={styles.changeinfo}>
-                            <View style={styles.orderInfoBlock}>
-                                {item.orders.map(elem => (
-                                    <Text key={shortid.generate()} style={styles.orderInfo}> {elem.orderNo}: <Text style={styles.orderQty}>{elem.qty} шт</Text> </Text>
-                                ))}
-                            </View>
-                            <TouchableHighlight
-                                style={[styles.button, isSelected === true && styles.buttonPress]}
-                                onPress={(el) => {
-                                    dispatch(setShowAllPlantsM(!showAllPlantsM))
-                                    console.log(el)
-                                }
-                                } >
-                                <Text style={styles.statusDig}>{currentStep.nextStepName}{item.statusDig}</Text>
-                            </TouchableHighlight>
-                        </View>
-                    </View>
-                </TouchableHighlight>
-                <AllPlantsModal product={item.product} characteristic={item.characteristic} ordersPlant={item.orders} />
-            </View>
-        )
-    }
-
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.text}> Всі рослини з поля * </Text>
@@ -72,7 +31,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, showAllPlantsM }) {
                 </View> :
                 <FlatList
                     data={groupOrders}
-                    renderItem={renderPlants}
+                    renderItem={(plants) => <RenderPlantsGroup plants={plants} storageId={storageId} />}
                     keyExtractor={() => shortid.generate()}
                 />
             }
