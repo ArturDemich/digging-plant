@@ -7,7 +7,6 @@ const initialState = {
     token: [],
     currentStep: [],
     groupOrders: [],
-    showAllPlantsM: false
 }
 
 export const dataSlice = createSlice({
@@ -52,16 +51,12 @@ export const dataSlice = createSlice({
             state.groupOrders = []
             state.showAllPlantsM = false
         },
-        setShowAllPlantsM(state, action) {
-            state.showAllPlantsM = action.payload
-        },
     },
 })
 
 export const {
     setDigStorages, setStepOrders, setSteps, setToken,
-    cleanState, setCurrentStep, setGroupOrders,
-    setShowAllPlantsM
+    cleanState, setCurrentStep, setGroupOrders
 } = dataSlice.actions
 
 export default dataSlice.reducer

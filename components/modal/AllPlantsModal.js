@@ -2,7 +2,8 @@ import { useState } from "react";
 import { FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import shortid from "shortid";
-import { setShowAllPlantsM } from "../state/dataSlice";
+import { setShowAllPlantsM } from "../../state/dataSlice";
+import RenderModalOrders from "./RenderModalOrders";
 
 
 const styles = StyleSheet.create({
@@ -78,80 +79,15 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start',
         fontSize: 13,
     },
-    input: {
-        height: 30,
-        width: 40,
-        margin: 12,
-        borderWidth: 1,
-        borderColor: 'black',
-        textAlign: 'center',
-        alignSelf: 'flex-start',
-    },
-    infoBlock: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        borderBottomWidth: 2,
-        borderBottomColor: '#b0acb0',
-    },
-    orderInfoBlock: {
-        flexDirection: 'row'
-    },
-    orderNames: {
-        alignSelf: 'center',
-        maxWidth: '92%',
-        padding: 3,
-
-    },
-    qtyInfo: {
-        alignSelf: 'center',
-        marginLeft: 5,
-        fontSize: 14,
-        fontWeight: 700,
-    },
     listOrders: {
         width: '100%',
     },
-    textClient: {
-        fontSize: 11,
-        fontWeight: 500,
-    },
-    textNumOrder: {
-        fontSize: 12,
-        fontWeight: 700,
-    },
+
 })
 
-function AllPlantsModal({ showAllPlantsM, product, characteristic, ordersPlant, show, close }) {
-    const dispatch = useDispatch()
-    const [showM, setShowM] = useState(show)
-    console.log(show)
-
-    function renderOrdersInfo({ item }) {
-
-        return (
-            <View style={styles.infoBlock}>
-                <View style={styles.orderInfoBlock}>
-                    <View style={styles.orderNames}>
-                        <Text style={styles.textNumOrder}>{item.orderNo}</Text>
-                        <Text style={styles.textClient}>{item.customerName}</Text>
-                    </View>
-                    <Text style={styles.qtyInfo}>- {item.qty} шт</Text>
-                </View>
-                <View>
-                    <TextInput
-                        style={styles.input}
-                        //onChangeText={setQty}
-                        //value={String(qty)}
-                        inputMode='numeric'
-                        keyboardType="numeric"
-                    />
-                </View>
-            </View>
-        )
-    }
-
-
+function AllPlantsModal({ plant, show, close }) {
+    const { product, characteristic, orders } = plant
+    console.log(product)
 
     return (
         <Modal
@@ -166,8 +102,8 @@ function AllPlantsModal({ showAllPlantsM, product, characteristic, ordersPlant, 
                     <Text style={styles.characteristicName}> {characteristic.name} </Text>
                     <View style={styles.listOrders}>
                         <FlatList
-                            data={ordersPlant}
-                            renderItem={renderOrdersInfo}
+                            data={orders}
+                            renderItem={(orders) => <RenderModalOrders orders={orders} />}
                             keyExtractor={() => shortid.generate()}
                         />
                     </View>

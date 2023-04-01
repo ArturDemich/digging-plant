@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
 import shortid from "shortid"
-import AllPlantsModal from "./AllPlantsModal"
+import AllPlantsModal from "./modal/AllPlantsModal"
 
 
 const styles = StyleSheet.create({
@@ -127,9 +127,7 @@ function RenderPlantsGroup({ plants }) {
                 </View>
             </TouchableHighlight>
             <AllPlantsModal
-                product={item.product}
-                characteristic={item.characteristic}
-                ordersPlant={item.orders}
+                plant={item}
                 show={showModal}
                 close={() => setShowModal(!showModal)}
             />
