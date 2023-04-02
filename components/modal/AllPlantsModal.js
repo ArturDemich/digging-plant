@@ -87,7 +87,24 @@ const styles = StyleSheet.create({
 
 function AllPlantsModal({ plant, show, close }) {
     const { product, characteristic, orders } = plant
-    console.log(product)
+    const [currentQty, setCurrentQty] = useState({})
+    let orderId = ''
+
+    console.log(currentQty)
+
+    /* dispatch(setNextStepThunk(
+        token[0].token,
+        storageId,
+        currentStep.id,
+
+        productId,
+        characteristicId,
+        unitId,
+
+        orderId,
+        Number(qty)
+    )) */
+
 
     return (
         <Modal
@@ -103,7 +120,7 @@ function AllPlantsModal({ plant, show, close }) {
                     <View style={styles.listOrders}>
                         <FlatList
                             data={orders}
-                            renderItem={(orders) => <RenderModalOrders orders={orders} />}
+                            renderItem={(orders) => <RenderModalOrders orders={orders} setCurrentQty={(val) => setCurrentQty(val)} />}
                             keyExtractor={() => shortid.generate()}
                         />
                     </View>
@@ -131,7 +148,7 @@ function AllPlantsModal({ plant, show, close }) {
 
 const mapStateToProps = state => {
     return {
-        showAllPlantsM: state.showAllPlantsM
+
     }
 }
 

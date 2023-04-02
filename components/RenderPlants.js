@@ -7,13 +7,22 @@ import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 
 
 function RenderPlants({ product, token, orderId, storageId, currentStep }) {
-
-    let item = product.item
+    const item = product.item
     const dispatch = useDispatch()
     const [qty, setQty] = useState(item.qty)
-    useEffect(() => {
 
-    }, [])
+    const checkInput = (value) => {
+        if (Number(value) || value === '') {
+            if (Number(value) > Number(item.qty)) {
+                alert('Кількість рослин не може бути більша ніж в замовленні')
+            } else {
+                setQty(value)
+            }
+        } else {
+            alert('Введіть кількіть викопаних рослин - цифрами')
+        }
+    }
+
     console.log('renderItem: ', item)
     const checkCorrectStep = (productId, characteristicId, unitId) => {
         if (currentStep.rightToChange) {
@@ -51,10 +60,11 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
                         </Text>
                         <TextInput
                             style={styles.input}
-                            onChangeText={setQty}
+                            onChangeText={checkInput}
                             value={String(qty)}
                             inputMode='numeric'
                             keyboardType="numeric"
+                            selection={{ start: 9, end: 9 }}
                         />
                     </View>
                     <TouchableHighlight

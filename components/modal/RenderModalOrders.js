@@ -44,11 +44,27 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderModalOrders({ orders }) {
+function RenderModalOrders({ orders, setCurrentQty }) {
     const item = orders.item
     const qtyInfo = item.qty
-    const [qty, setQty] = useState(item.qty)
 
+    const [qtyInput, setQtyInput] = useState(item.qty)
+
+    const checkInput = (value) => {
+        if (Number(value) || value === '') {
+            if (Number(value) > Number(qtyInfo)) {
+                alert('Кількість рослин не може бути більша ніж в замовленні')
+            } else {
+                setQtyInput(value)
+
+            }
+        } else {
+            alert('Введіть кількіть викопаних рослин - цифрами')
+        }
+    }
+
+    console.log(item)
+    setCurrentQty(qtyInput)
     return (
         <View style={styles.infoBlock}>
             <View style={styles.orderInfoBlock}>
@@ -61,8 +77,8 @@ function RenderModalOrders({ orders }) {
             <View>
                 <TextInput
                     style={styles.input}
-                    onChangeText={setQty}
-                    value={String(qty)}
+                    onChangeText={checkInput}
+                    value={String(qtyInput)}
                     inputMode='numeric'
                     keyboardType="numeric"
                     selection={{ start: 9, end: 9 }}

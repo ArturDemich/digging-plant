@@ -49,7 +49,6 @@ export const dataSlice = createSlice({
             state.stepOrders = []
             state.currentStep = []
             state.groupOrders = []
-            state.showAllPlantsM = false
         },
     },
 })
