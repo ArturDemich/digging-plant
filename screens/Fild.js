@@ -2,12 +2,17 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import Order from './Order'
 import AllPlants from './AllPlants'
+import { useDispatch } from 'react-redux';
+import { setStorageId } from '../state/dataSlice';
 
 const Tab = createMaterialTopTabNavigator();
 
 
 function FildScreen({ route }) {
+    const dispatch = useDispatch()
     console.log('fild', route)
+
+    dispatch(setStorageId(route.params.storageId))
 
     return (
         <Tab.Navigator

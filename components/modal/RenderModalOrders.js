@@ -1,5 +1,8 @@
-import { useState } from "react"
+import { useEffect, useState, forwardRef, useImperativeHandle } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
+import { connect, useDispatch } from "react-redux"
+import { setModalAllPlants } from "../../state/dataSlice"
+import { setNextStepThunk } from "../../state/dataThunk"
 
 
 const styles = StyleSheet.create({
@@ -44,11 +47,14 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderModalOrders({ orders, setCurrentQty }) {
+function RenderModalOrders({ orders, plant, trigger, cancelTrigger, currentStep, token, currentStorageId }) {
+    const { product, characteristic, unit } = plant
     const item = orders.item
     const qtyInfo = item.qty
-
+    const dispatch = useDispatch()
     const [qtyInput, setQtyInput] = useState(item.qty)
+
+
 
     const checkInput = (value) => {
         if (Number(value) || value === '') {
@@ -56,15 +62,37 @@ function RenderModalOrders({ orders, setCurrentQty }) {
                 alert('Кількість рослин не може бути більша ніж в замовленні')
             } else {
                 setQtyInput(value)
-
             }
         } else {
             alert('Введіть кількіть викопаних рослин - цифрами')
         }
     }
 
-    console.log(item)
-    setCurrentQty(qtyInput)
+    useEffect(() => {
+
+        return () => cancelTrigger()
+    }, [])
+    if (trigger) {
+        alert(('1', qtyInput))
+        console.log('1', qtyInput)
+    }
+
+    /* if (trigger) {
+        dispatch(setNextStepThunk(
+            token[0].token,
+            currentStorageId,
+            currentStep.id,
+
+            item.orderId,
+
+            product.id,
+            characteristic.id,
+            unit.id,
+            Number(qtyInput)
+        ))
+    } */
+    console.log('2', qtyInput, trigger)
+
     return (
         <View style={styles.infoBlock}>
             <View style={styles.orderInfoBlock}>
@@ -88,4 +116,11 @@ function RenderModalOrders({ orders, setCurrentQty }) {
     )
 }
 
-export default RenderModalOrders
+const mapStateToProps = state => ({
+    token: state.token,
+    currentStep: state.currentStep,
+    currentStorageId: state.currentStorageId
+
+})
+
+export default connect(mapStateToProps)(RenderModalOrders)

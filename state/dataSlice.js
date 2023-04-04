@@ -7,6 +7,7 @@ const initialState = {
     token: [],
     currentStep: [],
     groupOrders: [],
+    currentStorageId: ''
 }
 
 export const dataSlice = createSlice({
@@ -42,6 +43,13 @@ export const dataSlice = createSlice({
             //console.log('sliceCurrentStep', state.currentStep)
         },
 
+        setStorageId(state, action) {
+            state.currentStorageId = action.payload
+
+            console.log('slicestorageId', state.currentStorageId)
+        },
+
+
         cleanState(state) {
             state.token = []
             state.steps = []
@@ -49,13 +57,15 @@ export const dataSlice = createSlice({
             state.stepOrders = []
             state.currentStep = []
             state.groupOrders = []
+            state.currentStorageId = ''
         },
     },
 })
 
 export const {
     setDigStorages, setStepOrders, setSteps, setToken,
-    cleanState, setCurrentStep, setGroupOrders
+    cleanState, setCurrentStep, setGroupOrders,
+    setStorageId
 } = dataSlice.actions
 
 export default dataSlice.reducer

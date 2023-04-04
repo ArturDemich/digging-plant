@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { memo, useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
 import shortid from "shortid"
 import AllPlantsModal from "./modal/AllPlantsModal"
@@ -135,4 +135,4 @@ function RenderPlantsGroup({ plants }) {
     )
 }
 
-export default RenderPlantsGroup
+export default memo(RenderPlantsGroup)

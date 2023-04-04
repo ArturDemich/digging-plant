@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import shortid from "shortid";
@@ -88,9 +88,13 @@ const styles = StyleSheet.create({
 function AllPlantsModal({ plant, show, close }) {
     const { product, characteristic, orders } = plant
     const [currentQty, setCurrentQty] = useState({})
-    let orderId = ''
+    const [trigger, setTrigger] = useState(false)
 
-    console.log(currentQty)
+    useState(() => {
+
+    }, [show])
+
+    console.log(plant)
 
     /* dispatch(setNextStepThunk(
         token[0].token,
@@ -104,6 +108,7 @@ function AllPlantsModal({ plant, show, close }) {
         orderId,
         Number(qty)
     )) */
+
 
 
     return (
@@ -120,7 +125,7 @@ function AllPlantsModal({ plant, show, close }) {
                     <View style={styles.listOrders}>
                         <FlatList
                             data={orders}
-                            renderItem={(orders) => <RenderModalOrders orders={orders} setCurrentQty={(val) => setCurrentQty(val)} />}
+                            renderItem={(orders) => <RenderModalOrders orders={orders} plant={plant} trigger={trigger} cancelTrigger={() => setTrigger(false)} />}
                             keyExtractor={() => shortid.generate()}
                         />
                     </View>
@@ -133,7 +138,10 @@ function AllPlantsModal({ plant, show, close }) {
                         </Pressable>
                         <Pressable
                             style={styles.buttonModal}
-                            onPress={() => close()}
+                            onPress={() => {
+                                setTrigger(true)
+                                close()
+                            }}
                         >
                             <Text style={styles.textStyle}>Всі!</Text>
                         </Pressable>
