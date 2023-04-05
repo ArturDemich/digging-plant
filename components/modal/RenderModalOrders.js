@@ -1,7 +1,7 @@
-import { useEffect, useState, forwardRef, useImperativeHandle } from "react"
+import { useEffect, useState, forwardRef, useImperativeHandle, useRef, useCallback } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
-import { setModalAllPlants } from "../../state/dataSlice"
+import { setModalAllPlants, setModalInput } from "../../state/dataSlice"
 import { setNextStepThunk } from "../../state/dataThunk"
 
 
@@ -47,12 +47,22 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderModalOrders({ orders, plant, trigger, cancelTrigger, currentStep, token, currentStorageId }) {
+function RenderModalOrders({ orders, plant, modalInput, cancelTrigger, trigger, currentStep, token, currentStorageId }) {
     const { product, characteristic, unit } = plant
     const item = orders.item
     const qtyInfo = item.qty
     const dispatch = useDispatch()
     const [qtyInput, setQtyInput] = useState(item.qty)
+    const [modalQty, setModalQty] = useState()
+    const [modalOrderId, setModalOrderId] = useState()
+
+    const setModalState = () => {
+        const orders = {
+            orderId: item.orderId,
+            qty: Number(qtyInput)
+        }
+        dispatch(setModalInput(orders))
+    }
 
 
 
@@ -68,30 +78,38 @@ function RenderModalOrders({ orders, plant, trigger, cancelTrigger, currentStep,
         }
     }
 
+    const seachModalData = useCallback((order) => {
+        order.forEach((elem) => {
+            if (elem.orderId === item.orderId) {
+                setModalQty(elem.qty)
+                setModalOrderId(elem.orderId)
+            }
+        })
+    }, [modalInput])
+
     useEffect(() => {
-
+        if (modalInput.length) {
+            seachModalData(modalInput)
+        }
         return () => cancelTrigger()
-    }, [])
-    if (trigger) {
-        alert(('1', qtyInput))
-        console.log('1', qtyInput)
-    }
+    }, [modalInput])
 
-    /* if (trigger) {
+
+    if (trigger) {
         dispatch(setNextStepThunk(
             token[0].token,
             currentStorageId,
             currentStep.id,
 
-            item.orderId,
+            modalInput.orderId,
 
             product.id,
             characteristic.id,
             unit.id,
-            Number(qtyInput)
+            modalInput.qty
         ))
-    } */
-    console.log('2', qtyInput, trigger)
+    }
+    console.log('2', modalQty, modalInput.length)
 
     return (
         <View style={styles.infoBlock}>
@@ -110,6 +128,8 @@ function RenderModalOrders({ orders, plant, trigger, cancelTrigger, currentStep,
                     inputMode='numeric'
                     keyboardType="numeric"
                     selection={{ start: 9, end: 9 }}
+                    onBlur={() => setModalState()}
+                    autoFocus={false}
                 />
             </View>
         </View>
@@ -119,7 +139,8 @@ function RenderModalOrders({ orders, plant, trigger, cancelTrigger, currentStep,
 const mapStateToProps = state => ({
     token: state.token,
     currentStep: state.currentStep,
-    currentStorageId: state.currentStorageId
+    currentStorageId: state.currentStorageId,
+    modalInput: state.modalInput
 
 })
 

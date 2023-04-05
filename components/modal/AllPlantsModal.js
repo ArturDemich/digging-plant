@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
+import { memo, useRef, useState } from "react";
 import { FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { connect, useDispatch } from "react-redux";
 import shortid from "shortid";
-import { setShowAllPlantsM } from "../../state/dataSlice";
+import { clearModalInput, setShowAllPlantsM } from "../../state/dataSlice";
 import RenderModalOrders from "./RenderModalOrders";
 
 
@@ -85,16 +85,18 @@ const styles = StyleSheet.create({
 
 })
 
-function AllPlantsModal({ plant, show, close }) {
+function allPlantsModal({ plant, show, close }) {
     const { product, characteristic, orders } = plant
     const [currentQty, setCurrentQty] = useState({})
     const [trigger, setTrigger] = useState(false)
+    const dispatch = useDispatch()
+
+
 
     useState(() => {
 
-    }, [show])
-
-    console.log(plant)
+    }, [])
+    console.log('modalka')
 
     /* dispatch(setNextStepThunk(
         token[0].token,
@@ -132,7 +134,10 @@ function AllPlantsModal({ plant, show, close }) {
                     <View style={styles.modalRow}>
                         <Pressable
                             style={styles.buttonClose}
-                            onPress={() => close()}
+                            onPress={() => {
+                                dispatch(clearModalInput())
+                                close()
+                            }}
                         >
                             <Text style={styles.textStyle}>Ні</Text>
                         </Pressable>
@@ -159,5 +164,6 @@ const mapStateToProps = state => {
 
     }
 }
+const AllPlantsModal = memo(allPlantsModal)
 
 export default connect(mapStateToProps)(AllPlantsModal)

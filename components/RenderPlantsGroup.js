@@ -1,4 +1,4 @@
-import { memo, useState } from "react"
+import { memo, useCallback, useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
 import shortid from "shortid"
 import AllPlantsModal from "./modal/AllPlantsModal"
@@ -93,6 +93,10 @@ function RenderPlantsGroup({ plants }) {
     console.log('renderPlants', item)
     const [showModal, setShowModal] = useState(false)
 
+    const swithModal = useCallback((showModal) => {
+        setShowModal(!showModal)
+    }, [])
+
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
     return (
@@ -117,7 +121,7 @@ function RenderPlantsGroup({ plants }) {
                         <TouchableHighlight
                             style={styles.button}
                             onPress={(el) => {
-                                setShowModal(true)
+                                swithModal(showModal)
                                 console.log(el)
                             }
                             } >
