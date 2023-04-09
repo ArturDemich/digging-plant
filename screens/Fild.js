@@ -16,7 +16,7 @@ function FildScreen({ route }) {
 
     return (
         <Tab.Navigator
-            initialRouteName="Замовлення"
+            initialRouteName="Рослини Замовлення"
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 14, fontWeight: '700' },

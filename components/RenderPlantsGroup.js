@@ -1,7 +1,10 @@
+//import CheckBox from "@react-native-community/checkbox"
+import Checkbox from "expo-checkbox"
 import { memo, useCallback, useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
 import shortid from "shortid"
 import AllPlantsModal from "./modal/AllPlantsModal"
+import RenderOrderByGroup from "./RenderOrderByGroup"
 
 
 const styles = StyleSheet.create({
@@ -79,6 +82,7 @@ const styles = StyleSheet.create({
     orderInfoBlock: {
         flexDirection: 'column',
         marginTop: 3,
+        width: '100%'
     },
     orderInfo: {
         margin: 3,
@@ -86,19 +90,19 @@ const styles = StyleSheet.create({
         color: 'gray',
         fontWeight: 500,
     },
+    checkBox: {
+        height: 20,
+        width: 20,
+    },
 })
 
 function RenderPlantsGroup({ plants }) {
     const item = plants.item
     console.log('renderPlants', item)
-    const [showModal, setShowModal] = useState(false)
-
-    const swithModal = useCallback((showModal) => {
-        setShowModal(!showModal)
-    }, [])
-
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
+    const [checkBox, setCheckBox] = useState(false)
+
     return (
         <View>
             <TouchableHighlight
@@ -111,30 +115,19 @@ function RenderPlantsGroup({ plants }) {
                     <View style={styles.info}>
                         <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
+                    <Checkbox
+                        value={checkBox}
+                        onValueChange={() => setCheckBox(!checkBox)}
+                        style={styles.checkBox}
+                    />
                     <View style={styles.changeinfo}>
                         <View style={styles.orderInfoBlock}>
-                            {item.orders.map(elem => (
-                                <Text key={shortid.generate()} style={styles.orderInfo}> {elem.orderNo}:
-                                    <Text style={styles.orderQty}>{elem.qty} шт</Text> </Text>
-                            ))}
+                            {item.orders.map(elem => <RenderOrderByGroup key={shortid.generate()} order={elem} />)}
                         </View>
-                        <TouchableHighlight
-                            style={styles.button}
-                            onPress={(el) => {
-                                swithModal(showModal)
-                                console.log(el)
-                            }
-                            } >
-                            <Text style={styles.statusDig}>Змінити статус</Text>
-                        </TouchableHighlight>
                     </View>
                 </View>
             </TouchableHighlight>
-            <AllPlantsModal
-                plant={item}
-                show={showModal}
-                close={() => setShowModal(!showModal)}
-            />
+
         </View>
     )
 }
