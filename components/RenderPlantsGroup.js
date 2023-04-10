@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     changeinfo: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        padding: 5,
     },
     orderInfoBlock: {
         flexDirection: 'column',
@@ -93,6 +94,7 @@ const styles = StyleSheet.create({
     checkBox: {
         height: 20,
         width: 20,
+
     },
 })
 
@@ -101,7 +103,7 @@ function RenderPlantsGroup({ plants }) {
     console.log('renderPlants', item)
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
-    const [checkBox, setCheckBox] = useState(false)
+    const [selectedAll, setSelectedAll] = useState(false)
 
     return (
         <View>
@@ -110,19 +112,22 @@ function RenderPlantsGroup({ plants }) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
-                    <Text style={styles.plantName}>{item.product.name}</Text>
+                    <View style={styles.changeinfo}>
+                        <Text style={styles.plantName}>{item.product.name}</Text>
+                        <Checkbox
+                            value={selectedAll}
+                            onValueChange={() => setSelectedAll(!selectedAll)}
+                            style={styles.checkBox}
+                        />
+                    </View>
                     <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                     <View style={styles.info}>
                         <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
-                    <Checkbox
-                        value={checkBox}
-                        onValueChange={() => setCheckBox(!checkBox)}
-                        style={styles.checkBox}
-                    />
+
                     <View style={styles.changeinfo}>
                         <View style={styles.orderInfoBlock}>
-                            {item.orders.map(elem => <RenderOrderByGroup key={shortid.generate()} order={elem} />)}
+                            {item.orders.map(elem => <RenderOrderByGroup key={shortid.generate()} plant={item} order={elem} selectedAll={selectedAll} />)}
                         </View>
                     </View>
                 </View>

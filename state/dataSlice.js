@@ -8,7 +8,7 @@ const initialState = {
     currentStep: [],
     groupOrders: [],
     currentStorageId: '',
-    modalInput: []
+    dataChange: []
 }
 
 export const dataSlice = createSlice({
@@ -49,26 +49,42 @@ export const dataSlice = createSlice({
             console.log('slicestorageId', state.currentStorageId)
         },
 
-        setModalInput(state, action) {
-            const orders = state.modalInput
+        setDataChange(state, action) {
+            const orders = state.dataChange
             console.log('sliceModalInput-1', action)
             const eix = orders.findIndex((value) => {
                 return value.orderId === action.payload.orderId
             })
             // console.log('sliceModalInput-2', eix)
             if (eix > -1) {
-                orders[eix] = action.payload
-                //console.log('sliceModalInput-if', orders)
-                state.modalInput = orders
+                if (
+                    orders[eix].productid === action.payload.productid &&
+                    orders[eix].characteristicid === action.payload.characteristicid
+                ) {
+                    orders[eix] = action.payload
+                    state.dataChange = orders
+                } else {
+                    state.dataChange = [...orders, action.payload]
+                }
             } else {
-                state.modalInput = [...orders, action.payload]
+                state.dataChange = [...orders, action.payload]
                 console.log('sliceModalInput-else', action.payload)
             }
-            console.log('sliceModalInput', state.modalInput)
+            console.log('sliceModalInput', state.dataChange)
         },
 
-        clearModalInput(state) {
-            state.modalInput = []
+        clearDataChangeItem(state, action) {
+            console.log('clearDataChangeItem-1', action)
+            state.dataChange = [...state.dataChange.filter(elem => {
+                elem.orderId != action.payload.orderId &&
+                    elem.productid != action.payload.productid &&
+                    elem.characteristicid != action.payload.characteristicid
+            })]
+            console.log('clearDataChangeItem', state.dataChange)
+        },
+
+        clearDataChange(state) {
+            state.dataChange = []
         },
         cleanState(state) {
             state.token = []
@@ -78,7 +94,7 @@ export const dataSlice = createSlice({
             state.currentStep = []
             state.groupOrders = []
             state.currentStorageId = ''
-            state.modalInput = []
+            state.dataChange = []
         },
     },
 })
@@ -86,7 +102,8 @@ export const dataSlice = createSlice({
 export const {
     setDigStorages, setStepOrders, setSteps, setToken,
     cleanState, setCurrentStep, setGroupOrders,
-    setStorageId, setModalInput, clearModalInput
+    setStorageId, setDataChange, clearDataChange,
+    clearDataChangeItem
 } = dataSlice.actions
 
 export default dataSlice.reducer

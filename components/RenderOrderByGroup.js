@@ -1,6 +1,8 @@
+import Checkbox from "expo-checkbox"
 import { useEffect, useState, forwardRef, useImperativeHandle, useRef, useCallback, memo } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
+import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
 
 
 const styles = StyleSheet.create({
@@ -43,10 +45,44 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontWeight: 700,
     },
+    checkBox: {
+        alignSelf: 'center',
+    },
 })
 
-function RenderOrderByGroup({ order, modalInput, currentStep, token, currentStorageId }) {
-    const { orderNo, customerName, qty, shipmentDate, shipmentMethod } = order
+function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep, token, currentStorageId }) {
+    const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod } = order
+    const { characteristic, product, unit } = plant
+    const dispatch = useDispatch()
+    const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
+    console.log('rObG', plant, orderCheckBox)
+
+    const setModalState = () => {
+        const orders = {
+            storageId: currentStorageId,
+            currentstepId: currentStep.id,
+            orderId: orderId,
+            productid: product.id,
+            characteristicid: characteristic.id,
+            unitid: unit.id,
+            qty: Number(qty)
+        }
+        dispatch(setDataChange(orders))
+    }
+
+    useEffect(() => {
+        if (selectedAll === true || orderCheckBox === true) {
+            setModalState()
+        } else if (orderCheckBox === false) {
+            dispatch(clearDataChangeItem({
+                orderId: orderId,
+                productid: product.id,
+                characteristicid: characteristic.id,
+            }))
+        }
+
+    }, [selectedAll, orderCheckBox])
+
 
     return (
         <View style={styles.infoBlock}>
@@ -59,21 +95,27 @@ function RenderOrderByGroup({ order, modalInput, currentStep, token, currentStor
                 </View>
                 <Text style={styles.qtyInfo}>- {qty} шт</Text>
             </View>
-
-            <TextInput
-                style={styles.input}
-                //onChangeText={checkInput}
-                //value={String(qtyInput)}
-                // defaultValue={String(qtyInput)}
-                inputMode='numeric'
-                keyboardType="numeric"
-                selection={{ start: 9, end: 9 }}
-                /* onBlur={(val) => {
-                    setQtyInput(val.target.value)
-                    setModalState()
-                }} */
-                autoFocus={false}
-            />
+            <View style={styles.orderInfoBlock}>
+                <TextInput
+                    style={styles.input}
+                    //onChangeText={checkInput}
+                    //value={String(qtyInput)}
+                    // defaultValue={String(qtyInput)}
+                    inputMode='numeric'
+                    keyboardType="numeric"
+                    selection={{ start: 9, end: 9 }}
+                    /* onBlur={(val) => {
+                        setQtyInput(val.target.value)
+                        setModalState()
+                    }} */
+                    autoFocus={false}
+                />
+                <Checkbox
+                    value={orderCheckBox}
+                    onValueChange={() => setOrderCheckBox(!orderCheckBox)}
+                    style={styles.checkBox}
+                />
+            </View>
 
         </View>
     )
@@ -83,7 +125,7 @@ const mapStateToProps = state => ({
     token: state.token,
     currentStep: state.currentStep,
     currentStorageId: state.currentStorageId,
-    modalInput: state.modalInput
+    dataChange: state.dataChange
 
 })
 
