@@ -25,15 +25,15 @@ function FildScreen({ route }) {
             }}
         >
             <Tab.Screen
-                name="Замовлення"
-                component={Order}
-                options={{ tabBarLabel: 'Замовлення' }}
-                initialParams={{ token: route.params.token, storageId: route.params.storageId }}
-            />
-            <Tab.Screen
                 name="Рослини Замовлення"
                 component={AllPlants}
                 options={{ tabBarLabel: 'Всі Рослини' }}
+                initialParams={{ token: route.params.token, storageId: route.params.storageId }}
+            />
+            <Tab.Screen
+                name="Замовлення"
+                component={Order}
+                options={{ tabBarLabel: 'Замовлення' }}
                 initialParams={{ token: route.params.token, storageId: route.params.storageId }}
             />
         </Tab.Navigator>

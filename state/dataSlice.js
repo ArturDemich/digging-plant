@@ -74,13 +74,16 @@ export const dataSlice = createSlice({
         },
 
         clearDataChangeItem(state, action) {
-            console.log('clearDataChangeItem-1', action)
-            state.dataChange = [...state.dataChange.filter(elem => {
-                elem.orderId != action.payload.orderId &&
-                    elem.productid != action.payload.productid &&
-                    elem.characteristicid != action.payload.characteristicid
-            })]
-            console.log('clearDataChangeItem', state.dataChange)
+            const orders = state.dataChange
+            const eix = orders.findIndex((value) => {
+                return value.orderId === action.payload.orderId &&
+                    value.productid === action.payload.productid &&
+                    value.characteristicid === action.payload.characteristicid
+            })
+            if (eix > -1) {
+                const removed = orders.splice(eix, 1)
+                state.dataChange = orders
+            }
         },
 
         clearDataChange(state) {

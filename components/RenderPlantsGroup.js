@@ -127,7 +127,14 @@ function RenderPlantsGroup({ plants }) {
 
                     <View style={styles.changeinfo}>
                         <View style={styles.orderInfoBlock}>
-                            {item.orders.map(elem => <RenderOrderByGroup key={shortid.generate()} plant={item} order={elem} selectedAll={selectedAll} />)}
+                            {item.orders.map(elem =>
+                                <RenderOrderByGroup
+                                    key={shortid.generate()}
+                                    plant={item} order={elem}
+                                    selectedAll={selectedAll}
+                                    backSelected={() => setSelectedAll(false)}
+                                />
+                            )}
                         </View>
                     </View>
                 </View>

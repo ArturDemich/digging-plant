@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         width: '100%',
         borderTopWidth: 2,
-        borderBottomColor: '#b0acb0',
+        borderTopColor: '#b0acb0',
     },
     orderInfoBlock: {
         flexDirection: 'row'
@@ -47,15 +47,24 @@ const styles = StyleSheet.create({
     },
     checkBox: {
         alignSelf: 'center',
+        height: 25,
+        width: 25,
     },
 })
 
-function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep, token, currentStorageId }) {
+function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep, backSelected, token, currentStorageId }) {
     const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod } = order
     const { characteristic, product, unit } = plant
     const dispatch = useDispatch()
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
-    console.log('rObG', plant, orderCheckBox)
+
+    const checkStateBox = (allBox, localBox) => {
+        if (allBox === true) {
+            setOrderCheckBox(true)
+        } else if (localBox === false) {
+            backSelected()
+        }
+    }
 
     const setModalState = () => {
         const orders = {
@@ -71,19 +80,22 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
     }
 
     useEffect(() => {
-        if (selectedAll === true || orderCheckBox === true) {
+        if (selectedAll === true && orderCheckBox === true) {
             setModalState()
         } else if (orderCheckBox === false) {
+
             dispatch(clearDataChangeItem({
                 orderId: orderId,
                 productid: product.id,
                 characteristicid: characteristic.id,
             }))
+        } else if (orderCheckBox === true) {
+            setModalState()
         }
 
     }, [selectedAll, orderCheckBox])
 
-
+    console.log('rObG', dataChange)
     return (
         <View style={styles.infoBlock}>
             <View style={styles.orderInfoBlock}>
@@ -91,7 +103,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
                     <Text style={styles.textNumOrder}>{orderNo}</Text>
                     <Text style={styles.textClient}>{customerName}</Text>
                     <Text style={styles.textClient}>{shipmentMethod}</Text>
-                    <Text style={styles.textClient}>{shipmentDate}</Text>
+                    <Text style={styles.textClient}>Відгрузка: {shipmentDate}</Text>
                 </View>
                 <Text style={styles.qtyInfo}>- {qty} шт</Text>
             </View>
@@ -112,7 +124,9 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
                 />
                 <Checkbox
                     value={orderCheckBox}
-                    onValueChange={() => setOrderCheckBox(!orderCheckBox)}
+                    onValueChange={() => {
+                        setOrderCheckBox(!orderCheckBox)
+                    }}
                     style={styles.checkBox}
                 />
             </View>
