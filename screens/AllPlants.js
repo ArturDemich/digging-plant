@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux';
 import shortid from 'shortid';
 import ButtonsBar from '../components/ButtonsBar';
+import NextStepButton from '../components/NextStepButton';
 import RenderPlantsGroup from '../components/RenderPlantsGroup';
 import { getGroupOrdersThunk } from '../state/dataThunk';
 
@@ -35,6 +36,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
                     keyExtractor={() => shortid.generate()}
                 />
             }
+            <NextStepButton />
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )

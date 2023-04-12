@@ -52,19 +52,13 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep, backSelected, token, currentStorageId }) {
+function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep, token, currentStorageId }) {
     const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod } = order
     const { characteristic, product, unit } = plant
     const dispatch = useDispatch()
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
+    const [qtyInput, setQtyInput] = useState(qty)
 
-    const checkStateBox = (allBox, localBox) => {
-        if (allBox === true) {
-            setOrderCheckBox(true)
-        } else if (localBox === false) {
-            backSelected()
-        }
-    }
 
     const setModalState = () => {
         const orders = {
@@ -77,6 +71,18 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
             qty: Number(qty)
         }
         dispatch(setDataChange(orders))
+    }
+
+    const checkInput = (value) => {
+        if (Number(value) || value === '') {
+            if (Number(value) > Number(qty)) {
+                alert('Кількість рослин не може бути більша ніж в замовленні')
+            } else {
+                setQtyInput(value)
+            }
+        } else {
+            alert('Введіть кількіть викопаних рослин - цифрами')
+        }
     }
 
     useEffect(() => {
@@ -110,8 +116,8 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
             <View style={styles.orderInfoBlock}>
                 <TextInput
                     style={styles.input}
-                    //onChangeText={checkInput}
-                    //value={String(qtyInput)}
+                    onChangeText={checkInput}
+                    value={String(qtyInput)}
                     // defaultValue={String(qtyInput)}
                     inputMode='numeric'
                     keyboardType="numeric"

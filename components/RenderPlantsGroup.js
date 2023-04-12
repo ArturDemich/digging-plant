@@ -132,7 +132,7 @@ function RenderPlantsGroup({ plants }) {
                                     key={shortid.generate()}
                                     plant={item} order={elem}
                                     selectedAll={selectedAll}
-                                    backSelected={() => setSelectedAll(false)}
+
                                 />
                             )}
                         </View>
