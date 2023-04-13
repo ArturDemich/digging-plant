@@ -9,6 +9,7 @@ import PlantsScreen from '../screens/Plants'
 import { useDispatch } from 'react-redux'
 import LoginScreen from '../screens/Login'
 import { cleanState } from '../state/dataSlice'
+import ButtonOut from '../components/ButtonOut'
 
 
 
@@ -42,7 +43,13 @@ export default function Navigate() {
                             <HeaderBackButton
                                 onPress={() => goBack(navigation)}
                             />
-                        )
+                        ),
+                        headerRight: () => (
+                            <ButtonOut navigation={navigation} />
+                        ),
+                        headerTitleStyle: {
+                            fontSize: 13,
+                        },
                     })}
                 />
                 <Stack.Screen
@@ -54,14 +61,26 @@ export default function Navigate() {
                             <HeaderBackButton
                                 onPress={() => goBack(navigation)}
                             />
-                        )
+                        ),
+                        headerRight: () => (
+                            <ButtonOut navigation={navigation} />
+                        ),
+                        headerTitleStyle: {
+                            fontSize: 13,
+                        },
                     })}
                 />
                 <Stack.Screen
                     name='Рослини'
                     component={PlantsScreen}
-                    options={({ route }) => ({
-                        title: route.params.token.username + ': ' + route.params.title
+                    options={({ route, navigation }) => ({
+                        title: route.params.token.username + ': ' + route.params.title,
+                        headerRight: () => (
+                            <ButtonOut navigation={navigation} />
+                        ),
+                        headerTitleStyle: {
+                            fontSize: 13,
+                        },
                     })}
                 />
             </Stack.Navigator>

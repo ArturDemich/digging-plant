@@ -1,6 +1,5 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { getOrdersStep } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
