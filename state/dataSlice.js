@@ -52,26 +52,25 @@ export const dataSlice = createSlice({
         setDataChange(state, action) {
             const orders = state.dataChange
             console.log('sliceModalInput-1', action)
+
             const eix = orders.findIndex((value) => {
-                return value.orderId === action.payload.orderId
+                return (value.orderId === action.payload.orderId &&
+                    value.productid === action.payload.productid &&
+                    value.characteristicid === action.payload.characteristicid)
             })
-            // console.log('sliceModalInput-2', eix)
+            console.log('sliceModalInput-2', eix)
+
             if (eix > -1) {
-                if (
-                    orders[eix].productid === action.payload.productid &&
-                    orders[eix].characteristicid === action.payload.characteristicid
-                ) {
-                    orders[eix] = action.payload
-                    state.dataChange = orders
-                } else {
-                    state.dataChange = [...orders, action.payload]
-                }
+                orders[eix] = action.payload
+                state.dataChange = orders
             } else {
                 state.dataChange = [...orders, action.payload]
                 console.log('sliceModalInput-else', action.payload)
             }
             console.log('sliceModalInput', state.dataChange)
         },
+
+
 
         clearDataChangeItem(state, action) {
             const orders = state.dataChange

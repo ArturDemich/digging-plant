@@ -100,3 +100,18 @@ export const setNextStepThunk = (token, storageId, currentstepId, orderId, produ
     console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
   }
 }
+
+export const setNextStepGroupThunk = (token, dataOrders) => async () => {
+
+  try {
+    const res = await DataService.setNextStepGroup(token, dataOrders)
+    if (res.errors.length > 0) {
+      alert(res.errors[0])
+
+    } else {
+      console.log('Something went wrong!', res.errors)
+    }
+  } catch (error) {
+    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+  }
+}

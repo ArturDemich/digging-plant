@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
+import { setNextStepGroupThunk } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -56,14 +57,14 @@ const styles = StyleSheet.create({
 function NextStepButton({ steps, storageId, token, currentStep, dataChange }) {
     const dispatch = useDispatch()
 
-    console.log('ButtonBar', steps, storageId, token)
+    console.log('ButtonBar', dataChange, token)
 
     return (
         <View>
             {dataChange.length > 0 ? <View style={styles.buttonStepView}>
                 <TouchableHighlight
                     style={[styles.buttonStep]}
-                    onPress={() => console.log('okey', currentStep)}
+                    onPress={() => dispatch(setNextStepGroupThunk(token[0].token, dataChange))}
                 >
                     <Text style={styles.textBtn}> {currentStep.nextStepName} </Text>
                 </TouchableHighlight>
@@ -75,7 +76,8 @@ function NextStepButton({ steps, storageId, token, currentStep, dataChange }) {
 const mapStateToProps = (state) => ({
     steps: state.steps,
     currentStep: state.currentStep,
-    dataChange: state.dataChange
+    dataChange: state.dataChange,
+    token: state.token
 })
 
 export default connect(mapStateToProps)(NextStepButton)

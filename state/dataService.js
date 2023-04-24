@@ -114,5 +114,22 @@ export class DataService {
         return stepOrders
     }
 
+    static setNextStepGroup(token, dataOrders) {
+
+        let stepOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/setNextOrderStep', {
+            token: token,
+            stepdata: dataOrders
+        }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
+        })
+            .then((response) => response.data)
+            .catch((error) => {
+                alert(error)
+                console.log(error);
+            })
+
+        return stepOrders
+    }
+
 }
 

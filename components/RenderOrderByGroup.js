@@ -68,7 +68,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
             productid: product.id,
             characteristicid: characteristic.id,
             unitid: unit.id,
-            qty: Number(qty)
+            actionqty: Number(qtyInput)
         }
         dispatch(setDataChange(orders))
     }
@@ -101,7 +101,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
 
     }, [selectedAll, orderCheckBox])
 
-    console.log('rObG', dataChange)
+    console.log('rObG', dataChange, qtyInput)
     return (
         <View style={styles.infoBlock}>
             <View style={styles.orderInfoBlock}>
@@ -118,14 +118,16 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
                     style={styles.input}
                     onChangeText={checkInput}
                     value={String(qtyInput)}
-                    // defaultValue={String(qtyInput)}
+                    //defaultValue={String(qty)}
                     inputMode='numeric'
                     keyboardType="numeric"
                     selection={{ start: 9, end: 9 }}
-                    /* onBlur={(val) => {
-                        setQtyInput(val.target.value)
+                    onBlur={(val) => {
+                        //setQtyInput(val.target.value)
                         setModalState()
-                    }} */
+                        setOrderCheckBox(true)
+
+                    }}
                     autoFocus={false}
                 />
                 <Checkbox
