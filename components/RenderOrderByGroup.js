@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep, token, currentStorageId }) {
+function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, dataChange, currentStep, currentStorageId }) {
     const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod } = order
     const { characteristic, product, unit } = plant
     const dispatch = useDispatch()
@@ -99,7 +99,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
             setModalState()
         }
 
-    }, [selectedAll, orderCheckBox])
+    }, [selectedAll, orderCheckBox, groupOrders])
 
     console.log('rObG', dataChange, qtyInput)
     return (
@@ -144,10 +144,10 @@ function RenderOrderByGroup({ order, selectedAll, plant, dataChange, currentStep
 }
 
 const mapStateToProps = state => ({
-    token: state.token,
     currentStep: state.currentStep,
     currentStorageId: state.currentStorageId,
-    dataChange: state.dataChange
+    dataChange: state.dataChange,
+    groupOrders: state.groupOrders
 
 })
 

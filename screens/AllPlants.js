@@ -81,6 +81,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 5,
         elevation: 10,
+        shadowColor: '#52006A',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
         shadowColor: '#52006A'
     },
     costLineWrapper: {

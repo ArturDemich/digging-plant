@@ -25,6 +25,10 @@ const styles = StyleSheet.create({
         width: 140,
         minHeight: 45,
         elevation: 5,
+        shadowColor: '#52006A',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
         display: "flex",
         justifyContent: "center",
     },
@@ -35,6 +39,10 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: "white",
         elevation: 1,
+        shadowColor: '#52006A',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 1,
         borderRadius: 3,
     },
     containerView: {
@@ -43,6 +51,10 @@ const styles = StyleSheet.create({
         borderRadius: 7,
         padding: 15,
         elevation: 10,
+        shadowColor: '#52006A',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
     }
 })
 

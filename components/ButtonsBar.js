@@ -19,15 +19,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 3,
         elevation: 2,
+        shadowColor: '#52006A',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
         flex: 3,
 
     },
     selectedButtons: {
         backgroundColor: '#cacaca',
-
         borderColor: '#f8f8f8',
         borderWidth: 1
-
     },
     textBtnBar: {
         color: 'white',

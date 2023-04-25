@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { setNextStepGroupThunk } from '../state/dataThunk'
+import { getGroupOrdersThunk, setNextStepGroupThunk } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -19,15 +19,17 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         padding: 3,
         elevation: 2,
+        shadowColor: '#52006A',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
         flex: 3,
 
     },
     selectedButtons: {
         backgroundColor: '#cacaca',
-
         borderColor: '#f8f8f8',
         borderWidth: 1
-
     },
     textBtn: {
         color: 'white',
@@ -36,7 +38,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     buttonStep: {
-        // marginRight: 5,
         borderRadius: 5,
         textAlign: "center",
         backgroundColor: "#45aa45",
@@ -44,8 +45,11 @@ const styles = StyleSheet.create({
         height: 40,
         textAlignVertical: 'center',
         alignSelf: 'center',
-        // margin: 2,
         elevation: 3,
+        shadowColor: '#52006A',
+        shadowOffset: { width: -2, height: 4 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
         justifyContent: 'center',
         marginBottom: 5,
     },
@@ -54,17 +58,20 @@ const styles = StyleSheet.create({
     },
 })
 
-function NextStepButton({ steps, storageId, token, currentStep, dataChange }) {
+function NextStepButton({ currentStorageId, token, currentStep, dataChange }) {
     const dispatch = useDispatch()
 
-    console.log('ButtonBar', dataChange, token)
+    console.log('ButtonBar', currentStep)
 
     return (
         <View>
             {dataChange.length > 0 ? <View style={styles.buttonStepView}>
                 <TouchableHighlight
                     style={[styles.buttonStep]}
-                    onPress={() => dispatch(setNextStepGroupThunk(token[0].token, dataChange))}
+                    onPress={() => {
+                        dispatch(setNextStepGroupThunk(token[0].token, dataChange))
+                        dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
+                    }}
                 >
                     <Text style={styles.textBtn}> {currentStep.nextStepName} </Text>
                 </TouchableHighlight>
@@ -74,10 +81,10 @@ function NextStepButton({ steps, storageId, token, currentStep, dataChange }) {
 }
 
 const mapStateToProps = (state) => ({
-    steps: state.steps,
     currentStep: state.currentStep,
     dataChange: state.dataChange,
-    token: state.token
+    token: state.token,
+    currentStorageId: state.currentStorageId
 })
 
 export default connect(mapStateToProps)(NextStepButton)
