@@ -4,36 +4,9 @@ import { getGroupOrdersThunk, setNextStepGroupThunk } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
-    statusBar: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-    },
-    buttonsBar: {
-        borderRadius: 3,
-        backgroundColor: "#7b7b7b",
-        minWidth: "18%",
-        height: 60,
-        margin: 4,
-        alignItems: 'center',
-        alignSelf: 'center',
-        justifyContent: 'center',
-        padding: 3,
-        elevation: 2,
-        shadowColor: '#52006A',
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-        flex: 3,
-
-    },
-    selectedButtons: {
-        backgroundColor: '#cacaca',
-        borderColor: '#f8f8f8',
-        borderWidth: 1
-    },
     textBtn: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 900,
         alignSelf: 'center',
     },
@@ -52,26 +25,24 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         justifyContent: 'center',
         marginBottom: 5,
-    },
-    buttonStepView: {
-
+        marginTop: 10,
     },
 })
 
 function NextStepButton({ currentStorageId, token, currentStep, dataChange }) {
     const dispatch = useDispatch()
-
+    const sendData = async () => {
+        await dispatch(setNextStepGroupThunk(token[0].token, dataChange))
+        await dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
+    }
     console.log('ButtonBar', currentStep)
 
     return (
         <View>
-            {dataChange.length > 0 ? <View style={styles.buttonStepView}>
+            {dataChange.length > 0 ? <View >
                 <TouchableHighlight
                     style={[styles.buttonStep]}
-                    onPress={() => {
-                        dispatch(setNextStepGroupThunk(token[0].token, dataChange))
-                        dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
-                    }}
+                    onPress={() => sendData()}
                 >
                     <Text style={styles.textBtn}> {currentStep.nextStepName} </Text>
                 </TouchableHighlight>

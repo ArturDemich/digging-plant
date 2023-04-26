@@ -1,7 +1,8 @@
 //import CheckBox from "@react-native-community/checkbox"
 import Checkbox from "expo-checkbox"
-import { memo, useCallback, useState } from "react"
+import { memo, useCallback, useEffect, useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
+import { connect } from "react-redux"
 import shortid from "shortid"
 import AllPlantsModal from "./modal/AllPlantsModal"
 import RenderOrderByGroup from "./RenderOrderByGroup"
@@ -35,17 +36,15 @@ const styles = StyleSheet.create({
     },
     plantName: {
         height: 'auto',
-        width: 'auto',
-        fontSize: 16,
+        fontSize: 15,
         fontWeight: '500',
-        paddingBottom: 3,
     },
     characteristics: {
         height: 'auto',
         fontSize: 13,
         textAlignVertical: 'center',
         paddingLeft: 10,
-        paddingBottom: 5,
+        paddingBottom: 1,
 
     },
     info: {
@@ -81,12 +80,22 @@ const styles = StyleSheet.create({
     changeinfo: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 5,
+        paddingTop: 7,
+        paddingLeft: 3,
+
+    },
+    infoContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 7,
+        paddingLeft: 3,
+        paddingRight: 5
     },
     orderInfoBlock: {
         flexDirection: 'column',
         marginTop: 3,
-        width: '100%'
+        width: '100%',
+
     },
     orderInfo: {
         margin: 3,
@@ -95,9 +104,8 @@ const styles = StyleSheet.create({
         fontWeight: 500,
     },
     checkBox: {
-        height: 20,
-        width: 20,
-
+        height: 25,
+        width: 25,
     },
 })
 
@@ -107,6 +115,9 @@ function RenderPlantsGroup({ plants }) {
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
     const [selectedAll, setSelectedAll] = useState(false)
+    useEffect(() => {
+
+    }, [])
 
     return (
         <View>
@@ -115,7 +126,7 @@ function RenderPlantsGroup({ plants }) {
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
-                    <View style={styles.changeinfo}>
+                    <View style={styles.infoContainer}>
                         <Text style={styles.plantName}>{item.product.name}</Text>
                         <Checkbox
                             value={selectedAll}
@@ -147,4 +158,5 @@ function RenderPlantsGroup({ plants }) {
     )
 }
 
-export default memo(RenderPlantsGroup)
+
+export default RenderPlantsGroup

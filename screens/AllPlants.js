@@ -21,11 +21,10 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
         dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
     }, [currentStep])
 
-    console.log('allPr', groupOrders)
+    console.log('allPr')
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.text}> Всі рослини з поля * </Text>
             {groupOrders.length == 0 ?
                 <View style={styles.costLineWrapper}>
                     <Text style={styles.noneData}>В цьому полі немає рослин з таким сатусом</Text>

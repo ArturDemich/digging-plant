@@ -21,9 +21,13 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
+        marginBottom: 5,
     },
     orderInfoBlock: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        paddingRight: 5,
+        paddingBottom: 2,
+        paddingTop: 2,
     },
     orderNames: {
         alignSelf: 'center',
@@ -41,14 +45,14 @@ const styles = StyleSheet.create({
         fontSize: 11,
         fontWeight: 500,
     },
-    textNumOrder: {
-        fontSize: 12,
+    textStrong: {
+        fontSize: 13,
         fontWeight: 700,
     },
     checkBox: {
         alignSelf: 'center',
-        height: 25,
-        width: 25,
+        height: 28,
+        width: 28,
     },
 })
 
@@ -85,6 +89,15 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, dataChange
         }
     }
 
+    const inputOnBlur = () => {
+        if (qtyInput === '') {
+            setQtyInput(qty)
+        } else {
+            setModalState()
+            setOrderCheckBox(true)
+        }
+    }
+
     useEffect(() => {
         if (selectedAll === true && orderCheckBox === true) {
             setModalState()
@@ -106,12 +119,12 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, dataChange
         <View style={styles.infoBlock}>
             <View style={styles.orderInfoBlock}>
                 <View style={styles.orderNames}>
-                    <Text style={styles.textNumOrder}>{orderNo}</Text>
+                    <Text style={styles.textStrong}>{shipmentMethod}</Text>
                     <Text style={styles.textClient}>{customerName}</Text>
-                    <Text style={styles.textClient}>{shipmentMethod}</Text>
+                    <Text style={styles.textClient}>{orderNo}</Text>
                     <Text style={styles.textClient}>Відгрузка: {shipmentDate}</Text>
                 </View>
-                <Text style={styles.qtyInfo}>- {qty} шт</Text>
+                <Text style={styles.qtyInfo}> {qty} шт</Text>
             </View>
             <View style={styles.orderInfoBlock}>
                 <TextInput
@@ -122,13 +135,9 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, dataChange
                     inputMode='numeric'
                     keyboardType="numeric"
                     selection={{ start: 9, end: 9 }}
-                    onBlur={(val) => {
-                        //setQtyInput(val.target.value)
-                        setModalState()
-                        setOrderCheckBox(true)
-
-                    }}
+                    onBlur={(val) => inputOnBlur()}
                     autoFocus={false}
+                    onFocus={() => setQtyInput('')}
                 />
                 <Checkbox
                     value={orderCheckBox}
