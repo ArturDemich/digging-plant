@@ -131,10 +131,8 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, dataChange
                     style={styles.input}
                     onChangeText={checkInput}
                     value={String(qtyInput)}
-                    //defaultValue={String(qty)}
                     inputMode='numeric'
                     keyboardType="numeric"
-                    selection={{ start: 9, end: 9 }}
                     onBlur={(val) => inputOnBlur()}
                     autoFocus={false}
                     onFocus={() => setQtyInput('')}

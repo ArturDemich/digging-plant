@@ -6,7 +6,7 @@ import { getGroupOrdersThunk, setNextStepGroupThunk } from '../state/dataThunk'
 const styles = StyleSheet.create({
     textBtn: {
         color: 'white',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: 900,
         alignSelf: 'center',
     },
@@ -44,7 +44,11 @@ function NextStepButton({ currentStorageId, token, currentStep, dataChange }) {
                     style={[styles.buttonStep]}
                     onPress={() => sendData()}
                 >
-                    <Text style={styles.textBtn}> {currentStep.nextStepName} </Text>
+                    <Text 
+                    style={styles.textBtn} 
+                    allowFontScaling={true} 
+                    maxFontSizeMultiplier={1}
+                    > {currentStep.nextStepName} </Text>
                 </TouchableHighlight>
             </View> : null}
         </View>

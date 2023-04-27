@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     plantName: {
         height: 'auto',
         fontSize: 15,
-        fontWeight: '500',
+        fontWeight: '600',
+        width: '94%'
     },
     characteristics: {
         height: 'auto',

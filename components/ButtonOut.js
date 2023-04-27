@@ -7,7 +7,7 @@ import { cleanState } from '../state/dataSlice'
 const styles = StyleSheet.create({
     textBtn: {
         color: 'snow',
-        fontSize: 13,
+        fontSize: 12,
         fontWeight: 600,
         alignSelf: 'center',
     },
@@ -39,7 +39,11 @@ function NextStepButton({ navigation }) {
                 dispatch(cleanState())
             }}
         >
-            <Text style={styles.textBtn}>Вийти</Text>
+            <Text 
+            style={styles.textBtn}
+            allowFontScaling={true} 
+            maxFontSizeMultiplier={1}
+            >Вийти</Text>
         </TouchableHighlight>
     )
 }

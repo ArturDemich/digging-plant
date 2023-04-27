@@ -40,10 +40,11 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         elevation: 1,
         shadowColor: '#52006A',
-        shadowOffset: { width: -2, height: 4 },
+        shadowOffset: { width: -2, height: 1 },
         shadowOpacity: 0.2,
         shadowRadius: 1,
         borderRadius: 3,
+        
     },
     containerView: {
         alignItems: "center",
@@ -106,6 +107,7 @@ function LoginScreen({ navigation, digStorages, token }) {
                     onChangeText={onChangeLogin}
                     value={login}
                     placeholder="Введіть користувача"
+                    placeholderTextColor={'gray'}
 
 
 
@@ -116,8 +118,7 @@ function LoginScreen({ navigation, digStorages, token }) {
                     value={password}
                     placeholder="Введіть пароль"
                     secureTextEntry={true}
-
-
+                    placeholderTextColor={'gray'}
                 />
                 <TouchableHighlight
                     style={styles.button}

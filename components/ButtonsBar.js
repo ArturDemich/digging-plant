@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     },
     textBtnBar: {
         color: 'white',
-        fontSize: 13,
+        fontSize: 14,
         fontWeight: 700,
     },
 })
@@ -51,7 +51,11 @@ function ButtonsBar({ steps, storageId, token, currentStep }) {
                     style={[styles.buttonsBar, currentStep.id === step.id && styles.selectedButtons]}
                     onPress={() => dispatch(getOrdersStep(step, storageId, token.token))}
                 >
-                    <Text style={styles.textBtnBar}> {step.name} </Text>
+                    <Text 
+                    style={styles.textBtnBar}
+                    allowFontScaling={true} 
+                    maxFontSizeMultiplier={1}
+                    > {step.name} </Text>
                 </TouchableHighlight>
             ))}
         </View>
