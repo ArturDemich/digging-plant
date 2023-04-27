@@ -6,14 +6,14 @@ import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 
 
 
-function RenderPlants({ product, token, orderId, storageId, currentStep }) {
-    const item = product.item
+function RenderPlants({ prodactElem, token, currentStep }) {
+    const { characteristic, lastChange, product, qty, unit } = prodactElem
     const dispatch = useDispatch()
-    const [qty, setQty] = useState(item.qty)
+    const [qtyState, setQty] = useState('')
 
     const checkInput = (value) => {
         if (Number(value) || value === '') {
-            if (Number(value) > Number(item.qty)) {
+            if (Number(value) > Number(qty)) {
                 alert('Кількість рослин не може бути більша ніж в замовленні')
             } else {
                 setQty(value)
@@ -23,7 +23,7 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
         }
     }
 
-    console.log('renderItem: ', item)
+    console.log('renderItem: ', prodactElem)
     const checkCorrectStep = (productId, characteristicId, unitId) => {
         if (currentStep.rightToChange) {
             dispatch(setNextStepThunk(
@@ -34,7 +34,7 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
                 productId,
                 characteristicId,
                 unitId,
-                Number(qty)
+                Number(qtyState)
             ))
             dispatch(getOrdersStep(currentStep, storageId, token[0].token))
         } else {
@@ -43,15 +43,12 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
     }
 
     return (
-        <TouchableHighlight
-            style={styles.rowFront}
-            underlayColor={'#AAA'}
-        >
+        <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>
-                <Text style={styles.plantName}>{item.product.name}</Text>
-                <Text style={styles.characteristics}>{item.characteristic.name}</Text>
+                <Text style={styles.plantName}>{product.name}</Text>
+                <Text style={styles.characteristics}>{characteristic.name}</Text>
                 <View style={styles.info}>
-                    <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {item.qty}  шт</Text></Text>
+                    <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
                 </View>
                 <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
                     <View style={styles.changeinfoblock}>
@@ -61,7 +58,7 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
                         <TextInput
                             style={styles.input}
                             onChangeText={checkInput}
-                            value={String(qty)}
+                            value={String(qtyState)}
                             inputMode='numeric'
                             keyboardType="numeric"
                             selection={{ start: 9, end: 9 }}
@@ -69,12 +66,14 @@ function RenderPlants({ product, token, orderId, storageId, currentStep }) {
                     </View>
                     <TouchableHighlight
                         style={[styles.button]}
-                        onPress={() => checkCorrectStep(item.product.id, item.characteristic.id, item.unit.id)} >
-                        <Text style={styles.statusDig}>{currentStep.nextStepName}{item.statusDig}</Text>
+                        onPress={() => checkCorrectStep(product.id, characteristic.id, unit.id)} >
+                        <Text style={styles.statusDig}>{currentStep.nextStepName}{'item.statusDig'}</Text>
                     </TouchableHighlight>
                 </View>
             </View>
-        </TouchableHighlight>
+
+
+        </View>
     )
 }
 
@@ -87,6 +86,16 @@ export default connect(mapStateToProps)(RenderPlants)
 
 
 const styles = StyleSheet.create({
+    infoBlock: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        borderTopWidth: 2,
+        borderTopColor: '#b0acb0',
+        marginBottom: 5,
+    },
+
+
     textStr: {
         fontWeight: 600,
     },

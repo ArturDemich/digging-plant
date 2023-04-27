@@ -38,7 +38,7 @@ export default function Navigate() {
                     name='Поле'
                     component={FildScreen}
                     options={({ route, navigation }) => ({
-                        title: route.params.token.username + ': ' + route.params.title,
+                        title: (route.params.title + ': ' + route.params.token.username),
                         headerLeft: () => (
                             <HeaderBackButton
                                 onPress={() => goBack(navigation)}
