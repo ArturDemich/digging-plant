@@ -1,3 +1,4 @@
+import Checkbox from 'expo-checkbox'
 import React, { useEffect, useState } from 'react'
 import { Text, TextInput, StyleSheet, TouchableHighlight, View } from 'react-native'
 import { useDispatch, connect } from 'react-redux'
@@ -9,6 +10,7 @@ import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 function RenderPlants({ prodactElem, token, currentStep }) {
     const { characteristic, lastChange, product, qty, unit } = prodactElem
     const dispatch = useDispatch()
+    const [plantCheckBox, setPlantCheckBox] = useState(false)
     const [qtyState, setQty] = useState('')
 
     const checkInput = (value) => {
@@ -47,9 +49,10 @@ function RenderPlants({ prodactElem, token, currentStep }) {
             <View style={styles.costLineWrapper}>
                 <Text style={styles.plantName}>{product.name}</Text>
                 <Text style={styles.characteristics}>{characteristic.name}</Text>
+
                 <View style={styles.info}>
                     <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
-                </View>
+                
                 <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
                     <View style={styles.changeinfoblock}>
                         <Text style={styles.quantity}>
@@ -64,11 +67,19 @@ function RenderPlants({ prodactElem, token, currentStep }) {
                             selection={{ start: 9, end: 9 }}
                         />
                     </View>
-                    <TouchableHighlight
+                    <Checkbox
+                        value={plantCheckBox}
+                        onValueChange={() => {
+                        setPlantCheckBox(!plantCheckBox)
+                        }}
+                        style={styles.checkBox}
+                    />
+                    {/* <TouchableHighlight
                         style={[styles.button]}
                         onPress={() => checkCorrectStep(product.id, characteristic.id, unit.id)} >
                         <Text style={styles.statusDig}>{currentStep.nextStepName}{'item.statusDig'}</Text>
-                    </TouchableHighlight>
+                    </TouchableHighlight> */}
+                </View>
                 </View>
             </View>
 
@@ -92,7 +103,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
-        marginBottom: 5,
+        marginTop: 10,
+        // #ededed
     },
 
 
@@ -124,18 +136,20 @@ const styles = StyleSheet.create({
         width: 'auto',
         fontSize: 16,
         fontWeight: '500',
-        paddingBottom: 3,
+        //paddingBottom: 3,
+        paddingTop: 5,
     },
     characteristics: {
         height: 'auto',
         fontSize: 13,
         textAlignVertical: 'center',
         paddingLeft: 10,
-        paddingBottom: 5,
+       // paddingBottom: 5,
     },
     info: {
         flexDirection: 'row',
-        paddingBottom: 5
+        //paddingBottom: 5,
+        justifyContent: 'space-between'
     },
     quantity: {
         height: 'auto',
@@ -167,9 +181,9 @@ const styles = StyleSheet.create({
         margin: 5
     },
     input: {
-        height: 30,
+        height: 28,
         width: 40,
-        margin: 12,
+        margin: 7,
         borderWidth: 1,
         borderColor: 'black',
         textAlign: 'center',
@@ -196,5 +210,10 @@ const styles = StyleSheet.create({
         minWidth: "10%",
         textAlignVertical: 'center',
         margin: 2
+    },
+    checkBox: {
+        alignSelf: 'center',
+        height: 28,
+        width: 28,
     },
 })

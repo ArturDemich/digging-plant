@@ -1,3 +1,5 @@
+import Checkbox from "expo-checkbox"
+import { useState } from "react"
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native"
 import shortid from "shortid"
 import RenderPlants from "./RenderPlants"
@@ -26,16 +28,26 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         width: '100%',
         paddingLeft: 5,
-        paddingRight: 5
+        paddingRight: 5,
+        paddingBottom: 10,
     },
     orderInfo: {
         height: 'auto',
+    },
+    infoContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingTop: 7,
+        paddingLeft: 3,
+        paddingRight: 5,
+        paddingBottom: 3
     },
     orderClient: {
         height: 'auto',
         lineHeight: 20,
         paddingBottom: 5,
         fontWeight: 700,
+        width: '94%'
     },
     viewGroup: {
         flexDirection: 'row',
@@ -55,12 +67,18 @@ const styles = StyleSheet.create({
     productInfoBlock: {
 
     },
+    checkBox: {
+        height: 25,
+        width: 25,
+    },
 
 })
 
 
 function RenderOrders({ orders }) {
-    const item = orders.item
+    const [selectedAll, setSelectedAll] = useState(false)
+
+    const item = orders.item   
 
     let qty = 0
     item.products.forEach(el => qty += el.qty)
@@ -73,8 +91,14 @@ function RenderOrders({ orders }) {
             >
                 <View style={styles.costLineWrapper}>
                     <View style={styles.orderInfo}>
-                        <Text style={styles.orderClient}>{item.customerName}</Text>
-
+                        <View style={styles.infoContainer}>
+                            <Text style={styles.orderClient}>{item.customerName}</Text>
+                            <Checkbox
+                                value={selectedAll}
+                                onValueChange={() => setSelectedAll(!selectedAll)}
+                                style={styles.checkBox}
+                            />
+                        </View>
                         <View style={styles.viewGroup}>
                             <Text style={styles.orderNum}>Номер: <Text style={styles.textStr}>{item.orderNo}</Text> </Text>
                             <Text style={styles.orderShipment}>К-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
@@ -90,7 +114,7 @@ function RenderOrders({ orders }) {
                                 key={shortid.generate()}
                                 //plant={item} 
                                 prodactElem={elem}
-                            //selectedAll={selectedAll}
+                            //selectedAll={selectedAll} 
                             />
                         )}
                     </View>
