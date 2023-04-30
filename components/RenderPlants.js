@@ -2,16 +2,17 @@ import Checkbox from 'expo-checkbox'
 import React, { useEffect, useState } from 'react'
 import { Text, TextInput, StyleSheet, TouchableHighlight, View } from 'react-native'
 import { useDispatch, connect } from 'react-redux'
+import { clearDataChangeItem, setDataChange } from '../state/dataSlice'
 import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 
 
 
 
-function RenderPlants({ prodactElem, token, currentStep }) {
+function RenderPlants({ currentStorageId, orderId, selectedAll, prodactElem, token, currentStep, orders }) {
     const { characteristic, lastChange, product, qty, unit } = prodactElem
     const dispatch = useDispatch()
     const [plantCheckBox, setPlantCheckBox] = useState(false)
-    const [qtyState, setQty] = useState('')
+    const [qtyState, setQty] = useState(qty)
 
     const checkInput = (value) => {
         if (Number(value) || value === '') {
@@ -26,7 +27,7 @@ function RenderPlants({ prodactElem, token, currentStep }) {
     }
 
     console.log('renderItem: ', prodactElem)
-    const checkCorrectStep = (productId, characteristicId, unitId) => {
+    /* const checkCorrectStep = (productId, characteristicId, unitId) => {
         if (currentStep.rightToChange) {
             dispatch(setNextStepThunk(
                 token[0].token,
@@ -42,7 +43,45 @@ function RenderPlants({ prodactElem, token, currentStep }) {
         } else {
             alert("Ви не можете змінити цей етап! Змініть користувача")
         }
+    } */
+
+    const setModalState = () => {
+        const orders = {
+            storageId: currentStorageId,
+            currentstepId: currentStep.id,
+            orderId: orderId,
+            productid: product.id,
+            characteristicid: characteristic.id,
+            unitid: unit.id,
+            actionqty: Number(qtyState)
+        }
+        dispatch(setDataChange(orders))
     }
+
+    const inputOnBlur = () => {
+        if (qtyInput === '') {
+            setQty(qty)
+        } else {
+            setModalState()
+            setPlantCheckBox(true)
+        }
+    }
+
+    useEffect(() => {
+        if (selectedAll === true && plantCheckBox === true) {
+            setModalState()
+        } else if (plantCheckBox === false) {
+
+            dispatch(clearDataChangeItem({
+                orderId: orderId,
+                productid: product.id,
+                characteristicid: characteristic.id,
+            }))
+        } else if (plantCheckBox === true) {
+            setModalState()
+        }
+
+    }, [selectedAll, plantCheckBox, orders])
 
     return (
         <View style={styles.infoBlock}>
@@ -52,34 +91,36 @@ function RenderPlants({ prodactElem, token, currentStep }) {
 
                 <View style={styles.info}>
                     <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
-                
-                <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
-                    <View style={styles.changeinfoblock}>
-                        <Text style={styles.quantity}>
-                            Викопано:
-                        </Text>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={checkInput}
-                            value={String(qtyState)}
-                            inputMode='numeric'
-                            keyboardType="numeric"
-                            selection={{ start: 9, end: 9 }}
+
+                    <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
+                        <View style={styles.changeinfoblock}>
+                            <Text style={styles.quantity}>
+                                Викопано:
+                            </Text>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={checkInput}
+                                value={String(qtyState)}
+                                inputMode='numeric'
+                                keyboardType="numeric"
+                                onBlur={(val) => inputOnBlur()}
+                                autoFocus={false}
+                                onFocus={() => setQty('')}
+                            />
+                        </View>
+                        <Checkbox
+                            value={plantCheckBox}
+                            onValueChange={() => {
+                                setPlantCheckBox(!plantCheckBox)
+                            }}
+                            style={styles.checkBox}
                         />
-                    </View>
-                    <Checkbox
-                        value={plantCheckBox}
-                        onValueChange={() => {
-                        setPlantCheckBox(!plantCheckBox)
-                        }}
-                        style={styles.checkBox}
-                    />
-                    {/* <TouchableHighlight
+                        {/* <TouchableHighlight
                         style={[styles.button]}
                         onPress={() => checkCorrectStep(product.id, characteristic.id, unit.id)} >
                         <Text style={styles.statusDig}>{currentStep.nextStepName}{'item.statusDig'}</Text>
                     </TouchableHighlight> */}
-                </View>
+                    </View>
                 </View>
             </View>
 
@@ -90,8 +131,9 @@ function RenderPlants({ prodactElem, token, currentStep }) {
 
 const mapStateToProps = state => ({
     token: state.token,
-    currentStep: state.currentStep
-
+    currentStep: state.currentStep,
+    orders: state.stepOrders,
+    currentStorageId: state.currentStorageId,
 })
 export default connect(mapStateToProps)(RenderPlants)
 
@@ -144,7 +186,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         textAlignVertical: 'center',
         paddingLeft: 10,
-       // paddingBottom: 5,
+        // paddingBottom: 5,
     },
     info: {
         flexDirection: 'row',

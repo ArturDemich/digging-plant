@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
 function RenderOrders({ orders }) {
     const [selectedAll, setSelectedAll] = useState(false)
 
-    const item = orders.item   
+    const item = orders.item
 
     let qty = 0
     item.products.forEach(el => qty += el.qty)
@@ -112,9 +112,9 @@ function RenderOrders({ orders }) {
                         {item.products.map(elem =>
                             <RenderPlants
                                 key={shortid.generate()}
-                                //plant={item} 
+                                orderId={item.orderId}
                                 prodactElem={elem}
-                            //selectedAll={selectedAll} 
+                                selectedAll={selectedAll}
                             />
                         )}
                     </View>
