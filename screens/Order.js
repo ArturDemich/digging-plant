@@ -3,11 +3,12 @@ import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-nati
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
+import NextStepButton from '../components/NextStepButton'
 import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
 
 function OrdersScreen({ navigation, orders, route, steps }) {
-    console.log('order:', orders)
+    console.log('order:', navigation, route )
     const { storageId, token } = route.params
     const dispatch = useDispatch()
 
@@ -37,6 +38,7 @@ function OrdersScreen({ navigation, orders, route, steps }) {
                     keyExtractor={item => item.orderId.toString()}
                 />
             }
+            <NextStepButton />
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )

@@ -11,7 +11,7 @@ import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 function RenderPlants({ currentStorageId, orderId, selectedAll, prodactElem, token, currentStep, orders }) {
     const { characteristic, lastChange, product, qty, unit } = prodactElem
     const dispatch = useDispatch()
-    const [plantCheckBox, setPlantCheckBox] = useState(false)
+    const [plantCheckBox, setPlantCheckBox] = useState(selectedAll)
     const [qtyState, setQty] = useState(qty)
 
     const checkInput = (value) => {
@@ -59,7 +59,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAll, prodactElem, tok
     }
 
     const inputOnBlur = () => {
-        if (qtyInput === '') {
+        if (qtyState === '') {
             setQty(qty)
         } else {
             setModalState()
