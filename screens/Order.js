@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
@@ -7,8 +7,8 @@ import NextStepButton from '../components/NextStepButton'
 import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
 
-function OrdersScreen({ navigation, orders, route, steps }) {
-    console.log('order:', route )
+function OrdersScreen({ orders, route, steps }) {
+    console.log('order:', route)
     const { storageId, token } = route.params
     const dispatch = useDispatch()
 
@@ -38,7 +38,7 @@ function OrdersScreen({ navigation, orders, route, steps }) {
                     keyExtractor={item => item.orderId.toString()}
                 />
             }
-            <NextStepButton path={route.name}/>
+            <NextStepButton path={route.name} />
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )

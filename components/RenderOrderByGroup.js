@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox"
-import { useEffect, useState, forwardRef, useImperativeHandle, useRef, useCallback, memo } from "react"
+import { useEffect, useState } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice"

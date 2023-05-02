@@ -5,7 +5,6 @@ import { HeaderBackButton } from '@react-navigation/elements'
 
 import FildScreen from '../screens/Fild'
 import FildsScreen from '../screens/FildsScreen'
-import PlantsScreen from '../screens/Plants'
 import { useDispatch } from 'react-redux'
 import LoginScreen from '../screens/Login'
 import { cleanState } from '../state/dataSlice'
@@ -62,19 +61,6 @@ export default function Navigate() {
                                 onPress={() => goBack(navigation)}
                             />
                         ),
-                        headerRight: () => (
-                            <ButtonOut navigation={navigation} />
-                        ),
-                        headerTitleStyle: {
-                            fontSize: 13,
-                        },
-                    })}
-                />
-                <Stack.Screen
-                    name='Рослини'
-                    component={PlantsScreen}
-                    options={({ route, navigation }) => ({
-                        title: route.params.token.username + ': ' + route.params.title,
                         headerRight: () => (
                             <ButtonOut navigation={navigation} />
                         ),

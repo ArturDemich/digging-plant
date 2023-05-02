@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Text, StyleSheet, View, FlatList } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux';
@@ -35,7 +35,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
                     keyExtractor={() => shortid.generate()}
                 />
             }
-            <NextStepButton path={route.name}/>
+            <NextStepButton path={route.name} />
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )

@@ -1,10 +1,7 @@
-//import CheckBox from "@react-native-community/checkbox"
 import Checkbox from "expo-checkbox"
-import { memo, useCallback, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
-import { connect } from "react-redux"
 import shortid from "shortid"
-import AllPlantsModal from "./modal/AllPlantsModal"
 import RenderOrderByGroup from "./RenderOrderByGroup"
 
 

@@ -1,9 +1,8 @@
 import Checkbox from 'expo-checkbox'
 import React, { useEffect, useState } from 'react'
-import { Text, TextInput, StyleSheet, TouchableHighlight, View } from 'react-native'
+import { Text, TextInput, StyleSheet, View } from 'react-native'
 import { useDispatch, connect } from 'react-redux'
 import { clearDataChangeItem, setDataChange } from '../state/dataSlice'
-import { getOrdersStep, setNextStepThunk } from '../state/dataThunk'
 
 
 
@@ -27,23 +26,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAll, prodactElem, tok
     }
 
     console.log('renderItem: ', prodactElem)
-    /* const checkCorrectStep = (productId, characteristicId, unitId) => {
-        if (currentStep.rightToChange) {
-            dispatch(setNextStepThunk(
-                token[0].token,
-                storageId,
-                currentStep.id,
-                orderId,
-                productId,
-                characteristicId,
-                unitId,
-                Number(qtyState)
-            ))
-            dispatch(getOrdersStep(currentStep, storageId, token[0].token))
-        } else {
-            alert("Ви не можете змінити цей етап! Змініть користувача")
-        }
-    } */
+
 
     const setModalState = () => {
         const orders = {
