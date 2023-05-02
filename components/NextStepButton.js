@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { getGroupOrdersThunk, setNextStepGroupThunk } from '../state/dataThunk'
+import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -29,20 +29,24 @@ const styles = StyleSheet.create({
     },
 })
 
-function NextStepButton({ currentStorageId, token, currentStep, dataChange }) {
+function NextStepButton({ path, currentStorageId, token, currentStep, dataChange, route }) {
     const dispatch = useDispatch()
-    const sendData = async () => {
+    const sendData = async (pathValue) => {
         await dispatch(setNextStepGroupThunk(token[0].token, dataChange))
-        await dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
+        if(pathValue === "Замовлення") {
+            await dispatch(getOrdersStep(currentStep, currentStorageId, token[0].token))
+        } else if(pathValue === "Рослини Замовлення") {
+            await dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
+        }
     }
-    console.log('ButtonBar', currentStep)
+    console.log('nextStep', path)
 
     return (
         <View>
             {dataChange.length > 0 ? <View >
                 <TouchableHighlight
                     style={[styles.buttonStep]}
-                    onPress={() => sendData()}
+                    onPress={() => sendData(path)}
                 >
                     <Text 
                     style={styles.textBtn} 

@@ -35,7 +35,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
                     keyExtractor={() => shortid.generate()}
                 />
             }
-            <NextStepButton />
+            <NextStepButton path={route.name}/>
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )

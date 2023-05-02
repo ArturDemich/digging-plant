@@ -8,7 +8,7 @@ import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
 
 function OrdersScreen({ navigation, orders, route, steps }) {
-    console.log('order:', navigation, route )
+    console.log('order:', route )
     const { storageId, token } = route.params
     const dispatch = useDispatch()
 
@@ -38,7 +38,7 @@ function OrdersScreen({ navigation, orders, route, steps }) {
                     keyExtractor={item => item.orderId.toString()}
                 />
             }
-            <NextStepButton />
+            <NextStepButton path={route.name}/>
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
     )
