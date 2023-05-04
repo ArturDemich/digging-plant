@@ -4,6 +4,7 @@ import Order from './Order'
 import AllPlants from './AllPlants'
 import { useDispatch } from 'react-redux';
 import { setStorageId } from '../state/dataSlice';
+import { useEffect } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -12,7 +13,11 @@ function FildScreen({ route }) {
     const dispatch = useDispatch()
     console.log('fild', route)
 
-    dispatch(setStorageId(route.params.storageId))
+    useEffect(() => {
+        dispatch(setStorageId(route.params.storageId))
+    }, [])
+
+
 
     return (
         <Tab.Navigator

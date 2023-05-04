@@ -8,7 +8,6 @@ import {
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
   // console.log('thunk', stepId, storageId, token)
-  dispatch(setCurrentStep(stepId))
   try {
     const res = await DataService.getStepOrders(stepId.id, storageId, token)
     //console.log(res)
@@ -24,8 +23,6 @@ export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
 }
 
 export const getGroupOrdersThunk = (stepId, storageId, token) => async (dispatch) => {
-
-  dispatch(setCurrentStep(stepId))
   try {
     const res = await DataService.getGroupOrders(stepId.id, storageId, token)
     console.log('GroupThunk', res)
@@ -62,7 +59,8 @@ export const getStep = (token) => async (dispatch) => {
     const res = await DataService.getSteps(token)
     if (res.success) {
       // console.log('thunkSTEP:', res)
-      dispatch(setSteps(res));
+      dispatch(setSteps(res))
+      dispatch(setCurrentStep(res.data[0]))
     } else {
       console.log('Something went wrong!', res.errors)
     }

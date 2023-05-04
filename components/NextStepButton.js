@@ -33,13 +33,13 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
     const dispatch = useDispatch()
     const sendData = async (pathValue) => {
         await dispatch(setNextStepGroupThunk(token[0].token, dataChange))
-        if(pathValue === "Замовлення") {
+        if (pathValue === "Замовлення") {
             await dispatch(getOrdersStep(currentStep, currentStorageId, token[0].token))
-        } else if(pathValue === "Рослини Замовлення") {
+        } else if (pathValue === "Рослини Замовлення") {
             await dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
         }
     }
-    console.log('nextStep', path)
+    //console.log('nextStep', path)
 
     return (
         <View>
@@ -48,10 +48,10 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
                     style={[styles.buttonStep]}
                     onPress={() => sendData(path)}
                 >
-                    <Text 
-                    style={styles.textBtn} 
-                    allowFontScaling={true} 
-                    maxFontSizeMultiplier={1}
+                    <Text
+                        style={styles.textBtn}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
                     > {currentStep.nextStepName} </Text>
                 </TouchableHighlight>
             </View> : null}

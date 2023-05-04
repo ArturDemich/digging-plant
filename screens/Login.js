@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 1,
         borderRadius: 3,
-        
+
     },
     containerView: {
         alignItems: "center",
@@ -70,9 +70,9 @@ function LoginScreen({ navigation, digStorages, token }) {
         digStorages.length > 0 ? checkStorages() : null
     }, [token, digStorages])
 
-    const callData = () => {
-        dispatch(getDigStorages(token[0].token))
-        dispatch(getStep(token[0].token))
+    const callData = async () => {
+        await dispatch(getDigStorages(token[0].token))
+        await dispatch(getStep(token[0].token))
     }
 
     const checkStorages = () => {

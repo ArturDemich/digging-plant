@@ -7,19 +7,17 @@ import NextStepButton from '../components/NextStepButton'
 import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
 
-function OrdersScreen({ orders, route, steps }) {
+function OrdersScreen({ orders, route, currentStep }) {
     console.log('order:', route)
     const { storageId, token } = route.params
     const dispatch = useDispatch()
 
     let productQty = 0
     orders.forEach(elem => elem.products.forEach(el => productQty += el.qty))
-    console.log('prqty', productQty)
+
     useEffect(() => {
-        if (steps.length >= 1) {
-            dispatch(getOrdersStep(steps[0], storageId, token.token))
-        }
-    }, [steps])
+        dispatch(getOrdersStep(currentStep, storageId, token.token))
+    }, [currentStep])
 
     return (
         <SafeAreaView style={styles.container} >
@@ -47,10 +45,10 @@ function OrdersScreen({ orders, route, steps }) {
 const mapStateToProps = state => {
     return {
         orders: state.stepOrders,
-        steps: state.steps
+        currentStep: state.currentStep
     }
 }
-export default connect(mapStateToProps, null)(OrdersScreen)
+export default connect(mapStateToProps)(OrdersScreen)
 
 
 

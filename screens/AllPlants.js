@@ -44,8 +44,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
 const mapStateToProps = state => {
     return {
         groupOrders: state.groupOrders,
-        currentStep: state.currentStep,
-        showAllPlantsM: state.showAllPlantsM
+        currentStep: state.currentStep
     }
 }
 export default connect(mapStateToProps, null)(AllPlantsScreen)

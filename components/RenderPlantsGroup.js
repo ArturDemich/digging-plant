@@ -113,9 +113,7 @@ function RenderPlantsGroup({ plants }) {
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
     const [selectedAll, setSelectedAll] = useState(false)
-    useEffect(() => {
 
-    }, [])
 
     return (
         <View>
