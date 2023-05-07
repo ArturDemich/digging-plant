@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native"
 import shortid from "shortid"
 import RenderPlants from "./RenderPlants"
@@ -76,13 +76,17 @@ const styles = StyleSheet.create({
 
 
 function RenderOrders({ orders }) {
-    const [selectedAll, setSelectedAll] = useState(false)
+    const [selectedAllOrder, setSelectedAllOrder] = useState(false)
 
     const item = orders.item
 
     let qty = 0
     item.products.forEach(el => qty += el.qty)
-    console.log('renderOrders', item)
+
+    useEffect(() => {
+        setSelectedAllOrder(false)
+    }, [orders])
+    console.log('renderOrders', selectedAllOrder)
     return (
         <View>
             <TouchableHighlight
@@ -94,8 +98,8 @@ function RenderOrders({ orders }) {
                         <View style={styles.infoContainer}>
                             <Text style={styles.orderClient}>{item.customerName}</Text>
                             <Checkbox
-                                value={selectedAll}
-                                onValueChange={() => setSelectedAll(!selectedAll)}
+                                value={selectedAllOrder}
+                                onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
                                 style={styles.checkBox}
                             />
                         </View>
@@ -114,7 +118,7 @@ function RenderOrders({ orders }) {
                                 key={shortid.generate()}
                                 orderId={item.orderId}
                                 prodactElem={elem}
-                                selectedAll={selectedAll}
+                                selectedAllOrder={selectedAllOrder}
                             />
                         )}
                     </View>

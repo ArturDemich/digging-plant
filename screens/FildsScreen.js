@@ -18,23 +18,22 @@ const styles = StyleSheet.create({
     text: {
         color: 'black',
         fontSize: 20,
-        marginBottom: 60,
+        marginBottom: 15,
         marginTop: 15,
     },
     button: {
-        marginTop: 15,
-        marginBottom: 20,
+        marginTop: 10,
+        marginBottom: 10,
         borderRadius: 10,
         textAlign: "center",
-        backgroundColor: "green",
-        fontSize: 35,
+        backgroundColor: "#45aa45",
+        fontSize: 25,
         fontWeight: "500",
         minWidth: "63%",
         minHeight: 50,
         textAlignVertical: 'center',
         color: 'white',
         elevation: 3,
-        shadowColor: '#52006A',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
@@ -52,7 +51,7 @@ function MainScreen({ navigation, digStorages, route }) {
     function renderFildsButton({ item }) {
 
         return (
-            <TouchableOpacity>
+            <TouchableOpacity style={{ width: '100%' }} >
                 <Text key={item.id} style={styles.button} title={item.name} onPress={() => {
                     navigation.navigate('Поле', { title: item.name, storageId: item.id, token: route.params.token })
                 }} > {item.name} </Text>

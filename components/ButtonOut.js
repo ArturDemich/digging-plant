@@ -1,7 +1,9 @@
 import { StackActions } from '@react-navigation/native'
 import { Text, StyleSheet, TouchableHighlight } from 'react-native'
+import { Button } from 'react-native-paper'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
+import { Feather } from '@expo/vector-icons';
 
 
 const styles = StyleSheet.create({
@@ -14,16 +16,16 @@ const styles = StyleSheet.create({
     buttonStep: {
         borderRadius: 5,
         textAlign: "center",
-        backgroundColor: "#cacaca",
-        width: 50,
-        height: 30,
+        //backgroundColor: "#cacaca",
+        //width: 50,
+        //height: 30,
         textAlignVertical: 'center',
         alignSelf: 'center',
-        elevation: 7,
-        shadowColor: '#52006A',
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        // elevation: 1,
+        //shadowColor: '#52006A',
+        //shadowOffset: { width: -1, height: 1 },
+        //shadowOpacity: 0.2,
+        //shadowRadius: 1,
         justifyContent: 'center',
     },
 })
@@ -39,11 +41,7 @@ function NextStepButton({ navigation }) {
                 dispatch(cleanState())
             }}
         >
-            <Text 
-            style={styles.textBtn}
-            allowFontScaling={true} 
-            maxFontSizeMultiplier={1}
-            >Вийти</Text>
+            <Feather name="log-out" size={24} color="black" />
         </TouchableHighlight>
     )
 }

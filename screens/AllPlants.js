@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { Text, StyleSheet, View, FlatList } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react'
+import { Text, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux';
 import shortid from 'shortid';
@@ -13,28 +14,42 @@ import { getGroupOrdersThunk } from '../state/dataThunk';
 
 function AllPlantsScreen({ route, groupOrders, currentStep }) {
     //console.log('Allpalnt', filterPlants)
-
+    const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
-
     const dispatch = useDispatch()
-    useEffect(() => {
-        dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
-    }, [currentStep])
 
-    console.log('allPr')
+    const getGroupOrders = async () => {
+        setLoading(true)
+        await new Promise((resolve) => setTimeout(resolve, 400))
+        await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            getGroupOrders().then(() => setLoading(false))
+        }, [currentStep])
+    )
+
+    console.log('allPr', loading)
 
     return (
         <SafeAreaView style={styles.container}>
-            {groupOrders.length == 0 ?
-                <View style={styles.costLineWrapper}>
-                    <Text style={styles.noneData}>В цьому полі немає рослин з таким сатусом</Text>
+            {loading ?
+                <View style={styles.loader}>
+                    <ActivityIndicator size="large" color="#45aa45" />
                 </View> :
-                <FlatList
-                    data={groupOrders}
-                    renderItem={(plants) => <RenderPlantsGroup plants={plants} storageId={storageId} />}
-                    keyExtractor={() => shortid.generate()}
-                />
+                groupOrders.length == 0 ?
+                    <View style={styles.costLineWrapper}>
+                        <Text style={styles.noneData}>В цьому полі немає рослин з таким сатусом</Text>
+                    </View> :
+                    <FlatList
+                        data={groupOrders}
+                        renderItem={(plants) => <RenderPlantsGroup plants={plants} storageId={storageId} />}
+                        keyExtractor={() => shortid.generate()}
+                    />
+
             }
+
             <NextStepButton path={route.name} />
             <ButtonsBar storageId={storageId} token={token} />
         </SafeAreaView>
@@ -92,6 +107,12 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: 3,
         paddingRight: 3,
+    },
+    loader: {
+        height: 'auto',
+        width: '100%',
+        justifyContent: 'center',
+        flex: 1
     },
     plantName: {
         height: 'auto',

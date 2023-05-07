@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { View, Text, StyleSheet, FlatList } from 'react-native'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useEffect, useState } from 'react'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
@@ -9,15 +10,24 @@ import { getOrdersStep } from '../state/dataThunk'
 
 function OrdersScreen({ orders, route, currentStep }) {
     console.log('order:', route)
+    const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
     const dispatch = useDispatch()
 
     let productQty = 0
     orders.forEach(elem => elem.products.forEach(el => productQty += el.qty))
 
-    useEffect(() => {
-        dispatch(getOrdersStep(currentStep, storageId, token.token))
-    }, [currentStep])
+    const getOrders = async () => {
+        setLoading(true)
+        await new Promise((resolve) => setTimeout(resolve, 400))
+        await dispatch(getOrdersStep(currentStep, storageId, token.token))
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+            getOrders().then(() => setLoading(false))
+        }, [currentStep])
+    )
 
     return (
         <SafeAreaView style={styles.container} >
@@ -25,16 +35,19 @@ function OrdersScreen({ orders, route, currentStep }) {
                 <Text style={styles.textinfo}> всього замовлень: {orders.length} </Text>
                 <Text style={styles.textinfo}> всього рослин: {productQty} </Text>
             </View>
-            {orders.length === 0 ?
-                <View style={styles.costLineWrapper}>
-                    <Text style={styles.noneData}>Немає замовлень з таким сатусом</Text>
+            {loading ?
+                <View style={styles.loader}>
+                    <ActivityIndicator size="large" color="#45aa45" />
                 </View> :
-
-                <FlatList
-                    data={orders}
-                    renderItem={(orders) => <RenderOrders orders={orders} />}
-                    keyExtractor={item => item.orderId.toString()}
-                />
+                orders.length === 0 ?
+                    <View style={styles.costLineWrapper}>
+                        <Text style={styles.noneData}>Немає замовлень з таким сатусом</Text>
+                    </View> :
+                    <FlatList
+                        data={orders}
+                        renderItem={(item) => <RenderOrders orders={item} />}
+                        keyExtractor={item => item.orderId.toString()}
+                    />
             }
             <NextStepButton path={route.name} />
             <ButtonsBar storageId={storageId} token={token} />
@@ -58,7 +71,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 1,
     },
-
+    loader: {
+        height: 'auto',
+        width: '100%',
+        justifyContent: 'center',
+        flex: 1
+    },
     text: {
         color: 'black',
         fontSize: 20,

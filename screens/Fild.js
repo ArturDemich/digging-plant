@@ -5,6 +5,8 @@ import AllPlants from './AllPlants'
 import { useDispatch } from 'react-redux';
 import { setStorageId } from '../state/dataSlice';
 import { useEffect } from 'react';
+import { ActivityIndicator, MD2Colors } from 'react-native-paper';
+import { View } from 'react-native-web';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -17,7 +19,12 @@ function FildScreen({ route }) {
         dispatch(setStorageId(route.params.storageId))
     }, [])
 
-
+    const placeholder = () => {
+        return
+        (<View>
+            <ActivityIndicator animating={true} color={MD2Colors.red800} style={{ height: 100, width: 100 }} />
+        </View>)
+    }
 
     return (
         <Tab.Navigator
@@ -26,7 +33,9 @@ function FildScreen({ route }) {
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 14, fontWeight: '700' },
                 tabBarStyle: { backgroundColor: '#CCC', elevation: 5 },
-                tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, }
+                tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, },
+                lazy: true,
+                lazyPlaceholder: placeholder()
             }}
         >
             <Tab.Screen

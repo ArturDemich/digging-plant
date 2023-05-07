@@ -109,11 +109,11 @@ const styles = StyleSheet.create({
 
 function RenderPlantsGroup({ plants }) {
     const item = plants.item
-    console.log('renderPlants', item)
+
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
     const [selectedAll, setSelectedAll] = useState(false)
-
+    console.log('renderPlants', selectedAll)
 
     return (
         <View>

@@ -27,6 +27,9 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginTop: 10,
     },
+    none: {
+        display: 'none'
+    }
 })
 
 function NextStepButton({ path, currentStorageId, token, currentStep, dataChange, route }) {
@@ -45,7 +48,7 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
         <View>
             {dataChange.length > 0 ? <View >
                 <TouchableHighlight
-                    style={[styles.buttonStep]}
+                    style={[styles.buttonStep, dataChange.length === 0 && styles.none]}
                     onPress={() => sendData(path)}
                 >
                     <Text

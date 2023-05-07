@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import LoginScreen from '../screens/Login'
 import { cleanState } from '../state/dataSlice'
 import ButtonOut from '../components/ButtonOut'
+import HeaderTitle from '../components/HeaderTitle'
 
 
 
@@ -31,21 +32,16 @@ export default function Navigate() {
                 <Stack.Screen
                     name='Вхід'
                     component={LoginScreen}
-                    options={{ title: 'Вхід' }}
+                    options={{ title: 'Вхід', headerLeft: () => null }}
                 />
                 <Stack.Screen
                     name='Поле'
                     component={FildScreen}
                     options={({ route, navigation }) => ({
-                        title: (route.params.title + ': ' + route.params.token.username),
-                        headerLeft: () => (
-                            <HeaderBackButton
-                                onPress={() => goBack(navigation)}
-                            />
-                        ),
-                        headerRight: () => (
-                            <ButtonOut navigation={navigation} />
-                        ),
+                        headerLeft: () => <HeaderBackButton onPress={() => goBack(navigation)} />,
+                        headerTitle: () => <HeaderTitle title={route.params.title} userName={route.params.token.username} navigation={navigation} />,
+                        headerRight: () => <ButtonOut navigation={navigation} />,
+                        headerBackVisible: false,
                         headerTitleStyle: {
                             fontSize: 13,
                         },
@@ -55,18 +51,13 @@ export default function Navigate() {
                     name='Всі поля'
                     component={FildsScreen}
                     options={({ route, navigation }) => ({
-                        title: route.params.token.username + ': ' + route.params.title,
-                        headerLeft: () => (
-                            <HeaderBackButton
-                                onPress={() => goBack(navigation)}
-                            />
-                        ),
-                        headerRight: () => (
-                            <ButtonOut navigation={navigation} />
-                        ),
+                        headerTitle: () => <HeaderTitle title={route.params.title} userName={route.params.token.username} navigation={navigation} />,
+                        headerLeft: () => <HeaderBackButton onPress={() => goBack(navigation)} />,
+                        headerRight: () => <ButtonOut navigation={navigation} />,
                         headerTitleStyle: {
                             fontSize: 13,
                         },
+                        headerBackVisible: false
                     })}
                 />
             </Stack.Navigator>

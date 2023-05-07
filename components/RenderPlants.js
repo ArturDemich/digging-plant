@@ -7,10 +7,10 @@ import { clearDataChangeItem, setDataChange } from '../state/dataSlice'
 
 
 
-function RenderPlants({ currentStorageId, orderId, selectedAll, prodactElem, token, currentStep, orders }) {
+function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem, token, currentStep, orders }) {
     const { characteristic, lastChange, product, qty, unit } = prodactElem
     const dispatch = useDispatch()
-    const [plantCheckBox, setPlantCheckBox] = useState(selectedAll)
+    const [plantCheckBox, setPlantCheckBox] = useState(selectedAllOrder)
     const [qtyState, setQty] = useState(qty)
 
     const checkInput = (value) => {
@@ -51,7 +51,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAll, prodactElem, tok
     }
 
     useEffect(() => {
-        if (selectedAll === true && plantCheckBox === true) {
+        if (selectedAllOrder === true && plantCheckBox === true) {
             setModalState()
         } else if (plantCheckBox === false) {
 
@@ -64,7 +64,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAll, prodactElem, tok
             setModalState()
         }
 
-    }, [selectedAll, plantCheckBox, orders])
+    }, [selectedAllOrder, plantCheckBox, orders])
 
     return (
         <View style={styles.infoBlock}>
