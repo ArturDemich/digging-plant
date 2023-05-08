@@ -13,20 +13,39 @@ function Notification() {
         'Ggdjkadljsc lskjdkjfdksjcsldlk',
         'grellsld;cs;  ,djfhidjfsljdls',
         'sdhgsjgrhdsnjjk sjkhdfnskjd sjdfnjkhsd sfjkj',
+        'ghfkdsijrejkljd ljskdfjskjd kljdkf',
+        'Ggdjkadljsc lskjdkjfdksjcsldlk',
+        'grellsld;cs;  ,djfhidjfsljdls',
+        'sdhgsjgrhdsnjjk sjkhdfnskjd sjdfnjkhsd sfjkj',
+        'ghfkdsijrejkljd ljskdfjskjd kljdkf',
+        'Ggdjkadljsc lskjdkjfdksjcsldlk',
+        'grellsld;cs;  ,djfhidjfsljdls',
+        'sdhgsjgrhdsnjjk sjkhdfnskjd sjdfnjkhsd sfjkj',
+        'ghfkdsijrejkljd ljskdfjskjd kljdkf',
+        'Ggdjkadljsc lskjdkjfdksjcsldlk',
+        'grellsld;cs;  ,djfhidjfsljdls',
+        'sdhgsjgrhdsnjjk sjkhdfnskjd sjdfnjkhsd sfjkj',
+        'ghfkdsijrejkljd ljskdfjskjd kljdkf',
+        'Ggdjkadljsc lskjdkjfdksjcsldlk',
+        'grellsld;cs;  ,djfhidjfsljdls',
+        'sdhgsjgrhdsnjjk sjkhdfnskjd sjdfnjkhsd sfjkj',
         'ghfkdsijrejkljd ljskdfjskjd kljdkf'
+
     ]
 
     function renderNotifi({ item }) {
 
         return (
-            <View>
-                <Checkbox />
-                <View>
-                    <Text>{item}</Text>
+            <View style={styles.renderRow}>
+                <View style={styles.renderBlock}>
+                    <Checkbox
+                        style={styles.renderCheckBox}
+                    />
+                    <Text style={styles.renderText}>{item}</Text>
                 </View>
-                <Ionicons name="notifications-outline" size={24} color="black" />
+                <Ionicons name="md-trash-outline" size={24} color="black" />
             </View>
-            
+
         )
     }
 
@@ -49,7 +68,7 @@ function Notification() {
 
                         <Pressable
                             onPress={() => setShow(!show)}
-                            style={styles.buttonClose}
+                            style={styles.buttonModal}
                         >
                             <Text style={styles.modalText}>Закрити</Text>
                         </Pressable>
@@ -76,9 +95,10 @@ export default Notification
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        justifyContent: "center",
+        //justifyContent: "center",
         alignItems: "center",
-        marginTop: 22
+        marginTop: '20%',
+
     },
     modalView: {
         margin: 20,
@@ -96,25 +116,44 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5
+        elevation: 5,
+        minHeight: '20%',
+        maxHeight: '80%',
+        gap: 5
     },
-    modalRow: {
+
+
+    renderRow: {
         flexDirection: 'row',
         marginTop: 10,
+        marginBottom: 5,
         justifyContent: 'space-between',
-        gap: 50
+
     },
+    renderBlock: {
+        flexDirection: 'row',
+        gap: 5
+    },
+    renderCheckBox: {
+        height: 23,
+        width: 23,
+    },
+    renderText: {
+        maxWidth: '90%'
+    },
+
+
     buttonModal: {
         marginRight: 5,
         borderRadius: 3,
         textAlign: "center",
         backgroundColor: "#45aa45",
-        minWidth: 100,
+        width: 80,
         textAlignVertical: 'center',
         alignSelf: 'center',
         height: 35,
         elevation: 3,
-        justifyContent: 'center'
+        justifyContent: 'center',
     },
 
     buttonClose: {
@@ -133,8 +172,11 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     modalText: {
-        marginBottom: 15,
-        textAlign: "center"
+        textAlign: "center",
+        alignSelf: 'center',
+        color: 'snow',
+        fontSize: 15,
+        fontWeight: 700
     },
     productName: {
         fontWeight: 600,
