@@ -1,6 +1,5 @@
 import { StackActions } from '@react-navigation/native'
-import { Text, StyleSheet, TouchableHighlight } from 'react-native'
-import { Button } from 'react-native-paper'
+import { StyleSheet, TouchableHighlight } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
 import { Feather } from '@expo/vector-icons';

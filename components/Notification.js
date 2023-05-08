@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import Checkbox from 'expo-checkbox';
 import { useState } from 'react';
 import { FlatList, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import shortid from 'shortid';
@@ -18,9 +19,14 @@ function Notification() {
     function renderNotifi({ item }) {
 
         return (
-            <Text>
-                {item}
-            </Text>
+            <View>
+                <Checkbox />
+                <View>
+                    <Text>{item}</Text>
+                </View>
+                <Ionicons name="notifications-outline" size={24} color="black" />
+            </View>
+            
         )
     }
 
