@@ -3,11 +3,13 @@ import Checkbox from 'expo-checkbox';
 import { useState } from 'react';
 import { FlatList, Modal, Pressable, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import shortid from 'shortid';
+import { DataService } from '../state/dataService';
 
 
 
 function Notification() {
     const [show, setShow] = useState(false)
+    const [notifications, setNotifications] = useState([])
 
     const notifi = [
         'Ggdjkadljsc lskjdkjfdksjcsldlk',
@@ -33,6 +35,13 @@ function Notification() {
 
     ]
 
+    const getNotifi = async () => {
+        const res = await DataService.getNotifi('ggg')
+        setNotifications(res.data)
+        console.log(res.data)
+
+    }
+
     function renderNotifi({ item }) {
 
         return (
@@ -41,7 +50,7 @@ function Notification() {
                     <Checkbox
                         style={styles.renderCheckBox}
                     />
-                    <Text style={styles.renderText}>{item}</Text>
+                    <Text style={styles.renderText}>{item.message_body}</Text>
                 </View>
                 <Ionicons name="md-trash-outline" size={24} color="black" />
             </View>
@@ -60,7 +69,7 @@ function Notification() {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <FlatList
-                            data={notifi}
+                            data={notifications}
                             renderItem={renderNotifi}
                             keyExtractor={() => shortid.generate()}
                         />
@@ -71,6 +80,12 @@ function Notification() {
                             style={styles.buttonModal}
                         >
                             <Text style={styles.modalText}>Закрити</Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => getNotifi()}
+                            style={styles.buttonModal}
+                        >
+                            <Text style={styles.modalText}>OK</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -119,6 +134,7 @@ const styles = StyleSheet.create({
         elevation: 5,
         minHeight: '20%',
         maxHeight: '80%',
+        minWidth: 300,
         gap: 5
     },
 
@@ -128,6 +144,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 5,
         justifyContent: 'space-between',
+        minWidth: 180
 
     },
     renderBlock: {
