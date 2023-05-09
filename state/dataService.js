@@ -131,5 +131,44 @@ export class DataService {
         return stepOrders
     }
 
+    static getNotifi(token) {
+
+        return axios.post('https://landshaft.info/modules/viber/digger4.php', { method: 'getNotifications', token: 'C249CB23C7F78CB5F3E0CC92E441E1B2' })
+            .then((response) => response.data)
+            .catch((error) => {
+                alert(error.response.data)
+                console.log(error);
+            })
+    }
+    static updateNotifi(token, messageid, status) {
+
+        return axios.post('https://landshaft.info/modules/viber/digger4.php', { 
+            method: 'updateNotificationStatus', 
+            token: 'C249CB23C7F78CB5F3E0CC92E441E1B2', 
+            messageid: messageid, 
+            status: mstatus,  
+        })
+            .then((response) => response.data)
+            .catch((error) => {
+                alert(error.response.data)
+                console.log(error);
+            })
+    }
+
+    static deleteNotifi(token, messageid, status) {
+
+        return axios.post('https://landshaft.info/modules/viber/digger4.php', { 
+            method: 'deleteNotification', 
+            token: 'C249CB23C7F78CB5F3E0CC92E441E1B2', 
+            messageid: messageid,
+        })
+            .then((response) => response.data)
+            .catch((error) => {
+                alert(error.response.data)
+                console.log(error);
+            })
+    }
+
+
 }
 
