@@ -143,7 +143,7 @@ export class DataService {
                 console.log(error);
             })
     }
-    static updateNotifi(token, messageid, status) {
+    static updateNotifi(token, messageid, mstatus) {
 
         return axios.post('https://landshaft.info/modules/viber/digger4.php', {
             method: 'updateNotificationStatus',

@@ -1,5 +1,5 @@
 import { StackActions } from '@react-navigation/native'
-import { StyleSheet, TouchableHighlight } from 'react-native'
+import { StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
 import { Feather } from '@expo/vector-icons';
@@ -33,7 +33,7 @@ function NextStepButton({ navigation }) {
     const dispatch = useDispatch()
 
     return (
-        <TouchableHighlight
+        <TouchableOpacity
             style={[styles.buttonStep]}
             onPress={() => {
                 navigation.dispatch(StackActions.popToTop())
@@ -41,7 +41,7 @@ function NextStepButton({ navigation }) {
             }}
         >
             <Feather name="log-out" size={24} color="black" />
-        </TouchableHighlight>
+        </TouchableOpacity>
     )
 }
 
