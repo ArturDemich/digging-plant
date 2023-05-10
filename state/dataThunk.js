@@ -2,7 +2,8 @@ import { DataService } from "./dataService";
 import {
   setDigStorages, setStepOrders,
   setSteps, setToken, setCurrentStep,
-  setGroupOrders
+  setGroupOrders,
+  setNotifications
 } from "./dataSlice";
 
 
@@ -84,6 +85,21 @@ export const getTokenThunk = (log, pass) => async (dispatch) => {
   }
 }
 
+export const getNotifiThunk = (token) => async (dispatch) => {
+
+  try {
+    const res = await DataService.getNotifi(token)
+    if (res.success) {
+      // console.log('thunkTOKEN: ', res)
+      dispatch(setNotifications(res));
+    } else {
+      alert(res.errors[0])
+    }
+  } catch (error) {
+    console.log("Get_STEP ERROR Thunk: " + JSON.stringify(error));
+  }
+}
+
 export const setNextStepThunk = (token, storageId, currentstepId, orderId, productid, characteristicid, unitid, actionqty) => async () => {
 
   try {
@@ -103,6 +119,38 @@ export const setNextStepGroupThunk = (token, dataOrders) => async () => {
 
   try {
     const res = await DataService.setNextStepGroup(token, dataOrders)
+    if (res.errors.length > 0) {
+      alert(res.errors[0])
+
+    } else {
+      console.log('Something went wrong!', res.errors)
+    }
+  } catch (error) {
+    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+  }
+}
+
+
+export const updateNotifiThunk = (token, messageid, mstatus) => async () => {
+  console.log('jjjjjj')
+  try {
+    const res = await DataService.updateNotifi(token, messageid, mstatus)
+    if (res.errors.length > 0) {
+      alert(res.errors[0])
+
+    } else {
+      console.log('Something went wrong!', res.errors)
+    }
+  } catch (error) {
+    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+  }
+}
+
+
+export const deleteNotifiThunk = (token, messageid) => async () => {
+
+  try {
+    const res = await DataService.deleteNotifi(token, messageid)
     if (res.errors.length > 0) {
       alert(res.errors[0])
 

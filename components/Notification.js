@@ -1,17 +1,22 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { FlatList, Modal, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
+import { Badge } from 'react-native-elements';
+import { connect, useDispatch } from 'react-redux';
 import shortid from 'shortid';
 import { DataService } from '../state/dataService';
+import { getNotifiThunk } from '../state/dataThunk';
 import RenderNotifi from './RenderNotifi';
 
 
 
-function Notification() {
+function Notification({ notifications }) {
+    const dispatch = useDispatch()
     const [show, setShow] = useState(false)
-    const [notifications, setNotifications] = useState([])
+    //const [notifications, setNotifications] = useState([])
 
-    
+
+
 
     const getNotifi = async () => {
         const res = await DataService.getNotifi('ggg')
@@ -21,9 +26,10 @@ function Notification() {
     }
 
     useEffect(() => {
-        getNotifi()
+        dispatch(getNotifiThunk('kkk'))
+        //getNotifi()
     }, [show])
-   
+
     return (
         <View>
             <Modal
@@ -34,11 +40,12 @@ function Notification() {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.textStyle}>Повідомлення</Text> 
+                        <Text style={styles.textStyle}>Повідомлення</Text>
                         <FlatList
                             data={notifications}
                             renderItem={(notifi) => <RenderNotifi notifi={notifi} />}
                             keyExtractor={() => shortid.generate()}
+
                         />
 
 
@@ -64,14 +71,26 @@ function Notification() {
                 onPress={() => setShow(!show)}
                 style={{ alignSelf: 'center' }}
             >
+
                 <Ionicons name="notifications-outline" size={24} color="black" />
+                <Badge
+                    containerStyle={{ position: 'absolute', top: -5, right: -9 }}
+                    badgeStyle={{ backgroundColor: '#45aa45' }}
+                    value={notifications.length}
+                />
             </TouchableOpacity>
         </View>
 
     )
 }
 
-export default Notification
+const mapStateToProps = state => {
+    return {
+        notifications: state.notifications
+    }
+}
+
+export default connect(mapStateToProps)(Notification)
 
 
 const styles = StyleSheet.create({
@@ -106,7 +125,7 @@ const styles = StyleSheet.create({
     },
 
 
-    
+
     buttonModal: {
         marginRight: 5,
         borderRadius: 3,

@@ -19,7 +19,7 @@ function OrdersScreen({ orders, route, currentStep }) {
 
     const getOrders = async () => {
         setLoading(true)
-        await new Promise((resolve) => setTimeout(resolve, 400))
+        await new Promise((resolve) => setTimeout(resolve, 200))
         await dispatch(getOrdersStep(currentStep, storageId, token.token))
     }
 

@@ -3,33 +3,58 @@ import { StyleSheet, Text, View } from "react-native"
 import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native"
 import { DataService } from "../state/dataService"
+import { useEffect } from "react"
+import { deleteNotifiThunk, getNotifiThunk, updateNotifiThunk } from "../state/dataThunk"
+import { useDispatch } from "react-redux"
 
 
 
 
 function RenderNotifi({ notifi }) {
-const {item} = notifi
+    const { item } = notifi
+    const dispatch = useDispatch()
 
-const updateNotifi = async() => {
-    const res = await DataService.updateNotifi('ggg', item.message_id, 'read')
-    console.log(res)
-}
-console.log('RNotifi', item)
+    const updateNotifi = async () => {
+        if (item.message_status === 'new') {
+            console.log(item.message_status)
+            await dispatch(updateNotifiThunk('ggg', item.message_id, 'read'))
+        } else if (item.message_status === 'read') {
+            await dispatch(updateNotifiThunk('ggg', item.message_id, 'new'))
+        }
+        await dispatch(getNotifiThunk('lll'))
+    }
+
+    const deleteNotifi = async () => {
+        await dispatch(deleteNotifiThunk('lll', item.message_id))
+        await await dispatch(getNotifiThunk('lll'))
+    }
+
+    useEffect(() => {
+
+    })
+
+    console.log('RNotifi', item)
 
     return (
         <View style={styles.renderRow}>
             <View style={styles.renderBlock}>
-                <TouchableOpacity 
+                <TouchableOpacity
                     onPress={() => updateNotifi()}
                 >
-                    {item.message_status === 'new' ? 
+                    {item.message_status === 'new' ?
                         <Ionicons name="eye-outline" size={24} color="black" /> :
-                            <Ionicons name="eye-sharp" size={24} color="black" />
+                        item.message_status === 'read' ?
+                            <Ionicons name="eye-sharp" size={24} color="black" /> : null
                     }
-                </TouchableOpacity> 
+                </TouchableOpacity>
                 <Text style={styles.renderText}>{item.message_body}</Text>
             </View>
-            <Ionicons name="md-trash-outline" size={24} color="black" />
+            <TouchableOpacity
+                onPress={() => deleteNotifi()}
+            >
+                <Ionicons name="md-trash-outline" size={24} color="black" />
+            </TouchableOpacity>
+
         </View>
 
     )
@@ -44,7 +69,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingTop: 5,
         justifyContent: 'space-between',
-        minWidth: 180,        
+        minWidth: 180,
         borderTopWidth: 1.5,
         borderTopColor: '#b0acb0',
     },

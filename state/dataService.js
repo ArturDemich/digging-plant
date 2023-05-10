@@ -158,7 +158,7 @@ export class DataService {
             })
     }
 
-    static deleteNotifi(token, messageid, status) {
+    static deleteNotifi(token, messageid) {
 
         return axios.post('https://landshaft.info/modules/viber/digger4.php', {
             method: 'deleteNotification',

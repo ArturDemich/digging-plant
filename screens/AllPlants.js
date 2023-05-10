@@ -20,7 +20,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
 
     const getGroupOrders = async () => {
         setLoading(true)
-        await new Promise((resolve) => setTimeout(resolve, 400))
+        await new Promise((resolve) => setTimeout(resolve, 200))
         await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
     }
 

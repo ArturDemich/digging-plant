@@ -8,7 +8,8 @@ const initialState = {
     currentStep: [],
     groupOrders: [],
     currentStorageId: '',
-    dataChange: []
+    dataChange: [],
+    notifications: [],
 }
 
 export const dataSlice = createSlice({
@@ -47,6 +48,11 @@ export const dataSlice = createSlice({
         setStorageId(state, action) {
             state.currentStorageId = action.payload
             console.log('slicestorageId', state.currentStorageId)
+        },
+
+        setNotifications(state, action) {
+            state.notifications = action.payload.data
+            console.log('slicesetNotifications', state.notifications)
         },
 
         setDataChange(state, action) {
@@ -97,6 +103,7 @@ export const dataSlice = createSlice({
             state.groupOrders = []
             state.currentStorageId = ''
             state.dataChange = []
+            state.notifications = []
         },
     },
 })
@@ -105,7 +112,7 @@ export const {
     setDigStorages, setStepOrders, setSteps, setToken,
     cleanState, setCurrentStep, setGroupOrders,
     setStorageId, setDataChange, clearDataChange,
-    clearDataChangeItem
+    clearDataChangeItem, setNotifications
 } = dataSlice.actions
 
 export default dataSlice.reducer
