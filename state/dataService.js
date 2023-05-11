@@ -86,33 +86,18 @@ export class DataService {
             })
     }
 
+    static getOrderInfo(token, orderId) {
 
-    static setNextStep(token, storageId, currentstepId, orderId, productid, characteristicid, unitid, actionqty) {
-
-        let stepOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/setNextOrderStep', {
-            token: token,
-            stepdata: [
-                {
-                    storageId: storageId,
-                    currentstepId: currentstepId,
-                    orderId: orderId,
-                    productid: productid,
-                    characteristicid: characteristicid,
-                    unitid: unitid,
-                    actionqty: actionqty,
-                }
-            ]
-        }, {
+        return axios.post('http://194.42.196.141:41001/UTPT/hs/api/getOrderInfo', { token: token, orderid: orderId }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
-                alert(error)
+                alert(error.response.data)
                 console.log(error);
             })
-
-        return stepOrders
     }
+
 
     static setNextStepGroup(token, dataOrders) {
 

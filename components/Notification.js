@@ -26,31 +26,31 @@ function Notification({ notifications }) {
 
     }
 
-   /* let getNotifiCyrcle = setTimeout(function get() {
-        dispatch(getNotifiThunk('kkk'))
-        getNotifiCyrcle = setTimeout(get, 5000)
-    }, 5000) */
+    /* let getNotifiCyrcle = setTimeout(function get() {
+         dispatch(getNotifiThunk('kkk'))
+         getNotifiCyrcle = setTimeout(get, 5000)
+     }, 5000) */
 
     //useEffect(() => {
-        //dispatch(getNotifiThunk('kkk'))
-        //getNotifi()
-        /* let getNotifiCyrcle = setTimeout(function get() {
-            dispatch(getNotifiThunk('kkk'))
-            getNotifiCyrcle = setTimeout(get, 20000)
-        }, 20000) */
-       // console.log('start')
+    //dispatch(getNotifiThunk('kkk'))
+    //getNotifi()
+    /* let getNotifiCyrcle = setTimeout(function get() {
+        dispatch(getNotifiThunk('kkk'))
+        getNotifiCyrcle = setTimeout(get, 20000)
+    }, 20000) */
+    // console.log('start')
 
-      //  return  () => {console.log('end')}
-   // }, [show])
+    //  return  () => {console.log('end')}
+    // }, [show])
 
     useFocusEffect(
         useCallback(() => {
             dispatch(getNotifiThunk('kkk'))
             let getNotifiCyrcle = setTimeout(function get() {
                 dispatch(getNotifiThunk('kkk'))
-                getNotifiCyrcle = setTimeout(get, 100000)
-            }, 100000)
-            return  () => {clearTimeout(getNotifiCyrcle)}
+                getNotifiCyrcle = setTimeout(get, 900000)
+            }, 900000)
+            return () => { clearTimeout(getNotifiCyrcle) }
         }, [show])
     )
 
@@ -71,9 +71,9 @@ function Notification({ notifications }) {
                                 renderItem={(notifi) => <RenderNotifi notifi={notifi} />}
                                 keyExtractor={() => shortid.generate()}
 
-                        /> :
-                        <Text >Повідомлень немає</Text>
-                    }
+                            /> :
+                            <Text >Повідомлень немає</Text>
+                        }
 
 
                         <TouchableOpacity
@@ -82,7 +82,7 @@ function Notification({ notifications }) {
                         >
                             <Text style={styles.modalText}>Закрити</Text>
                         </TouchableOpacity>
-                        
+
                     </View>
                 </View>
             </Modal>

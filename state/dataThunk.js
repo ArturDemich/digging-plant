@@ -100,21 +100,6 @@ export const getNotifiThunk = (token) => async (dispatch) => {
   }
 }
 
-export const setNextStepThunk = (token, storageId, currentstepId, orderId, productid, characteristicid, unitid, actionqty) => async () => {
-
-  try {
-    const res = await DataService.setNextStep(token, storageId, currentstepId, orderId, productid, characteristicid, unitid, actionqty)
-    if (res.errors.length > 0) {
-      alert(res.errors[0])
-
-    } else {
-      console.log('Something went wrong!', res.errors)
-    }
-  } catch (error) {
-    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
-  }
-}
-
 export const setNextStepGroupThunk = (token, dataOrders) => async () => {
 
   try {

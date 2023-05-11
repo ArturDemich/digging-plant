@@ -41,9 +41,18 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: 700,
     },
+    infoComent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
     textClient: {
         fontSize: 11,
         fontWeight: 500,
+    },
+    textDataChange: {
+        fontSize: 11,
+        fontWeight: 900,
+        color: 'gray'
     },
     textStrong: {
         fontSize: 13,
@@ -57,7 +66,7 @@ const styles = StyleSheet.create({
 })
 
 function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentStep, currentStorageId }) {
-    const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod } = order
+    const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange } = order
     const { characteristic, product, unit } = plant
     const dispatch = useDispatch()
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
@@ -116,36 +125,42 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
 
     console.log('rObG', groupOrders)
     return (
-        <View style={styles.infoBlock}>
-            <View style={styles.orderInfoBlock}>
-                <View style={styles.orderNames}>
-                    <Text style={styles.textStrong}>{shipmentMethod}</Text>
-                    <Text style={styles.textClient}>{customerName}</Text>
-                    <Text style={styles.textClient}>{orderNo}</Text>
-                    <Text style={styles.textClient}>Відгрузка: {shipmentDate}</Text>
-                </View>
-                <Text style={styles.qtyInfo}> {qty} шт</Text>
-            </View>
-            <View style={styles.orderInfoBlock}>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={checkInput}
-                    value={String(qtyInput)}
-                    inputMode='numeric'
-                    keyboardType="numeric"
-                    onBlur={(val) => inputOnBlur()}
-                    autoFocus={false}
-                    onFocus={() => setQtyInput('')}
-                />
-                <Checkbox
-                    value={orderCheckBox}
-                    onValueChange={() => {
-                        setOrderCheckBox(!orderCheckBox)
-                    }}
-                    style={styles.checkBox}
-                />
-            </View>
+        <View>
+            <View style={styles.infoBlock}>
+                <View style={styles.orderInfoBlock}>
+                    <View style={styles.orderNames}>
+                        <Text style={styles.textStrong}>{shipmentMethod}</Text>
+                        <Text style={styles.textClient}>{customerName}</Text>
+                        <Text style={styles.textClient}>{orderNo}</Text>
+                        <Text style={styles.textClient}>Відгрузка: {shipmentDate}</Text>
 
+                    </View>
+                    <Text style={styles.qtyInfo}> {qty} шт</Text>
+                </View>
+                <View style={styles.orderInfoBlock}>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={checkInput}
+                        value={String(qtyInput)}
+                        inputMode='numeric'
+                        keyboardType="numeric"
+                        onBlur={(val) => inputOnBlur()}
+                        autoFocus={false}
+                        onFocus={() => setQtyInput('')}
+                    />
+                    <Checkbox
+                        value={orderCheckBox}
+                        onValueChange={() => {
+                            setOrderCheckBox(!orderCheckBox)
+                        }}
+                        style={styles.checkBox}
+                    />
+                </View>
+            </View>
+            <View style={styles.infoComent}>
+                <Text style={styles.textClient}>Коментар: ллллллллллллллллллллллллллллл</Text>
+                <Text style={styles.textDataChange}>змінено: {lastChange} </Text>
+            </View>
         </View>
     )
 }
