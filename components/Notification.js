@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/core';
+import { useCallback, useEffect, useState } from 'react';
 import { FlatList, Modal, Pressable, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native';
 import { Badge } from 'react-native-elements';
 import { connect, useDispatch } from 'react-redux';
@@ -25,10 +26,33 @@ function Notification({ notifications }) {
 
     }
 
-    useEffect(() => {
+   /* let getNotifiCyrcle = setTimeout(function get() {
         dispatch(getNotifiThunk('kkk'))
+        getNotifiCyrcle = setTimeout(get, 5000)
+    }, 5000) */
+
+    //useEffect(() => {
+        //dispatch(getNotifiThunk('kkk'))
         //getNotifi()
-    }, [show])
+        /* let getNotifiCyrcle = setTimeout(function get() {
+            dispatch(getNotifiThunk('kkk'))
+            getNotifiCyrcle = setTimeout(get, 20000)
+        }, 20000) */
+       // console.log('start')
+
+      //  return  () => {console.log('end')}
+   // }, [show])
+
+    useFocusEffect(
+        useCallback(() => {
+            dispatch(getNotifiThunk('kkk'))
+            let getNotifiCyrcle = setTimeout(function get() {
+                dispatch(getNotifiThunk('kkk'))
+                getNotifiCyrcle = setTimeout(get, 100000)
+            }, 100000)
+            return  () => {clearTimeout(getNotifiCyrcle)}
+        }, [show])
+    )
 
     return (
         <View>
@@ -41,26 +65,24 @@ function Notification({ notifications }) {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.textStyle}>Повідомлення</Text>
-                        <FlatList
-                            data={notifications}
-                            renderItem={(notifi) => <RenderNotifi notifi={notifi} />}
-                            keyExtractor={() => shortid.generate()}
+                        {notifications.length > 0 ?
+                            <FlatList
+                                data={notifications}
+                                renderItem={(notifi) => <RenderNotifi notifi={notifi} />}
+                                keyExtractor={() => shortid.generate()}
 
-                        />
+                        /> :
+                        <Text >Повідомлень немає</Text>
+                    }
 
 
-                        <Pressable
+                        <TouchableOpacity
                             onPress={() => setShow(!show)}
                             style={styles.buttonModal}
                         >
                             <Text style={styles.modalText}>Закрити</Text>
-                        </Pressable>
-                        <Pressable
-                            onPress={() => getNotifi()}
-                            style={styles.buttonModal}
-                        >
-                            <Text style={styles.modalText}>OK</Text>
-                        </Pressable>
+                        </TouchableOpacity>
+                        
                     </View>
                 </View>
             </Modal>
