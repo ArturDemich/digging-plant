@@ -14,34 +14,7 @@ import RenderNotifi from './RenderNotifi';
 function Notification({ notifications }) {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
-    //const [notifications, setNotifications] = useState([])
-
-
-
-
-    const getNotifi = async () => {
-        const res = await DataService.getNotifi('ggg')
-        setNotifications(res.data)
-        console.log(res.data)
-
-    }
-
-    /* let getNotifiCyrcle = setTimeout(function get() {
-         dispatch(getNotifiThunk('kkk'))
-         getNotifiCyrcle = setTimeout(get, 5000)
-     }, 5000) */
-
-    //useEffect(() => {
-    //dispatch(getNotifiThunk('kkk'))
-    //getNotifi()
-    /* let getNotifiCyrcle = setTimeout(function get() {
-        dispatch(getNotifiThunk('kkk'))
-        getNotifiCyrcle = setTimeout(get, 20000)
-    }, 20000) */
-    // console.log('start')
-
-    //  return  () => {console.log('end')}
-    // }, [show])
+    //const [notifications, setNotifications] = useState([])    
 
     useFocusEffect(
         useCallback(() => {

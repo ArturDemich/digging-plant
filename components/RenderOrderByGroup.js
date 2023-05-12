@@ -2,10 +2,14 @@ import Checkbox from "expo-checkbox"
 import { useEffect, useState } from "react"
 import { StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
+import { DataService } from "../state/dataService"
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
 
 
 const styles = StyleSheet.create({
+    viewContainer: {
+        marginBottom: 5
+    },
     input: {
         height: 30,
         width: 40,
@@ -21,7 +25,7 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
-        marginBottom: 5,
+        //marginBottom: 5,
     },
     orderInfoBlock: {
         flexDirection: 'row',
@@ -43,7 +47,7 @@ const styles = StyleSheet.create({
     },
     infoComent: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        width: '100%'
     },
     textClient: {
         fontSize: 11,
@@ -52,7 +56,7 @@ const styles = StyleSheet.create({
     textDataChange: {
         fontSize: 11,
         fontWeight: 900,
-        color: 'gray'
+        color: '#c5c5c5'
     },
     textStrong: {
         fontSize: 13,
@@ -65,13 +69,19 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentStep, currentStorageId }) {
+function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentStep, currentStorageId, token }) {
     const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange } = order
     const { characteristic, product, unit } = plant
     const dispatch = useDispatch()
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
     const [qtyInput, setQtyInput] = useState(qty)
+    const [comentInfo, setComentInfo] = useState('')
 
+    const getInfo = async () => {
+        const res = await DataService.getOrderInfo(token, orderId)
+        setComentInfo(res.data[0].comment)
+        console.log(comentInfo, token)
+    }
 
     const setModalState = () => {
         const orders = {
@@ -108,6 +118,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
     }
 
     useEffect(() => {
+        getInfo()
         if (selectedAll === true && orderCheckBox === true) {
             setModalState()
         } else if (orderCheckBox === false) {
@@ -125,7 +136,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
 
     console.log('rObG', groupOrders)
     return (
-        <View>
+        <View style={styles.viewContainer}>
             <View style={styles.infoBlock}>
                 <View style={styles.orderInfoBlock}>
                     <View style={styles.orderNames}>
@@ -137,29 +148,34 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                     </View>
                     <Text style={styles.qtyInfo}> {qty} шт</Text>
                 </View>
-                <View style={styles.orderInfoBlock}>
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={checkInput}
-                        value={String(qtyInput)}
-                        inputMode='numeric'
-                        keyboardType="numeric"
-                        onBlur={(val) => inputOnBlur()}
-                        autoFocus={false}
-                        onFocus={() => setQtyInput('')}
-                    />
-                    <Checkbox
-                        value={orderCheckBox}
-                        onValueChange={() => {
-                            setOrderCheckBox(!orderCheckBox)
-                        }}
-                        style={styles.checkBox}
-                    />
+                <View>
+                    <View style={styles.orderInfoBlock}>
+                        <TextInput
+                            style={styles.input}
+                            onChangeText={checkInput}
+                            value={String(qtyInput)}
+                            inputMode='numeric'
+                            keyboardType="numeric"
+                            onBlur={(val) => inputOnBlur()}
+                            autoFocus={false}
+                            onFocus={() => setQtyInput('')}
+                        />
+                        <Checkbox
+                            value={orderCheckBox}
+                            onValueChange={() => {
+                                setOrderCheckBox(!orderCheckBox)
+                            }}
+                            style={styles.checkBox}
+                        />
+                    </View>
+                    <Text style={styles.textDataChange}>змінено: {lastChange} </Text>
                 </View>
             </View>
             <View style={styles.infoComent}>
-                <Text style={styles.textClient}>Коментар: ллллллллллллллллллллллллллллл</Text>
-                <Text style={styles.textDataChange}>змінено: {lastChange} </Text>
+                {comentInfo.length > 0 ?
+                    <Text style={styles.textClient}>Коментар: <Text style={{fontWeight: 800}}> {comentInfo} </Text></Text> :
+                    null
+                    }             
             </View>
         </View>
     )
@@ -168,7 +184,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
 const mapStateToProps = state => ({
     currentStep: state.currentStep,
     currentStorageId: state.currentStorageId,
-    //dataChange: state.dataChange,
+    token: state.token,
     groupOrders: state.groupOrders
 
 })
