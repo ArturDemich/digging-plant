@@ -98,13 +98,9 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                             }}
                             style={styles.checkBox}
                         />
-                        {/* <TouchableHighlight
-                        style={[styles.button]}
-                        onPress={() => checkCorrectStep(product.id, characteristic.id, unit.id)} >
-                        <Text style={styles.statusDig}>{currentStep.nextStepName}{'item.statusDig'}</Text>
-                    </TouchableHighlight> */}
                     </View>
                 </View>
+                <Text style={styles.changeDate}>змінено: {lastChange}</Text>
             </View>
 
 
@@ -129,10 +125,7 @@ const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
         marginTop: 10,
-        // #ededed
     },
-
-
     textStr: {
         fontWeight: 600,
     },
@@ -159,9 +152,8 @@ const styles = StyleSheet.create({
     plantName: {
         height: 'auto',
         width: 'auto',
-        fontSize: 16,
-        fontWeight: '500',
-        //paddingBottom: 3,
+        fontSize: 13,
+        fontWeight: '600',
         paddingTop: 5,
     },
     characteristics: {
@@ -169,11 +161,9 @@ const styles = StyleSheet.create({
         fontSize: 13,
         textAlignVertical: 'center',
         paddingLeft: 10,
-        // paddingBottom: 5,
     },
     info: {
         flexDirection: 'row',
-        //paddingBottom: 5,
         justifyContent: 'space-between'
     },
     quantity: {
@@ -213,7 +203,6 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         textAlign: 'center',
         alignSelf: 'flex-start',
-
     },
     button: {
         marginRight: 5,
@@ -240,5 +229,11 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: 28,
         width: 28,
+    },
+    changeDate: {
+        alignSelf: 'flex-end',
+        fontSize: 11,
+        fontWeight: 900,
+        color: '#c5c5c5'
     },
 })

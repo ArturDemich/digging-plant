@@ -1,7 +1,9 @@
 import Checkbox from "expo-checkbox"
 import { useEffect, useState } from "react"
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native"
+import { connect } from "react-redux"
 import shortid from "shortid"
+import { DataService } from "../state/dataService"
 import RenderPlants from "./RenderPlants"
 
 
@@ -46,7 +48,8 @@ const styles = StyleSheet.create({
         height: 'auto',
         lineHeight: 20,
         paddingBottom: 5,
-        fontWeight: 700,
+        fontWeight: 900,
+        fontSize: 15,
         width: '94%'
     },
     viewGroup: {
@@ -75,18 +78,25 @@ const styles = StyleSheet.create({
 })
 
 
-function RenderOrders({ orders }) {
+function RenderOrders({ orders, token }) {
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
-
-    const item = orders.item
+    const [comentInfo, setComentInfo] = useState('')
+    const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders.item
 
     let qty = 0
-    item.products.forEach(el => qty += el.qty)
+    products.forEach(el => qty += el.qty)
+
+    const getInfo = async () => {
+        const res = await DataService.getOrderInfo(token, orderId)
+        setComentInfo(res.data[0].comment)
+        console.log(comentInfo, token)
+    }
 
     useEffect(() => {
+        getInfo()
         setSelectedAllOrder(false)
     }, [orders])
-    console.log('renderOrders', selectedAllOrder)
+    console.log('renderOrders', comentInfo)
     return (
         <View>
             <TouchableHighlight
@@ -96,7 +106,7 @@ function RenderOrders({ orders }) {
                 <View style={styles.costLineWrapper}>
                     <View style={styles.orderInfo}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.orderClient}>{item.customerName}</Text>
+                            <Text style={styles.orderClient}>{customerName}</Text>
                             <Checkbox
                                 value={selectedAllOrder}
                                 onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
@@ -104,19 +114,23 @@ function RenderOrders({ orders }) {
                             />
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text style={styles.orderNum}>Номер: <Text style={styles.textStr}>{item.orderNo}</Text> </Text>
+                            <Text style={styles.orderNum}>Номер: <Text style={styles.textStr}>{orderNo}</Text> </Text>
                             <Text style={styles.orderShipment}>К-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text style={styles.orderShipment}>Спосіб: <Text style={styles.textStr}>{item.shipmentMethod}</Text> </Text>
-                            <Text style={styles.orderShipment}>Відгрузка: <Text style={styles.textStr}>{item.shipmentDate}</Text> </Text>
+                            <Text style={styles.orderShipment}>Спосіб: <Text style={styles.textStr}>{shipmentMethod}</Text> </Text>
+                            <Text style={styles.orderShipment}>Відгрузка: <Text style={styles.textStr}>{shipmentDate}</Text> </Text>
                         </View>
+                        {comentInfo.length > 0 ?
+                            <Text>Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> :
+                            null
+                        }
                     </View>
                     <View style={styles.productInfoBlock}>
-                        {item.products.map(elem =>
+                        {products.map(elem =>
                             <RenderPlants
                                 key={shortid.generate()}
-                                orderId={item.orderId}
+                                orderId={orderId}
                                 prodactElem={elem}
                                 selectedAllOrder={selectedAllOrder}
                             />
@@ -129,4 +143,8 @@ function RenderOrders({ orders }) {
     )
 }
 
-export default RenderOrders
+const mapStateToProps = state => ({
+    token: state.token,
+})
+
+export default connect(mapStateToProps)(RenderOrders)
