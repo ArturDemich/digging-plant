@@ -50,7 +50,8 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         fontWeight: 900,
         fontSize: 15,
-        width: '94%'
+        width: '94%',
+        textShadowRadius: 2
     },
     viewGroup: {
         flexDirection: 'row',
@@ -73,12 +74,13 @@ const styles = StyleSheet.create({
     checkBox: {
         height: 25,
         width: 25,
+
     },
 
 })
 
 
-function RenderOrders({ orders, token }) {
+function RenderOrders({ orders, token, rightToChange }) {
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
     const [comentInfo, setComentInfo] = useState('')
     const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders.item
@@ -110,7 +112,7 @@ function RenderOrders({ orders, token }) {
                             <Checkbox
                                 value={selectedAllOrder}
                                 onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
-                                style={styles.checkBox}
+                                style={[styles.checkBox, !rightToChange && { display: 'none' }]}
                             />
                         </View>
                         <View style={styles.viewGroup}>

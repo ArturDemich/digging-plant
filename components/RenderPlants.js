@@ -70,7 +70,11 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
         <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>
                 <Text style={styles.plantName}>{product.name}</Text>
-                <Text style={styles.characteristics}>{characteristic.name}</Text>
+                <View style={styles.info}>
+                    <Text style={styles.characteristics}>{characteristic.name}</Text>
+                    <Text style={styles.changeDate}>змінено: {lastChange}</Text>
+                </View>
+
 
                 <View style={styles.info}>
                     <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
@@ -100,7 +104,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                         />
                     </View>
                 </View>
-                <Text style={styles.changeDate}>змінено: {lastChange}</Text>
+
             </View>
 
 
@@ -155,6 +159,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '600',
         paddingTop: 5,
+        textShadowRadius: 3
     },
     characteristics: {
         height: 'auto',

@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
         height: 'auto',
         fontSize: 15,
         fontWeight: '600',
-        width: '94%'
+        width: '94%',
+        textShadowRadius: 3
     },
     characteristics: {
         height: 'auto',
@@ -47,6 +48,8 @@ const styles = StyleSheet.create({
     },
     info: {
         flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingRight: 3
     },
     quantity: {
         height: 'auto',
@@ -107,7 +110,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderPlantsGroup({ plants }) {
+function RenderPlantsGroup({ plants, rightToChange }) {
     const item = plants.item
 
     let qty = 0
@@ -127,11 +130,12 @@ function RenderPlantsGroup({ plants }) {
                         <Checkbox
                             value={selectedAll}
                             onValueChange={() => setSelectedAll(!selectedAll)}
-                            style={styles.checkBox}
+                            style={[styles.checkBox, !rightToChange && { display: 'none' }]}
                         />
                     </View>
-                    <Text style={styles.characteristics}>{item.characteristic.name}</Text>
+
                     <View style={styles.info}>
+                        <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                         <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
 

@@ -1,18 +1,18 @@
-import { useFocusEffect } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import React, { useCallback, useState } from 'react'
 import { Text, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, connect } from 'react-redux';
-import shortid from 'shortid';
-import ButtonsBar from '../components/ButtonsBar';
-import NextStepButton from '../components/NextStepButton';
-import RenderPlantsGroup from '../components/RenderPlantsGroup';
-import { getGroupOrdersThunk } from '../state/dataThunk';
+import { useDispatch, connect } from 'react-redux'
+import shortid from 'shortid'
+import ButtonsBar from '../components/ButtonsBar'
+import NextStepButton from '../components/NextStepButton'
+import RenderPlantsGroup from '../components/RenderPlantsGroup'
+import { getGroupOrdersThunk } from '../state/dataThunk'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 
 
-
-function AllPlantsScreen({ route, groupOrders, currentStep }) {
+function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, totalOrderQty }) {
     //console.log('Allpalnt', filterPlants)
     const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
@@ -30,10 +30,16 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
         }, [currentStep])
     )
 
-    console.log('allPr', loading)
+    console.log('allPr', groupOrders)
 
     return (
         <SafeAreaView style={styles.container}>
+            <View style={styles.infoblock}>
+                <MaterialCommunityIcons name="pine-tree" size={24} color="black">
+                    <MaterialCommunityIcons name="pine-tree" size={18} color="black" />
+                    <Text style={styles.textinfo}> всіх рослин: {totalPlantQty} </Text>
+                </MaterialCommunityIcons>
+            </View>
             {loading ?
                 <View style={styles.loader}>
                     <ActivityIndicator size="large" color="#45aa45" />
@@ -44,7 +50,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
                     </View> :
                     <FlatList
                         data={groupOrders}
-                        renderItem={(plants) => <RenderPlantsGroup plants={plants} storageId={storageId} />}
+                        renderItem={(plants) => <RenderPlantsGroup plants={plants} rightToChange={currentStep.rightToChange} />}
                         keyExtractor={() => shortid.generate()}
                     />
 
@@ -59,7 +65,9 @@ function AllPlantsScreen({ route, groupOrders, currentStep }) {
 const mapStateToProps = state => {
     return {
         groupOrders: state.groupOrders,
-        currentStep: state.currentStep
+        currentStep: state.currentStep,
+        totalPlantQty: state.totalPlantQty,
+        totalOrderQty: state.totalOrderQty,
     }
 }
 export default connect(mapStateToProps, null)(AllPlantsScreen)
@@ -82,6 +90,16 @@ const styles = StyleSheet.create({
     textStr: {
         fontWeight: 900,
         fontSize: 15,
+    },
+    textinfo: {
+        color: 'black',
+        fontSize: 13,
+        fontWeight: 700,
+    },
+    infoblock: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 20,
     },
     rowFront: {
         alignItems: 'center',

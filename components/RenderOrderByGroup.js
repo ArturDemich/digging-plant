@@ -149,7 +149,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                     <Text style={styles.qtyInfo}> {qty} шт</Text>
                 </View>
                 <View>
-                    <View style={styles.orderInfoBlock}>
+                    <View style={[styles.orderInfoBlock, !currentStep.rightToChange && { display: 'none' }]}>
                         <TextInput
                             style={styles.input}
                             onChangeText={checkInput}
@@ -173,9 +173,9 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
             </View>
             <View style={styles.infoComent}>
                 {comentInfo.length > 0 ?
-                    <Text style={styles.textClient}>Коментар: <Text style={{fontWeight: 800}}> {comentInfo} </Text></Text> :
+                    <Text style={styles.textClient}>Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> :
                     null
-                    }             
+                }
             </View>
         </View>
     )

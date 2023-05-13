@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
@@ -7,15 +7,15 @@ import ButtonsBar from '../components/ButtonsBar'
 import NextStepButton from '../components/NextStepButton'
 import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-function OrdersScreen({ orders, route, currentStep }) {
+function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty }) {
+    const dispatch = useDispatch()
     console.log('order:', route)
     const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
-    const dispatch = useDispatch()
 
-    let productQty = 0
-    orders.forEach(elem => elem.products.forEach(el => productQty += el.qty))
+
 
     const getOrders = async () => {
         setLoading(true)
@@ -32,8 +32,13 @@ function OrdersScreen({ orders, route, currentStep }) {
     return (
         <SafeAreaView style={styles.container} >
             <View style={styles.infoblock}>
-                <Text style={styles.textinfo}> всього замовлень: {orders.length} </Text>
-                <Text style={styles.textinfo}> всього рослин: {productQty} </Text>
+                <MaterialCommunityIcons name="pine-tree" size={24} color="black">
+                    <MaterialCommunityIcons name="pine-tree" size={18} color="black" />
+                    <Text style={styles.textinfo}> всіх рослин: {totalPlantQty} </Text>
+                </MaterialCommunityIcons>
+                <MaterialCommunityIcons name="clipboard-list-outline" size={24} color="black">
+                    <Text style={styles.textinfo}> замовлень: {totalOrderQty} </Text>
+                </MaterialCommunityIcons>
             </View>
             {loading ?
                 <View style={styles.loader}>
@@ -45,7 +50,7 @@ function OrdersScreen({ orders, route, currentStep }) {
                     </View> :
                     <FlatList
                         data={orders}
-                        renderItem={(item) => <RenderOrders orders={item} />}
+                        renderItem={(item) => <RenderOrders orders={item} rightToChange={currentStep.rightToChange} />}
                         keyExtractor={item => item.orderId.toString()}
                     />
             }
@@ -58,7 +63,9 @@ function OrdersScreen({ orders, route, currentStep }) {
 const mapStateToProps = state => {
     return {
         orders: state.stepOrders,
-        currentStep: state.currentStep
+        currentStep: state.currentStep,
+        totalPlantQty: state.totalPlantQty,
+        totalOrderQty: state.totalOrderQty,
     }
 }
 export default connect(mapStateToProps)(OrdersScreen)
@@ -86,7 +93,8 @@ const styles = StyleSheet.create({
 
     textinfo: {
         color: 'black',
-        fontSize: 15,
+        fontSize: 13,
+        fontWeight: 700,
         textAlign: 'center',
     },
     infoblock: {

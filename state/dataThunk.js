@@ -3,7 +3,8 @@ import {
   setDigStorages, setStepOrders,
   setSteps, setToken, setCurrentStep,
   setGroupOrders,
-  setNotifications
+  setNotifications,
+  setTotalQty
 } from "./dataSlice";
 
 
@@ -13,8 +14,15 @@ export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
     const res = await DataService.getStepOrders(stepId.id, storageId, token)
     //console.log(res)
     if (res.success) {
+      dispatch(setStepOrders(res))
 
-      dispatch(setStepOrders(res));
+      let productQty = 0
+      res.data.forEach(elem => elem.products.forEach(el => productQty += el.qty))
+      const total = {
+        orders: res.data.length,
+        plants: productQty
+      }
+      dispatch(setTotalQty(total))
     } else {
       console.log('Something went wrong!', res.errors)
     }
@@ -29,7 +37,15 @@ export const getGroupOrdersThunk = (stepId, storageId, token) => async (dispatch
     console.log('GroupThunk', res)
     if (res.success) {
       console.log('thunkGroup', res)
-      dispatch(setGroupOrders(res));
+      dispatch(setGroupOrders(res))
+
+      let productQty = 0
+      res.data.forEach(elem => elem.orders.forEach(el => productQty += el.qty))
+      const total = {
+        orders: 0,
+        plants: productQty
+      }
+      dispatch(setTotalQty(total))
     } else {
       console.log('Something went wrong!', res.errors)
     }

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { setCurrentStep } from '../state/dataSlice'
+import { clearDataChange, setCurrentStep } from '../state/dataSlice'
 import { getOrdersStep } from '../state/dataThunk'
 
 
@@ -42,6 +42,10 @@ const styles = StyleSheet.create({
 function ButtonsBar({ steps, storageId, token, currentStep }) {
     const dispatch = useDispatch()
 
+    const setDataState = async (newStep) => {
+        await dispatch(clearDataChange())
+        await dispatch(setCurrentStep(newStep))
+    }
     //console.log('ButtonBar', steps, storageId, token)
 
     return (
@@ -50,7 +54,7 @@ function ButtonsBar({ steps, storageId, token, currentStep }) {
                 <TouchableHighlight
                     key={step.id}
                     style={[styles.buttonsBar, currentStep.id === step.id && styles.selectedButtons]}
-                    onPress={() => dispatch(setCurrentStep(step))}
+                    onPress={() => setDataState(step)}
                 >
                     <Text
                         style={styles.textBtnBar}
