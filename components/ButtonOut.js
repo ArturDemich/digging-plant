@@ -1,5 +1,5 @@
 import { StackActions } from '@react-navigation/native'
-import { StyleSheet, TouchableHighlight, TouchableOpacity } from 'react-native'
+import { StyleSheet, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
 import { Feather } from '@expo/vector-icons';
@@ -15,16 +15,8 @@ const styles = StyleSheet.create({
     buttonStep: {
         borderRadius: 5,
         textAlign: "center",
-        //backgroundColor: "#cacaca",
-        //width: 50,
-        //height: 30,
         textAlignVertical: 'center',
         alignSelf: 'center',
-        // elevation: 1,
-        //shadowColor: '#52006A',
-        //shadowOffset: { width: -1, height: 1 },
-        //shadowOpacity: 0.2,
-        //shadowRadius: 1,
         justifyContent: 'center',
     },
 })

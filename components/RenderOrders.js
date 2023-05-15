@@ -68,13 +68,9 @@ const styles = StyleSheet.create({
     textStr: {
         fontWeight: 500,
     },
-    productInfoBlock: {
-
-    },
     checkBox: {
         height: 25,
         width: 25,
-
     },
 
 })
@@ -128,7 +124,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                             null
                         }
                     </View>
-                    <View style={styles.productInfoBlock}>
+                    <View >
                         {products.map(elem =>
                             <RenderPlants
                                 key={shortid.generate()}
@@ -138,7 +134,6 @@ function RenderOrders({ orders, token, rightToChange }) {
                             />
                         )}
                     </View>
-
                 </View>
             </TouchableHighlight>
         </View>

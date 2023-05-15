@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
-        //marginBottom: 5,
     },
     orderInfoBlock: {
         flexDirection: 'row',
@@ -37,7 +36,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: 200,
         padding: 3,
-
     },
     qtyInfo: {
         alignSelf: 'center',
@@ -70,9 +68,9 @@ const styles = StyleSheet.create({
 })
 
 function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentStep, currentStorageId, token }) {
-    const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange } = order
-    const { characteristic, product, unit } = plant
     const dispatch = useDispatch()
+    const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange } = order
+    const { characteristic, product, unit } = plant    
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
     const [qtyInput, setQtyInput] = useState(qty)
     const [comentInfo, setComentInfo] = useState('')
@@ -122,7 +120,6 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
         if (selectedAll === true && orderCheckBox === true) {
             setModalState()
         } else if (orderCheckBox === false) {
-
             dispatch(clearDataChangeItem({
                 orderId: orderId,
                 productid: product.id,
@@ -131,7 +128,6 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
         } else if (orderCheckBox === true) {
             setModalState()
         }
-
     }, [selectedAll, orderCheckBox, groupOrders])
 
     console.log('rObG', groupOrders)
@@ -144,7 +140,6 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                         <Text style={styles.textClient}>{customerName}</Text>
                         <Text style={styles.textClient}>{orderNo}</Text>
                         <Text style={styles.textClient}>Відгрузка: {shipmentDate}</Text>
-
                     </View>
                     <Text style={styles.qtyInfo}> {qty} шт</Text>
                 </View>
@@ -186,7 +181,6 @@ const mapStateToProps = state => ({
     currentStorageId: state.currentStorageId,
     token: state.token,
     groupOrders: state.groupOrders
-
 })
 
 export default connect(mapStateToProps)(RenderOrderByGroup)

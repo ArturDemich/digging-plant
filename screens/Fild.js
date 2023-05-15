@@ -8,7 +8,6 @@ import { useEffect } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
-
 function FildScreen({ route }) {
     const dispatch = useDispatch()
     console.log('fild', route)

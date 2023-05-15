@@ -15,7 +15,7 @@ Notifications.setNotificationHandler({
     handleNotification: async () => ({
         shouldShowAlert: true,
         shouldPlaySound: false,
-        shouldSetBadge: false,
+        shouldSetBadge: true,
     }),
 });
 
@@ -56,7 +56,7 @@ function Notification({ notifiState }) {
             Notifications.removeNotificationSubscription(notificationListener.current);
             Notifications.removeNotificationSubscription(responseListener.current);
         };
-    }, [])
+    }, [notifiState.length])
 
     return (
         <View>

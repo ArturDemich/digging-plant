@@ -45,23 +45,23 @@ const styles = StyleSheet.create({
 
 function MainScreen({ navigation, digStorages, route }) {
 
-    const st = navigation.getState()
-    console.log('Filds', st, digStorages, digStorages.length)
-
     function renderFildsButton({ item }) {
-
         return (
             <TouchableOpacity style={{ width: '100%' }} >
-                <Text key={item.id} style={styles.button} title={item.name} onPress={() => {
+                <Text 
+                key={item.id} 
+                style={styles.button} 
+                title={item.name} 
+                onPress={() => {
                     navigation.navigate('Поле', { title: item.name, storageId: item.id, token: route.params.token })
-                }} > {item.name} </Text>
+                }} 
+                > {item.name} </Text>
             </TouchableOpacity>
         )
     }
 
 
     return (
-
         <SafeAreaView style={styles.container}>
             <View style={styles.containerView}>
                 <Text style={styles.text}> Виберіть поле </Text>

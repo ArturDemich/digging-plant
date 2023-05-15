@@ -7,9 +7,9 @@ import { clearDataChangeItem, setDataChange } from '../state/dataSlice'
 
 
 
-function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem, token, currentStep, orders }) {
-    const { characteristic, lastChange, product, qty, unit } = prodactElem
+function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem, currentStep, orders }) {
     const dispatch = useDispatch()
+    const { characteristic, lastChange, product, qty, unit } = prodactElem    
     const [plantCheckBox, setPlantCheckBox] = useState(selectedAllOrder)
     const [qtyState, setQty] = useState(qty)
 
@@ -54,7 +54,6 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
         if (selectedAllOrder === true && plantCheckBox === true) {
             setModalState()
         } else if (plantCheckBox === false) {
-
             dispatch(clearDataChangeItem({
                 orderId: orderId,
                 productid: product.id,
@@ -63,7 +62,6 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
         } else if (plantCheckBox === true) {
             setModalState()
         }
-
     }, [selectedAllOrder, plantCheckBox, orders])
 
     return (
@@ -74,11 +72,8 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                     <Text style={styles.characteristics}>{characteristic.name}</Text>
                     <Text style={styles.changeDate}>змінено: {lastChange}</Text>
                 </View>
-
-
                 <View style={styles.info}>
                     <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
-
                     <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
                         <View style={styles.changeinfoblock}>
                             <Text style={styles.quantity}>
@@ -104,16 +99,12 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                         />
                     </View>
                 </View>
-
             </View>
-
-
         </View>
     )
 }
 
 const mapStateToProps = state => ({
-    token: state.token,
     currentStep: state.currentStep,
     orders: state.stepOrders,
     currentStorageId: state.currentStorageId,
@@ -132,18 +123,6 @@ const styles = StyleSheet.create({
     },
     textStr: {
         fontWeight: 600,
-    },
-    rowFront: {
-        alignItems: 'center',
-        backgroundColor: '#fff',
-        borderBottomColor: 'black',
-        justifyContent: 'center',
-        height: 'auto',
-        marginBottom: 20,
-        borderRadius: 5,
-        margin: 5,
-        elevation: 10,
-        shadowColor: '#52006A'
     },
     costLineWrapper: {
         height: 'auto',
@@ -176,14 +155,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         alignSelf: 'center',
         paddingBottom: 5
-
-    },
-    status: {
-        height: 'auto',
-        fontSize: 13,
-        textAlignVertical: 'center',
-        paddingLeft: 10,
-        paddingBottom: 5,
     },
     changeinfo: {
         flexDirection: 'row',
@@ -191,14 +162,6 @@ const styles = StyleSheet.create({
     },
     changeinfoblock: {
         flexDirection: 'row'
-    },
-    statusDig: {
-        height: 'auto',
-        textAlignVertical: 'center',
-        fontSize: 13,
-        color: 'white',
-        fontWeight: 700,
-        margin: 5
     },
     input: {
         height: 28,
@@ -208,27 +171,6 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         textAlign: 'center',
         alignSelf: 'flex-start',
-    },
-    button: {
-        marginRight: 5,
-        borderRadius: 3,
-        textAlign: "center",
-        backgroundColor: "#45aa45",
-        minWidth: 100,
-        textAlignVertical: 'center',
-        alignSelf: 'center',
-        margin: 2,
-        height: 30,
-        elevation: 3
-    },
-    buttonPress: {
-        marginRight: 5,
-        borderRadius: 3,
-        textAlign: "center",
-        backgroundColor: "red",
-        minWidth: "10%",
-        textAlignVertical: 'center',
-        margin: 2
     },
     checkBox: {
         alignSelf: 'center',

@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 1,
         borderRadius: 3,
-
     },
     containerView: {
         alignItems: "center",
@@ -60,7 +59,6 @@ const styles = StyleSheet.create({
 })
 
 function LoginScreen({ navigation, digStorages, token }) {
-    console.log(token, navigation)
     const dispatch = useDispatch()
     const [login, onChangeLogin] = useState('')
     const [password, onChangePass] = useState('')
@@ -96,7 +94,6 @@ function LoginScreen({ navigation, digStorages, token }) {
         dispatch(getTokenThunk(login, password))
         onChangeLogin('')
         onChangePass('')
-
     }
 
     return (
@@ -108,9 +105,6 @@ function LoginScreen({ navigation, digStorages, token }) {
                     value={login}
                     placeholder="Введіть користувача"
                     placeholderTextColor={'gray'}
-
-
-
                 />
                 <TextInput
                     style={styles.input}

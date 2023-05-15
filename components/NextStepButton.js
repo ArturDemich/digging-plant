@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     }
 })
 
-function NextStepButton({ path, currentStorageId, token, currentStep, dataChange, route }) {
+function NextStepButton({ path, currentStorageId, token, currentStep, dataChange }) {
     const dispatch = useDispatch()
     const sendData = async (pathValue) => {
         await dispatch(setNextStepGroupThunk(token[0].token, dataChange))
@@ -42,7 +42,6 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
             await dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
         }
     }
-    //console.log('nextStep', path)
 
     return (
         <View>

@@ -9,10 +9,8 @@ import {
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
-  // console.log('thunk', stepId, storageId, token)
   try {
     const res = await DataService.getStepOrders(stepId.id, storageId, token)
-    //console.log(res)
     if (res.success) {
       dispatch(setStepOrders(res))
 
@@ -34,9 +32,7 @@ export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
 export const getGroupOrdersThunk = (stepId, storageId, token) => async (dispatch) => {
   try {
     const res = await DataService.getGroupOrders(stepId.id, storageId, token)
-    console.log('GroupThunk', res)
     if (res.success) {
-      console.log('thunkGroup', res)
       dispatch(setGroupOrders(res))
 
       let productQty = 0
@@ -55,12 +51,9 @@ export const getGroupOrdersThunk = (stepId, storageId, token) => async (dispatch
 }
 
 export const getDigStorages = (token) => async (dispatch) => {
-
   try {
     const res = await DataService.getStoragesDig(token)
     if (res.success) {
-      //console.log('thunkSTORAGE:', res)
-
       dispatch(setDigStorages(res));
     } else {
       console.log('Something went wrong!', res.errors)
@@ -71,11 +64,9 @@ export const getDigStorages = (token) => async (dispatch) => {
 }
 
 export const getStep = (token) => async (dispatch) => {
-
   try {
     const res = await DataService.getSteps(token)
     if (res.success) {
-      // console.log('thunkSTEP:', res)
       dispatch(setSteps(res))
       dispatch(setCurrentStep(res.data[0]))
     } else {
@@ -87,11 +78,9 @@ export const getStep = (token) => async (dispatch) => {
 }
 
 export const getTokenThunk = (log, pass) => async (dispatch) => {
-
   try {
     const res = await DataService.getToken(log, pass)
     if (res.success) {
-      // console.log('thunkTOKEN: ', res)
       dispatch(setToken(res));
     } else {
       alert(res.errors[0])
@@ -102,11 +91,9 @@ export const getTokenThunk = (log, pass) => async (dispatch) => {
 }
 
 export const getNotifiThunk = (token) => async (dispatch) => {
-
   try {
     const res = await DataService.getNotifi(token)
     if (res.success) {
-      // console.log('thunkTOKEN: ', res)
       dispatch(setNotifications(res));
     } else {
       alert(res.errors[0])
@@ -117,12 +104,10 @@ export const getNotifiThunk = (token) => async (dispatch) => {
 }
 
 export const setNextStepGroupThunk = (token, dataOrders) => async () => {
-
   try {
     const res = await DataService.setNextStepGroup(token, dataOrders)
     if (res.errors.length > 0) {
       alert(res.errors[0])
-
     } else {
       console.log('Something went wrong!', res.errors)
     }
@@ -138,7 +123,6 @@ export const updateNotifiThunk = (token, messageid, mstatus) => async () => {
     const res = await DataService.updateNotifi(token, messageid, mstatus)
     if (res.errors.length > 0) {
       alert(res.errors[0])
-
     } else {
       console.log('Something went wrong!', res.errors)
     }
@@ -147,14 +131,11 @@ export const updateNotifiThunk = (token, messageid, mstatus) => async () => {
   }
 }
 
-
 export const deleteNotifiThunk = (token, messageid) => async () => {
-
   try {
     const res = await DataService.deleteNotifi(token, messageid)
     if (res.errors.length > 0) {
       alert(res.errors[0])
-
     } else {
       console.log('Something went wrong!', res.errors)
     }

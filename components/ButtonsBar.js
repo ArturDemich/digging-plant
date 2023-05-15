@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { clearDataChange, setCurrentStep } from '../state/dataSlice'
-import { getOrdersStep } from '../state/dataThunk'
 
 
 const styles = StyleSheet.create({
@@ -25,7 +24,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 3,
         flex: 3,
-
     },
     selectedButtons: {
         backgroundColor: '#cacaca',
@@ -39,14 +37,13 @@ const styles = StyleSheet.create({
     },
 })
 
-function ButtonsBar({ steps, storageId, token, currentStep }) {
+function ButtonsBar({ steps, currentStep }) {
     const dispatch = useDispatch()
 
     const setDataState = async (newStep) => {
         await dispatch(clearDataChange())
         await dispatch(setCurrentStep(newStep))
     }
-    //console.log('ButtonBar', steps, storageId, token)
 
     return (
         <View style={styles.statusBar}>

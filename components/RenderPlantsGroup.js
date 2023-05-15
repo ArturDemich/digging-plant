@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
 import shortid from "shortid"
 import RenderOrderByGroup from "./RenderOrderByGroup"
@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 10,
         paddingBottom: 1,
-
     },
     info: {
         flexDirection: 'row',
@@ -56,34 +55,11 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         alignSelf: 'center',
     },
-    statusDig: {
-        height: 'auto',
-        maxWidth: 130,
-        textAlignVertical: 'center',
-        fontSize: 13,
-        color: 'white',
-        fontWeight: 700,
-        margin: 5
-    },
-
-    button: {
-        marginRight: 5,
-        borderRadius: 3,
-        textAlign: "center",
-        backgroundColor: "#45aa45",
-        minWidth: 100,
-        textAlignVertical: 'center',
-        alignSelf: 'center',
-        margin: 2,
-        height: 'auto',
-        elevation: 3
-    },
     changeinfo: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingTop: 7,
         paddingLeft: 3,
-
     },
     infoContainer: {
         flexDirection: 'row',
@@ -96,13 +72,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginTop: 3,
         width: '100%',
-
-    },
-    orderInfo: {
-        margin: 3,
-        fontSize: 12,
-        color: 'gray',
-        fontWeight: 500,
     },
     checkBox: {
         height: 25,
@@ -111,11 +80,12 @@ const styles = StyleSheet.create({
 })
 
 function RenderPlantsGroup({ plants, rightToChange }) {
+    const [selectedAll, setSelectedAll] = useState(false)
     const item = plants.item
 
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
-    const [selectedAll, setSelectedAll] = useState(false)
+    
     console.log('renderPlants', selectedAll)
 
     return (
@@ -133,12 +103,10 @@ function RenderPlantsGroup({ plants, rightToChange }) {
                             style={[styles.checkBox, !rightToChange && { display: 'none' }]}
                         />
                     </View>
-
                     <View style={styles.info}>
                         <Text style={styles.characteristics}>{item.characteristic.name}</Text>
                         <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
-
                     <View style={styles.changeinfo}>
                         <View style={styles.orderInfoBlock}>
                             {item.orders.map(elem =>
@@ -146,14 +114,12 @@ function RenderPlantsGroup({ plants, rightToChange }) {
                                     key={shortid.generate()}
                                     plant={item} order={elem}
                                     selectedAll={selectedAll}
-
                                 />
                             )}
                         </View>
                     </View>
                 </View>
             </TouchableHighlight>
-
         </View>
     )
 }

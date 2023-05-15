@@ -15,8 +15,6 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
     const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
 
-
-
     const getOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
@@ -84,13 +82,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         flex: 1
     },
-    text: {
-        color: 'black',
-        fontSize: 20,
-        textAlign: 'center',
-        marginTop: -20,
-    },
-
     textinfo: {
         color: 'black',
         fontSize: 13,
@@ -109,17 +100,6 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingLeft: 5,
         paddingRight: 5
-    },
-    orderItems: {
-        height: 'auto',
-        lineHeight: 50,
-        width: 200,
-        flex: 2,
-    },
-    costCategory: {
-        height: 'auto',
-        lineHeight: 50,
-        flex: 4,
     },
     noneData: {
         fontSize: 20,

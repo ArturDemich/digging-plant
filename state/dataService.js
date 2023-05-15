@@ -1,19 +1,14 @@
 import axios from "axios";
 import { Buffer } from 'buffer'
 
-
 const username = 'alex';
 const password = '';
-
 const tok = `${username}:${password}`
 const encodedToken = Buffer.from(tok).toString('base64')
-
-
 
 export class DataService {
 
     static getStepOrders(stepId, storageId, token) {
-
         let stepOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/getStepOrders', {
             token: token,
             stepId: stepId,
@@ -26,12 +21,10 @@ export class DataService {
                 alert(error)
                 console.log(error);
             })
-
         return stepOrders
     }
 
     static getGroupOrders(stepId, storageId, token) {
-
         let groupOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/getStepOrders', {
             token: token,
             stepId: stepId,
@@ -45,7 +38,6 @@ export class DataService {
                 alert(error)
                 console.log(error);
             })
-
         return groupOrders
     }
 
@@ -156,7 +148,6 @@ export class DataService {
                 console.log(error);
             })
     }
-
 
 }
 

@@ -1,9 +1,6 @@
-import Checkbox from "expo-checkbox"
 import { StyleSheet, Text, View } from "react-native"
 import { Ionicons } from '@expo/vector-icons'
 import { TouchableOpacity } from "react-native"
-import { DataService } from "../state/dataService"
-import { useEffect } from "react"
 import { deleteNotifiThunk, getNotifiThunk, updateNotifiThunk } from "../state/dataThunk"
 import { useDispatch } from "react-redux"
 
@@ -11,12 +8,11 @@ import { useDispatch } from "react-redux"
 
 
 function RenderNotifi({ notifi }) {
-    const { item } = notifi
     const dispatch = useDispatch()
+    const { item } = notifi    
 
     const updateNotifi = async () => {
         if (item.message_status === 'new') {
-            console.log(item.message_status)
             await dispatch(updateNotifiThunk('ggg', item.message_id, 'read'))
         } else if (item.message_status === 'read') {
             await dispatch(updateNotifiThunk('ggg', item.message_id, 'new'))
@@ -28,13 +24,7 @@ function RenderNotifi({ notifi }) {
         await dispatch(deleteNotifiThunk('lll', item.message_id))
         await await dispatch(getNotifiThunk('lll'))
     }
-
-    useEffect(() => {
-
-    })
-
-    console.log('RNotifi', item)
-
+   
     return (
         <View style={styles.renderRow}>
             <View style={styles.renderBlock}>
@@ -54,9 +44,7 @@ function RenderNotifi({ notifi }) {
             >
                 <Ionicons name="md-trash-outline" size={24} color="black" />
             </TouchableOpacity>
-
         </View>
-
     )
 }
 
@@ -77,10 +65,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 5,
         alignItems: 'center'
-    },
-    renderCheckBox: {
-        height: 23,
-        width: 23,
     },
     renderText: {
         maxWidth: '80%'
