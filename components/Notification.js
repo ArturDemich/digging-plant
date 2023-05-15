@@ -1,47 +1,57 @@
-import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect } from '@react-navigation/core';
-import { useCallback, useEffect, useState, useRef } from 'react';
-import { FlatList, Modal, StyleSheet, Text, Platform, TouchableOpacity, View } from 'react-native';
-import { Badge } from 'react-native-elements';
-import { connect, useDispatch } from 'react-redux';
-import shortid from 'shortid';
-import { DataService } from '../state/dataService';
-import { getNotifiThunk } from '../state/dataThunk';
-import RenderNotifi from './RenderNotifi';
-import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
+import { Ionicons } from '@expo/vector-icons'
+import { useFocusEffect } from '@react-navigation/core'
+import { useCallback, useEffect, useState, useRef } from 'react'
+import { FlatList, Modal, StyleSheet, Text, Platform, TouchableOpacity, View } from 'react-native'
+import { Badge } from 'react-native-elements'
+import { connect, useDispatch } from 'react-redux'
+import shortid from 'shortid'
+import { getNotifiThunk } from '../state/dataThunk'
+import RenderNotifi from './RenderNotifi'
+import * as Device from 'expo-device'
+import * as Notifications from 'expo-notifications'
 
 Notifications.setNotificationHandler({
     handleNotification: async () => ({
         shouldShowAlert: true,
-        shouldPlaySound: false,
+        shouldPlaySound: true,
         shouldSetBadge: true,
     }),
-});
+})
+
+function usePrevious(value) {
+    const ref = useRef()
+    useEffect(() => {
+        ref.current = value
+    });
+    return ref.current
+}
 
 function Notification({ notifiState }) {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
-    //const [notifications, setNotifications] = useState([]) 
     const [expoPushToken, setExpoPushToken] = useState('');
     const [notification, setNotification] = useState(false);
     const notificationListener = useRef();
     const responseListener = useRef();
+    const prevAmount = usePrevious(notifiState.length)
 
     useFocusEffect(
         useCallback(() => {
             dispatch(getNotifiThunk('kkk'))
             let getNotifiCyrcle = setTimeout(function get() {
                 dispatch(getNotifiThunk('kkk'))
-                getNotifiCyrcle = setTimeout(get, 900000)
-            }, 900000)
+                getNotifiCyrcle = setTimeout(get, 10000)
+            }, 100000)
 
             return () => { clearTimeout(getNotifiCyrcle) }
         }, [show])
     )
 
     useEffect(() => {
-        schedulePushNotification(notifiState)
+        if (prevAmount < notifiState.length && notifiState[0].message_status === 'new') {
+            schedulePushNotification(notifiState)
+        }
+
         registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
         notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
@@ -192,7 +202,7 @@ const styles = StyleSheet.create({
 async function schedulePushNotification(notifi) {
     await Notifications.scheduleNotificationAsync({
         content: {
-            title: "You've got mail! 📬",
+            //title: "You've got mail! 📬",
             body: notifi[0].message_body,
         },
         trigger: { seconds: 1 },
