@@ -40,23 +40,23 @@ const styles = StyleSheet.create({
 const colorStepBtn = {
     green: {
         name: 'green',
-        color: 'green'
+        color: '#45aa45'
     },
     yellow: {
         name: 'yellow',
-        color: 'yellow'
+        color: '#ffe680'
     },
     pink: {
         name: 'pink',
-        color: 'pink'
+        color: '#ffcccc'
     },
     red: {
         name: 'red',
-        color: 'red'
+        color: '#ff4d4d'
     },
     purple: {
         name: 'purple',
-        color: 'purple'
+        color: '#f2ccff'
     }
 }
 

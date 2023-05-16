@@ -81,6 +81,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 1,
     },
+    costLineWrapper: {
+        height: 'auto',
+        flex: 1,
+        flexDirection: 'column',
+        width: '100%',
+        paddingLeft: 5,
+        paddingRight: 5
+    },
     textinfo: {
         color: 'black',
         fontSize: 13,
