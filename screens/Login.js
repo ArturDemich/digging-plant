@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput } from 'react-native'
+import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getDigStorages, getStep, getTokenThunk } from '../state/dataThunk'
 
@@ -62,6 +62,7 @@ function LoginScreen({ navigation, digStorages, token }) {
     const dispatch = useDispatch()
     const [login, onChangeLogin] = useState('')
     const [password, onChangePass] = useState('')
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         token.length === 1 && digStorages.length === 0 ? callData() : null
@@ -71,6 +72,7 @@ function LoginScreen({ navigation, digStorages, token }) {
     const callData = async () => {
         await dispatch(getDigStorages(token[0].token))
         await dispatch(getStep(token[0].token))
+        setLoading(false)
     }
 
     const checkStorages = () => {
@@ -90,15 +92,20 @@ function LoginScreen({ navigation, digStorages, token }) {
         }
     }
 
-    const getToken = () => {
-        dispatch(getTokenThunk(login, password))
+    const getToken = async () => {
+        setLoading(true)
         onChangeLogin('')
         onChangePass('')
+        await dispatch(getTokenThunk(login, password))        
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.containerView}>
+            {loading ?
+                <View style={styles.loader}>
+                    <ActivityIndicator size="large" color="#45aa45" />
+                </View> :
+                <View style={styles.containerView}>
                 <TextInput
                     style={styles.input}
                     onChangeText={onChangeLogin}
@@ -120,7 +127,7 @@ function LoginScreen({ navigation, digStorages, token }) {
                 >
                     <Text style={styles.text}> Увійти </Text>
                 </TouchableHighlight>
-            </View>
+            </View>}
         </SafeAreaView>
     );
 };

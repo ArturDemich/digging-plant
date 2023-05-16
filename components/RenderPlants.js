@@ -23,10 +23,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
         } else {
             alert('Введіть кількіть викопаних рослин - цифрами')
         }
-    }
-
-    console.log('renderItem: ', prodactElem)
-
+    }    
 
     const setModalState = () => {
         const orders = {
@@ -67,7 +64,10 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
     return (
         <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>
-                <Text style={styles.plantName}>{product.name}</Text>
+                <Text style={styles.plantName}
+                allowFontScaling={true}
+                maxFontSizeMultiplier={1}
+                >{product.name}</Text>
                 <View style={styles.info}>
                     <Text style={styles.characteristics}>{characteristic.name}</Text>
                     <Text style={styles.changeDate}>змінено: {lastChange}</Text>
@@ -92,6 +92,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                         </View>
                         <Checkbox
                             value={plantCheckBox}
+                            color='#45aa45'
                             onValueChange={() => {
                                 setPlantCheckBox(!plantCheckBox)
                             }}

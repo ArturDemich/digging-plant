@@ -84,10 +84,8 @@ function RenderPlantsGroup({ plants, rightToChange }) {
     const item = plants.item
 
     let qty = 0
-    item.orders.forEach(elem => qty += elem.qty)
+    item.orders.forEach(elem => qty += elem.qty)   
     
-    console.log('renderPlants', selectedAll)
-
     return (
         <View>
             <TouchableHighlight
@@ -96,15 +94,23 @@ function RenderPlantsGroup({ plants, rightToChange }) {
             >
                 <View style={styles.costLineWrapper}>
                     <View style={styles.infoContainer}>
-                        <Text style={styles.plantName}>{item.product.name}</Text>
+                        <Text 
+                        style={styles.plantName}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                        >{item.product.name}</Text>
                         <Checkbox
                             value={selectedAll}
+                            color='#45aa45'
                             onValueChange={() => setSelectedAll(!selectedAll)}
                             style={[styles.checkBox, !rightToChange && { display: 'none' }]}
                         />
                     </View>
                     <View style={styles.info}>
-                        <Text style={styles.characteristics}>{item.characteristic.name}</Text>
+                        <Text style={styles.characteristics}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                        >{item.characteristic.name}</Text>
                         <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
                     <View style={styles.changeinfo}>

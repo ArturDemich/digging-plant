@@ -77,8 +77,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
 
     const getInfo = async () => {
         const res = await DataService.getOrderInfo(token, orderId)
-        setComentInfo(res.data[0].comment)
-        console.log(comentInfo, token)
+        setComentInfo(res.data[0].comment)        
     }
 
     const setModalState = () => {
@@ -130,7 +129,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
         }
     }, [selectedAll, orderCheckBox, groupOrders])
 
-    console.log('rObG', groupOrders)
+    
     return (
         <View style={styles.viewContainer}>
             <View style={styles.infoBlock}>
@@ -157,13 +156,17 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                         />
                         <Checkbox
                             value={orderCheckBox}
+                            color='#45aa45'
                             onValueChange={() => {
                                 setOrderCheckBox(!orderCheckBox)
                             }}
                             style={styles.checkBox}
                         />
                     </View>
-                    <Text style={styles.textDataChange}>змінено: {lastChange} </Text>
+                    <Text style={styles.textDataChange}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
+                    >змінено: {lastChange} </Text>
                 </View>
             </View>
             <View style={styles.infoComent}>

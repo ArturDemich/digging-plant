@@ -10,7 +10,7 @@ const Tab = createMaterialTopTabNavigator();
 
 function FildScreen({ route }) {
     const dispatch = useDispatch()
-    console.log('fild', route)
+   
 
     useEffect(() => {
         dispatch(setStorageId(route.params.storageId))
@@ -21,8 +21,8 @@ function FildScreen({ route }) {
             initialRouteName="Рослини Замовлення"
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
-                tabBarLabelStyle: { fontSize: 14, fontWeight: '700' },
-                tabBarStyle: { backgroundColor: '#CCC', elevation: 5 },
+                tabBarLabelStyle: { fontSize: 13, fontWeight: '700' },
+                tabBarStyle: { backgroundColor: '#CCC' },
                 tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, },
                 lazy: true,
             }}

@@ -6,7 +6,7 @@ import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk } from '../st
 const styles = StyleSheet.create({
     textBtn: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: 900,
         alignSelf: 'center',
     },

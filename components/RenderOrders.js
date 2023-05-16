@@ -87,14 +87,13 @@ function RenderOrders({ orders, token, rightToChange }) {
     const getInfo = async () => {
         const res = await DataService.getOrderInfo(token, orderId)
         setComentInfo(res.data[0].comment)
-        console.log(comentInfo, token)
     }
 
     useEffect(() => {
         getInfo()
         setSelectedAllOrder(false)
     }, [orders])
-    console.log('renderOrders', comentInfo)
+    
     return (
         <View>
             <TouchableHighlight
@@ -104,9 +103,13 @@ function RenderOrders({ orders, token, rightToChange }) {
                 <View style={styles.costLineWrapper}>
                     <View style={styles.orderInfo}>
                         <View style={styles.infoContainer}>
-                            <Text style={styles.orderClient}>{customerName}</Text>
+                            <Text style={styles.orderClient}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                            >{customerName}</Text>
                             <Checkbox
                                 value={selectedAllOrder}
+                                color='#45aa45'
                                 onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
                                 style={[styles.checkBox, !rightToChange && { display: 'none' }]}
                             />

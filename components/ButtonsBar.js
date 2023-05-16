@@ -37,6 +37,29 @@ const styles = StyleSheet.create({
     },
 })
 
+const colorStepBtn = {
+    green: {
+        name: 'green',
+        color: 'green'
+    },
+    yellow: {
+        name: 'yellow',
+        color: 'yellow'
+    },
+    pink: {
+        name: 'pink',
+        color: 'pink'
+    },
+    red: {
+        name: 'red',
+        color: 'red'
+    },
+    purple: {
+        name: 'purple',
+        color: 'purple'
+    }
+}
+
 function ButtonsBar({ steps, currentStep }) {
     const dispatch = useDispatch()
 
@@ -45,12 +68,34 @@ function ButtonsBar({ steps, currentStep }) {
         await dispatch(setCurrentStep(newStep))
     }
 
+    const setColor = (val) => {        
+        switch (val) {
+            case colorStepBtn.green.name:
+            return colorStepBtn.green.color
+            break;
+            case colorStepBtn.yellow.name:
+                return colorStepBtn.yellow.color
+            break;
+            case colorStepBtn.pink.name:
+                return colorStepBtn.pink.color
+            break;
+            case colorStepBtn.red.name:
+                return colorStepBtn.red.color
+            break;
+            case colorStepBtn.purple.name:
+                return colorStepBtn.purple.color
+            break;
+            default:
+                console.log('color not defined')
+        }
+    }
+ console.log(steps)
     return (
         <View style={styles.statusBar}>
             {steps.map((step) => (
                 <TouchableHighlight
                     key={step.id}
-                    style={[styles.buttonsBar, currentStep.id === step.id && styles.selectedButtons]}
+                    style={[styles.buttonsBar, currentStep.id === step.id && styles.selectedButtons, {backgroundColor: setColor(step.theme)} ]}
                     onPress={() => setDataState(step)}
                 >
                     <Text

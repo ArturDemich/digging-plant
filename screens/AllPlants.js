@@ -29,7 +29,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
         }, [currentStep])
     )
 
-    console.log('allPr', groupOrders)
+    
 
     return (
         <SafeAreaView style={styles.container}>
@@ -45,7 +45,11 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
                 </View> :
                 groupOrders.length == 0 ?
                     <View style={styles.costLineWrapper}>
-                        <Text style={styles.noneData}>В цьому полі немає рослин з таким сатусом</Text>
+                        <Text 
+                        style={styles.noneData}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                         >В цьому полі немає рослин з таким сатусом</Text>
                     </View> :
                     <FlatList
                         data={groupOrders}

@@ -10,8 +10,7 @@ import { getOrdersStep } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty }) {
-    const dispatch = useDispatch()
-    console.log('order:', route)
+    const dispatch = useDispatch()    
     const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
 
