@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { clearDataChange, setCurrentStep } from '../state/dataSlice'
+import { clearDataChange, setCurrentColorStep, setCurrentStep } from '../state/dataSlice'
 
 
 const styles = StyleSheet.create({
@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
     },
-    buttonsBar: {
+    buttonsBar: color => ({
         borderRadius: 3,
-        backgroundColor: "#7b7b7b",
+        backgroundColor: color,
         minWidth: "18%",
         height: 60,
         margin: 4,
@@ -18,17 +18,20 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         justifyContent: 'center',
         padding: 3,
-        elevation: 2,
+        elevation: 5,
         shadowColor: '#52006A',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
         flex: 3,
-    },
+    }),
     selectedButtons: {
-        backgroundColor: '#cacaca',
+       // backgroundColor: 'snow', //#cacaca
         borderColor: '#f8f8f8',
-        borderWidth: 1
+        borderWidth: 1,
+        elevation: 0,
+        color: 'black',
+        opacity: 10
     },
     textBtnBar: {
         color: 'white',
@@ -44,19 +47,19 @@ const colorStepBtn = {
     },
     yellow: {
         name: 'yellow',
-        color: '#ffe680'
+        color: '#62D16E'
     },
     pink: {
         name: 'pink',
-        color: '#ffcccc'
+        color: '#E9DA7E'
     },
     red: {
         name: 'red',
-        color: '#ff4d4d'
+        color: '#FF8A70'
     },
     purple: {
         name: 'purple',
-        color: '#f2ccff'
+        color: '#E53935'
     }
 }
 
@@ -66,6 +69,7 @@ function ButtonsBar({ steps, currentStep }) {
     const setDataState = async (newStep) => {
         await dispatch(clearDataChange())
         await dispatch(setCurrentStep(newStep))
+        await dispatch(setCurrentColorStep(newStep.theme))
     }
 
     const setColor = (val) => {        
@@ -95,11 +99,11 @@ function ButtonsBar({ steps, currentStep }) {
             {steps.map((step) => (
                 <TouchableHighlight
                     key={step.id}
-                    style={[styles.buttonsBar, currentStep.id === step.id && styles.selectedButtons, {backgroundColor: setColor(step.theme)} ]}
+                    style={[styles.buttonsBar(setColor(step.theme)), currentStep.id === step.id && styles.selectedButtons ]}
                     onPress={() => setDataState(step)}
                 >
                     <Text
-                        style={styles.textBtnBar}
+                        style={[styles.textBtnBar, currentStep.id === step.id && {color: 'black'}]}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
                     > {step.name} </Text>

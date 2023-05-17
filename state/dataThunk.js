@@ -4,7 +4,8 @@ import {
   setSteps, setToken, setCurrentStep,
   setGroupOrders,
   setNotifications,
-  setTotalQty
+  setTotalQty,
+  setCurrentColorStep
 } from "./dataSlice";
 
 
@@ -69,6 +70,7 @@ export const getStep = (token) => async (dispatch) => {
     if (res.success) {
       dispatch(setSteps(res))
       dispatch(setCurrentStep(res.data[0]))
+      dispatch(setCurrentColorStep(res.data[0].theme))
     } else {
       console.log('Something went wrong!', res.errors)
     }

@@ -8,7 +8,7 @@ import RenderPlants from "./RenderPlants"
 
 
 const styles = StyleSheet.create({
-    rowFront: {
+    rowFront: color => ({
         alignItems: 'center',
         backgroundColor: '#fff',
         borderBottomColor: 'black',
@@ -18,12 +18,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 5,
         elevation: 10,
-        shadowColor: '#52006A',
+        shadowColor: color,
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
-        shadowRadius: 3,
-        shadowColor: 'black'
-    },
+        shadowRadius: 3,        
+    }),
     costLineWrapper: {
         height: 'auto',
         flex: 1,
@@ -76,7 +75,7 @@ const styles = StyleSheet.create({
 })
 
 
-function RenderOrders({ orders, token, rightToChange }) {
+function RenderOrders({ orders, token, rightToChange, currentColor }) {
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
     const [comentInfo, setComentInfo] = useState('')
     const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders.item
@@ -97,7 +96,7 @@ function RenderOrders({ orders, token, rightToChange }) {
     return (
         <View>
             <TouchableHighlight
-                style={styles.rowFront}
+                style={styles.rowFront(currentColor)}
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
@@ -145,6 +144,7 @@ function RenderOrders({ orders, token, rightToChange }) {
 
 const mapStateToProps = state => ({
     token: state.token,
+    currentColor: state.currentColorStep,
 })
 
 export default connect(mapStateToProps)(RenderOrders)

@@ -1,12 +1,13 @@
 import Checkbox from "expo-checkbox"
 import { useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
+import { connect } from "react-redux"
 import shortid from "shortid"
 import RenderOrderByGroup from "./RenderOrderByGroup"
 
 
 const styles = StyleSheet.create({
-    rowFront: {
+    rowFront: color => ({
         alignItems: 'center',
         backgroundColor: '#fff',
         borderBottomColor: 'black',
@@ -16,13 +17,12 @@ const styles = StyleSheet.create({
         paddingBottom: 5,
         borderRadius: 5,
         margin: 5,
-        elevation: 10,
-        shadowColor: '#52006A',
+        elevation: 5,
+        shadowColor: color,
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
-        shadowRadius: 3,
-        shadowColor: '#52006A'
-    },
+        shadowRadius: 3,        
+    }),
     costLineWrapper: {
         height: 'auto',
         flex: 1,
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderPlantsGroup({ plants, rightToChange }) {
+function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
     const [selectedAll, setSelectedAll] = useState(false)
     const item = plants.item
 
@@ -89,7 +89,7 @@ function RenderPlantsGroup({ plants, rightToChange }) {
     return (
         <View>
             <TouchableHighlight
-                style={styles.rowFront}
+                style={styles.rowFront(currentColor)}
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
@@ -130,5 +130,8 @@ function RenderPlantsGroup({ plants, rightToChange }) {
     )
 }
 
+const mapStateToProps = state => ({
+    currentColor: state.currentColorStep,    
+})
 
-export default RenderPlantsGroup
+export default connect(mapStateToProps)(RenderPlantsGroup)

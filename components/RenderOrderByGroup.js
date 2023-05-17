@@ -8,7 +8,17 @@ import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
 
 const styles = StyleSheet.create({
     viewContainer: {
-        marginBottom: 5
+        marginBottom: 5,
+        width: '100%',
+        flexDirection: 'column',
+        
+    },    
+    infoBlock: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+        borderTopWidth: 2,
+        borderTopColor: '#b0acb0',
     },
     input: {
         height: 30,
@@ -18,13 +28,6 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         textAlign: 'center',
         alignSelf: 'center',
-    },
-    infoBlock: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
-        borderTopWidth: 2,
-        borderTopColor: '#b0acb0',
     },
     orderInfoBlock: {
         flexDirection: 'row',

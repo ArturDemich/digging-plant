@@ -2,13 +2,13 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 
 import Order from './Order'
 import AllPlants from './AllPlants'
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { setStorageId } from '../state/dataSlice';
 import { useEffect } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
-function FildScreen({ route }) {
+function FildScreen({ route, currentColor }) {
     const dispatch = useDispatch()
    
 
@@ -22,7 +22,7 @@ function FildScreen({ route }) {
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 13, fontWeight: '700' },
-                tabBarStyle: { backgroundColor: '#CCC' },
+                tabBarStyle: { backgroundColor: currentColor },
                 tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, },
                 lazy: true,
             }}
@@ -43,5 +43,9 @@ function FildScreen({ route }) {
     )
 }
 
-export default FildScreen
+const mapStateToProps = state => ({
+    currentColor: state.currentColorStep,    
+})
+
+export default connect(mapStateToProps)(FildScreen)
 
