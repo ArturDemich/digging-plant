@@ -9,31 +9,36 @@ import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
 const styles = StyleSheet.create({
     viewContainer: {
         marginBottom: 5,
-        width: '100%',
+        flex: 1,
+        //width: '100%',
         flexDirection: 'column',
-        
-    },    
+
+    },
     infoBlock: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: '100%',
+        // width: '100%',
+        flex: 1,
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
     },
     input: {
         height: 30,
         width: 40,
-        margin: 12,
         borderWidth: 1,
         borderColor: 'black',
         textAlign: 'center',
         alignSelf: 'center',
+        marginRight: 12,
     },
     orderInfoBlock: {
         flexDirection: 'row',
-        paddingRight: 5,
         paddingBottom: 2,
         paddingTop: 2,
+        paddingRight: 2,
+        justifyContent: 'flex-end',
+        gap: 5
+        //flex: 1,
     },
     orderNames: {
         alignSelf: 'center',
@@ -57,7 +62,7 @@ const styles = StyleSheet.create({
     textDataChange: {
         fontSize: 11,
         fontWeight: 900,
-        color: '#c5c5c5'
+        color: '#c5c5c5',
     },
     textStrong: {
         fontSize: 13,
@@ -73,14 +78,14 @@ const styles = StyleSheet.create({
 function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentStep, currentStorageId, token }) {
     const dispatch = useDispatch()
     const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange } = order
-    const { characteristic, product, unit } = plant    
+    const { characteristic, product, unit } = plant
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
     const [qtyInput, setQtyInput] = useState(qty)
     const [comentInfo, setComentInfo] = useState('')
 
     const getInfo = async () => {
         const res = await DataService.getOrderInfo(token, orderId)
-        setComentInfo(res.data[0].comment)        
+        setComentInfo(res.data[0].comment)
     }
 
     const setModalState = () => {
@@ -132,7 +137,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
         }
     }, [selectedAll, orderCheckBox, groupOrders])
 
-    
+
     return (
         <View style={styles.viewContainer}>
             <View style={styles.infoBlock}>
@@ -145,7 +150,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                     </View>
                     <Text style={styles.qtyInfo}> {qty} шт</Text>
                 </View>
-                <View>
+                <View style={{ alignSelf: 'center' }} >
                     <View style={[styles.orderInfoBlock, !currentStep.rightToChange && { display: 'none' }]}>
                         <TextInput
                             style={styles.input}
@@ -167,8 +172,8 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                         />
                     </View>
                     <Text style={styles.textDataChange}
-                    allowFontScaling={true}
-                    maxFontSizeMultiplier={1}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
                     >змінено: {lastChange} </Text>
                 </View>
             </View>

@@ -10,19 +10,19 @@ const Tab = createMaterialTopTabNavigator();
 
 function FildScreen({ route, currentColor }) {
     const dispatch = useDispatch()
-   
+
 
     useEffect(() => {
         dispatch(setStorageId(route.params.storageId))
     }, [])
-    
+
     return (
         <Tab.Navigator
             initialRouteName="Рослини Замовлення"
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 13, fontWeight: '700' },
-                tabBarStyle: { backgroundColor: currentColor },
+                tabBarStyle: { backgroundColor: currentColor, marginBottom: -10 },
                 tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, },
                 lazy: true,
             }}
@@ -44,7 +44,7 @@ function FildScreen({ route, currentColor }) {
 }
 
 const mapStateToProps = state => ({
-    currentColor: state.currentColorStep,    
+    currentColor: state.currentColorStep,
 })
 
 export default connect(mapStateToProps)(FildScreen)

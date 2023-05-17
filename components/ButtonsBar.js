@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
         flex: 3,
     }),
     selectedButtons: {
-       // backgroundColor: 'snow', //#cacaca
+        // backgroundColor: 'snow', //#cacaca
         borderColor: '#f8f8f8',
         borderWidth: 1,
         elevation: 0,
@@ -43,11 +43,11 @@ const styles = StyleSheet.create({
 const colorStepBtn = {
     green: {
         name: 'green',
-        color: '#45aa45'
+        color: '#E53935'
     },
     yellow: {
         name: 'yellow',
-        color: '#62D16E'
+        color: '#FF8A70'
     },
     pink: {
         name: 'pink',
@@ -55,11 +55,11 @@ const colorStepBtn = {
     },
     red: {
         name: 'red',
-        color: '#FF8A70'
+        color: '#62D16E'
     },
     purple: {
         name: 'purple',
-        color: '#E53935'
+        color: 'grey'
     }
 }
 
@@ -72,38 +72,38 @@ function ButtonsBar({ steps, currentStep }) {
         await dispatch(setCurrentColorStep(newStep.theme))
     }
 
-    const setColor = (val) => {        
+    const setColor = (val) => {
         switch (val) {
             case colorStepBtn.green.name:
-            return colorStepBtn.green.color
-            break;
+                return colorStepBtn.green.color
+                break;
             case colorStepBtn.yellow.name:
                 return colorStepBtn.yellow.color
-            break;
+                break;
             case colorStepBtn.pink.name:
                 return colorStepBtn.pink.color
-            break;
+                break;
             case colorStepBtn.red.name:
                 return colorStepBtn.red.color
-            break;
+                break;
             case colorStepBtn.purple.name:
                 return colorStepBtn.purple.color
-            break;
+                break;
             default:
                 console.log('color not defined')
         }
     }
- console.log(steps)
+    console.log(steps)
     return (
         <View style={styles.statusBar}>
             {steps.map((step) => (
                 <TouchableHighlight
                     key={step.id}
-                    style={[styles.buttonsBar(setColor(step.theme)), currentStep.id === step.id && styles.selectedButtons ]}
+                    style={[styles.buttonsBar(setColor(step.theme)), currentStep.id === step.id && styles.selectedButtons]}
                     onPress={() => setDataState(step)}
                 >
                     <Text
-                        style={[styles.textBtnBar, currentStep.id === step.id && {color: 'black'}]}
+                        style={[styles.textBtnBar, currentStep.id === step.id && { color: 'black' }]}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
                     > {step.name} </Text>

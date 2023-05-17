@@ -29,7 +29,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
         }, [currentStep])
     )
 
-    
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -45,11 +45,11 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
                 </View> :
                 groupOrders.length == 0 ?
                     <View style={styles.costLineWrapper}>
-                        <Text 
-                        style={styles.noneData}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
-                         >В цьому полі немає рослин з таким сатусом</Text>
+                        <Text
+                            style={styles.noneData}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        >В цьому полі немає рослин з таким сатусом</Text>
                     </View> :
                     <FlatList
                         data={groupOrders}
@@ -67,7 +67,7 @@ const mapStateToProps = state => {
     return {
         groupOrders: state.groupOrders,
         currentStep: state.currentStep,
-        totalPlantQty: state.totalPlantQty,        
+        totalPlantQty: state.totalPlantQty,
     }
 }
 export default connect(mapStateToProps, null)(AllPlantsScreen)
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        marginBottom: 1,
+        marginBottom: 3,
     },
     costLineWrapper: {
         height: 'auto',
@@ -110,5 +110,5 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 900,
         color: 'gray',
-    },    
+    },
 })

@@ -12,7 +12,7 @@ const initialState = {
     dataChange: [],
     notifications: [],
     totalPlantQty: 0,
-    totalOrderQty: 0,    
+    totalOrderQty: 0,
 }
 
 export const dataSlice = createSlice({
@@ -52,11 +52,11 @@ export const dataSlice = createSlice({
             const colorStepBtn = {
                 green: {
                     name: 'green',
-                    color: '#45aa45'
+                    color: '#E53935'
                 },
                 yellow: {
                     name: 'yellow',
-                    color: '#62D16E'
+                    color: '#FF8A70'
                 },
                 pink: {
                     name: 'pink',
@@ -64,32 +64,32 @@ export const dataSlice = createSlice({
                 },
                 red: {
                     name: 'red',
-                    color: '#FF8A70'
+                    color: '#62D16E'
                 },
                 purple: {
                     name: 'purple',
-                    color: '#E53935'
+                    color: 'grey'
                 }
             }
             switch (action.payload) {
                 case colorStepBtn.green.name:
                     state.currentColorStep = colorStepBtn.green.color
-                break;
+                    break;
                 case colorStepBtn.yellow.name:
                     state.currentColorStep = colorStepBtn.yellow.color
-                break;
+                    break;
                 case colorStepBtn.pink.name:
                     state.currentColorStep = colorStepBtn.pink.color
-                break;
+                    break;
                 case colorStepBtn.red.name:
                     state.currentColorStep = colorStepBtn.red.color
-                break;
+                    break;
                 case colorStepBtn.purple.name:
                     state.currentColorStep = colorStepBtn.purple.color
-                break;
+                    break;
                 default:
                     alert('Color not defined!')
-            }            
+            }
         },
         setDataChange(state, action) {
             const orders = state.dataChange

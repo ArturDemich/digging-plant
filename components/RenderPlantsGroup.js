@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         shadowColor: color,
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
-        shadowRadius: 3,        
+        shadowRadius: 3,
     }),
     costLineWrapper: {
         height: 'auto',
@@ -84,8 +84,8 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
     const item = plants.item
 
     let qty = 0
-    item.orders.forEach(elem => qty += elem.qty)   
-    
+    item.orders.forEach(elem => qty += elem.qty)
+
     return (
         <View>
             <TouchableHighlight
@@ -94,10 +94,10 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
             >
                 <View style={styles.costLineWrapper}>
                     <View style={styles.infoContainer}>
-                        <Text 
-                        style={styles.plantName}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
+                        <Text
+                            style={styles.plantName}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
                         >{item.product.name}</Text>
                         <Checkbox
                             value={selectedAll}
@@ -108,8 +108,8 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
                     </View>
                     <View style={styles.info}>
                         <Text style={styles.characteristics}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
                         >{item.characteristic.name}</Text>
                         <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
@@ -131,7 +131,7 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
 }
 
 const mapStateToProps = state => ({
-    currentColor: state.currentColorStep,    
+    currentColor: state.currentColorStep,
 })
 
 export default connect(mapStateToProps)(RenderPlantsGroup)

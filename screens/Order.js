@@ -10,7 +10,7 @@ import { getOrdersStep } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty }) {
-    const dispatch = useDispatch()    
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
 
@@ -52,7 +52,10 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                     />
             }
             <NextStepButton path={route.name} />
-            <ButtonsBar storageId={storageId} token={token} />
+            <View style={{ backgroundColor: "transparent" }}>
+                <ButtonsBar storageId={storageId} token={token} />
+            </View>
+
         </SafeAreaView>
     )
 }
@@ -73,7 +76,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        marginBottom: 1,
+        marginBottom: 3,
+        backgroundColor: "rgba(52, 52, 52, alpha)"
     },
     loader: {
         height: 'auto',
