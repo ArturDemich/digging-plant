@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
@@ -51,10 +51,8 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                         keyExtractor={item => item.orderId.toString()}
                     />
             }
-            <NextStepButton path={route.name} />
-            <View style={{ backgroundColor: "transparent" }}>
-                <ButtonsBar storageId={storageId} token={token} />
-            </View>
+            <NextStepButton path={route.name} />            
+            <ButtonsBar storageId={storageId} token={token} />          
 
         </SafeAreaView>
     )
@@ -77,7 +75,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 3,
-        backgroundColor: "rgba(52, 52, 52, alpha)"
+        marginTop: Platform.OS === 'ios' ? -45 : -10,
     },
     loader: {
         height: 'auto',

@@ -7,7 +7,7 @@ import RenderOrderByGroup from "./RenderOrderByGroup"
 
 
 const styles = StyleSheet.create({
-    rowFront: color => ({
+    rowFront: {
         alignItems: 'center',
         backgroundColor: '#fff',
         borderBottomColor: 'black',
@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 5,
         elevation: 5,
-        shadowColor: color,
+        shadowColor: 'black',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
-    }),
+    },
     costLineWrapper: {
         height: 'auto',
         flex: 1,
@@ -34,9 +34,10 @@ const styles = StyleSheet.create({
     plantName: {
         height: 'auto',
         fontSize: 15,
-        fontWeight: '600',
+        fontWeight: '700',
         width: '94%',
-        textShadowRadius: 3
+        textShadowRadius: 3,
+        paddingRight: 2
     },
     characteristics: {
         height: 'auto',
@@ -89,7 +90,7 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
     return (
         <View>
             <TouchableHighlight
-                style={styles.rowFront(currentColor)}
+                style={styles.rowFront}
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
@@ -111,7 +112,11 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{item.characteristic.name}</Text>
-                        <Text style={styles.quantity}> всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
+                        <Text 
+                        style={styles.quantity}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                        > всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
                     <View style={styles.changeinfo}>
                         <View style={styles.orderInfoBlock}>

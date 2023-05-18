@@ -1,6 +1,6 @@
 import Checkbox from "expo-checkbox"
 import { useEffect, useState } from "react"
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
 import { DataService } from "../state/dataService"
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     infoBlock: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        // width: '100%',
         flex: 1,
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
@@ -29,16 +28,18 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         textAlign: 'center',
         alignSelf: 'center',
-        marginRight: 12,
+        //marginRight: 12,
     },
     orderInfoBlock: {
         flexDirection: 'row',
         paddingBottom: 2,
         paddingTop: 2,
         paddingRight: 2,
+    },
+    orderInfoChange: {
+        flexDirection: 'row',
         justifyContent: 'flex-end',
-        gap: 5
-        //flex: 1,
+       // width: 110
     },
     orderNames: {
         alignSelf: 'center',
@@ -139,19 +140,39 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
 
 
     return (
-        <View style={styles.viewContainer}>
+        <SafeAreaView style={styles.viewContainer}>
             <View style={styles.infoBlock}>
                 <View style={styles.orderInfoBlock}>
                     <View style={styles.orderNames}>
-                        <Text style={styles.textStrong}>{shipmentMethod}</Text>
-                        <Text style={styles.textClient}>{customerName}</Text>
-                        <Text style={styles.textClient}>{orderNo}</Text>
-                        <Text style={styles.textClient}>Відгрузка: {shipmentDate}</Text>
+                        <Text 
+                        style={styles.textStrong}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                        >{shipmentMethod}</Text>
+                        <Text 
+                        style={styles.textClient}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                        >{customerName}</Text>
+                        <Text 
+                        style={styles.textClient}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                        >{orderNo}</Text>
+                        <Text 
+                        style={styles.textClient}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                        >Відгрузка: {shipmentDate}</Text>
                     </View>
-                    <Text style={styles.qtyInfo}> {qty} шт</Text>
+                    <Text 
+                    style={styles.qtyInfo}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
+                    > {qty} шт</Text>
                 </View>
                 <View style={{ alignSelf: 'center' }} >
-                    <View style={[styles.orderInfoBlock, !currentStep.rightToChange && { display: 'none' }]}>
+                    <View style={[styles.orderInfoChange, !currentStep.rightToChange && { display: 'none' }]}>
                         <TextInput
                             style={styles.input}
                             onChangeText={checkInput}
@@ -161,6 +182,8 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                             onBlur={(val) => inputOnBlur()}
                             autoFocus={false}
                             onFocus={() => setQtyInput('')}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
                         />
                         <Checkbox
                             value={orderCheckBox}
@@ -179,11 +202,15 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
             </View>
             <View style={styles.infoComent}>
                 {comentInfo.length > 0 ?
-                    <Text style={styles.textClient}>Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> :
+                    <Text 
+                    style={styles.textClient}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
+                    >Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> :
                     null
                 }
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 

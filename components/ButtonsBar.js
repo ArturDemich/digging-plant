@@ -12,54 +12,59 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         backgroundColor: color,
         minWidth: "18%",
-        height: 60,
+        height: 45,
         margin: 4,
         alignItems: 'center',
         alignSelf: 'center',
         justifyContent: 'center',
-        padding: 3,
-        elevation: 5,
-        shadowColor: '#52006A',
+        elevation: 3,
+        shadowColor: 'black',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
         flex: 3,
     }),
-    selectedButtons: {
-        // backgroundColor: 'snow', //#cacaca
-        borderColor: '#f8f8f8',
-        borderWidth: 1,
+    selectedButtons: { //#cacaca
+        borderColor: '#f2f5f8',
+        borderWidth: 3,
         elevation: 0,
-        color: 'black',
-        opacity: 10
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0,
+        shadowRadius: 0,
     },
     textBtnBar: {
         color: 'white',
-        fontSize: 13.5,
+        fontSize: 12,
         fontWeight: 700,
+        alignSelf: 'center',
     },
 })
 
 const colorStepBtn = {
     green: {
-        name: 'green',
-        color: '#E53935'
+        id: '80b807a8-aed1-11ed-836a-00c12700489e',
+        name: 'Нове',
+        color: '#00721B'
     },
     yellow: {
-        name: 'yellow',
-        color: '#FF8A70'
+        id: '80b807a4-aed1-11ed-836a-00c12700489e',
+        name: 'В роботі',
+        color: '#1FBB43'
     },
     pink: {
-        name: 'pink',
-        color: '#E9DA7E'
+        id: '80b807a6-aed1-11ed-836a-00c12700489e',
+        name: 'Викопано',
+        color: '#83E499'
     },
     red: {
-        name: 'red',
-        color: '#62D16E'
+        id: '80b807a5-aed1-11ed-836a-00c12700489e',
+        name: 'В дорозі',
+        color: '#C2DBC7'
     },
     purple: {
-        name: 'purple',
-        color: 'grey'
+        id: '80b807a7-aed1-11ed-836a-00c12700489e',
+        name: 'На Базі',
+        color: '#A8AFAA'
     }
 }
 
@@ -74,39 +79,56 @@ function ButtonsBar({ steps, currentStep }) {
 
     const setColor = (val) => {
         switch (val) {
-            case colorStepBtn.green.name:
+            case colorStepBtn.green.id:
                 return colorStepBtn.green.color
                 break;
-            case colorStepBtn.yellow.name:
+            case colorStepBtn.yellow.id:
                 return colorStepBtn.yellow.color
                 break;
-            case colorStepBtn.pink.name:
+            case colorStepBtn.pink.id:
                 return colorStepBtn.pink.color
                 break;
-            case colorStepBtn.red.name:
+            case colorStepBtn.red.id:
                 return colorStepBtn.red.color
                 break;
-            case colorStepBtn.purple.name:
+            case colorStepBtn.purple.id:
                 return colorStepBtn.purple.color
                 break;
             default:
                 console.log('color not defined')
         }
     }
-    console.log(steps)
+
+    const setStepName = (val) => {
+        switch (val) {
+            case colorStepBtn.green.id:
+                return colorStepBtn.green.name                
+            case colorStepBtn.yellow.id:
+                return colorStepBtn.yellow.name                
+            case colorStepBtn.pink.id:
+                return colorStepBtn.pink.name                
+            case colorStepBtn.red.id:
+                return colorStepBtn.red.name                
+            case colorStepBtn.purple.id:
+                return colorStepBtn.purple.name                
+            default:
+                alert('Step Name not defined')
+        }
+    }
+   // console.log(steps)
     return (
         <View style={styles.statusBar}>
             {steps.map((step) => (
                 <TouchableHighlight
                     key={step.id}
-                    style={[styles.buttonsBar(setColor(step.theme)), currentStep.id === step.id && styles.selectedButtons]}
+                    style={[styles.buttonsBar(setColor(step.id)), currentStep.id === step.id && styles.selectedButtons]}
                     onPress={() => setDataState(step)}
                 >
                     <Text
-                        style={[styles.textBtnBar, currentStep.id === step.id && { color: 'black' }]}
+                        style={[styles.textBtnBar]}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
-                    > {step.name} </Text>
+                    > {setStepName(step.id)} </Text>
                 </TouchableHighlight>
             ))}
         </View>

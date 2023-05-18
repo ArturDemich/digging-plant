@@ -21,8 +21,8 @@ function FildScreen({ route, currentColor }) {
             initialRouteName="Рослини Замовлення"
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
-                tabBarLabelStyle: { fontSize: 13, fontWeight: '700' },
-                tabBarStyle: { backgroundColor: currentColor, marginBottom: -10 },
+                tabBarLabelStyle: { fontSize: 12, fontWeight: '700' },
+                tabBarStyle: { backgroundColor: currentColor, },
                 tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, },
                 lazy: true,
             }}

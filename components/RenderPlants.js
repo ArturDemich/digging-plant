@@ -69,14 +69,30 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                 maxFontSizeMultiplier={1}
                 >{product.name}</Text>
                 <View style={styles.info}>
-                    <Text style={styles.characteristics}>{characteristic.name}</Text>
-                    <Text style={styles.changeDate}>змінено: {lastChange}</Text>
+                    <Text 
+                    style={styles.characteristics}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
+                    >{characteristic.name}</Text>
+                    <Text 
+                    style={styles.changeDate}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
+                    >змінено: {lastChange}</Text>
                 </View>
                 <View style={styles.info}>
-                    <Text style={styles.quantity}>к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
+                    <Text 
+                    style={styles.quantity}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
+                    >к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
                     <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
                         <View style={styles.changeinfoblock}>
-                            <Text style={styles.quantity}>
+                            <Text 
+                            style={styles.quantity}
+                            allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
+                            >
                                 Викопано:
                             </Text>
                             <TextInput
@@ -137,9 +153,9 @@ const styles = StyleSheet.create({
         height: 'auto',
         width: 'auto',
         fontSize: 13,
-        fontWeight: '600',
+        fontWeight: '800',
         paddingTop: 5,
-        textShadowRadius: 3
+        textShadowRadius: 2
     },
     characteristics: {
         height: 'auto',

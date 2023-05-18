@@ -52,23 +52,23 @@ export const dataSlice = createSlice({
             const colorStepBtn = {
                 green: {
                     name: 'green',
-                    color: '#E53935'
+                    color: '#00721B'
                 },
                 yellow: {
                     name: 'yellow',
-                    color: '#FF8A70'
+                    color: '#1FBB43'
                 },
                 pink: {
                     name: 'pink',
-                    color: '#E9DA7E'
+                    color: '#83E499'
                 },
                 red: {
                     name: 'red',
-                    color: '#62D16E'
+                    color: '#C2DBC7'
                 },
                 purple: {
                     name: 'purple',
-                    color: 'grey'
+                    color: '#A8AFAA'
                 }
             }
             switch (action.payload) {

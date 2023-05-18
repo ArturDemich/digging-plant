@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { Text, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native'
+import { Text, StyleSheet, View, FlatList, ActivityIndicator, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import shortid from 'shortid'
@@ -55,6 +55,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
                         data={groupOrders}
                         renderItem={(plants) => <RenderPlantsGroup plants={plants} rightToChange={currentStep.rightToChange} />}
                         keyExtractor={() => shortid.generate()}
+                        style={{marginTop: -10}}
                     />
             }
             <NextStepButton path={route.name} />
@@ -80,6 +81,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 3,
+        marginTop: Platform.OS === 'ios' ? -100 : -10,
     },
     costLineWrapper: {
         height: 'auto',

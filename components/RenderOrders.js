@@ -8,7 +8,7 @@ import RenderPlants from "./RenderPlants"
 
 
 const styles = StyleSheet.create({
-    rowFront: color => ({
+    rowFront: {
         alignItems: 'center',
         backgroundColor: '#fff',
         borderBottomColor: 'black',
@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         margin: 5,
         elevation: 10,
-        shadowColor: color,
+        shadowColor: 'black',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,        
-    }),
+    },
     costLineWrapper: {
         height: 'auto',
         flex: 1,
@@ -96,7 +96,7 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
     return (
         <View>
             <TouchableHighlight
-                style={styles.rowFront(currentColor)}
+                style={styles.rowFront}
                 underlayColor={'#AAA'}
             >
                 <View style={styles.costLineWrapper}>
@@ -114,15 +114,38 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
                             />
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text style={styles.orderNum}>Номер: <Text style={styles.textStr}>{orderNo}</Text> </Text>
-                            <Text style={styles.orderShipment}>К-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
+                            <Text 
+                            style={styles.orderNum}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                            >Номер: <Text style={styles.textStr}>{orderNo}</Text> </Text>
+                            <Text 
+                            style={styles.orderShipment}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                            >К-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text style={styles.orderShipment}>Спосіб: <Text style={styles.textStr}>{shipmentMethod}</Text> </Text>
-                            <Text style={styles.orderShipment}>Відгрузка: <Text style={styles.textStr}>{shipmentDate}</Text> </Text>
+                            <Text 
+                            style={styles.orderShipment}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                            >Спосіб: <Text style={styles.textStr}>{shipmentMethod}</Text> </Text>
+                            <Text 
+                            style={styles.orderShipment}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                            >Відгрузка: <Text style={styles.textStr}>{shipmentDate}</Text> </Text>
                         </View>
                         {comentInfo.length > 0 ?
-                            <Text>Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> :
+                            <Text
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                            >Коментар: <Text 
+                            allowFontScaling={true} 
+                            maxFontSizeMultiplier={1} 
+                            style={{ fontWeight: 800 }}
+                            > {comentInfo} </Text></Text> :
                             null
                         }
                     </View>
