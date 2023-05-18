@@ -96,7 +96,7 @@ function LoginScreen({ navigation, digStorages, token }) {
         setLoading(true)
         onChangeLogin('')
         onChangePass('')
-        await dispatch(getTokenThunk(login, password))        
+        await dispatch(getTokenThunk(login, password))
     }
 
     return (
@@ -106,28 +106,32 @@ function LoginScreen({ navigation, digStorages, token }) {
                     <ActivityIndicator size="large" color="#45aa45" />
                 </View> :
                 <View style={styles.containerView}>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangeLogin}
-                    value={login}
-                    placeholder="Введіть користувача"
-                    placeholderTextColor={'gray'}
-                />
-                <TextInput
-                    style={styles.input}
-                    onChangeText={onChangePass}
-                    value={password}
-                    placeholder="Введіть пароль"
-                    secureTextEntry={true}
-                    placeholderTextColor={'gray'}
-                />
-                <TouchableHighlight
-                    style={styles.button}
-                    onPress={() => getToken()}
-                >
-                    <Text style={styles.text}> Увійти </Text>
-                </TouchableHighlight>
-            </View>}
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangeLogin}
+                        value={login}
+                        placeholder="Введіть користувача"
+                        placeholderTextColor={'gray'}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={onChangePass}
+                        value={password}
+                        placeholder="Введіть пароль"
+                        secureTextEntry={true}
+                        placeholderTextColor={'gray'}
+                    />
+                    <TouchableHighlight
+                        style={styles.button}
+                        onPress={() => getToken()}
+                    >
+                        <Text
+                            style={styles.text}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        > Увійти </Text>
+                    </TouchableHighlight>
+                </View>}
         </SafeAreaView>
     );
 };

@@ -9,7 +9,7 @@ import { clearDataChangeItem, setDataChange } from '../state/dataSlice'
 
 function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem, currentStep, orders }) {
     const dispatch = useDispatch()
-    const { characteristic, lastChange, product, qty, unit } = prodactElem    
+    const { characteristic, lastChange, product, qty, unit } = prodactElem
     const [plantCheckBox, setPlantCheckBox] = useState(selectedAllOrder)
     const [qtyState, setQty] = useState(qty)
 
@@ -23,7 +23,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
         } else {
             alert('Введіть кількіть викопаних рослин - цифрами')
         }
-    }    
+    }
 
     const setModalState = () => {
         const orders = {
@@ -65,58 +65,59 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
         <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>
                 <Text style={styles.plantName}
-                allowFontScaling={true}
-                maxFontSizeMultiplier={1}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
                 >{product.name}</Text>
                 <View style={styles.info}>
-                    <Text 
-                    style={styles.characteristics}
-                    allowFontScaling={true}
-                    maxFontSizeMultiplier={1}
+                    <Text
+                        style={styles.characteristics}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
                     >{characteristic.name}</Text>
-                    <Text 
-                    style={styles.changeDate}
-                    allowFontScaling={true}
-                    maxFontSizeMultiplier={1}
+                    <Text
+                        style={styles.changeDate}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
                     >змінено: {lastChange}</Text>
                 </View>
                 <View style={styles.info}>
-                    <Text 
-                    style={styles.quantity}
-                    allowFontScaling={true}
-                    maxFontSizeMultiplier={1}
+                    <Text
+                        style={styles.quantity}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
                     >к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
-                    <View style={[styles.changeinfo, !currentStep.rightToChange && { display: 'none' }]}>
-                        <View style={styles.changeinfoblock}>
-                            <Text 
-                            style={styles.quantity}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                            >
-                                Викопано:
-                            </Text>
-                            <TextInput
-                                style={styles.input}
-                                onChangeText={checkInput}
-                                value={String(qtyState)}
-                                inputMode='numeric'
-                                keyboardType="numeric"
-                                onBlur={(val) => inputOnBlur()}
-                                autoFocus={false}
-                                onFocus={() => setQty('')}
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
+                    {currentStep.rightToChange ?
+                        <View style={styles.changeinfo}>
+                            <View style={styles.changeinfoblock}>
+                                <Text
+                                    style={styles.quantity}
+                                    allowFontScaling={true}
+                                    maxFontSizeMultiplier={1}
+                                >
+                                    Викопано:
+                                </Text>
+                                <TextInput
+                                    style={styles.input}
+                                    onChangeText={checkInput}
+                                    value={String(qtyState)}
+                                    inputMode='numeric'
+                                    keyboardType="numeric"
+                                    onBlur={(val) => inputOnBlur()}
+                                    autoFocus={false}
+                                    onFocus={() => setQty('')}
+                                    allowFontScaling={true}
+                                    maxFontSizeMultiplier={1}
+                                />
+                            </View>
+                            <Checkbox
+                                value={plantCheckBox}
+                                color='#45aa45'
+                                onValueChange={() => {
+                                    setPlantCheckBox(!plantCheckBox)
+                                }}
+                                style={styles.checkBox}
                             />
-                        </View>
-                        <Checkbox
-                            value={plantCheckBox}
-                            color='#45aa45'
-                            onValueChange={() => {
-                                setPlantCheckBox(!plantCheckBox)
-                            }}
-                            style={styles.checkBox}
-                        />
-                    </View>
+                        </View> : null}
                 </View>
             </View>
         </View>

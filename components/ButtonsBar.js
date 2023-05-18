@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0,
         shadowRadius: 0,
+        borderRadius: 6
     },
     textBtnBar: {
         color: 'white',
@@ -42,27 +43,27 @@ const styles = StyleSheet.create({
 
 const colorStepBtn = {
     green: {
-        id: '80b807a8-aed1-11ed-836a-00c12700489e',
+        id: 'b5ffdb30-cdb0-11ed-836c-00c12700489e',
         name: 'Нове',
         color: '#00721B'
     },
     yellow: {
-        id: '80b807a4-aed1-11ed-836a-00c12700489e',
+        id: 'b5ffdb2c-cdb0-11ed-836c-00c12700489e',
         name: 'В роботі',
         color: '#1FBB43'
     },
     pink: {
-        id: '80b807a6-aed1-11ed-836a-00c12700489e',
+        id: 'b5ffdb2e-cdb0-11ed-836c-00c12700489e',
         name: 'Викопано',
         color: '#83E499'
     },
     red: {
-        id: '80b807a5-aed1-11ed-836a-00c12700489e',
+        id: 'b5ffdb2d-cdb0-11ed-836c-00c12700489e',
         name: 'В дорозі',
         color: '#C2DBC7'
     },
     purple: {
-        id: '80b807a7-aed1-11ed-836a-00c12700489e',
+        id: 'b5ffdb2f-cdb0-11ed-836c-00c12700489e',
         name: 'На Базі',
         color: '#A8AFAA'
     }
@@ -102,20 +103,20 @@ function ButtonsBar({ steps, currentStep }) {
     const setStepName = (val) => {
         switch (val) {
             case colorStepBtn.green.id:
-                return colorStepBtn.green.name                
+                return colorStepBtn.green.name
             case colorStepBtn.yellow.id:
-                return colorStepBtn.yellow.name                
+                return colorStepBtn.yellow.name
             case colorStepBtn.pink.id:
-                return colorStepBtn.pink.name                
+                return colorStepBtn.pink.name
             case colorStepBtn.red.id:
-                return colorStepBtn.red.name                
+                return colorStepBtn.red.name
             case colorStepBtn.purple.id:
-                return colorStepBtn.purple.name                
+                return colorStepBtn.purple.name
             default:
                 alert('Step Name not defined')
         }
     }
-   // console.log(steps)
+    console.log(steps)
     return (
         <View style={styles.statusBar}>
             {steps.map((step) => (

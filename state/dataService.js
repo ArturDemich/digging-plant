@@ -9,7 +9,7 @@ const encodedToken = Buffer.from(tok).toString('base64')
 export class DataService {
 
     static getStepOrders(stepId, storageId, token) {
-        let stepOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/getStepOrders', {
+        let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/getStepOrders', {
             token: token,
             stepId: stepId,
             storageId: storageId,
@@ -25,7 +25,7 @@ export class DataService {
     }
 
     static getGroupOrders(stepId, storageId, token) {
-        let groupOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/getStepOrders', {
+        let groupOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/getStepOrders', {
             token: token,
             stepId: stepId,
             storageId: storageId,
@@ -43,7 +43,7 @@ export class DataService {
 
     static getStoragesDig(token) {
 
-        return axios.post('http://194.42.196.141:41001/UTPT/hs/api/getStorages', { token: token }, {
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getStorages', { token: token }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
@@ -55,7 +55,7 @@ export class DataService {
 
     static getSteps(token) {
 
-        return axios.post('http://194.42.196.141:41001/UTPT/hs/api/getSteps', { token: token }, {
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getSteps', { token: token }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
@@ -68,7 +68,7 @@ export class DataService {
 
     static getToken(log, pass) {
 
-        return axios.post('http://194.42.196.141:41001/UTPT/hs/api/getToken', { login: log, password: pass }, {
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getToken', { login: log, password: pass }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
@@ -80,7 +80,7 @@ export class DataService {
 
     static getOrderInfo(token, orderId) {
 
-        return axios.post('http://194.42.196.141:41001/UTPT/hs/api/getOrderInfo', { token: token, orderid: orderId }, {
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getOrderInfo', { token: token, orderid: orderId }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
@@ -93,7 +93,7 @@ export class DataService {
 
     static setNextStepGroup(token, dataOrders) {
 
-        let stepOrders = axios.post('http://194.42.196.141:41001/UTPT/hs/api/setNextOrderStep', {
+        let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/setNextOrderStep', {
             token: token,
             stepdata: dataOrders
         }, {
@@ -110,7 +110,7 @@ export class DataService {
 
     static getNotifi(token) {
 
-        return axios.post('https://landshaft.info/modules/viber/digger4.php', { method: 'getNotifications', token: 'C249CB23C7F78CB5F3E0CC92E441E1B2' },
+        return axios.post('https://landshaft.info/modules/viber/digger4.php', { method: 'getNotifications', token: token },
             {
                 headers: { 'Accept': '*/*' }
             })
@@ -124,7 +124,7 @@ export class DataService {
 
         return axios.post('https://landshaft.info/modules/viber/digger4.php', {
             method: 'updateNotificationStatus',
-            token: 'C249CB23C7F78CB5F3E0CC92E441E1B2',
+            token: token,
             messageid: messageid,
             status: mstatus,
         })
@@ -139,7 +139,7 @@ export class DataService {
 
         return axios.post('https://landshaft.info/modules/viber/digger4.php', {
             method: 'deleteNotification',
-            token: 'C249CB23C7F78CB5F3E0CC92E441E1B2',
+            token: token,
             messageid: messageid,
         })
             .then((response) => response.data)

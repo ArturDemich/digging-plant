@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk } from '../state/dataThunk'
+import { MaterialIcons } from '@expo/vector-icons'
 
 
 const styles = StyleSheet.create({
@@ -8,29 +9,52 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 14,
         fontWeight: 900,
-        alignSelf: 'center',
     },
-    buttonStep: {
-        borderRadius: 5,
-        textAlign: "center",
-        backgroundColor: "#45aa45",
-        width: 150,
+    buttonStep: color => ({
+        borderRadius: 3,
+        backgroundColor: color,
         height: 40,
-        textAlignVertical: 'center',
-        alignSelf: 'center',
+        padding: 5,
         elevation: 3,
         shadowColor: '#52006A',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
-        justifyContent: 'center',
-        marginBottom: 5,
-        marginTop: 10,
-    },
+        marginBottom: 3,
+        opacity: 0.95
+    }),
     none: {
         display: 'none'
     }
 })
+
+const colorStepBtn = {
+    green: {
+        id: 'b5ffdb30-cdb0-11ed-836c-00c12700489e',
+        name: 'Нове',
+        color: '#00721B'
+    },
+    yellow: {
+        id: 'b5ffdb2c-cdb0-11ed-836c-00c12700489e',
+        name: 'В роботі',
+        color: '#1FBB43'
+    },
+    pink: {
+        id: 'b5ffdb2e-cdb0-11ed-836c-00c12700489e',
+        name: 'Викопано',
+        color: '#83E499'
+    },
+    red: {
+        id: 'b5ffdb2d-cdb0-11ed-836c-00c12700489e',
+        name: 'В дорозі',
+        color: '#C2DBC7'
+    },
+    purple: {
+        id: 'b5ffdb2f-cdb0-11ed-836c-00c12700489e',
+        name: 'На Базі',
+        color: '#A8AFAA'
+    }
+}
 
 function NextStepButton({ path, currentStorageId, token, currentStep, dataChange }) {
     const dispatch = useDispatch()
@@ -43,18 +67,55 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
         }
     }
 
+    const setNextStepName = (val) => {
+        switch (val) {
+            case colorStepBtn.green.id:
+                return titel = colorStepBtn.yellow.name
+            case colorStepBtn.yellow.id:
+                return color = colorStepBtn.pink.name
+            case colorStepBtn.pink.id:
+                return color = colorStepBtn.red.name
+            case colorStepBtn.red.id:
+                return color = colorStepBtn.purple.name
+            case colorStepBtn.purple.id:
+                return null
+            default:
+                alert('Step Name not defined')
+        }
+    }
+
+    const setNextStepColor = (val) => {
+        switch (val) {
+            case colorStepBtn.green.id:
+                return colorStepBtn.yellow.color
+            case colorStepBtn.yellow.id:
+                return color = colorStepBtn.pink.color
+            case colorStepBtn.pink.id:
+                return color = colorStepBtn.red.color
+            case colorStepBtn.red.id:
+                return color = colorStepBtn.purple.color
+            case colorStepBtn.purple.id:
+                return null
+            default:
+                alert('Step Color not defined')
+        }
+    }
+    console.log(currentStep)
     return (
         <View>
-            {dataChange.length > 0 ? <View >
+            {dataChange.length > 0 ? <View style={{ position: 'absolute', right: 7, bottom: 0 }} >
+
                 <TouchableHighlight
-                    style={[styles.buttonStep, dataChange.length === 0 && styles.none]}
+                    style={[styles.buttonStep(setNextStepColor(currentStep.id)), dataChange.length === 0 && styles.none]}
                     onPress={() => sendData(path)}
                 >
-                    <Text
-                        style={styles.textBtn}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
-                    > {currentStep.nextStepName} </Text>
+                    <MaterialIcons name="done-outline" size={20} color="snow" style={{ flex: 1 }} >
+                        <Text
+                            style={styles.textBtn}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        > {setNextStepName(currentStep.id)} </Text>
+                    </MaterialIcons>
                 </TouchableHighlight>
             </View> : null}
         </View>

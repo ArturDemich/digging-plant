@@ -7,24 +7,24 @@ import { useDispatch } from "react-redux"
 
 
 
-function RenderNotifi({ notifi }) {
+function RenderNotifi({ notifi, token }) {
     const dispatch = useDispatch()
-    const { item } = notifi    
+    const { item } = notifi
 
     const updateNotifi = async () => {
         if (item.message_status === 'new') {
-            await dispatch(updateNotifiThunk('ggg', item.message_id, 'read'))
+            await dispatch(updateNotifiThunk(token, item.message_id, 'read'))
         } else if (item.message_status === 'read') {
-            await dispatch(updateNotifiThunk('ggg', item.message_id, 'new'))
+            await dispatch(updateNotifiThunk(token, item.message_id, 'new'))
         }
-        await dispatch(getNotifiThunk('lll'))
+        await dispatch(getNotifiThunk(token))
     }
 
     const deleteNotifi = async () => {
-        await dispatch(deleteNotifiThunk('lll', item.message_id))
-        await await dispatch(getNotifiThunk('lll'))
+        await dispatch(deleteNotifiThunk(token, item.message_id))
+        await await dispatch(getNotifiThunk(token))
     }
-   
+
     return (
         <View style={styles.renderRow}>
             <View style={styles.renderBlock}>

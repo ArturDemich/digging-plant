@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         fontWeight: 900,
         color: '#c5c5c5',
         alignSelf: 'flex-end',
-        
+
     },
     textStrong: {
         fontSize: 13,
@@ -145,56 +145,57 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
             <View style={styles.infoBlock}>
                 <View style={styles.orderInfoBlock}>
                     <View style={styles.orderNames}>
-                        <Text 
-                        style={styles.textStrong}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
-                        >{shipmentMethod}</Text>
-                        <Text 
-                        style={styles.textClient}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
-                        >{customerName}</Text>
-                        <Text 
-                        style={styles.textClient}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
-                        >{orderNo}</Text>
-                        <Text 
-                        style={styles.textClient}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
-                        >Відгрузка: {shipmentDate}</Text>
-                    </View>
-                    <Text 
-                    style={styles.qtyInfo}
-                    allowFontScaling={true}
-                    maxFontSizeMultiplier={1}
-                    > {qty} шт</Text>
-                </View>
-                <View style={{ alignSelf: 'center', flex:1, flexDirection: 'column'}} >
-                    <View style={[styles.orderInfoChange, !currentStep.rightToChange && { display: 'none' }]}>
-                        <TextInput
-                            style={styles.input}
-                            onChangeText={checkInput}
-                            value={String(qtyInput)}
-                            inputMode='numeric'
-                            keyboardType="numeric"
-                            onBlur={(val) => inputOnBlur()}
-                            autoFocus={false}
-                            onFocus={() => setQtyInput('')}
+                        <Text
+                            style={styles.textStrong}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
-                        />
-                        <Checkbox
-                            value={orderCheckBox}
-                            color='#45aa45'
-                            onValueChange={() => {
-                                setOrderCheckBox(!orderCheckBox)
-                            }}
-                            style={styles.checkBox}
-                        />
+                        >{shipmentMethod}</Text>
+                        <Text
+                            style={styles.textClient}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        >{customerName}</Text>
+                        <Text
+                            style={styles.textClient}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        >{orderNo}</Text>
+                        <Text
+                            style={styles.textClient}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        >Відгрузка: {shipmentDate}</Text>
                     </View>
+                    <Text
+                        style={styles.qtyInfo}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                    > {qty} шт</Text>
+                </View>
+                <View style={{ alignSelf: 'center', flex: 1, flexDirection: 'column' }} >
+                    {currentStep.rightToChange ?
+                        <View style={styles.orderInfoChange}>
+                            <TextInput
+                                style={styles.input}
+                                onChangeText={checkInput}
+                                value={String(qtyInput)}
+                                inputMode='numeric'
+                                keyboardType="numeric"
+                                onBlur={(val) => inputOnBlur()}
+                                autoFocus={false}
+                                onFocus={() => setQtyInput('')}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            />
+                            <Checkbox
+                                value={orderCheckBox}
+                                color='#45aa45'
+                                onValueChange={() => {
+                                    setOrderCheckBox(!orderCheckBox)
+                                }}
+                                style={styles.checkBox}
+                            />
+                        </View> : null}
                     <Text style={styles.textDataChange}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
@@ -203,10 +204,10 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
             </View>
             <View style={styles.infoComent}>
                 {comentInfo.length > 0 ?
-                    <Text 
-                    style={styles.textClient}
-                    allowFontScaling={true}
-                    maxFontSizeMultiplier={1}
+                    <Text
+                        style={styles.textClient}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
                     >Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> :
                     null
                 }

@@ -49,10 +49,12 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                         data={orders}
                         renderItem={(item) => <RenderOrders orders={item} rightToChange={currentStep.rightToChange} />}
                         keyExtractor={item => item.orderId.toString()}
+                        style={{ marginTop: -10, marginBottom: 10 }}
+                        initialNumToRender='4'
                     />
             }
-            <NextStepButton path={route.name} />            
-            <ButtonsBar storageId={storageId} token={token} />          
+            <NextStepButton path={route.name} />
+            <ButtonsBar storageId={storageId} token={token} />
 
         </SafeAreaView>
     )

@@ -55,7 +55,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
                         data={groupOrders}
                         renderItem={(plants) => <RenderPlantsGroup plants={plants} rightToChange={currentStep.rightToChange} />}
                         keyExtractor={() => shortid.generate()}
-                        style={{marginTop: -10}}
+                        style={{ marginTop: -10, marginBottom: 15 }}
                     />
             }
             <NextStepButton path={route.name} />

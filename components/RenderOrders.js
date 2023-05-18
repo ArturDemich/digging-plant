@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         shadowColor: 'black',
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
-        shadowRadius: 3,        
+        shadowRadius: 3,
     },
     costLineWrapper: {
         height: 'auto',
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         lineHeight: 20,
     },
     textStr: {
-        fontWeight: 500,
+        fontWeight: 600,
     },
     checkBox: {
         height: 25,
@@ -92,9 +92,9 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
         getInfo()
         setSelectedAllOrder(false)
     }, [orders])
-    
+
     return (
-        <View>
+        <View >
             <TouchableHighlight
                 style={styles.rowFront}
                 underlayColor={'#AAA'}
@@ -103,48 +103,50 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
                     <View style={styles.orderInfo}>
                         <View style={styles.infoContainer}>
                             <Text style={styles.orderClient}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
                             >{customerName}</Text>
-                            <Checkbox
-                                value={selectedAllOrder}
-                                color='#45aa45'
-                                onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
-                                style={[styles.checkBox, !rightToChange && { display: 'none' }]}
-                            />
+                            {rightToChange ?
+                                <Checkbox
+                                    value={selectedAllOrder}
+                                    color='#45aa45'
+                                    onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
+                                    style={styles.checkBox}
+                                /> : null}
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text 
-                            style={styles.orderNum}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                            >Номер: <Text style={styles.textStr}>{orderNo}</Text> </Text>
-                            <Text 
-                            style={styles.orderShipment}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                            >К-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
+                            <Text
+                                style={styles.orderShipment}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            ><Text style={styles.textStr}>{shipmentMethod}</Text> </Text>
+
+                            <Text
+                                style={styles.orderShipment}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            >к-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text 
-                            style={styles.orderShipment}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                            >Спосіб: <Text style={styles.textStr}>{shipmentMethod}</Text> </Text>
-                            <Text 
-                            style={styles.orderShipment}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                            >Відгрузка: <Text style={styles.textStr}>{shipmentDate}</Text> </Text>
+                            <Text
+                                style={styles.orderShipment}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            >відгрузка: <Text style={styles.textStr}>{shipmentDate}</Text> </Text>
+                            <Text
+                                style={styles.orderNum}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            >номер: <Text style={styles.textStr}>{orderNo}</Text> </Text>
                         </View>
                         {comentInfo.length > 0 ?
                             <Text
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                            >Коментар: <Text 
-                            allowFontScaling={true} 
-                            maxFontSizeMultiplier={1} 
-                            style={{ fontWeight: 800 }}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            >коментар: <Text
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                                style={{ fontWeight: 800, fontSize: 12 }}
                             > {comentInfo} </Text></Text> :
                             null
                         }

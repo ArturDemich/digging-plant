@@ -100,22 +100,23 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{item.product.name}</Text>
-                        <Checkbox
-                            value={selectedAll}
-                            color='#45aa45'
-                            onValueChange={() => setSelectedAll(!selectedAll)}
-                            style={[styles.checkBox, !rightToChange && { display: 'none' }]}
-                        />
+                        {rightToChange ?
+                            <Checkbox
+                                value={selectedAll}
+                                color='#45aa45'
+                                onValueChange={() => setSelectedAll(!selectedAll)}
+                                style={styles.checkBox}
+                            /> : null}
                     </View>
                     <View style={styles.info}>
                         <Text style={styles.characteristics}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{item.characteristic.name}</Text>
-                        <Text 
-                        style={styles.quantity}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
+                        <Text
+                            style={styles.quantity}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
                         > всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
                     </View>
                     <View style={styles.changeinfo}>

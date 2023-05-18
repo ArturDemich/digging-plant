@@ -26,7 +26,7 @@ function usePrevious(value) {
     return ref.current
 }
 
-function Notification({ notifiState }) {
+function Notification({ notifiState, token }) {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
     const [expoPushToken, setExpoPushToken] = useState('');
@@ -37,9 +37,9 @@ function Notification({ notifiState }) {
 
     useFocusEffect(
         useCallback(() => {
-            dispatch(getNotifiThunk('kkk'))
+            dispatch(getNotifiThunk(token[0].token))
             let getNotifiCyrcle = setTimeout(function get() {
-                dispatch(getNotifiThunk('kkk'))
+                dispatch(getNotifiThunk(token[0].token))
                 getNotifiCyrcle = setTimeout(get, 10000)
             }, 100000)
 
@@ -68,6 +68,7 @@ function Notification({ notifiState }) {
         };
     }, [notifiState.length])
 
+    console.log(token)
     return (
         <View>
             <Modal
@@ -78,11 +79,15 @@ function Notification({ notifiState }) {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.textStyle}>Повідомлення</Text>
+                        <Text
+                            style={styles.textStyle}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        >Повідомлення</Text>
                         {notifiState.length > 0 ?
                             <FlatList
                                 data={notifiState}
-                                renderItem={(notifi) => <RenderNotifi notifi={notifi} />}
+                                renderItem={(notifi) => <RenderNotifi notifi={notifi} token={token[0].token} />}
                                 keyExtractor={() => shortid.generate()}
 
                             /> :
@@ -94,7 +99,11 @@ function Notification({ notifiState }) {
                             onPress={() => setShow(!show)}
                             style={styles.buttonModal}
                         >
-                            <Text style={styles.modalText}>Закрити</Text>
+                            <Text
+                                style={styles.modalText}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            >Закрити</Text>
                         </TouchableOpacity>
 
                     </View>
@@ -122,7 +131,8 @@ function Notification({ notifiState }) {
 
 const mapStateToProps = state => {
     return {
-        notifiState: state.notifications
+        notifiState: state.notifications,
+        token: state.token
     }
 }
 
