@@ -91,7 +91,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                             <Text 
                             style={styles.quantity}
                             allowFontScaling={true}
-                    maxFontSizeMultiplier={1}
+                            maxFontSizeMultiplier={1}
                             >
                                 Викопано:
                             </Text>
@@ -104,6 +104,8 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                                 onBlur={(val) => inputOnBlur()}
                                 autoFocus={false}
                                 onFocus={() => setQty('')}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
                             />
                         </View>
                         <Checkbox

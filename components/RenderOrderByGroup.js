@@ -10,7 +10,6 @@ const styles = StyleSheet.create({
     viewContainer: {
         marginBottom: 5,
         flex: 1,
-        //width: '100%',
         flexDirection: 'column',
 
     },
@@ -28,18 +27,18 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         textAlign: 'center',
         alignSelf: 'center',
-        //marginRight: 12,
+        marginRight: 12,
     },
     orderInfoBlock: {
         flexDirection: 'row',
         paddingBottom: 2,
         paddingTop: 2,
         paddingRight: 2,
+        flex: 1
     },
     orderInfoChange: {
         flexDirection: 'row',
         justifyContent: 'flex-end',
-       // width: 110
     },
     orderNames: {
         alignSelf: 'center',
@@ -48,7 +47,7 @@ const styles = StyleSheet.create({
     },
     qtyInfo: {
         alignSelf: 'center',
-        marginLeft: 5,
+        marginLeft: 0,
         fontSize: 14,
         fontWeight: 700,
     },
@@ -64,6 +63,8 @@ const styles = StyleSheet.create({
         fontSize: 11,
         fontWeight: 900,
         color: '#c5c5c5',
+        alignSelf: 'flex-end',
+        
     },
     textStrong: {
         fontSize: 13,
@@ -171,7 +172,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                     maxFontSizeMultiplier={1}
                     > {qty} шт</Text>
                 </View>
-                <View style={{ alignSelf: 'center' }} >
+                <View style={{ alignSelf: 'center', flex:1, flexDirection: 'column'}} >
                     <View style={[styles.orderInfoChange, !currentStep.rightToChange && { display: 'none' }]}>
                         <TextInput
                             style={styles.input}

@@ -17,7 +17,7 @@ function HeaderTitle({ title, userName, navigation }) {
                 maxFontSizeMultiplier={1}
                 >{userName}</Text>
             </View>
-           {/*  <Notification /> */}
+            <Notification />
         </View>
     )
 }
