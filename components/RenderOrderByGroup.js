@@ -83,7 +83,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
     const { characteristic, product, unit } = plant
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
     const [qtyInput, setQtyInput] = useState(qty)
-    const [comentInfo, setComentInfo] = useState('')
+    const [comentInfo, setComentInfo] = useState('') 
 
     const getInfo = async () => {
         const res = await DataService.getOrderInfo(token, orderId)
@@ -139,7 +139,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
         }
     }, [selectedAll, orderCheckBox, groupOrders])
 
-
+    console.log('lod-Rend-Order-AllPl', order.length, plant.length, groupOrders.length ) 
     return (
         <SafeAreaView style={styles.viewContainer}>
             <View style={styles.infoBlock}>

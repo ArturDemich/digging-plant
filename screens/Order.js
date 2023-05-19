@@ -51,6 +51,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                         keyExtractor={item => item.orderId.toString()}
                         style={{ marginTop: -10, marginBottom: 10 }}
                         initialNumToRender='4'
+                        maxToRenderPerBatch='4'
                     />
             }
             <NextStepButton path={route.name} />

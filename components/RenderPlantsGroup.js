@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
+function RenderPlantsGroup({ plants, rightToChange }) {
     const [selectedAll, setSelectedAll] = useState(false)
     const item = plants.item
 
@@ -137,7 +137,7 @@ function RenderPlantsGroup({ plants, rightToChange, currentColor }) {
 }
 
 const mapStateToProps = state => ({
-    currentColor: state.currentColorStep,
+    
 })
 
 export default connect(mapStateToProps)(RenderPlantsGroup)
