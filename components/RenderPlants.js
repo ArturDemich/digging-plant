@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { Text, TextInput, StyleSheet, View } from 'react-native'
 import { useDispatch, connect } from 'react-redux'
 import { clearDataChangeItem, setDataChange } from '../state/dataSlice'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
 
 
 
@@ -81,11 +83,14 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
                     >змінено: {lastChange}</Text>
                 </View>
                 <View style={styles.info}>
-                    <Text
-                        style={styles.quantity}
-                        allowFontScaling={true}
-                        maxFontSizeMultiplier={1}
-                    >к-сть: <Text style={styles.textStr}> {qty}  шт</Text></Text>
+                    <MaterialCommunityIcons name="pine-tree" size={20} color="black">
+                        <MaterialCommunityIcons name="shovel" size={15} color="black" />
+                        <Text
+                            style={styles.quantity}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        > {qty} шт</Text>
+                    </MaterialCommunityIcons>
                     {currentStep.rightToChange ?
                         <View style={styles.changeinfo}>
                             <View style={styles.changeinfoblock}>
@@ -165,16 +170,19 @@ const styles = StyleSheet.create({
         fontSize: 13,
         textAlignVertical: 'center',
         paddingLeft: 10,
+        flex: 1
     },
     info: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     quantity: {
         height: 'auto',
         textAlignVertical: 'center',
         alignSelf: 'center',
-        paddingBottom: 5
+        paddingBottom: 5,
+        fontSize: 14,
+        fontWeight: 600
     },
     changeinfo: {
         flexDirection: 'row',

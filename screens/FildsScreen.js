@@ -8,7 +8,6 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         flex: 1,
-        marginTop: -10
     },
     containerView: {
         flex: 1,
@@ -18,8 +17,9 @@ const styles = StyleSheet.create({
     },
     text: {
         color: 'black',
-        fontSize: 20,        
+        fontSize: 20,
         marginBottom: 15,
+        marginTop: 25
     },
     button: {
         marginTop: 10,
@@ -39,8 +39,8 @@ const styles = StyleSheet.create({
         color: 'white',
         alignSelf: 'center',
         fontSize: 18,
-        fontWeight: 800,   
-        
+        fontWeight: 800,
+
     }
 })
 
@@ -49,17 +49,17 @@ function MainScreen({ navigation, digStorages, route }) {
 
     function renderFildsButton({ item }) {
         return (
-            <TouchableOpacity 
-            style={styles.button} 
-            onPress={() => {
-                navigation.navigate('Поле', { title: item.name, storageId: item.id, token: route.params.token })
-            }} 
+            <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                    navigation.navigate('Поле', { title: item.name, storageId: item.id, token: route.params.token })
+                }}
             >
-                <Text 
-                key={item.id} 
-                style={styles.textBtn}    
-                allowFontScaling={true}
-                maxFontSizeMultiplier={1}            
+                <Text
+                    key={item.id}
+                    style={styles.textBtn}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
                 > {item.name} </Text>
             </TouchableOpacity>
         )
@@ -69,10 +69,10 @@ function MainScreen({ navigation, digStorages, route }) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.containerView}>
-                <Text 
-                style={styles.text}
-                allowFontScaling={true}
-                maxFontSizeMultiplier={1}
+                <Text
+                    style={styles.text}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
                 > Виберіть поле </Text>
                 <FlatList
                     data={digStorages}

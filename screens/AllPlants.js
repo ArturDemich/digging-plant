@@ -30,7 +30,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
     )
 
 
-console.log('lod-AllPl')
+    console.log('lod-AllPl')
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.infoblock}>
@@ -55,7 +55,7 @@ console.log('lod-AllPl')
                         data={groupOrders}
                         renderItem={(plants) => <RenderPlantsGroup plants={plants} rightToChange={currentStep.rightToChange} />}
                         keyExtractor={() => shortid.generate()}
-                        style={{ marginTop: -10, marginBottom: 15 }}
+                        style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'
                     />
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 3,
-        marginTop: Platform.OS === 'ios' ? -45 : -10,
+        //marginTop: Platform.OS === 'ios' ? -45 : -10,
     },
     costLineWrapper: {
         height: 'auto',
@@ -102,6 +102,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginBottom: 20,
+        marginTop: 15
     },
     loader: {
         height: 'auto',

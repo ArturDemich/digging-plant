@@ -5,6 +5,8 @@ import { connect } from "react-redux"
 import shortid from "shortid"
 import { DataService } from "../state/dataService"
 import RenderPlants from "./RenderPlants"
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
 
 
 const styles = StyleSheet.create({
@@ -62,7 +64,15 @@ const styles = StyleSheet.create({
     },
     orderShipment: {
         height: 'auto',
-        lineHeight: 20,
+        fontSize: 12,
+        fontWeight: 600
+    },
+    quantity: {
+        height: 'auto',
+        textAlignVertical: 'center',
+        alignSelf: 'center',
+        fontSize: 12,
+        fontWeight: 600
     },
     textStr: {
         fontWeight: 600,
@@ -120,19 +130,23 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                             ><Text style={styles.textStr}>{shipmentMethod}</Text> </Text>
-
-                            <Text
-                                style={styles.orderShipment}
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
-                            >к-сть рослин: <Text style={styles.textStr}>{qty} шт</Text> </Text>
+                            <MaterialCommunityIcons name="pine-tree" size={20} color="black">
+                                <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
+                                <Text
+                                    style={styles.quantity}
+                                    allowFontScaling={true}
+                                    maxFontSizeMultiplier={1}
+                                > {qty} шт</Text>
+                            </MaterialCommunityIcons>
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text
-                                style={styles.orderShipment}
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
-                            >відгрузка: <Text style={styles.textStr}>{shipmentDate}</Text> </Text>
+                            <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="black" >
+                                <Text
+                                    style={styles.orderShipment}
+                                    allowFontScaling={true}
+                                    maxFontSizeMultiplier={1}
+                                > {shipmentDate}</Text>
+                            </MaterialCommunityIcons>
                             <Text
                                 style={styles.orderNum}
                                 allowFontScaling={true}

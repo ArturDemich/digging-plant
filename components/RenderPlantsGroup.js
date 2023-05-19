@@ -4,6 +4,8 @@ import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
 import { connect } from "react-redux"
 import shortid from "shortid"
 import RenderOrderByGroup from "./RenderOrderByGroup"
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+
 
 
 const styles = StyleSheet.create({
@@ -45,16 +47,19 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         paddingLeft: 10,
         paddingBottom: 1,
+        flex: 1
     },
     info: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingRight: 3
+        paddingRight: 3,
     },
     quantity: {
         height: 'auto',
         textAlignVertical: 'center',
         alignSelf: 'center',
+        fontSize: 12,
+        fontWeight: 600
     },
     changeinfo: {
         flexDirection: 'row',
@@ -113,11 +118,14 @@ function RenderPlantsGroup({ plants, rightToChange }) {
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{item.characteristic.name}</Text>
-                        <Text
-                            style={styles.quantity}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                        > всього: <Text style={styles.textStr}> {qty} шт</Text></Text>
+                        <MaterialCommunityIcons name="pine-tree" size={20} color="black">
+                            <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
+                            <Text
+                                style={styles.quantity}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            > {qty} шт</Text>
+                        </MaterialCommunityIcons>
                     </View>
                     <View style={styles.changeinfo}>
                         <View style={styles.orderInfoBlock}>
@@ -137,7 +145,7 @@ function RenderPlantsGroup({ plants, rightToChange }) {
 }
 
 const mapStateToProps = state => ({
-    
+
 })
 
 export default connect(mapStateToProps)(RenderPlantsGroup)

@@ -49,7 +49,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                         data={orders}
                         renderItem={(item) => <RenderOrders orders={item} rightToChange={currentStep.rightToChange} />}
                         keyExtractor={item => item.orderId.toString()}
-                        style={{ marginTop: -10, marginBottom: 10 }}
+                        style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'
                     />
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 3,
-        marginTop: Platform.OS === 'ios' ? -45 : -10,
+        // marginTop: Platform.OS === 'ios' ? -45 : -10,
     },
     loader: {
         height: 'auto',
@@ -96,6 +96,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-around',
         marginBottom: 20,
+        marginTop: 15
     },
     costLineWrapper: {
         height: 'auto',
