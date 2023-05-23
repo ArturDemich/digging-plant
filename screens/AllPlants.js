@@ -1,5 +1,5 @@
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Text, StyleSheet, View, FlatList, ActivityIndicator, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
@@ -9,25 +9,32 @@ import NextStepButton from '../components/NextStepButton'
 import RenderPlantsGroup from '../components/RenderPlantsGroup'
 import { getGroupOrdersThunk } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { useGetDataAllPlant } from '../hooks/useGetDataAllPlant'
 
 
 
-function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty }) {
-    const [loading, setLoading] = useState(true)
+
+function AllPlantsScreen({ route }) {
+    /* const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
-    const dispatch = useDispatch()
+    const dispatch = useDispatch() */
 
-    const getGroupOrders = async () => {
+    const { loading, storageId, token, currentStep, groupOrders, totalPlantQty, getGroupOrders } = useGetDataAllPlant()
+
+    /* const getGroupOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
         await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
     }
-
     useFocusEffect(
         useCallback(() => {
             getGroupOrders().then(() => setLoading(false))
         }, [currentStep])
-    )
+    ) */
+
+    useEffect(() => {
+        getGroupOrders()
+    }, [currentStep])
 
 
     console.log('lod-AllPl')
