@@ -1,6 +1,6 @@
 import Checkbox from "expo-checkbox"
 import { useEffect, useState } from "react"
-import { StyleSheet, Text, TouchableHighlight, View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 import { connect } from "react-redux"
 import shortid from "shortid"
 import { DataService } from "../state/dataService"
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 
 function RenderOrders({ orders, token, rightToChange, currentColor }) {
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
-    const [comentInfo, setComentInfo] = useState('')
+    const [comentInfo, setComentInfo] = useState('0')
     const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders.item
 
     let qty = 0
@@ -103,12 +103,8 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
         setSelectedAllOrder(false)
     }, [orders])
 
-    return (
-        <View >
-            <TouchableHighlight
-                style={styles.rowFront}
-                underlayColor={'#AAA'}
-            >
+    return (        
+            <View style={styles.rowFront} >
                 <View style={styles.costLineWrapper}>
                     <View style={styles.orderInfo}>
                         <View style={styles.infoContainer}>
@@ -152,8 +148,7 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                             >номер: <Text style={styles.textStr}>{orderNo}</Text> </Text>
-                        </View>
-                        {comentInfo.length > 0 ?
+                        </View>                        
                             <Text
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
@@ -161,9 +156,7 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                                 style={{ fontWeight: 800, fontSize: 12 }}
-                            > {comentInfo} </Text></Text> :
-                            null
-                        }
+                            > {comentInfo} </Text></Text> 
                     </View>
                     <View >
                         {products.map(elem =>
@@ -176,8 +169,7 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
                         )}
                     </View>
                 </View>
-            </TouchableHighlight>
-        </View>
+            </View>        
     )
 }
 

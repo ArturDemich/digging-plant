@@ -83,7 +83,7 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
     const { characteristic, product, unit } = plant
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
     const [qtyInput, setQtyInput] = useState(qty)
-    const [comentInfo, setComentInfo] = useState('') 
+    const [comentInfo, setComentInfo] = useState('0') 
 
     const getInfo = async () => {
         const res = await DataService.getOrderInfo(token, orderId)
@@ -202,15 +202,12 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
                     >змінено: {lastChange} </Text>
                 </View>
             </View>
-            <View style={styles.infoComent}>
-                {comentInfo.length > 0 ?
+            <View style={styles.infoComent}>                
                     <Text
                         style={styles.textClient}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
-                    >Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> :
-                    null
-                }
+                    >Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> 
             </View>
         </SafeAreaView>
     )

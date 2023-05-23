@@ -92,12 +92,8 @@ function RenderPlantsGroup({ plants, rightToChange }) {
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
 
-    return (
-        <View>
-            <TouchableHighlight
-                style={styles.rowFront}
-                underlayColor={'#AAA'}
-            >
+    return (        
+            <View style={styles.rowFront}>
                 <View style={styles.costLineWrapper}>
                     <View style={styles.infoContainer}>
                         <Text
@@ -139,8 +135,8 @@ function RenderPlantsGroup({ plants, rightToChange }) {
                         </View>
                     </View>
                 </View>
-            </TouchableHighlight>
-        </View>
+            </View>
+        
     )
 }
 
