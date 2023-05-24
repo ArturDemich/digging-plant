@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox"
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
 import { DataService } from "../state/dataService"
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentStep, currentStorageId, token }) {
+function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentStorageId, token }) {
     const dispatch = useDispatch()
     const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange } = order
     const { characteristic, product, unit } = plant
@@ -137,9 +137,9 @@ function RenderOrderByGroup({ order, selectedAll, groupOrders, plant, currentSte
         } else if (orderCheckBox === true) {
             setModalState()
         }
-    }, [selectedAll, orderCheckBox, groupOrders])
+    }, [selectedAll, orderCheckBox])
 
-    console.log('lod-Rend-Order-AllPl', order.length, plant.length, groupOrders.length ) 
+    console.log('lod-Rend-Order-AllPl' ) 
     return (
         <SafeAreaView style={styles.viewContainer}>
             <View style={styles.infoBlock}>
@@ -220,4 +220,4 @@ const mapStateToProps = state => ({
     groupOrders: state.groupOrders
 })
 
-export default connect(mapStateToProps)(RenderOrderByGroup)
+export default connect(mapStateToProps)(memo(RenderOrderByGroup))

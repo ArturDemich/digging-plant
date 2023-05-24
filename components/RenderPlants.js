@@ -62,7 +62,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
             setModalState()
         }
     }, [selectedAllOrder, plantCheckBox, orders])
-
+    console.log('RP')
     return (
         <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>

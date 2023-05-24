@@ -14,14 +14,17 @@ import { useGetDataAllPlant } from '../hooks/useGetDataAllPlant'
 
 
 
-function AllPlantsScreen({ route }) {
-    /* const [loading, setLoading] = useState(true)
+function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
+    const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
-    const dispatch = useDispatch() */
+    const dispatch = useDispatch()
 
-    const { loading, storageId, token, currentStep, groupOrders, totalPlantQty, getGroupOrders } = useGetDataAllPlant()
+    const renderItem = useCallback(({item}) => {
+      return  <RenderPlantsGroup plants={item} rightToChange={currentStep.rightToChange} />
+    }, [currentStep])
+    const keyExtractor = useCallback((item, index) => (item.product.id.toString() + index), [])
 
-    /* const getGroupOrders = async () => {
+    const getGroupOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
         await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
@@ -30,12 +33,7 @@ function AllPlantsScreen({ route }) {
         useCallback(() => {
             getGroupOrders().then(() => setLoading(false))
         }, [currentStep])
-    ) */
-
-    useEffect(() => {
-        getGroupOrders()
-    }, [currentStep])
-
+    )    
 
     console.log('lod-AllPl')
     return (
@@ -60,8 +58,8 @@ function AllPlantsScreen({ route }) {
                     </View> :
                     <FlatList
                         data={groupOrders}
-                        renderItem={(plants) => <RenderPlantsGroup plants={plants} rightToChange={currentStep.rightToChange} />}
-                        keyExtractor={() => shortid.generate()}
+                        renderItem={renderItem}
+                        keyExtractor={keyExtractor}
                         style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'

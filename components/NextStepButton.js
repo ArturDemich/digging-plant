@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk } from '../state/dataThunk'
 import { MaterialIcons } from '@expo/vector-icons'
+import { clearDataChange } from '../state/dataSlice'
 
 
 const styles = StyleSheet.create({
@@ -60,6 +61,7 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
     const dispatch = useDispatch()
     const sendData = async (pathValue) => {
         await dispatch(setNextStepGroupThunk(token[0].token, dataChange))
+        await dispatch(clearDataChange())
         if (pathValue === "Замовлення") {
             await dispatch(getOrdersStep(currentStep, currentStorageId, token[0].token))
         } else if (pathValue === "Рослини Замовлення") {

@@ -35,6 +35,11 @@ function Notification({ notifiState, token }) {
     const responseListener = useRef();
     const prevAmount = usePrevious(notifiState.length)
 
+    const keyExtractor = useCallback((item) => (item.message_id.toString()), [])
+    const renderItem = useCallback(({item}) => {
+        return  <RenderNotifi notifi={item} token={token[0].token} />
+      }, [])
+
     useFocusEffect(
         useCallback(() => {
             dispatch(getNotifiThunk(token[0].token))
@@ -87,8 +92,8 @@ function Notification({ notifiState, token }) {
                         {notifiState.length > 0 ?
                             <FlatList
                                 data={notifiState}
-                                renderItem={(notifi) => <RenderNotifi notifi={notifi} token={token[0].token} />}
-                                keyExtractor={() => shortid.generate()}
+                                renderItem={renderItem}
+                                keyExtractor={keyExtractor}
 
                             /> :
                             <Text >Повідомлень немає</Text>

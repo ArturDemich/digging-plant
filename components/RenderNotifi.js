@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux"
 
 function RenderNotifi({ notifi, token }) {
     const dispatch = useDispatch()
-    const { item } = notifi
+    const item = notifi
 
     const updateNotifi = async () => {
         if (item.message_status === 'new') {

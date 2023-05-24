@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox"
-import { useState } from "react"
+import { memo, useState } from "react"
 import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
 import { connect } from "react-redux"
 import shortid from "shortid"
@@ -86,8 +86,9 @@ const styles = StyleSheet.create({
 })
 
 function RenderPlantsGroup({ plants, rightToChange }) {
-    const [selectedAll, setSelectedAll] = useState(false)
-    const item = plants.item
+   const [selectedAll, setSelectedAll] = useState(false)
+    console.log('RPG' )
+    const item = plants
 
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
@@ -140,8 +141,5 @@ function RenderPlantsGroup({ plants, rightToChange }) {
     )
 }
 
-const mapStateToProps = state => ({
 
-})
-
-export default connect(mapStateToProps)(RenderPlantsGroup)
+export default memo(RenderPlantsGroup)

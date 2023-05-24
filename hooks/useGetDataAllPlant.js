@@ -7,9 +7,9 @@ import { getGroupOrdersThunk } from "../state/dataThunk"
 
 export function useGetDataAllPlant() {
     const [loading, setLoading] = useState(true)
-    const storageId = useSelector(state => state.storageId)
+    const storageId = useSelector(state => state.currentStorageId)
     const currentStep = useSelector(state => state.currentStep)
-    const groupOrders = useSelector(state => state.groupOrders)
+   // const groupOrders = useSelector(state => state.groupOrders)
     const totalPlantQty = useSelector(state => state.totalPlantQty)
     const token = useSelector(state => state.token)
     const dispatch = useDispatch()
@@ -17,16 +17,16 @@ export function useGetDataAllPlant() {
     const getGroupOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
-        await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
+        await dispatch(getGroupOrdersThunk(currentStep, storageId, token[0].token))
     }
 
-    console.log('hook', currentStep)
+    console.log('hook', storageId)
 
     useEffect(() => {
         getGroupOrders().then(() => setLoading(false))
     }, [currentStep])
 
-    return { loading, storageId, token, currentStep, groupOrders, totalPlantQty, getGroupOrders }
+    return { loading, storageId, token, currentStep, totalPlantQty, getGroupOrders }
 }
 
 

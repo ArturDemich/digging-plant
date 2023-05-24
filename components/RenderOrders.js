@@ -1,5 +1,5 @@
 import Checkbox from "expo-checkbox"
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
 import { connect } from "react-redux"
 import shortid from "shortid"
@@ -85,10 +85,10 @@ const styles = StyleSheet.create({
 })
 
 
-function RenderOrders({ orders, token, rightToChange, currentColor }) {
+function RenderOrders({ orders, token, rightToChange }) {
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
     const [comentInfo, setComentInfo] = useState('0')
-    const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders.item
+    const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders
 
     let qty = 0
     products.forEach(el => qty += el.qty)
@@ -100,9 +100,10 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
 
     useEffect(() => {
         getInfo()
-        setSelectedAllOrder(false)
+        //setSelectedAllOrder(false)
     }, [orders])
 
+    console.log('RO')
     return (        
             <View style={styles.rowFront} >
                 <View style={styles.costLineWrapper}>
@@ -175,7 +176,6 @@ function RenderOrders({ orders, token, rightToChange, currentColor }) {
 
 const mapStateToProps = state => ({
     token: state.token,
-    currentColor: state.currentColorStep,
 })
 
-export default connect(mapStateToProps)(RenderOrders)
+export default connect(mapStateToProps)(memo(RenderOrders))

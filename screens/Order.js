@@ -14,6 +14,11 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
     const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
 
+    const keyExtractor = useCallback((item, index) => (item.orderId.toString() + index), [])
+    const renderItem = useCallback(({item}) => {
+        return  <RenderOrders orders={item} rightToChange={currentStep.rightToChange} />
+      }, [currentStep])
+    
     const getOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
@@ -47,8 +52,8 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                     </View> :
                     <FlatList
                         data={orders}
-                        renderItem={(item) => <RenderOrders orders={item} rightToChange={currentStep.rightToChange} />}
-                        keyExtractor={item => item.orderId.toString()}
+                        renderItem={renderItem}
+                        keyExtractor={keyExtractor}
                         style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'
