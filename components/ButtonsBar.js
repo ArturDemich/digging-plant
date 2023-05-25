@@ -27,11 +27,13 @@ const styles = StyleSheet.create({
     selectedButtons: { //#cacaca
         borderColor: '#f2f5f8',
         borderWidth: 3,
+        borderRadius: 6,
         elevation: 0,
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0,
-        shadowRadius: 0,
-        borderRadius: 6
+        shadowRadius: 10,        
+        shadowColor: 'black',
+        
     },
     textBtnBar: {
         color: 'white',

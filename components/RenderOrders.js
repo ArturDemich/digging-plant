@@ -6,6 +6,7 @@ import shortid from "shortid"
 import { DataService } from "../state/dataService"
 import RenderPlants from "./RenderPlants"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome5 } from '@expo/vector-icons'
 
 
 
@@ -59,8 +60,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     orderNum: {
-        lineHeight: 20,
-        paddingBottom: 1,
+       fontSize: 13,
+       fontWeight: 600
     },
     orderShipment: {
         height: 'auto',
@@ -122,11 +123,13 @@ function RenderOrders({ orders, token, rightToChange }) {
                                 /> : null}
                         </View>
                         <View style={styles.viewGroup}>
-                            <Text
-                                style={styles.orderShipment}
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
-                            ><Text style={styles.textStr}>{shipmentMethod}</Text> </Text>
+                            <FontAwesome5 name="truck-loading" size={14} color="black" >
+                                <Text
+                                    style={styles.orderShipment}
+                                    allowFontScaling={true}
+                                    maxFontSizeMultiplier={1}
+                                ><Text style={styles.textStr}> {shipmentMethod}</Text> </Text>
+                            </FontAwesome5>
                             <MaterialCommunityIcons name="pine-tree" size={20} color="black">
                                 <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
                                 <Text
@@ -144,20 +147,21 @@ function RenderOrders({ orders, token, rightToChange }) {
                                     maxFontSizeMultiplier={1}
                                 > {shipmentDate}</Text>
                             </MaterialCommunityIcons>
+                            <MaterialCommunityIcons name="clipboard-list-outline" size={19} color="black">
                             <Text
                                 style={styles.orderNum}
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
-                            >номер: <Text style={styles.textStr}>{orderNo}</Text> </Text>
-                        </View>                        
+                            > {orderNo} </Text>
+                            </MaterialCommunityIcons>
+                        </View>   
+                        <MaterialCommunityIcons name="comment-text-outline" size={16} color="black" >                     
                             <Text
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
-                            >коментар: <Text
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
-                                style={{ fontWeight: 800, fontSize: 12 }}
-                            > {comentInfo} </Text></Text> 
+                                style={{ fontWeight: 800, fontSize: 13 }}
+                            > - {comentInfo} </Text> 
+                            </MaterialCommunityIcons>
                     </View>
                     <View >
                         {products.map(elem =>

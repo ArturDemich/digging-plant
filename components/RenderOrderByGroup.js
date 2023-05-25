@@ -4,6 +4,8 @@ import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
 import { DataService } from "../state/dataService"
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
+import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { FontAwesome5 } from '@expo/vector-icons'
 
 
 const styles = StyleSheet.create({
@@ -146,25 +148,32 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
                 <View style={styles.orderInfoBlock}>
                     <View style={styles.orderNames}>
                         <Text
-                            style={styles.textStrong}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                        >{shipmentMethod}</Text>
-                        <Text
                             style={styles.textClient}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{customerName}</Text>
+                        <FontAwesome5 name="truck-loading" size={13} color="black" >
+                            <Text
+                                style={styles.textStrong}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            > {shipmentMethod}</Text>
+                        </FontAwesome5>                        
+                        
+                        <MaterialCommunityIcons name="truck-delivery-outline" size={18} color="black" >
                         <Text
                             style={styles.textClient}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
-                        >{orderNo}</Text>
+                        > {shipmentDate}</Text>
+                        </MaterialCommunityIcons>
+                        <MaterialCommunityIcons name="clipboard-list-outline" size={15} color="black">
                         <Text
                             style={styles.textClient}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
-                        >Відгрузка: {shipmentDate}</Text>
+                        > {orderNo}</Text>
+                        </MaterialCommunityIcons>
                     </View>
                     <Text
                         style={styles.qtyInfo}
@@ -202,12 +211,14 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
                     >змінено: {lastChange} </Text>
                 </View>
             </View>
-            <View style={styles.infoComent}>                
+            <View style={styles.infoComent}>  
+            <MaterialCommunityIcons name="comment-text-outline" size={16} color="black" >           
                     <Text
                         style={styles.textClient}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
-                    >Коментар: <Text style={{ fontWeight: 800 }}> {comentInfo} </Text></Text> 
+                    ><Text style={{ fontWeight: 800 }}> - {comentInfo} </Text></Text> 
+                    </MaterialCommunityIcons>   
             </View>
         </SafeAreaView>
     )

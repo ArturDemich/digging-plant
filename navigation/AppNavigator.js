@@ -44,6 +44,7 @@ export default function Navigate() {
                         headerBackVisible: false,
                         headerTitleStyle: {
                             fontSize: 13,
+                           
                         },
                     })}
                 />
@@ -56,6 +57,7 @@ export default function Navigate() {
                         headerRight: () => <ButtonOut navigation={navigation} />,
                         headerTitleStyle: {
                             fontSize: 13,
+                            flex:1
                         },
                         headerBackVisible: false
                     })}
