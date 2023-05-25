@@ -4,20 +4,21 @@ import Notification from "./Notification"
 
 
 function HeaderTitle({ title, userName, navigation }) {
-   
+
     return (
-        <View style={{ flexDirection: 'row', justifyContent: 'space-around', flex: 1 }} >
+        <View style={{}} >
             <View>
-                <Text 
-                allowFontScaling={true}
-                maxFontSizeMultiplier={1}
+                <Text
+                    style={{ fontWeight: 700 }}
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
                 >{title}</Text>
-                <Text 
-                allowFontScaling={true}
-                maxFontSizeMultiplier={1}
+                <Text
+                    allowFontScaling={true}
+                    maxFontSizeMultiplier={1}
                 >{userName}</Text>
             </View>
-            <Notification />
+
         </View>
     )
 }

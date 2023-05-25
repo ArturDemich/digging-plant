@@ -10,6 +10,8 @@ import LoginScreen from '../screens/Login'
 import { cleanState } from '../state/dataSlice'
 import ButtonOut from '../components/ButtonOut'
 import HeaderTitle from '../components/HeaderTitle'
+import Notification from '../components/Notification'
+import { View } from 'react-native'
 
 
 
@@ -28,7 +30,7 @@ export default function Navigate() {
     }
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName="Вхід" >
+            <Stack.Navigator initialRouteName="Вхід"  >
                 <Stack.Screen
                     name='Вхід'
                     component={LoginScreen}
@@ -40,26 +42,32 @@ export default function Navigate() {
                     options={({ route, navigation }) => ({
                         headerLeft: () => <HeaderBackButton onPress={() => goBack(navigation)} />,
                         headerTitle: () => <HeaderTitle title={route.params.title} userName={route.params.token.username} navigation={navigation} />,
-                        headerRight: () => <ButtonOut navigation={navigation} />,
-                        headerBackVisible: false,
-                        headerTitleStyle: {
-                            fontSize: 13,
-                           
+                        headerRight: () => {
+                            return (
+                                <View style={{ flexDirection: 'row', gap: 5 }} >
+                                    <Notification />
+                                    <ButtonOut navigation={navigation} />
+                                </View>
+                            )
                         },
+                        headerBackVisible: false,
                     })}
                 />
                 <Stack.Screen
                     name='Всі поля'
                     component={FildsScreen}
                     options={({ route, navigation }) => ({
-                        headerTitle: () => <HeaderTitle title={route.params.title} userName={route.params.token.username} navigation={navigation} />,
-                        headerLeft: () => <HeaderBackButton onPress={() => goBack(navigation)} />,
-                        headerRight: () => <ButtonOut navigation={navigation} />,
-                        headerTitleStyle: {
-                            fontSize: 13,
-                            flex:1
+                        headerRight: () => {
+                            return (
+                                <View style={{ flexDirection: 'row', gap: 5 }} >
+                                    <Notification />
+                                    <ButtonOut navigation={navigation} />
+                                </View>
+                            )
                         },
-                        headerBackVisible: false
+                        headerTitle: () => <HeaderTitle title={route.params.title} userName={route.params.token.username} navigation={navigation} />,
+                        headerBackVisible: false,
+                        headerTitleAlign: 'left',
                     })}
                 />
             </Stack.Navigator>

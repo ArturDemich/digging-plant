@@ -36,9 +36,9 @@ function Notification({ notifiState, token }) {
     const prevAmount = usePrevious(notifiState.length)
 
     const keyExtractor = useCallback((item) => (item.message_id.toString()), [])
-    const renderItem = useCallback(({item}) => {
-        return  <RenderNotifi notifi={item} token={token[0].token} />
-      }, [])
+    const renderItem = useCallback(({ item }) => {
+        return <RenderNotifi notifi={item} token={token[0].token} />
+    }, [])
 
     useFocusEffect(
         useCallback(() => {
@@ -75,7 +75,7 @@ function Notification({ notifiState, token }) {
 
     console.log(token)
     return (
-        <View>
+        <View >
             <Modal
                 animationType="slide"
                 transparent={true}

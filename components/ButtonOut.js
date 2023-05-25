@@ -18,10 +18,13 @@ const styles = StyleSheet.create({
         textAlignVertical: 'center',
         alignSelf: 'center',
         justifyContent: 'center',
+        width: 25,
+        marginLeft: 10,
+        flexDirection: 'row'
     },
 })
 
-function NextStepButton({ navigation }) {
+function ButtonOut({ navigation }) {
     const dispatch = useDispatch()
 
     return (
@@ -37,5 +40,5 @@ function NextStepButton({ navigation }) {
     )
 }
 
-export default NextStepButton
+export default ButtonOut
 
