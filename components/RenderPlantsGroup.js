@@ -1,7 +1,6 @@
 import Checkbox from "expo-checkbox"
 import { memo, useState } from "react"
-import { Text, StyleSheet, TouchableHighlight, View } from "react-native"
-import { connect } from "react-redux"
+import { Text, StyleSheet, View } from "react-native"
 import shortid from "shortid"
 import RenderOrderByGroup from "./RenderOrderByGroup"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
@@ -85,11 +84,8 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderPlantsGroup({ plants, rightToChange }) {
+function RenderPlantsGroup({ item, rightToChange }) {
    const [selectedAll, setSelectedAll] = useState(false)
-    console.log('RPG' )
-    const item = plants
-
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
 

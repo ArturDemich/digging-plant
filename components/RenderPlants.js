@@ -7,8 +7,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 
 
-
-
 function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem, currentStep, orders }) {
     const dispatch = useDispatch()
     const { characteristic, lastChange, product, qty, unit } = prodactElem
@@ -62,7 +60,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
             setModalState()
         }
     }, [selectedAllOrder, plantCheckBox, orders])
-    console.log('RP')
+    
     return (
         <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>

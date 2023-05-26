@@ -102,7 +102,7 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
                 alert('Step Color not defined')
         }
     }
-    console.log(currentStep)
+    
     return (
         <View>
             {dataChange.length > 0 ? <View style={{ position: 'absolute', right: 7, bottom: 0 }} >

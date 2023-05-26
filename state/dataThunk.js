@@ -111,7 +111,7 @@ export const setNextStepGroupThunk = (token, dataOrders) => async () => {
     if (res.errors.length > 0) {
       alert(res.errors[0])
     } else {
-      console.log('Something went wrong!', res.errors)
+      console.log('Успішно!', res.success)
     }
   } catch (error) {
     console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
@@ -120,7 +120,6 @@ export const setNextStepGroupThunk = (token, dataOrders) => async () => {
 
 
 export const updateNotifiThunk = (token, messageid, mstatus) => async () => {
-  console.log('jjjjjj')
   try {
     const res = await DataService.updateNotifi(token, messageid, mstatus)
     if (res.errors.length > 0) {

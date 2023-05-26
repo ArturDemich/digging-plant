@@ -1,15 +1,13 @@
 import { useFocusEffect } from '@react-navigation/native'
-import React, { useCallback, useEffect, useState } from 'react'
-import { Text, StyleSheet, View, FlatList, ActivityIndicator, Platform } from 'react-native'
+import React, { useCallback, useState } from 'react'
+import { Text, StyleSheet, View, FlatList, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
-import shortid from 'shortid'
 import ButtonsBar from '../components/ButtonsBar'
 import NextStepButton from '../components/NextStepButton'
 import RenderPlantsGroup from '../components/RenderPlantsGroup'
 import { getGroupOrdersThunk } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
-import { useGetDataAllPlant } from '../hooks/useGetDataAllPlant'
 
 
 
@@ -20,7 +18,7 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
     const dispatch = useDispatch()
 
     const renderItem = useCallback(({item}) => {
-      return  <RenderPlantsGroup plants={item} rightToChange={currentStep.rightToChange} />
+      return  <RenderPlantsGroup item={item} rightToChange={currentStep.rightToChange} />
     }, [currentStep])
     const keyExtractor = useCallback((item, index) => (item.product.id.toString() + index), [])
 
@@ -35,7 +33,6 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
         }, [currentStep])
     )    
 
-    console.log('lod-AllPl')
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.infoblock}>
@@ -78,7 +75,7 @@ const mapStateToProps = state => {
         totalPlantQty: state.totalPlantQty,
     }
 }
-export default connect(mapStateToProps, null)(AllPlantsScreen)
+export default connect(mapStateToProps)(AllPlantsScreen)
 
 
 

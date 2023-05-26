@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         flex: 1,
         flexDirection: 'column',
-
     },
     infoBlock: {
         flexDirection: 'row',
@@ -66,7 +65,6 @@ const styles = StyleSheet.create({
         fontWeight: 900,
         color: '#c5c5c5',
         alignSelf: 'flex-end',
-
     },
     textStrong: {
         fontSize: 13,
@@ -140,8 +138,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
             setModalState()
         }
     }, [selectedAll, orderCheckBox])
-
-    console.log('lod-Rend-Order-AllPl' ) 
+   
     return (
         <SafeAreaView style={styles.viewContainer}>
             <View style={styles.infoBlock}>

@@ -88,23 +88,21 @@ const styles = StyleSheet.create({
 
 function RenderOrders({ orders, token, rightToChange }) {
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
-    const [comentInfo, setComentInfo] = useState('0')
+    const [comentInfo, setComentInfo] = useState('-')
     const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders
 
     let qty = 0
     products.forEach(el => qty += el.qty)
 
-    const getInfo = async () => {
+    const getComent = async () => {
         const res = await DataService.getOrderInfo(token, orderId)
         setComentInfo(res.data[0].comment)
     }
 
     useEffect(() => {
-        getInfo()
-        //setSelectedAllOrder(false)
+        getComent()
     }, [orders])
 
-    console.log('RO')
     return (        
             <View style={styles.rowFront} >
                 <View style={styles.costLineWrapper}>

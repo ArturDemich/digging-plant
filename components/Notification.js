@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState, useRef } from 'react'
 import { FlatList, Modal, StyleSheet, Text, Platform, TouchableOpacity, View } from 'react-native'
 import { Badge } from 'react-native-elements'
 import { connect, useDispatch } from 'react-redux'
-import shortid from 'shortid'
 import { getNotifiThunk } from '../state/dataThunk'
 import RenderNotifi from './RenderNotifi'
 import * as Device from 'expo-device'
@@ -72,8 +71,7 @@ function Notification({ notifiState, token }) {
             Notifications.removeNotificationSubscription(responseListener.current);
         };
     }, [notifiState.length])
-
-    console.log(token)
+    
     return (
         <View >
             <Modal
@@ -98,8 +96,6 @@ function Notification({ notifiState, token }) {
                             /> :
                             <Text >Повідомлень немає</Text>
                         }
-
-
                         <TouchableOpacity
                             onPress={() => setShow(!show)}
                             style={styles.buttonModal}
@@ -110,19 +106,15 @@ function Notification({ notifiState, token }) {
                                 maxFontSizeMultiplier={1}
                             >Закрити</Text>
                         </TouchableOpacity>
-
                     </View>
                 </View>
             </Modal>
-
-
 
             <TouchableOpacity
                 onPress={() => setShow(!show)}
                 style={{ alignSelf: 'center' }}
             >
-
-                <Ionicons name="notifications-outline" size={24} color="black" />
+                <Ionicons name="notifications-outline" size={23} color="black" />
                 <Badge
                     containerStyle={{ position: 'absolute', top: -5, right: -9 }}
                     badgeStyle={{ backgroundColor: '#45aa45' }}
@@ -147,10 +139,8 @@ export default connect(mapStateToProps)(Notification)
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        //justifyContent: "center",
         alignItems: "center",
         marginTop: '20%',
-
     },
     modalView: {
         margin: 20,
@@ -248,7 +238,6 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
     } else {
         alert('Must use physical device for Push Notifications');
     }

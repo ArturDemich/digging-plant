@@ -71,8 +71,7 @@ function LoginScreen({ navigation, digStorages, token }) {
 
     const callData = async () => {
         await dispatch(getDigStorages(token[0].token))
-        await dispatch(getStep(token[0].token))
-        setLoading(false)
+        await dispatch(getStep(token[0].token))        
     }
 
     const checkStorages = () => {
@@ -97,6 +96,7 @@ function LoginScreen({ navigation, digStorages, token }) {
         onChangeLogin('')
         onChangePass('')
         await dispatch(getTokenThunk(login, password))
+        setLoading(false)
     }
 
     return (

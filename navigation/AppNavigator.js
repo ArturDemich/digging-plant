@@ -40,7 +40,7 @@ export default function Navigate() {
                     name='Поле'
                     component={FildScreen}
                     options={({ route, navigation }) => ({
-                        headerLeft: () => <HeaderBackButton onPress={() => goBack(navigation)} />,
+                        headerLeft: () => (navigation.getState().routes.length === 2 ? null : <HeaderBackButton style={{marginHorizontal: 0,}} onPress={() => goBack(navigation)} />),
                         headerTitle: () => <HeaderTitle title={route.params.title} userName={route.params.token.username} navigation={navigation} />,
                         headerRight: () => {
                             return (

@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         fontSize: 18,
         fontWeight: 800,
-
     }
 })
 

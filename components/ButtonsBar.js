@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         flex: 3,
     }),
-    selectedButtons: { //#cacaca
+    selectedButtons: { 
         borderColor: '#f2f5f8',
         borderWidth: 3,
         borderRadius: 6,
@@ -118,7 +118,7 @@ function ButtonsBar({ steps, currentStep }) {
                 alert('Step Name not defined')
         }
     }
-    console.log(steps)
+    
     return (
         <View style={styles.statusBar}>
             {steps.map((step) => (
