@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 3,
-        // marginTop: Platform.OS === 'ios' ? -45 : -10,
+        marginTop: Platform.OS === 'ios' ? -45 : 0,
     },
     loader: {
         height: 'auto',

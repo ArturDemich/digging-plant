@@ -51,7 +51,7 @@ export default function Navigate() {
                             )
                         },
                         headerBackVisible: false,
-                    })}
+                    })}                   
                 />
                 <Stack.Screen
                     name='Всі поля'

@@ -14,9 +14,9 @@ function HeaderTitle({ title, userName }) {
                         maxFontSizeMultiplier={1}
                     > {title}</Text>
                 </Entypo>
-                <MaterialCommunityIcons style={{height: 20}} name="account-cowboy-hat-outline" size={14} color="black">
+                <MaterialCommunityIcons style={{height: 20 }} name="account-cowboy-hat-outline" size={14} color="black">
                     <Text    
-                        style={{ fontWeight: 500, }}                    
+                        style={{ fontWeight: 500 }}                    
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
                     > {userName}</Text>

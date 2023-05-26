@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         fontWeight: 500,
     },
     textDataChange: {
-        fontSize: 11,
+        fontSize: 10,
         fontWeight: 900,
         color: '#c5c5c5',
         alignSelf: 'flex-end',
