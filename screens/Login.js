@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getDigStorages, getStep, getTokenThunk } from '../state/dataThunk'
+import { useAsyncStorage } from '@react-native-async-storage/async-storage'
 
 
 const styles = StyleSheet.create({
@@ -63,6 +64,7 @@ function LoginScreen({ navigation, digStorages, token }) {
     const [login, onChangeLogin] = useState('')
     const [password, onChangePass] = useState('')
     const [loading, setLoading] = useState(false)
+    const { getItem, setItem } = useAsyncStorage()
 
     useEffect(() => {
         token.length === 1 && digStorages.length === 0 ? callData() : null
@@ -92,12 +94,32 @@ function LoginScreen({ navigation, digStorages, token }) {
     }
 
     const getToken = async () => {
-        setLoading(true)
+        setLoading(true)   
+        await dispatch(getTokenThunk(login, password))
         onChangeLogin('')
         onChangePass('')
-        await dispatch(getTokenThunk(login, password))
         setLoading(false)
     }
+
+    const storeData = async (value) => {
+        try {
+          await AsyncStorage.setItem('@storage_Key', value)
+        } catch (e) {
+          // saving error
+        }
+      }
+
+      const getData = async () => {
+        try {
+          const value = getItem('@storage_Key')
+          if(value !== null) {
+            // value previously stored
+          }
+        } catch(e) {
+          // error reading value
+        }
+      }
+      
 
     return (
         <SafeAreaView style={styles.container}>
