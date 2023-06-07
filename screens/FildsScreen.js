@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
 
@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         flex: 1,
+        marginTop: Platform.OS === 'ios' ? -45 : 0,
     },
     containerView: {
         flex: 1,

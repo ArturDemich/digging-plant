@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getDigStorages, getStep, getTokenThunk } from '../state/dataThunk'
-import { useAsyncStorage } from '@react-native-async-storage/async-storage'
-
+import * as SecureStore from 'expo-secure-store'
 
 const styles = StyleSheet.create({
     container: {
@@ -64,9 +63,9 @@ function LoginScreen({ navigation, digStorages, token }) {
     const [login, onChangeLogin] = useState('')
     const [password, onChangePass] = useState('')
     const [loading, setLoading] = useState(false)
-    const { getItem, setItem } = useAsyncStorage()
 
     useEffect(() => {
+        getValueAuth()
         token.length === 1 && digStorages.length === 0 ? callData() : null
         digStorages.length > 0 ? checkStorages() : null
     }, [token, digStorages])
@@ -94,30 +93,24 @@ function LoginScreen({ navigation, digStorages, token }) {
     }
 
     const getToken = async () => {
-        setLoading(true)   
+        setLoading(true)  
+        await saveAuth(password, login) 
         await dispatch(getTokenThunk(login, password))
-        onChangeLogin('')
-        onChangePass('')
         setLoading(false)
-    }
+    }   
 
-    const storeData = async (value) => {
-        try {
-          await AsyncStorage.setItem('@storage_Key', value)
-        } catch (e) {
-          // saving error
-        }
+     const saveAuth = async (pass, login) => {
+        await SecureStore.setItemAsync('pass', pass)
+        await SecureStore.setItemAsync('login', login)
       }
 
-      const getData = async () => {
-        try {
-          const value = getItem('@storage_Key')
-          if(value !== null) {
-            // value previously stored
-          }
-        } catch(e) {
-          // error reading value
-        }
+       const getValueAuth = async () => {
+        let pass = await SecureStore.getItemAsync('pass')
+        let login = await SecureStore.getItemAsync('login')
+        if (pass && login) {
+            onChangeLogin(login)
+            onChangePass(pass)
+        } 
       }
       
 

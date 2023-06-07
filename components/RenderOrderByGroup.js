@@ -11,15 +11,17 @@ import { FontAwesome5 } from '@expo/vector-icons'
 const styles = StyleSheet.create({
     viewContainer: {
         marginBottom: 5,
+        paddingTop: 10,
         flex: 1,
         flexDirection: 'column',
+        borderTopWidth: 2,
+        borderTopColor: '#b0acb0',
     },
     infoBlock: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         flex: 1,
-        borderTopWidth: 2,
-        borderTopColor: '#b0acb0',
+        
     },
     input: {
         height: 30,
@@ -59,6 +61,11 @@ const styles = StyleSheet.create({
     textClient: {
         fontSize: 11,
         fontWeight: 500,
+    },
+    nameClient: {
+        fontSize: 13,
+        fontWeight: 900,
+        color: '#30302f'
     },
     textDataChange: {
         fontSize: 10,
@@ -141,14 +148,14 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
    
     return (
         <SafeAreaView style={styles.viewContainer}>
+            <Text
+                style={styles.nameClient}
+                allowFontScaling={true}
+                maxFontSizeMultiplier={1}
+                >{customerName}</Text>
             <View style={styles.infoBlock}>
                 <View style={styles.orderInfoBlock}>
                     <View style={styles.orderNames}>
-                        <Text
-                            style={styles.textClient}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                        >{customerName}</Text>
                         <FontAwesome5 name="truck-loading" size={13} color="black" >
                             <Text
                                 style={styles.textStrong}
@@ -209,13 +216,13 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
                 </View>
             </View>
             <View style={styles.infoComent}>  
-            <MaterialCommunityIcons name="comment-text-outline" size={16} color="black" >           
+                <MaterialCommunityIcons name="comment-text-outline" size={16} color="black" >           
                     <Text
                         style={styles.textClient}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
                     ><Text style={{ fontWeight: 800 }}> - {comentInfo} </Text></Text> 
-                    </MaterialCommunityIcons>   
+                </MaterialCommunityIcons>   
             </View>
         </SafeAreaView>
     )
