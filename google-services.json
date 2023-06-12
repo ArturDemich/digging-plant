@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "248217797983",
+    "project_id": "digger-notifications",
+    "storage_bucket": "digger-notifications.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:248217797983:android:1bfc04447d684a01fde2ea",
+        "android_client_info": {
+          "package_name": "com.arctosdev.myproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "248217797983-6dpul29etjlbhr5anu8o9j0aj4qobcge.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2TwIfn1x0n-UrVdxI0VrrkZBsfkPOnos"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "248217797983-6dpul29etjlbhr5anu8o9j0aj4qobcge.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

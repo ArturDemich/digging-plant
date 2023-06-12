@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Викопка",
-    "slug": "Викопка",
+    "slug": "digger",
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
@@ -17,21 +17,23 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "digger"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.arctosdev.myproject"
+      "package": "com.arctosdev.myproject",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
-        "projectId": "8c2c0e48-95b3-4cd7-9466-176a4c1f1315"
+        "projectId": "59340998-a795-4357-8ff4-b805488482e1"
       }
     }
   }
