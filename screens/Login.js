@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator, Image } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getDigStorages, getStep, getTokenThunk } from '../state/dataThunk'
 import * as SecureStore from 'expo-secure-store'
+import logo from '../assets/logo.png'
 
 const styles = StyleSheet.create({
     container: {
@@ -55,7 +56,12 @@ const styles = StyleSheet.create({
         shadowOffset: { width: -2, height: 4 },
         shadowOpacity: 0.2,
         shadowRadius: 3,
-    }
+    },
+    logo: {
+        height: 80,
+        width: 250,
+        marginBottom: 30
+    },
 })
 
 function LoginScreen({ navigation, digStorages, token }) {
@@ -116,6 +122,7 @@ function LoginScreen({ navigation, digStorages, token }) {
 
     return (
         <SafeAreaView style={styles.container}>
+            <Image source={logo} style={styles.logo} />
             {loading ?
                 <View style={styles.loader}>
                     <ActivityIndicator size="large" color="#45aa45" />
