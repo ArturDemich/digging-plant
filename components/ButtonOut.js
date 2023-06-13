@@ -2,7 +2,8 @@ import { StackActions } from '@react-navigation/native'
 import { StyleSheet, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
-import { Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons'
+import * as SecureStore from 'expo-secure-store'
 
 
 const styles = StyleSheet.create({
@@ -26,6 +27,9 @@ const styles = StyleSheet.create({
 
 function ButtonOut({ navigation }) {
     const dispatch = useDispatch()
+    const deleteToken = async() => {
+        await SecureStore.deleteItemAsync('token')
+    }
 
     return (
         <TouchableOpacity
@@ -33,6 +37,7 @@ function ButtonOut({ navigation }) {
             onPress={() => {
                 navigation.dispatch(StackActions.popToTop())
                 dispatch(cleanState())
+                deleteToken()
             }}
         >
             <Feather name="log-out" size={24} color="black" />

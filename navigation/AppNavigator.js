@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import { HeaderBackButton } from '@react-navigation/elements'
@@ -7,11 +7,12 @@ import FildScreen from '../screens/Fild'
 import FildsScreen from '../screens/FildsScreen'
 import { useDispatch } from 'react-redux'
 import LoginScreen from '../screens/Login'
-import { cleanState } from '../state/dataSlice'
+import { cleanState, setToken } from '../state/dataSlice'
 import ButtonOut from '../components/ButtonOut'
 import HeaderTitle from '../components/HeaderTitle'
 import Notification from '../components/Notification'
 import { View } from 'react-native'
+import * as SecureStore from 'expo-secure-store'
 
 
 
@@ -28,6 +29,18 @@ export default function Navigate() {
             navigation.goBack()
         }
     }
+    const checkToken = async () => {
+        let token = await SecureStore.getItemAsync('token')
+        console.log(JSON.parse(token))
+        if (token) {
+           await dispatch(setToken(JSON.parse(token)))
+        }
+    }
+
+    useEffect(() => {
+        checkToken()
+    }, [])
+
     return (
         <NavigationContainer >
             <Stack.Navigator initialRouteName="Вхід"  >

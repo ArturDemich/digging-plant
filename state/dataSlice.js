@@ -27,7 +27,7 @@ export const dataSlice = createSlice({
             state.steps = action.payload.data
         },
         setToken(state, action) {
-            state.token = action.payload.data
+            state.token = action.payload
         },
         setStepOrders(state, action) {
             state.stepOrders = action.payload.data

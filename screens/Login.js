@@ -9,9 +9,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-start',
         backgroundColor: '#f2f5f8',
-        justifyContent: 'center',
+        gap: 70
     },
     text: {
         fontSize: 20,
@@ -58,9 +57,9 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     logo: {
-        height: 80,
-        width: 250,
-        marginBottom: 30
+        height: 70,
+        width: 300,
+        marginTop: 50
     },
 })
 

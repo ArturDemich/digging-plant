@@ -1,4 +1,5 @@
-import { DataService } from "./dataService";
+import { DataService } from "./dataService"
+import * as SecureStore from 'expo-secure-store'
 import {
   setDigStorages, setStepOrders,
   setSteps, setToken, setCurrentStep,
@@ -6,7 +7,7 @@ import {
   setNotifications,
   setTotalQty,
   setCurrentColorStep
-} from "./dataSlice";
+} from "./dataSlice"
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
@@ -83,7 +84,8 @@ export const getTokenThunk = (log, pass) => async (dispatch) => {
   try {
     const res = await DataService.getToken(log, pass)
     if (res.success) {
-      dispatch(setToken(res));
+      dispatch(setToken(res.data))
+      await SecureStore.setItemAsync('token', JSON.stringify(res.data))
     } else {
       alert(res.errors[0])
     }
