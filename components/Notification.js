@@ -71,7 +71,7 @@ function Notification({ notifiState, token }) {
             Notifications.removeNotificationSubscription(responseListener.current);
         };
     }, [notifiState.length])
-    
+
     return (
         <View >
             <Modal
@@ -238,7 +238,7 @@ async function registerForPushNotificationsAsync() {
             return;
         }
         token = (await Notifications.getExpoPushTokenAsync()).data;
-        //console.log('pushToken', token)
+        console.log('pushToken', token)
     } else {
         alert('Must use physical device for Push Notifications');
     }

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Викопка",
+    "name": "Digger",
     "slug": "digger",
     "version": "1.0.1",
     "orientation": "portrait",
@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.arctosdev.myproject",
+      "package": "com.arctosdev.digger",
       "googleServicesFile": "./google-services.json"
     },
     "web": {
