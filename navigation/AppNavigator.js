@@ -16,10 +16,12 @@ import * as SecureStore from 'expo-secure-store'
 
 
 
+
 const Stack = createNativeStackNavigator()
 
 export default function Navigate() {
     const dispatch = useDispatch()
+    
     const goBack = (navigation) => {
         const { routes } = navigation.getState()
         if (routes.length === 2) {
@@ -29,21 +31,22 @@ export default function Navigate() {
             navigation.goBack()
         }
     }
+
     const checkToken = async () => {
-        let token = await SecureStore.getItemAsync('token')
-        console.log(JSON.parse(token))
+        let tokenStor = await SecureStore.getItemAsync('token')
+        let token = JSON.parse(tokenStor)       
         if (token) {
-           await dispatch(setToken(JSON.parse(token)))
+           await dispatch(setToken(token))
         }
     }
 
     useEffect(() => {
         checkToken()
-    }, [])
+    }, []) 
 
     return (
         <NavigationContainer >
-            <Stack.Navigator initialRouteName="Вхід"  >
+            <Stack.Navigator initialRouteName={'Вхід'}  >
                 <Stack.Screen
                     name='Вхід'
                     component={LoginScreen}
@@ -74,7 +77,7 @@ export default function Navigate() {
                             return (
                                 <View style={{ flexDirection: 'row', gap: 5 }} >
                                     <Notification />
-                                    <ButtonOut navigation={navigation} />
+                                    <ButtonOut navigation={navigation} token={route.params.token.token} />
                                 </View>
                             )
                         },

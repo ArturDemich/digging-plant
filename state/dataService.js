@@ -6,6 +6,10 @@ const password = '';
 const tok = `${username}:${password}`
 const encodedToken = Buffer.from(tok).toString('base64')
 
+
+const NOTIFICATIONS_URL = 'https://landshaft.info/modules/viber/digger4.php'
+const SEVE_TOKEN_URL = 'https://us-central1-digger-3000.cloudfunctions.net/saveToken'
+
 export class DataService {
 
     static getStepOrders(stepId, storageId, token) {
@@ -110,7 +114,7 @@ export class DataService {
 
     static getNotifi(token) {
 
-        return axios.post('https://landshaft.info/modules/viber/digger4.php', { method: 'getNotifications', token: token },
+        return axios.post(NOTIFICATIONS_URL, { method: 'getNotifications', token: token },
             {
                 headers: { 'Accept': '*/*' }
             })
@@ -122,7 +126,7 @@ export class DataService {
     }
     static updateNotifi(token, messageid, mstatus) {
 
-        return axios.post('https://landshaft.info/modules/viber/digger4.php', {
+        return axios.post(NOTIFICATIONS_URL, {
             method: 'updateNotificationStatus',
             token: token,
             messageid: messageid,
@@ -137,7 +141,7 @@ export class DataService {
 
     static deleteNotifi(token, messageid) {
 
-        return axios.post('https://landshaft.info/modules/viber/digger4.php', {
+        return axios.post(NOTIFICATIONS_URL, {
             method: 'deleteNotification',
             token: token,
             messageid: messageid,
@@ -148,6 +152,26 @@ export class DataService {
                 console.log(error);
             })
     }
+
+    static sendTokenDevice = (userTok, deviceTok, log) => {
+        axios.post(SEVE_TOKEN_URL, {
+             userToken: userTok,
+             deviceToken: deviceTok,
+             loged: log
+         })
+         .then((response) => console.log(response.data))
+         .catch(error => {
+             if (error.response) {
+               console.error('Статус відповіді:', error.response.status);
+               console.error('Дані відповіді:', error.response.data);
+               console.error('Заголовки відповіді:', error.response.headers);
+             } else if (error.request) {
+               console.error('Запит відправлений, але не отримано відповіді:', error.request);
+             } else {
+               console.error('Сталася помилка при виконанні запиту:', error.message);
+             }
+           });              
+       }
 
 }
 

@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
 import { Feather } from '@expo/vector-icons'
 import * as SecureStore from 'expo-secure-store'
+import useDeviceToken from '../hooks/useDeviceToken'
 
 
 const styles = StyleSheet.create({
@@ -25,12 +26,15 @@ const styles = StyleSheet.create({
     },
 })
 
-function ButtonOut({ navigation }) {
+function ButtonOut({ navigation, token }) {
     const dispatch = useDispatch()
+    const {registerDeviceToken} = useDeviceToken()
+
     const deleteToken = async() => {
         await SecureStore.deleteItemAsync('token')
+        await registerDeviceToken(token, false)
     }
-
+ 
     return (
         <TouchableOpacity
             style={[styles.buttonStep]}

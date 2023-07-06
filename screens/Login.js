@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator, Image } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
-import { getDigStorages, getStep, getTokenThunk } from '../state/dataThunk'
+import { getTokenThunk } from '../state/dataThunk'
 import * as SecureStore from 'expo-secure-store'
 import logo from '../assets/logo.png'
+import useCallData from '../hooks/useCallData'
+import useCheckStorages from '../hooks/useCheckStorages'
 
 const styles = StyleSheet.create({
     container: {
@@ -65,37 +67,19 @@ const styles = StyleSheet.create({
 
 function LoginScreen({ navigation, digStorages, token }) {
     const dispatch = useDispatch()
+    const {callData} = useCallData()
+    const {checkStorages} = useCheckStorages()
+
     const [login, onChangeLogin] = useState('')
     const [password, onChangePass] = useState('')
     const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         getValueAuth()
-        token.length === 1 && digStorages.length === 0 ? callData() : null
-        digStorages.length > 0 ? checkStorages() : null
-    }, [token, digStorages])
-
-    const callData = async () => {
-        await dispatch(getDigStorages(token[0].token))
-        await dispatch(getStep(token[0].token))        
-    }
-
-    const checkStorages = () => {
-        if (digStorages.length == 1) {
-            navigation.navigate('Поле', {
-                title: digStorages[0].name,
-                token: token[0],
-                storageId: digStorages[0].id
-            })
-
-        } else if (digStorages.length > 1) {
-            navigation.navigate('Всі поля', {
-                title: 'Загрузка',
-                token: token[0]
-            })
-
-        }
-    }
+        token.length === 1 && digStorages.length === 0 ? callData(token[0].token) : null
+        digStorages.length > 0 ? checkStorages(digStorages, token) : null
+    }, [token, digStorages])  
+    
 
     const getToken = async () => {
         setLoading(true)  
@@ -118,6 +102,7 @@ function LoginScreen({ navigation, digStorages, token }) {
         } 
       }
       
+     
 
     return (
         <SafeAreaView style={styles.container}>

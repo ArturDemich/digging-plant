@@ -1,38 +1,17 @@
 import { Ionicons } from '@expo/vector-icons'
 import { useFocusEffect } from '@react-navigation/core'
-import { useCallback, useEffect, useState, useRef } from 'react'
-import { FlatList, Modal, StyleSheet, Text, Platform, TouchableOpacity, View } from 'react-native'
+import { useCallback, useState} from 'react'
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Badge } from 'react-native-elements'
 import { connect, useDispatch } from 'react-redux'
 import { getNotifiThunk } from '../state/dataThunk'
 import RenderNotifi from './RenderNotifi'
-import * as Device from 'expo-device'
-import * as Notifications from 'expo-notifications'
 
-Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-        shouldShowAlert: true,
-        shouldPlaySound: true,
-        shouldSetBadge: true,
-    }),
-})
 
-function usePrevious(value) {
-    const ref = useRef()
-    useEffect(() => {
-        ref.current = value
-    });
-    return ref.current
-}
 
 function Notification({ notifiState, token }) {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
-    const [expoPushToken, setExpoPushToken] = useState('');
-    const [notification, setNotification] = useState(false);
-    const notificationListener = useRef();
-    const responseListener = useRef();
-    const prevAmount = usePrevious(notifiState.length)
 
     const keyExtractor = useCallback((item) => (item.message_id.toString()), [])
     const renderItem = useCallback(({ item }) => {
@@ -41,36 +20,9 @@ function Notification({ notifiState, token }) {
 
     useFocusEffect(
         useCallback(() => {
-            dispatch(getNotifiThunk(token[0].token))
-            let getNotifiCyrcle = setTimeout(function get() {
-                dispatch(getNotifiThunk(token[0].token))
-                getNotifiCyrcle = setTimeout(get, 10000)
-            }, 100000)
-
-            return () => { clearTimeout(getNotifiCyrcle) }
+            dispatch(getNotifiThunk(token[0].token))            
         }, [show])
     )
-
-    useEffect(() => {
-        if (prevAmount < notifiState.length && notifiState[0].message_status === 'new') {
-            schedulePushNotification(notifiState)
-        }
-
-        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-            setNotification(notification);
-        });
-
-        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-            console.log(response);
-        });
-
-        return () => {
-            Notifications.removeNotificationSubscription(notificationListener.current);
-            Notifications.removeNotificationSubscription(responseListener.current);
-        };
-    }, [notifiState.length])
 
     return (
         <View >
@@ -204,44 +156,3 @@ const styles = StyleSheet.create({
 
 })
 
-async function schedulePushNotification(notifi) {
-    await Notifications.scheduleNotificationAsync({
-        content: {
-            //title: "You've got mail! 📬",
-            body: notifi[0].message_body,
-        },
-        trigger: { seconds: 1 },
-    });
-}
-
-async function registerForPushNotificationsAsync() {
-    let token;
-
-    if (Platform.OS === 'android') {
-        await Notifications.setNotificationChannelAsync('default', {
-            name: 'default',
-            importance: Notifications.AndroidImportance.MAX,
-            vibrationPattern: [0, 250, 250, 250],
-            lightColor: '#FF231F7C',
-        });
-    }
-
-    if (Device.isDevice) {
-        const { status: existingStatus } = await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-            const { status } = await Notifications.requestPermissionsAsync();
-            finalStatus = status;
-        }
-        if (finalStatus !== 'granted') {
-            alert('Failed to get push token for push notification!');
-            return;
-        }
-        token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log('pushToken', token)
-    } else {
-        alert('Must use physical device for Push Notifications');
-    }
-
-    return token;
-}
