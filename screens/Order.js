@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, Platform } from 'react-native'
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, Platform, RefreshControl } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
@@ -12,6 +12,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty }) {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
+    const [refresh, setRefresh] = useState(false)
     const { storageId, token } = route.params
 
     const keyExtractor = useCallback((item, index) => (item.orderId.toString() + index), [])
@@ -23,6 +24,12 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
         await dispatch(getOrdersStep(currentStep, storageId, token.token))
+    }
+
+    const onRefresh = async () => {
+        setRefresh(true)
+        await dispatch(getOrdersStep(currentStep, storageId, token.token))
+        setRefresh(false)
     }
 
     useFocusEffect(
@@ -54,6 +61,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                         data={orders}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
+                        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
                         style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'

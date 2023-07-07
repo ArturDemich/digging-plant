@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native'
 import React, { useCallback, useState } from 'react'
-import { Text, StyleSheet, View, FlatList, ActivityIndicator, Platform } from 'react-native'
+import { Text, StyleSheet, View, FlatList, ActivityIndicator, Platform, RefreshControl } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, connect } from 'react-redux'
 import ButtonsBar from '../components/ButtonsBar'
@@ -15,6 +15,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
     const [loading, setLoading] = useState(true)
     const { storageId, token } = route.params
+    const [refresh, setRefresh] = useState(false)
     const dispatch = useDispatch()
 
     const renderItem = useCallback(({item}) => {
@@ -27,6 +28,13 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
         await new Promise((resolve) => setTimeout(resolve, 200))
         await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
     }
+
+    const onRefresh = async () => {
+        setRefresh(true)
+        await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
+        setRefresh(false)
+    }
+    
     useFocusEffect(
         useCallback(() => {
             getGroupOrders().then(() => setLoading(false))
@@ -57,6 +65,9 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
                         data={groupOrders}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
+                        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
+                        
+                        refreshing={refresh}
                         style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'

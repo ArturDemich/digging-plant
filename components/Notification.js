@@ -1,7 +1,7 @@
 import { Ionicons } from '@expo/vector-icons'
 import { useFocusEffect } from '@react-navigation/core'
 import { useCallback, useState} from 'react'
-import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Modal, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Badge } from 'react-native-elements'
 import { connect, useDispatch } from 'react-redux'
 import { getNotifiThunk } from '../state/dataThunk'
@@ -12,11 +12,18 @@ import RenderNotifi from './RenderNotifi'
 function Notification({ notifiState, token }) {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
+    const [refresh, setRefresh] = useState(false)
 
     const keyExtractor = useCallback((item) => (item.message_id.toString()), [])
     const renderItem = useCallback(({ item }) => {
         return <RenderNotifi notifi={item} token={token[0].token} />
     }, [])
+
+    const onRefresh = async () => {
+        setRefresh(true)
+        await dispatch(getNotifiThunk(token[0].token))
+        setRefresh(false)
+    }
 
     useFocusEffect(
         useCallback(() => {
@@ -44,7 +51,7 @@ function Notification({ notifiState, token }) {
                                 data={notifiState}
                                 renderItem={renderItem}
                                 keyExtractor={keyExtractor}
-
+                                refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
                             /> :
                             <Text >Повідомлень немає</Text>
                         }
