@@ -29,9 +29,11 @@ const styles = StyleSheet.create({
 function ButtonOut({ navigation, token }) {
     const dispatch = useDispatch()
     const {registerDeviceToken} = useDeviceToken()
+    
 
     const deleteToken = async() => {
         await SecureStore.deleteItemAsync('token')
+        console.log('out', token)
         await registerDeviceToken(token, false)
     }
  

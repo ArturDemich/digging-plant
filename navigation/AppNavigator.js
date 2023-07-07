@@ -62,7 +62,7 @@ export default function Navigate() {
                             return (
                                 <View style={{ flexDirection: 'row', gap: 5 }} >
                                     <Notification />
-                                    <ButtonOut navigation={navigation} />
+                                    <ButtonOut navigation={navigation} token={route.params.token.token}/>
                                 </View>
                             )
                         },
