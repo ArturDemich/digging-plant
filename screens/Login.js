@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, Ac
 import { connect, useDispatch } from 'react-redux'
 import { getTokenThunk } from '../state/dataThunk'
 import * as SecureStore from 'expo-secure-store'
-import logo from '../assets/logo.png'
+import logoIcon from '../assets/logoIcon.png'
 import useCallData from '../hooks/useCallData'
 import useCheckStorages from '../hooks/useCheckStorages'
 
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
     },
     logo: {
-        height: 70,
-        width: 300,
+        height: 65,
+        width: 250,
         marginTop: 50
     },
 })
@@ -106,7 +106,7 @@ function LoginScreen({ navigation, digStorages, token }) {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Image source={logo} style={styles.logo} />
+            <Image source={logoIcon} style={styles.logo} />
             {loading ?
                 <View style={styles.loader}>
                     <ActivityIndicator size="large" color="#45aa45" />
