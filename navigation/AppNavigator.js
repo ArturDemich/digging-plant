@@ -17,6 +17,7 @@ import * as SecureStore from 'expo-secure-store'
 
 
 
+
 const Stack = createNativeStackNavigator()
 
 export default function Navigate() {
