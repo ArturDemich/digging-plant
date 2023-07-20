@@ -8,12 +8,13 @@ import { useEffect } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
-function FildScreen({ route, currentColor }) {
+function FildScreen({ currentColor, token, digStorages }) {    
     const dispatch = useDispatch()
 
-
     useEffect(() => {
-        dispatch(setStorageId(route.params.storageId))
+        if(digStorages.length === 1) {
+            dispatch(setStorageId(digStorages[0].id))
+        }         
     }, [])
 
     return (
@@ -31,13 +32,13 @@ function FildScreen({ route, currentColor }) {
                 name="Рослини Замовлення"
                 component={AllPlants}
                 options={{ tabBarLabel: 'Всі Рослини' }}
-                initialParams={{ token: route.params.token, storageId: route.params.storageId }}
+                initialParams={{ token: token }}
             />
             <Tab.Screen
                 name="Замовлення"
                 component={Order}
                 options={{ tabBarLabel: 'Замовлення' }}
-                initialParams={{ token: route.params.token, storageId: route.params.storageId }}
+                initialParams={{ token: token }}
             />
         </Tab.Navigator>
     )
@@ -45,6 +46,8 @@ function FildScreen({ route, currentColor }) {
 
 const mapStateToProps = state => ({
     currentColor: state.currentColorStep,
+    token: state.token,
+    digStorages: state.digStorages
 })
 
 export default connect(mapStateToProps)(FildScreen)

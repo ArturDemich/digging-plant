@@ -9,11 +9,11 @@ import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 
-function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty }) {
+function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty, storageId }) {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const [refresh, setRefresh] = useState(false)
-    const { storageId, token } = route.params
+    const { token } = route.params
 
     const keyExtractor = useCallback((item, index) => (item.orderId.toString() + index), [])
     const renderItem = useCallback(({item}) => {
@@ -23,12 +23,12 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
     const getOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
-        await dispatch(getOrdersStep(currentStep, storageId, token.token))
+        await dispatch(getOrdersStep(currentStep, storageId, token[0].token))
     }
 
     const onRefresh = async () => {
         setRefresh(true)
-        await dispatch(getOrdersStep(currentStep, storageId, token.token))
+        await dispatch(getOrdersStep(currentStep, storageId, token[0].token))
         setRefresh(false)
     }
 
@@ -80,6 +80,7 @@ const mapStateToProps = state => {
         currentStep: state.currentStep,
         totalPlantQty: state.totalPlantQty,
         totalOrderQty: state.totalOrderQty,
+        storageId: state.currentStorageId
     }
 }
 export default connect(mapStateToProps)(OrdersScreen)

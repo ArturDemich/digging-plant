@@ -12,9 +12,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 
 
-function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
+function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty, storageId }) {
     const [loading, setLoading] = useState(true)
-    const { storageId, token } = route.params
+    const { token } = route.params
     const [refresh, setRefresh] = useState(false)
     const dispatch = useDispatch()
 
@@ -26,19 +26,20 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
     const getGroupOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
-        await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
+        await dispatch(getGroupOrdersThunk(currentStep, storageId, token[0].token))
     }
 
     const onRefresh = async () => {
         setRefresh(true)
-        await dispatch(getGroupOrdersThunk(currentStep, storageId, token.token))
+        await dispatch(getGroupOrdersThunk(currentStep, storageId, token[0].token))
         setRefresh(false)
     }
     
-    useFocusEffect(
+    useFocusEffect(        
         useCallback(() => {
             getGroupOrders().then(() => setLoading(false))
         }, [currentStep])
+        
     )    
 
     return (
@@ -74,7 +75,7 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty }) {
                     />
             }
             <NextStepButton path={route.name} />
-            <ButtonsBar storageId={storageId} token={token} />
+            <ButtonsBar storageId={storageId} />
         </SafeAreaView>
     )
 }
@@ -84,6 +85,7 @@ const mapStateToProps = state => {
         groupOrders: state.groupOrders,
         currentStep: state.currentStep,
         totalPlantQty: state.totalPlantQty,
+        storageId: state.currentStorageId
     }
 }
 export default connect(mapStateToProps)(AllPlantsScreen)

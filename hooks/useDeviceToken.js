@@ -20,7 +20,7 @@ const useDeviceToken = () => {
                       name: 'default',
                       importance: Notifications.AndroidImportance.MAX,
                       vibrationPattern: [0, 250, 250, 250],
-                      lightColor: '#FF231F7C',
+                      lightColor: '#ffffff',
                   });
               }
 
@@ -37,7 +37,7 @@ const useDeviceToken = () => {
                   }
                   tokenExpo = (await Notifications.getExpoPushTokenAsync()).data
                   console.log('pushToken', tokenExpo)
-                  DataService.sendTokenDevice(userToken, tokenExpo, loged)
+                  await DataService.sendTokenDevice(userToken, tokenExpo, loged)
               } else {
                   alert('Must use physical device for Push Notifications')
               }

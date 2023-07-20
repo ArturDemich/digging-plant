@@ -33,17 +33,17 @@ function ButtonOut({ navigation, token }) {
 
     const deleteToken = async() => {
         await SecureStore.deleteItemAsync('token')
-        console.log('out', token)
-        await registerDeviceToken(token, false)
+        await registerDeviceToken(token[0].token, false)
     }
  
     return (
         <TouchableOpacity
             style={[styles.buttonStep]}
             onPress={() => {
-                navigation.dispatch(StackActions.popToTop())
-                dispatch(cleanState())
+                //navigation.dispatch(StackActions.popToTop())
                 deleteToken()
+                dispatch(cleanState())
+                
             }}
         >
             <Feather name="log-out" size={24} color="black" />

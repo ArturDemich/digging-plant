@@ -4,8 +4,6 @@ import { connect, useDispatch } from 'react-redux'
 import { getTokenThunk } from '../state/dataThunk'
 import * as SecureStore from 'expo-secure-store'
 import logoIcon from '../assets/logoIcon.png'
-import useCallData from '../hooks/useCallData'
-import useCheckStorages from '../hooks/useCheckStorages'
 
 const styles = StyleSheet.create({
     container: {
@@ -65,10 +63,8 @@ const styles = StyleSheet.create({
     },
 })
 
-function LoginScreen({ navigation, digStorages, token }) {
+function LoginScreen() {
     const dispatch = useDispatch()
-    const {callData} = useCallData()
-    const {checkStorages} = useCheckStorages()
 
     const [login, onChangeLogin] = useState('')
     const [password, onChangePass] = useState('')
@@ -76,11 +72,8 @@ function LoginScreen({ navigation, digStorages, token }) {
 
     useEffect(() => {
         getValueAuth()
-        token.length === 1 && digStorages.length === 0 ? callData(token[0].token) : null
-        digStorages.length > 0 ? checkStorages(digStorages, token) : null
-    }, [token, digStorages])  
+    }, [])  
     
-
     const getToken = async () => {
         setLoading(true)  
         await saveAuth(password, login) 
@@ -101,9 +94,7 @@ function LoginScreen({ navigation, digStorages, token }) {
             onChangePass(pass)
         } 
       }
-      
-     
-
+       
     return (
         <SafeAreaView style={styles.container}>
             <Image source={logoIcon} style={styles.logo} />

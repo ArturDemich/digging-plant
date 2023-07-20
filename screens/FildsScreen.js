@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
+import { setStorageId } from '../state/dataSlice'
 
 
 const styles = StyleSheet.create({
@@ -45,14 +46,16 @@ const styles = StyleSheet.create({
 })
 
 
-function MainScreen({ navigation, digStorages, route }) {
+function MainScreen({ navigation, digStorages }) {
+    const dispatch = useDispatch()
 
     function renderFildsButton({ item }) {
         return (
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    navigation.navigate('Поле', { title: item.name, storageId: item.id, token: route.params.token })
+                    dispatch(setStorageId(item.id))
+                    navigation.navigate('Поле', { title: item.name })
                 }}
             >
                 <Text
