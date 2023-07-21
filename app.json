@@ -2,7 +2,7 @@
   "expo": {
     "name": "Digger",
     "slug": "digger",
-    "version": "1.0.2",
+    "version": "1.2.1",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
@@ -14,7 +14,7 @@
       [
         "expo-notifications",
         {
-          "icon": "./assets/icon-push.png",
+          "icon": "./assets/icon-push-120.png",
           "color": "#ffffff"          
         }
       ]
@@ -32,7 +32,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#ffffff"
       },
       "package": "com.arctosdev.digger",
       "googleServicesFile": "./google-services.json"
