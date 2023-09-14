@@ -19,7 +19,7 @@ function FildScreen({ currentColor, token, digStorages }) {
 
     return (
         <Tab.Navigator
-            initialRouteName="Рослини Замовлення"
+            initialRouteName="Замовлення"
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 12, fontWeight: '700' },
@@ -29,17 +29,18 @@ function FildScreen({ currentColor, token, digStorages }) {
             }}
         >
             <Tab.Screen
-                name="Рослини Замовлення"
-                component={AllPlants}
-                options={{ tabBarLabel: 'Всі Рослини' }}
-                initialParams={{ token: token }}
-            />
-            <Tab.Screen
                 name="Замовлення"
                 component={Order}
                 options={{ tabBarLabel: 'Замовлення' }}
                 initialParams={{ token: token }}
             />
+            <Tab.Screen
+                name="Рослини Замовлення"
+                component={AllPlants}
+                options={{ tabBarLabel: 'Всі Рослини' }}
+                initialParams={{ token: token }}
+            />
+            
         </Tab.Navigator>
     )
 }
