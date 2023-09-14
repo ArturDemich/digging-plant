@@ -72,13 +72,13 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
     const setNextStepName = (val) => {
         switch (val) {
             case colorStepBtn.green.id:
-                return titel = colorStepBtn.yellow.name
+                return name = colorStepBtn.yellow.name
             case colorStepBtn.yellow.id:
-                return color = colorStepBtn.pink.name
+                return name = colorStepBtn.pink.name
             case colorStepBtn.pink.id:
-                return color = colorStepBtn.red.name
+                return name = colorStepBtn.red.name
             case colorStepBtn.red.id:
-                return color = colorStepBtn.purple.name
+                return name = colorStepBtn.purple.name
             case colorStepBtn.purple.id:
                 return null
             default:
@@ -91,13 +91,13 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
             case colorStepBtn.green.id:
                 return colorStepBtn.yellow.color
             case colorStepBtn.yellow.id:
-                return color = colorStepBtn.pink.color
+                return colorStepBtn.pink.color
             case colorStepBtn.pink.id:
-                return color = colorStepBtn.red.color
+                return colorStepBtn.red.color
             case colorStepBtn.red.id:
-                return color = colorStepBtn.purple.color
+                return colorStepBtn.purple.color
             case colorStepBtn.purple.id:
-                return null
+                return 'gray'
             default:
                 alert('Step Color not defined')
         }

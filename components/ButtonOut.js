@@ -1,5 +1,5 @@
 import { StackActions } from '@react-navigation/native'
-import { StyleSheet, TouchableOpacity } from 'react-native'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
 import { Feather } from '@expo/vector-icons'
@@ -32,7 +32,11 @@ function ButtonOut({ navigation, token }) {
     
 
     const deleteToken = async() => {
-        await SecureStore.deleteItemAsync('token')
+        if(Platform.OS === 'web') {
+            await localStorage.removeItem('token')
+        } else {
+            await SecureStore.deleteItemAsync('token')
+        }
         await registerDeviceToken(token[0].token, false)
     }
  

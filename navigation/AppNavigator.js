@@ -11,7 +11,7 @@ import { setToken } from '../state/dataSlice'
 import ButtonOut from '../components/ButtonOut'
 import HeaderTitle from '../components/HeaderTitle'
 import Notification from '../components/Notification'
-import { View } from 'react-native'
+import { Platform, View } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import useCallData from '../hooks/useCallData'
 
@@ -29,7 +29,12 @@ export default function Navigate() {
     const navigation = useNavigation()
        
     const checkToken = async () => {
-        let tokenStor = await SecureStore.getItemAsync('token')
+        let tokenStor 
+        if(Platform.OS === 'web') {
+            tokenStor = await localStorage.getItem('token')
+        } else {
+            tokenStor = await SecureStore.getItemAsync('token')
+        }
         let token = JSON.parse(tokenStor)       
         if (token) {
            await dispatch(setToken(token))

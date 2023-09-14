@@ -27,7 +27,7 @@ function Notification({ notifiState, token }) {
 
     useFocusEffect(
         useCallback(() => {
-            token ? dispatch(getNotifiThunk(token[0].token)) : null         
+           // token ? dispatch(getNotifiThunk(token[0].token)) : null         
         }, [show])
     )
 

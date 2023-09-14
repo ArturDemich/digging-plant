@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator, Image } from 'react-native'
+import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator, Image, Platform } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getTokenThunk } from '../state/dataThunk'
 import * as SecureStore from 'expo-secure-store'
@@ -82,13 +82,25 @@ function LoginScreen() {
     }   
 
      const saveAuth = async (pass, login) => {
-        await SecureStore.setItemAsync('pass', pass)
-        await SecureStore.setItemAsync('login', login)
+        if(Platform.OS === 'web') {
+            await localStorage.setItem('pass', pass)
+            await localStorage.setItem('login', login)
+        } else {
+            await SecureStore.setItemAsync('pass', pass)
+            await SecureStore.setItemAsync('login', login)
+        }
       }
 
        const getValueAuth = async () => {
-        let pass = await SecureStore.getItemAsync('pass')
-        let login = await SecureStore.getItemAsync('login')
+        let pass 
+        let login
+        if(Platform.OS === 'web') {
+            pass = await localStorage.getItem('pass')
+            login = await localStorage.getItem('login')
+        } else {
+             pass = await SecureStore.getItemAsync('pass')
+             login = await SecureStore.getItemAsync('login')
+        }
         if (pass && login) {
             onChangeLogin(login)
             onChangePass(pass)

@@ -8,6 +8,7 @@ import {
   setTotalQty,
   setCurrentColorStep
 } from "./dataSlice"
+import { Platform } from "react-native"
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
@@ -83,9 +84,14 @@ export const getStep = (token) => async (dispatch) => {
 export const getTokenThunk = (log, pass) => async (dispatch) => {
   try {
     const res = await DataService.getToken(log, pass)
+    console.log(res)
     if (res.success) {
       dispatch(setToken(res.data))
-      await SecureStore.setItemAsync('token', JSON.stringify(res.data))
+      if(Platform.OS === 'web') {
+        await localStorage.setItem('token', JSON.stringify(res.data))
+      } else {
+        await SecureStore.setItemAsync('token', JSON.stringify(res.data))
+      }
     } else {
       alert(res.errors[0])
     }
