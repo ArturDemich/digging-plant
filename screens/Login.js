@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        backgroundColor: '#f2f5f8',
+        backgroundColor: '#d8fff2',
         gap: 70
     },
     text: {

@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         width: 25,
         marginLeft: 10,
+        marginRight: 10,
         flexDirection: 'row'
     },
 })
@@ -30,14 +31,14 @@ function ButtonOut({ navigation, token }) {
     const dispatch = useDispatch()
     const {registerDeviceToken} = useDeviceToken()
     
-
+console.log(navigation)
     const deleteToken = async() => {
         if(Platform.OS === 'web') {
             await localStorage.removeItem('token')
         } else {
             await SecureStore.deleteItemAsync('token')
         }
-        await registerDeviceToken(token[0].token, false)
+       // await registerDeviceToken(token[0].token, false)
     }
  
     return (
@@ -45,6 +46,7 @@ function ButtonOut({ navigation, token }) {
             style={[styles.buttonStep]}
             onPress={() => {
                 //navigation.dispatch(StackActions.popToTop())
+                navigation.navigate('Вхід')
                 deleteToken()
                 dispatch(cleanState())
                 
