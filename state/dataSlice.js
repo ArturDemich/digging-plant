@@ -133,8 +133,8 @@ export const dataSlice = createSlice({
             state.currentStorageId = ''
             state.dataChange = []
             state.notifications = []
-            totalPlantQty = 0
-            totalOrderQty = 0
+            state.totalPlantQty = 0
+            state.totalOrderQty = 0
         },
     },
 })

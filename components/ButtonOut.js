@@ -31,7 +31,7 @@ function ButtonOut({ navigation, token }) {
     const dispatch = useDispatch()
     const {registerDeviceToken} = useDeviceToken()
     
-console.log(navigation)
+
     const deleteToken = async() => {
         if(Platform.OS === 'web') {
             await localStorage.removeItem('token')
@@ -45,8 +45,6 @@ console.log(navigation)
         <TouchableOpacity
             style={[styles.buttonStep]}
             onPress={() => {
-                //navigation.dispatch(StackActions.popToTop())
-                navigation.navigate('Вхід')
                 deleteToken()
                 dispatch(cleanState())
                 

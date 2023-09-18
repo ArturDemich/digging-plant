@@ -24,16 +24,17 @@ const styles = StyleSheet.create({
         marginTop: 25
     },
     button: {
+        padding: 10,
         marginTop: 10,
         marginBottom: 10,
         borderRadius: 10,
         backgroundColor: "#45aa45",
         minWidth: "63%",
         minHeight: 50,
-        elevation: 3,
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.4,
-        shadowRadius: 1,
+        elevation: 1,
+        shadowOffset: { width: -3, height: 3 },
+        shadowOpacity: 0.2,
+        shadowRadius: 3,
         shadowColor: 'black',
         justifyContent: 'center',
     },
@@ -81,6 +82,7 @@ function MainScreen({ navigation, digStorages }) {
                     data={digStorages}
                     renderItem={renderFildsButton}
                     keyExtractor={item => item.id.toString()}
+                    style={{padding: 10}}
                 />
             </View>
         </SafeAreaView>

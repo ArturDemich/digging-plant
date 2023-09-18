@@ -7,12 +7,13 @@ import { NavigationContainer } from '@react-navigation/native'
 
 
 
+
 export default function App() {
 
   return (
     <StoreProvider store={store}>
       <StatusBar hidden={false} barStyle='dark-content' backgroundColor='white' />
-      <NavigationContainer>
+      <NavigationContainer>        
         <Navigate />
       </NavigationContainer>      
     </StoreProvider>

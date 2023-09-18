@@ -42,9 +42,9 @@ export default function Navigate() {
         }
     }
 
-    useEffect(() => {
+    useEffect(() => {        
         token.length == 0 ? checkToken() : callData(token[0].token)       
-    }, [ token.length]) 
+    }, [ token]) 
 
     useEffect(() => {
         if(digStorages.length == 1) {
@@ -56,7 +56,9 @@ export default function Navigate() {
         }
     }, [digStorages.length])
 
-    return (        
+    return (
+        <View style={{display: 'flex', flex: 1}} >
+        <View style={{maxWidth: 750, minWidth: 250, width: '100%', alignSelf: 'center', flex: 1 }}>        
             <Stack.Navigator >
             {token.length > 0 ? (
                 <Stack.Group >
@@ -106,6 +108,8 @@ export default function Navigate() {
                 </Stack.Group>
             )}
             </Stack.Navigator>
+            </View>
+            </View>
         
     )
 }
