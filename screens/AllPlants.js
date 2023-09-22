@@ -8,6 +8,7 @@ import NextStepButton from '../components/NextStepButton'
 import RenderPlantsGroup from '../components/RenderPlantsGroup'
 import { getGroupOrdersThunk } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { clearDataChange } from '../state/dataSlice'
 
 
 
@@ -38,6 +39,7 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty, stor
     useFocusEffect(        
         useCallback(() => {
             getGroupOrders().then(() => setLoading(false))
+            return () => dispatch(clearDataChange())
         }, [currentStep])
         
     )    
@@ -66,10 +68,9 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty, stor
                         data={groupOrders}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
-                        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
-                        
+                        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}                        
                         refreshing={refresh}
-                        style={{ marginBottom: 10 }}
+                        //style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'
                     />
@@ -116,8 +117,8 @@ const styles = StyleSheet.create({
     infoblock: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 20,
-        marginTop: 15
+        marginBottom: 5,
+        marginTop: 10
     },
     loader: {
         height: 'auto',

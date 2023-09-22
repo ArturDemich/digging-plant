@@ -142,7 +142,6 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopWidth: 2,
         borderTopColor: '#b0acb0',
-        marginTop: 10,
     },
     textStr: {
         fontWeight: 600,

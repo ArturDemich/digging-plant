@@ -8,6 +8,7 @@ import NextStepButton from '../components/NextStepButton'
 import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { clearDataChange } from '../state/dataSlice'
 
 function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty, storageId }) {
     const dispatch = useDispatch()
@@ -35,6 +36,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
     useFocusEffect(
         useCallback(() => {
             getOrders().then(() => setLoading(false))
+            return () => dispatch(clearDataChange())
         }, [currentStep])
     )
 
@@ -62,7 +64,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
                         refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
-                        style={{ marginBottom: 10 }}
+                        //style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'
                     />
@@ -109,8 +111,8 @@ const styles = StyleSheet.create({
     infoblock: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 20,
-        marginTop: 15
+        marginBottom: 5,
+        marginTop: 10
     },
     costLineWrapper: {
         height: 'auto',

@@ -38,7 +38,7 @@
       "googleServicesFile": "./google-services.json"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon-push-120.png"
     },
     "extra": {
       "eas": {

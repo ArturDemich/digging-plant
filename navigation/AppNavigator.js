@@ -59,7 +59,9 @@ export default function Navigate() {
     return (
         <View style={{display: 'flex', flex: 1}} >
         <View style={{maxWidth: 750, minWidth: 250, width: '100%', alignSelf: 'center', flex: 1 }}>        
-            <Stack.Navigator >
+            <Stack.Navigator 
+            screenOptions={{headerStyle: {height: 55}}}
+            >
             {token.length > 0 ? (
                 <Stack.Group >
                         <Stack.Screen

@@ -37,6 +37,10 @@ const styles = StyleSheet.create({
     },
     orderInfo: {
         height: 'auto',
+        borderBottomWidth: 2,
+        paddingBottom: 10,
+        borderBottomColor: '#858585',
+        backgroundColor: '#eef9ee',
     },
     infoContainer: {
         flexDirection: 'row',

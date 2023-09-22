@@ -7,18 +7,21 @@ const tok = `${username}:${password}`
 const encodedToken = Buffer.from(tok).toString('base64')
 
 
+const FB_API_URL = 'https://us-central1-digger-3000.cloudfunctions.net/dataDiggerWeb'
 const NOTIFICATIONS_URL = 'https://landshaft.info/modules/viber/digger4.php'
 const SEVE_TOKEN_URL = 'https://us-central1-digger-3000.cloudfunctions.net/saveToken'
 
 export class DataService {
 
     static getStepOrders(stepId, storageId, token) {
-        let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/getStepOrders', {
-            token: token,
-            stepId: stepId,
-            storageId: storageId,
-        }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
+        let stepOrders = axios.post(FB_API_URL, {
+            URL: 'http://194.42.196.141:41001/UTP/hs/api/getStepOrders',
+            encodedToken: encodedToken,
+            data: {
+                token: token,
+                stepId: stepId,
+                storageId: storageId,
+            }            
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -29,13 +32,15 @@ export class DataService {
     }
 
     static getGroupOrders(stepId, storageId, token) {
-        let groupOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/getStepOrders', {
-            token: token,
-            stepId: stepId,
-            storageId: storageId,
-            groupByOrder: false
-        }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
+        let groupOrders = axios.post(FB_API_URL, {
+            URL: 'http://194.42.196.141:41001/UTP/hs/api/getStepOrders',
+            encodedToken: encodedToken,
+            data:{
+                token: token,
+                stepId: stepId,
+                storageId: storageId,
+                groupByOrder: false
+            }            
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -47,8 +52,12 @@ export class DataService {
 
     static getStoragesDig(token) {
 
-        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getStorages', { token: token }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
+        return axios.post(FB_API_URL, {
+            URL: 'http://194.42.196.141:41001/UTP/hs/api/getStorages',
+            encodedToken: encodedToken,
+            data: {
+                token: token
+            }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -57,10 +66,15 @@ export class DataService {
             })
     }
 
+
     static getSteps(token) {
 
-        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getSteps', { token: token }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
+        return axios.post(FB_API_URL, { 
+            URL: 'http://194.42.196.141:41001/UTP/hs/api/getSteps',
+            encodedToken: encodedToken,
+            data: {
+            token: token 
+            }            
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -72,8 +86,13 @@ export class DataService {
 
     static getToken(log, pass) {
 
-        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getToken', { login: log, password: pass }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
+        return axios.post(FB_API_URL, { 
+            URL: 'http://194.42.196.141:41001/UTP/hs/api/getToken',
+            encodedToken: encodedToken,
+            data: {
+                login: log,
+                password: pass
+            }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -84,8 +103,13 @@ export class DataService {
 
     static getOrderInfo(token, orderId) {
 
-        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getOrderInfo', { token: token, orderid: orderId }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
+        return axios.post(FB_API_URL, {
+            URL: 'http://194.42.196.141:41001/UTP/hs/api/getOrderInfo',
+            encodedToken: encodedToken,
+            data:{
+                token: token, 
+                orderid: orderId
+            }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -97,11 +121,13 @@ export class DataService {
 
     static setNextStepGroup(token, dataOrders) {
 
-        let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/setNextOrderStep', {
-            token: token,
-            stepdata: dataOrders
-        }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
+        let stepOrders = axios.post(FB_API_URL, {
+            URL: 'http://194.42.196.141:41001/UTP/hs/api/setNextOrderStep',
+            encodedToken: encodedToken,
+            data: {
+                token: token,
+                stepdata: dataOrders
+            }            
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -112,6 +138,7 @@ export class DataService {
         return stepOrders
     }
 
+/////////////////////////
     static getNotifi(token) {
 
         return axios.post(NOTIFICATIONS_URL, { method: 'getNotifications', token: token },
