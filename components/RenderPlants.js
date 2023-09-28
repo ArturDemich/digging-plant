@@ -60,7 +60,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
             setModalState()
         }
     }, [selectedAllOrder, plantCheckBox, orders])
-    
+
     return (
         <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>
@@ -157,8 +157,8 @@ const styles = StyleSheet.create({
     plantName: {
         height: 'auto',
         width: 'auto',
-        fontSize: 13,
-        fontWeight: '800',
+        fontSize: 15,
+        fontWeight: '500',
         paddingTop: 5,
         textShadowRadius: 2
     },

@@ -22,9 +22,9 @@ const styles = StyleSheet.create({
         margin: 5,
         elevation: 10,
         shadowColor: 'black',
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowOpacity: 0.4,
+        shadowOffset: { width: 0, height: 0 },
+        shadowRadius: 7,
     },
     costLineWrapper: {
         height: 'auto',
@@ -64,8 +64,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     orderNum: {
-       fontSize: 13,
-       fontWeight: 600
+        fontSize: 13,
+        fontWeight: 600
     },
     orderShipment: {
         height: 'auto',
@@ -107,76 +107,76 @@ function RenderOrders({ orders, token, rightToChange }) {
         getComent()
     }, [orders])
 
-    return (        
-            <View style={styles.rowFront} >
-                <View style={styles.costLineWrapper}>
-                    <View style={styles.orderInfo}>
-                        <View style={styles.infoContainer}>
-                            <Text style={styles.orderClient}
+    return (
+        <View style={styles.rowFront} >
+            <View style={styles.costLineWrapper}>
+                <View style={styles.orderInfo}>
+                    <View style={styles.infoContainer}>
+                        <Text style={styles.orderClient}
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                        >{customerName}</Text>
+                        {rightToChange ?
+                            <Checkbox
+                                value={selectedAllOrder}
+                                color='#45aa45'
+                                onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
+                                style={styles.checkBox}
+                            /> : null}
+                    </View>
+                    <View style={styles.viewGroup}>
+                        <FontAwesome5 name="truck-loading" size={14} color="black" >
+                            <Text
+                                style={styles.orderShipment}
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
-                            >{customerName}</Text>
-                            {rightToChange ?
-                                <Checkbox
-                                    value={selectedAllOrder}
-                                    color='#45aa45'
-                                    onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
-                                    style={styles.checkBox}
-                                /> : null}
-                        </View>
-                        <View style={styles.viewGroup}>
-                            <FontAwesome5 name="truck-loading" size={14} color="black" >
-                                <Text
-                                    style={styles.orderShipment}
-                                    allowFontScaling={true}
-                                    maxFontSizeMultiplier={1}
-                                ><Text style={styles.textStr}> {shipmentMethod}</Text> </Text>
-                            </FontAwesome5>
-                            <MaterialCommunityIcons name="pine-tree" size={20} color="black">
-                                <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
-                                <Text
-                                    style={styles.quantity}
-                                    allowFontScaling={true}
-                                    maxFontSizeMultiplier={1}
-                                > {qty} шт</Text>
-                            </MaterialCommunityIcons>
-                        </View>
-                        <View style={styles.viewGroup}>
-                            <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="black" >
-                                <Text
-                                    style={styles.orderShipment}
-                                    allowFontScaling={true}
-                                    maxFontSizeMultiplier={1}
-                                > {shipmentDate}</Text>
-                            </MaterialCommunityIcons>
-                            <MaterialCommunityIcons name="clipboard-list-outline" size={19} color="black">
+                            ><Text style={styles.textStr}> {shipmentMethod}</Text> </Text>
+                        </FontAwesome5>
+                        <MaterialCommunityIcons name="pine-tree" size={20} color="black">
+                            <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
+                            <Text
+                                style={styles.quantity}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            > {qty} шт</Text>
+                        </MaterialCommunityIcons>
+                    </View>
+                    <View style={styles.viewGroup}>
+                        <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="black" >
+                            <Text
+                                style={styles.orderShipment}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            > {shipmentDate}</Text>
+                        </MaterialCommunityIcons>
+                        <MaterialCommunityIcons name="clipboard-list-outline" size={19} color="black">
                             <Text
                                 style={styles.orderNum}
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                             > {orderNo} </Text>
-                            </MaterialCommunityIcons>
-                        </View>   
-                        <MaterialCommunityIcons name="comment-text-outline" size={16} color="black" >                     
-                            <Text
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
-                                style={{ fontWeight: 800, fontSize: 13 }}
-                            > - {comentInfo} </Text> 
-                            </MaterialCommunityIcons>
+                        </MaterialCommunityIcons>
                     </View>
-                    <View >
-                        {products.map(elem =>
-                            <RenderPlants
-                                key={shortid.generate()}
-                                orderId={orderId}
-                                prodactElem={elem}
-                                selectedAllOrder={selectedAllOrder}
-                            />
-                        )}
-                    </View>
+                    <MaterialCommunityIcons name="comment-text-outline" size={16} color="black" >
+                        <Text
+                            allowFontScaling={true}
+                            maxFontSizeMultiplier={1}
+                            style={{ fontWeight: 800, fontSize: 13 }}
+                        > - {comentInfo} </Text>
+                    </MaterialCommunityIcons>
                 </View>
-            </View>        
+                <View >
+                    {products.map(elem =>
+                        <RenderPlants
+                            key={shortid.generate()}
+                            orderId={orderId}
+                            prodactElem={elem}
+                            selectedAllOrder={selectedAllOrder}
+                        />
+                    )}
+                </View>
+            </View>
+        </View>
     )
 }
 

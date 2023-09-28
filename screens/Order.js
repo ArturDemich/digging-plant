@@ -17,10 +17,10 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
     const { token } = route.params
 
     const keyExtractor = useCallback((item, index) => (item.orderId.toString() + index), [])
-    const renderItem = useCallback(({item}) => {
-        return  <RenderOrders orders={item} rightToChange={currentStep.rightToChange} />
-      }, [currentStep])
-    
+    const renderItem = useCallback(({ item }) => {
+        return <RenderOrders orders={item} rightToChange={currentStep.rightToChange} />
+    }, [currentStep])
+
     const getOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
@@ -111,8 +111,8 @@ const styles = StyleSheet.create({
     infoblock: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 5,
-        marginTop: 10
+        marginBottom: 7,
+        marginTop: 7
     },
     costLineWrapper: {
         height: 'auto',

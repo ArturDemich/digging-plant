@@ -20,9 +20,9 @@ const styles = StyleSheet.create({
         margin: 5,
         elevation: 5,
         shadowColor: 'black',
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.4,
+        shadowRadius: 7,
     },
     costLineWrapper: {
         height: 'auto',
@@ -85,55 +85,55 @@ const styles = StyleSheet.create({
 })
 
 function RenderPlantsGroup({ item, rightToChange }) {
-   const [selectedAll, setSelectedAll] = useState(false)
+    const [selectedAll, setSelectedAll] = useState(false)
     let qty = 0
     item.orders.forEach(elem => qty += elem.qty)
 
-    return (        
-            <View style={styles.rowFront}>
-                <View style={styles.costLineWrapper}>
-                    <View style={styles.infoContainer}>
+    return (
+        <View style={styles.rowFront}>
+            <View style={styles.costLineWrapper}>
+                <View style={styles.infoContainer}>
+                    <Text
+                        style={styles.plantName}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                    >{item.product.name}</Text>
+                    {rightToChange ?
+                        <Checkbox
+                            value={selectedAll}
+                            color='#45aa45'
+                            onValueChange={() => setSelectedAll(!selectedAll)}
+                            style={styles.checkBox}
+                        /> : null}
+                </View>
+                <View style={styles.info}>
+                    <Text style={styles.characteristics}
+                        allowFontScaling={true}
+                        maxFontSizeMultiplier={1}
+                    >{item.characteristic.name}</Text>
+                    <MaterialCommunityIcons name="pine-tree" size={20} color="black">
+                        <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
                         <Text
-                            style={styles.plantName}
+                            style={styles.quantity}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
-                        >{item.product.name}</Text>
-                        {rightToChange ?
-                            <Checkbox
-                                value={selectedAll}
-                                color='#45aa45'
-                                onValueChange={() => setSelectedAll(!selectedAll)}
-                                style={styles.checkBox}
-                            /> : null}
-                    </View>
-                    <View style={styles.info}>
-                        <Text style={styles.characteristics}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                        >{item.characteristic.name}</Text>
-                        <MaterialCommunityIcons name="pine-tree" size={20} color="black">
-                            <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
-                            <Text
-                                style={styles.quantity}
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
-                            > {qty} шт</Text>
-                        </MaterialCommunityIcons>
-                    </View>
-                    <View style={styles.changeinfo}>
-                        <View style={styles.orderInfoBlock}>
-                            {item.orders.map(elem =>
-                                <RenderOrderByGroup
-                                    key={shortid.generate()}
-                                    plant={item} order={elem}
-                                    selectedAll={selectedAll}
-                                />
-                            )}
-                        </View>
+                        > {qty} шт</Text>
+                    </MaterialCommunityIcons>
+                </View>
+                <View style={styles.changeinfo}>
+                    <View style={styles.orderInfoBlock}>
+                        {item.orders.map(elem =>
+                            <RenderOrderByGroup
+                                key={shortid.generate()}
+                                plant={item} order={elem}
+                                selectedAll={selectedAll}
+                            />
+                        )}
                     </View>
                 </View>
             </View>
-        
+        </View>
+
     )
 }
 

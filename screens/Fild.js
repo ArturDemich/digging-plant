@@ -8,13 +8,13 @@ import { useEffect } from 'react';
 
 const Tab = createMaterialTopTabNavigator();
 
-function FildScreen({ currentColor, token, digStorages }) {    
+function FildScreen({ currentColor, token, digStorages }) {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(digStorages.length === 1) {
+        if (digStorages.length === 1) {
             dispatch(setStorageId(digStorages[0].id))
-        }         
+        }
     }, [])
 
     return (
@@ -23,7 +23,7 @@ function FildScreen({ currentColor, token, digStorages }) {
             screenOptions={{
                 tabBarActiveTintColor: '#ffff',
                 tabBarLabelStyle: { fontSize: 12, fontWeight: '700' },
-                tabBarStyle: { backgroundColor: currentColor, },
+                tabBarStyle: { backgroundColor: currentColor, height: 40, justifyContent: 'center' },
                 tabBarIndicatorStyle: { backgroundColor: '#ffff', height: 4, },
                 lazy: true,
             }}
@@ -40,7 +40,7 @@ function FildScreen({ currentColor, token, digStorages }) {
                 options={{ tabBarLabel: 'Всі Рослини' }}
                 initialParams={{ token: token }}
             />
-            
+
         </Tab.Navigator>
     )
 }

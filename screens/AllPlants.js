@@ -13,14 +13,14 @@ import { clearDataChange } from '../state/dataSlice'
 
 
 
-function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty, storageId }) {
+function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, storageId }) {
     const [loading, setLoading] = useState(true)
     const { token } = route.params
     const [refresh, setRefresh] = useState(false)
     const dispatch = useDispatch()
 
-    const renderItem = useCallback(({item}) => {
-      return  <RenderPlantsGroup item={item} rightToChange={currentStep.rightToChange} />
+    const renderItem = useCallback(({ item }) => {
+        return <RenderPlantsGroup item={item} rightToChange={currentStep.rightToChange} />
     }, [currentStep])
     const keyExtractor = useCallback((item, index) => (item.product.id.toString() + index), [])
 
@@ -35,14 +35,14 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty, stor
         await dispatch(getGroupOrdersThunk(currentStep, storageId, token[0].token))
         setRefresh(false)
     }
-    
-    useFocusEffect(        
+
+    useFocusEffect(
         useCallback(() => {
             getGroupOrders().then(() => setLoading(false))
             return () => dispatch(clearDataChange())
         }, [currentStep])
-        
-    )    
+
+    )
 
     return (
         <SafeAreaView style={styles.container}>
@@ -68,7 +68,7 @@ function AllPlantsScreen({ route,  groupOrders, currentStep, totalPlantQty, stor
                         data={groupOrders}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
-                        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}                        
+                        refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
                         refreshing={refresh}
                         //style={{ marginBottom: 10 }}
                         initialNumToRender='4'
@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
     infoblock: {
         flexDirection: 'row',
         justifyContent: 'space-around',
-        marginBottom: 5,
-        marginTop: 10
+        marginBottom: 7,
+        marginTop: 7
     },
     loader: {
         height: 'auto',

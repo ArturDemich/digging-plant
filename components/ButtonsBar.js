@@ -24,20 +24,20 @@ const styles = StyleSheet.create({
         shadowRadius: 3,
         flex: 3,
     }),
-    selectedButtons: { 
-        //borderColor: '#009688',
-        //borderWidth: 3,
-        //borderRadius: 6,
+    selectedButtons: {
+        borderColor: '#79c05c',
+        borderWidth: 3,
+        borderRadius: 15,
         elevation: 0,
         shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.9,
-        shadowRadius: 20,        
+        shadowOpacity: 0.1,
+        shadowRadius: 0,
         shadowColor: '#009688',
-        
+
     },
     textBtnBar: {
         color: 'white',
-        fontSize: 12,
+        fontSize: 13,
         fontWeight: 700,
         alignSelf: 'center',
     },
@@ -118,7 +118,7 @@ function ButtonsBar({ steps, currentStep }) {
                 alert('Step Name not defined')
         }
     }
-    
+
     return (
         <View style={styles.statusBar}>
             {steps.map((step) => (
