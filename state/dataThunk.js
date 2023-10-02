@@ -56,6 +56,7 @@ export const getGroupOrdersThunk = (stepId, storageId, token) => async (dispatch
 export const getDigStorages = (token) => async (dispatch) => {
   try {
     const res = await DataService.getStoragesDig(token)
+    console.log('res',res)
     if (res.success) {
       dispatch(setDigStorages(res));
     } else {

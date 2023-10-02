@@ -1,7 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+const baseStorages = [{
+    id: "1f7d8631-b1a5-11e3-942e-001de01b93ef",
+    name: "Поле1 (збоку теплиці)"
+},
+{
+    id: "bcaf3d50-85ff-11e5-ab1a-001d60fd7257",
+    name: "Поле2 (з Смарагдами)"
+},
+{
+    id: "e21ce3ae-0bf3-11e2-a49f-bd0c35283c28",
+    name: "Поле3 (за 4 скл.)"
+},
+{
+    id: "afb58d81-c310-11e9-81d4-00c12700489e",
+    name: "Поле4 (за 3 скл.)"
+},
+{
+    id: "859ba315-621a-11ea-8243-00c12700489e",
+    name: "Поле5 (нове поле)"
+}] 
+
 const initialState = {
     digStorages: [],
+    groupStorages: [],
     stepOrders: [],
     steps: [],
     token: [],
@@ -13,7 +35,7 @@ const initialState = {
     notifications: [],
     totalPlantQty: 0,
     totalOrderQty: 0,
-}
+}  
 
 export const dataSlice = createSlice({
     name: 'data_from_endpoint',
@@ -21,7 +43,23 @@ export const dataSlice = createSlice({
     reducers: {
 
         setDigStorages(state, action) {
-            state.digStorages = action.payload.data
+            const storages = action.payload.data
+            const baseS = []
+            const digS = []
+            
+            for(let i = 0; i < storages.length; i++ ) {
+                console.log('slice1', storages[i].id)
+                let exid = baseStorages.findIndex(elem => elem.id === storages[i].id)
+                console.log('slice22', exid)
+                if(exid !== -1) {                    
+                    baseS.push(storages[i])                    
+                } else {
+                    digS.push(storages[i])
+                }                
+            }
+            state.digStorages = digS
+            state.groupStorages = baseS
+            console.log('slice333', digS, baseS)
         },
         setSteps(state, action) {
             state.steps = action.payload.data

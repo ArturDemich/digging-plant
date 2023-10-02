@@ -78,11 +78,28 @@ function MainScreen({ navigation, digStorages }) {
                     allowFontScaling={true}
                     maxFontSizeMultiplier={1}
                 > Виберіть поле </Text>
+                
                 <FlatList
                     data={digStorages}
                     renderItem={renderFildsButton}
                     keyExtractor={item => item.id.toString()}
                     style={{padding: 10}}
+                    ListFooterComponent={
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={() => {
+                                dispatch(setStorageId('item.id'))
+                                navigation.navigate('Поле', { title: 'item.name' })
+                            }}
+                        >
+                            <Text
+                                key={'item.id'}
+                                style={styles.textBtn}
+                                allowFontScaling={true}
+                                maxFontSizeMultiplier={1}
+                            > {'item.name'} </Text>
+                        </TouchableOpacity>
+                    }
                 />
             </View>
         </SafeAreaView>
