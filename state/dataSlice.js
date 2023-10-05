@@ -48,9 +48,7 @@ export const dataSlice = createSlice({
             const digS = []
             
             for(let i = 0; i < storages.length; i++ ) {
-                console.log('slice1', storages[i].id)
                 let exid = baseStorages.findIndex(elem => elem.id === storages[i].id)
-                console.log('slice22', exid)
                 if(exid !== -1) {                    
                     baseS.push(storages[i])                    
                 } else {
@@ -70,6 +68,19 @@ export const dataSlice = createSlice({
         setStepOrders(state, action) {
             state.stepOrders = action.payload.data
         },
+        setStepOrdersArr(state, action) {
+            console.log('StepOrdersArr111', state.stepOrders)
+            const stateOrders = state.stepOrders  
+            const payloadOrders = action.payload.data
+            console.log('StepOrdersArr-payload', payloadOrders)
+            payloadOrders.forEach(elem => {
+               stateOrders.push(elem) 
+            });            
+           
+           
+            state.stepOrders = stateOrders
+            console.log('StepOrdersArr222', state.stepOrders)
+        },
         setGroupOrders(state, action) {
             state.groupOrders = action.payload.data
         },
@@ -78,6 +89,7 @@ export const dataSlice = createSlice({
         },
         setStorageId(state, action) {
             state.currentStorageId = action.payload
+            console.log('currentStorageId', state.currentStorageId)
         },
         setNotifications(state, action) {
             state.notifications = action.payload.data
@@ -182,7 +194,7 @@ export const {
     cleanState, setCurrentStep, setGroupOrders,
     setStorageId, setDataChange, clearDataChange,
     clearDataChangeItem, setNotifications, setTotalQty,
-    setCurrentColorStep
+    setCurrentColorStep, setStepOrdersArr
 } = dataSlice.actions
 
 export default dataSlice.reducer

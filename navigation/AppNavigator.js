@@ -44,7 +44,7 @@ export default function Navigate() {
 
     useEffect(() => {        
         token.length == 0 ? checkToken() : callData(token[0].token)       
-    }, [ token]) 
+    }, [token]) 
 
     useEffect(() => {
         if(digStorages.length == 1) {

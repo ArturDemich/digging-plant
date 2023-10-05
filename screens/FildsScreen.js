@@ -47,24 +47,25 @@ const styles = StyleSheet.create({
 })
 
 
-function MainScreen({ navigation, digStorages }) {
+function MainScreen({ navigation, digStorages, groupStorages }) {
     const dispatch = useDispatch()
-
+    const strId = groupStorages.map(elem => elem.id)
+    console.log(strId)
     function renderFildsButton({ item }) {
         return (
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    dispatch(setStorageId(item.id))
-                    navigation.navigate('Поле', { title: item.name })
+                    dispatch(setStorageId(item ? item.id : strId))
+                    navigation.navigate('Поле', { title: item ? item.name : 'Оноківці'})
                 }}
             >
                 <Text
-                    key={item.id}
+                    key={item ? item.id : 'Оноківці'}
                     style={styles.textBtn}
                     allowFontScaling={true}
                     maxFontSizeMultiplier={1}
-                > {item.name} </Text>
+                > {item ? item.name : 'Оноківці'} </Text>
             </TouchableOpacity>
         )
     }
@@ -84,22 +85,7 @@ function MainScreen({ navigation, digStorages }) {
                     renderItem={renderFildsButton}
                     keyExtractor={item => item.id.toString()}
                     style={{padding: 10}}
-                    ListFooterComponent={
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={() => {
-                                dispatch(setStorageId('item.id'))
-                                navigation.navigate('Поле', { title: 'item.name' })
-                            }}
-                        >
-                            <Text
-                                key={'item.id'}
-                                style={styles.textBtn}
-                                allowFontScaling={true}
-                                maxFontSizeMultiplier={1}
-                            > {'item.name'} </Text>
-                        </TouchableOpacity>
-                    }
+                    ListFooterComponent={groupStorages ? renderFildsButton(false) : null}
                 />
             </View>
         </SafeAreaView>
@@ -108,6 +94,7 @@ function MainScreen({ navigation, digStorages }) {
 
 const mapStateToProps = (state) => ({
     digStorages: state.digStorages,
+    groupStorages: state.groupStorages,
 })
 
 export default connect(mapStateToProps)(MainScreen)

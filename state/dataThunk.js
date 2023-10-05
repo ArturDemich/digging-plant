@@ -6,27 +6,47 @@ import {
   setGroupOrders,
   setNotifications,
   setTotalQty,
-  setCurrentColorStep
+  setCurrentColorStep,
+  setStepOrdersArr
 } from "./dataSlice"
 import { Platform } from "react-native"
 
 
 export const getOrdersStep = (stepId, storageId, token) => async (dispatch) => {
-  try {
-    const res = await DataService.getStepOrders(stepId.id, storageId, token)
-    if (res.success) {
-      dispatch(setStepOrders(res))
-
-      let productQty = 0
-      res.data.forEach(elem => elem.products.forEach(el => productQty += el.qty))
+  let res
+  let productQty = 0
+  let ordersQty = 0
+  try { 
+    if(Array.isArray(storageId) && storageId.length > 1) {
+      for (let i = 0; i < storageId.length; i++) {
+         res = await DataService.getStepOrders(stepId.id, storageId[i], token)
+         if(res.success) {
+          await dispatch(setStepOrdersArr(res))
+          res.data.forEach(elem => elem.products.forEach(el => productQty += el.qty))
+          ordersQty += res.data.length
+         } else {
+          console.log('Something went wrong!', res.errors)
+        }
+      }
       const total = {
         orders: res.data.length,
         plants: productQty
       }
       dispatch(setTotalQty(total))
     } else {
-      console.log('Something went wrong!', res.errors)
-    }
+        res = await DataService.getStepOrders(stepId.id, storageId, token)
+        if (res.success) {     
+          await dispatch(setStepOrders(res))          
+          res.data.forEach(elem => elem.products.forEach(el => productQty += el.qty))
+          const total = {
+            orders: res.data.length,
+            plants: productQty
+          }
+          dispatch(setTotalQty(total))
+        } else {
+          console.log('Something went wrong!', res.errors)
+        }
+    }         
   } catch (error) {
     console.log("GetStep_ORDERS ERROR Thunk: " + JSON.stringify(error));
   }
