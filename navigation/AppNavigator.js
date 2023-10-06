@@ -14,6 +14,7 @@ import Notification from '../components/Notification'
 import { Platform, View } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import useCallData from '../hooks/useCallData'
+import Search from '../components/Search'
 
 
 
@@ -72,6 +73,7 @@ export default function Navigate() {
                                     return (
                                         <View style={{ flexDirection: 'row', gap: 5 }} >
                                             <Notification />
+                                            
                                             <ButtonOut navigation={navigation} token={token} />
                                         </View>
                                     )
@@ -91,6 +93,7 @@ export default function Navigate() {
                             headerRight: () => {
                                 return (
                                     <View style={{ flexDirection: 'row', gap: 5 }} >
+                                        <Search />
                                         <Notification />
                                         <ButtonOut navigation={navigation} token={token}/>
                                     </View>
