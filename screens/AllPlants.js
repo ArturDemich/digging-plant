@@ -43,6 +43,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, stora
         }, [currentStep])
 
     )
+    console.log('groupOrders', groupOrders)
 
     return (
         <SafeAreaView style={styles.container}>

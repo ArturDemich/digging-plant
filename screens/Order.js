@@ -10,7 +10,7 @@ import { getOrdersStep } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { clearDataChange } from '../state/dataSlice'
 
-function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty, storageId }) {
+function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty, storageId, filterOrders }) {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const [refresh, setRefresh] = useState(false)
@@ -60,7 +60,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                         <Text style={styles.noneData}>Немає замовлень з таким сатусом</Text>
                     </View> :
                     <FlatList
-                        data={orders}
+                        data={filterOrders.length > 0 ? filterOrders : orders}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
                         refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
@@ -79,6 +79,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
 const mapStateToProps = state => {
     return {
         orders: state.stepOrders,
+        filterOrders : state.filterOrders,
         currentStep: state.currentStep,
         totalPlantQty: state.totalPlantQty,
         totalOrderQty: state.totalOrderQty,

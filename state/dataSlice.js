@@ -3,10 +3,11 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     digStorages: [],
     stepOrders: [],
+    groupOrders: [],
+    filterOrders: [],
     steps: [],
     token: [],
-    currentStep: [],
-    groupOrders: [],
+    currentStep: [],    
     currentStorageId: '',
     currentColorStep: '',
     dataChange: [],
@@ -34,6 +35,10 @@ export const dataSlice = createSlice({
         },
         setGroupOrders(state, action) {
             state.groupOrders = action.payload.data
+        },
+        setFilterOrders(state, action) {
+            state.filterOrders = action.payload
+            console.log('sliceFilter', state.filterOrders)
         },
         setCurrentStep(state, action) {
             state.currentStep = action.payload
@@ -128,6 +133,7 @@ export const dataSlice = createSlice({
             state.steps = []
             state.digStorages = []
             state.stepOrders = []
+            state.filterOrders = []
             state.currentStep = []
             state.groupOrders = []
             state.currentStorageId = ''
@@ -144,7 +150,7 @@ export const {
     cleanState, setCurrentStep, setGroupOrders,
     setStorageId, setDataChange, clearDataChange,
     clearDataChangeItem, setNotifications, setTotalQty,
-    setCurrentColorStep
+    setCurrentColorStep, setFilterOrders
 } = dataSlice.actions
 
 export default dataSlice.reducer
