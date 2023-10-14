@@ -1,80 +1,96 @@
 import { connect, useDispatch } from "react-redux"
 import { MaterialIcons } from '@expo/vector-icons';
-import { StyleSheet, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useEffect, useState } from "react";
 import { setFilterOrders } from "../state/dataSlice";
 
 
 
 function Search({orders}) {
-     const dispatch = useDispatch()
-    const [searchText, onChangeText] = useState('');
+    const dispatch = useDispatch()
+    const [searchText, onChangeText] = useState('')
+    const [inputShow, setInputShow ] = useState(false)
+
     console.log('searchText', searchText)
     console.log('serach111', orders)
-    useEffect(() => {
-        
-    }, [searchText])
     
+    const clearInput = () => {
+        onChangeText('')
+        dispatch(setFilterOrders([]))
+    }
+   
+    useEffect(() => {     
+        searchOrders()  
+    }, [searchText])
+
+    useEffect(() => {
+        clearInput()
+    }, [orders])
 
     const searchOrders = () => {    
         let filterOrders = []
 
-        for (let i = 0; i < orders.length; i++) {
-            
-            for (let arr in orders[i]) {
-                //console.log('type', Array.isArray(orders[i][arr]))
-               if(Array.isArray(orders[i][arr])) {                
+        for (let i = 0; i < orders.length; i++) {   // всі замовлення      
+            for (let arr in orders[i]) {            // одне замовлення 
+               if(Array.isArray(orders[i][arr])) {  // якщо є масив             
                 let array = orders[i][arr]
-                array.forEach(item => {
-                    for (let key in item) {
-                        if (typeof item[key] == 'object') {
-                            console.log('item[key]! ', item[key])
-                        } else {
-                            console.log('item[key]! str', )
-                        }
-                        
+                let equle = false
+                array.forEach(item => {             // 1об'єкт в масиві
+                    if(equle) {
+                        return
                     }
-                    
+                    for (let key in item) {
+                        if(equle) {
+                            return
+                        }
+                        let obj = item[key]
+                        if (typeof obj == 'object') {                                                        
+                            for (let k in obj) {
+                               // console.log('item[key]! ', obj[k])
+                                if(obj[k].toLowerCase().includes(searchText.toLowerCase())) {
+                                    equle = true
+                                    filterOrders.push(orders[i])
+                                    return
+                                } 
+                            }
+                        } else {                               
+                            //console.log('item[key]! strrr  ', obj.toString()) 
+                            if(String(obj).toLowerCase().includes(searchText.toLowerCase())) {
+                                return filterOrders.push(orders[i])
+                            }                     
+                        }                        
+                    }                    
                 })
                } else if ( typeof orders[i][arr] == 'string') {
-                orders[i][arr].toLowerCase().includes(searchText.toLowerCase()) ? filterOrders.push(orders[i]) : null
+                String(orders[i][arr]).toLowerCase().includes(searchText.toLowerCase()) ? filterOrders.push(orders[i]) : null
                } else if (typeof orders[i][arr] == 'object') {
                 console.log('333333333333!!')
                }
-            }
-
-            
-        }
-
-        /* for (let i = 0; i < orders.length; i++) {
-            let customerName = orders[i].customerName.toLowerCase()
-            let date = orders[i].shipmentDate.toLowerCase()
-            let shipment = orders[i].shipmentMethod.toLowerCase()
-            let productNames = orders[i].products.map((elem) => elem.product.name)
-           
-            console.log('serach222', orders[i])
-            if(
-                shipment.includes(searchText.toLowerCase()) ||
-                date.includes(searchText.toLowerCase()) ||
-                productNames.some((productName) => productName.toLowerCase().includes(searchText.toLowerCase())) ||
-                customerName.includes(searchText.toLowerCase()) 
-            ) {
-                filterOrders.push(orders[i])
-            }
-        }      */
-        dispatch(setFilterOrders(filterOrders))
+            }            
+        }        
+        if(filterOrders.length === 0) {
+            dispatch(setFilterOrders(null))
+        } else {
+            dispatch(setFilterOrders(filterOrders))
+        }        
     }
 
     
     return (
         <View style={styles.container}>
             <TextInput
-                style={{}}
+                style={[styles.input, inputShow && inputShow]}
                 onChangeText={onChangeText}
-                value={searchText}
-                onBlur={() => searchOrders()}
+                value={searchText} 
             />
-            <MaterialIcons name="search" size={24} color="black" />
+            {searchText !== '' && (
+                <TouchableOpacity onPress={() => clearInput()}>
+                    <Text> X </Text>
+                </TouchableOpacity>
+            )}
+            <TouchableOpacity onPress={() => setInputShow(!inputShow)}>
+                <MaterialIcons name="search" size={24} color="black" />
+            </TouchableOpacity>
         </View>
     )
 
@@ -89,5 +105,12 @@ export default connect(mapStateToProps)(Search)
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row'
+    },
+    input: {
+        borderWidth: 1,
+        display: 'flex'
+    },
+    inputShow: {
+        display: 'none'
     }
 })

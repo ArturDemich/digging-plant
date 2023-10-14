@@ -58,9 +58,13 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                 orders.length === 0 ?
                     <View style={styles.costLineWrapper}>
                         <Text style={styles.noneData}>Немає замовлень з таким сатусом</Text>
+                    </View> : 
+                    filterOrders === null ?
+                    <View style={styles.costLineWrapper}>
+                        <Text style={styles.noneData}>Не знайдено!</Text>
                     </View> :
                     <FlatList
-                        data={filterOrders.length > 0 ? filterOrders : orders}
+                        data={filterOrders?.length > 0 ? filterOrders : orders}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
                         refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
