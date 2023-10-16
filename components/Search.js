@@ -17,14 +17,15 @@ function Search({orders}) {
     const clearInput = () => {
         onChangeText('')
         dispatch(setFilterOrders([]))
+        setInputShow(!inputShow)
     }
    
     useEffect(() => {     
-        searchOrders()  
+        inputShow ? searchOrders() : null
     }, [searchText])
 
     useEffect(() => {
-        clearInput()
+        //clearInput()
     }, [orders])
 
     const searchOrders = () => {    
@@ -79,17 +80,17 @@ function Search({orders}) {
     return (
         <View style={styles.container}>
             <TextInput
-                style={[styles.input, inputShow && inputShow]}
+                style={[styles.input, inputShow && styles.inputShow]}
                 onChangeText={onChangeText}
                 value={searchText} 
             />
-            {searchText !== '' && (
-                <TouchableOpacity onPress={() => clearInput()}>
-                    <Text> X </Text>
+            {inputShow && (
+                <TouchableOpacity onPress={() => clearInput()} style={styles.close}>
+                    <Text style={{fontWeight: 700}}> X </Text>
                 </TouchableOpacity>
             )}
             <TouchableOpacity onPress={() => setInputShow(!inputShow)}>
-                <MaterialIcons name="search" size={24} color="black" />
+                <MaterialIcons name="search" size={24} color="black" style={styles.icon} />
             </TouchableOpacity>
         </View>
     )
@@ -104,13 +105,41 @@ export default connect(mapStateToProps)(Search)
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        flex: 1,
+        backgroundColor: 'snow'
+        
     },
     input: {
         borderWidth: 1,
-        display: 'flex'
+        display: 'none',
+        borderRadius: 5,
+        borderColor: '#7b7b7b',
+        paddingLeft: 5,
+        width: '100%',
+        minWidth: 130,
+        maxWidth: 350,
+        //flex: 1
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.9,
+        shadowRadius: 100,
     },
     inputShow: {
-        display: 'none'
+        display: 'flex'
+    },
+    icon:{
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
+        borderRadius: 10,
+        marginLeft: 10,
+        marginRight: 5,
+        flex: 1
+    },
+    close: {
+        alignSelf: 'center',
+        right: 21,    
     }
 })
