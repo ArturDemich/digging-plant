@@ -7,6 +7,7 @@ import { DataService } from "../state/dataService"
 import RenderPlants from "./RenderPlants"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { allStyles } from "../styles"
 
 
 
@@ -106,7 +107,7 @@ function RenderOrders({ orders, token, rightToChange }) {
     useEffect(() => {
         getComent()
     }, [orders])
-
+    
     return (
         <View style={styles.rowFront} >
             <View style={styles.costLineWrapper}>
@@ -127,7 +128,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                     <View style={styles.viewGroup}>
                         <FontAwesome5 name="truck-loading" size={14} color="black" >
                             <Text
-                                style={styles.orderShipment}
+                                style={[styles.orderShipment, shipmentMethod.toLowerCase().includes('пошта') && allStyles.NPshipment ]}
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                             ><Text style={styles.textStr}> {shipmentMethod}</Text> </Text>

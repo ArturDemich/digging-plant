@@ -21,54 +21,69 @@ function Search({orders}) {
     }
    
     useEffect(() => {     
-        inputShow ? searchOrders() : null
+        console.log('useEffect')
+        inputShow && searchText !== '' ? searchOrders() : null
     }, [searchText])
 
-    useEffect(() => {
+    /* useEffect(() => {
         //clearInput()
-    }, [orders])
+    }, [orders]) */
 
     const searchOrders = () => {    
         let filterOrders = []
-
+        console.log('searchOrders')
         for (let i = 0; i < orders.length; i++) {   // всі замовлення      
+            let equle = false
             for (let arr in orders[i]) {            // одне замовлення 
-               if(Array.isArray(orders[i][arr])) {  // якщо є масив             
-                let array = orders[i][arr]
-                let equle = false
-                array.forEach(item => {             // 1об'єкт в масиві
-                    if(equle) {
-                        return
-                    }
-                    for (let key in item) {
+                if(equle) {
+                    return
+                }
+                if(Array.isArray(orders[i][arr])) {  // якщо є масив             
+                    let array = orders[i][arr]                    
+                    array.forEach(item => {             // 1об'єкт в масиві
                         if(equle) {
                             return
                         }
-                        let obj = item[key]
-                        if (typeof obj == 'object') {                                                        
-                            for (let k in obj) {
-                               // console.log('item[key]! ', obj[k])
-                                if(obj[k].toLowerCase().includes(searchText.toLowerCase())) {
+                        for (let key in item) {
+                            if(equle) {
+                                return
+                            }
+                            let obj = item[key]
+                            if (typeof obj == 'object') {                                                        
+                                for (let k in obj) {
+                                // console.log('item[key]! ', obj[k])
+                                    if(obj[k].toLowerCase().includes(searchText.toLowerCase())) {
+                                        equle = true
+                                        filterOrders.push(orders[i])
+                                        return
+                                    } 
+                                }
+                            } else {                               
+                                //console.log('item[key]! strrr  ', obj.toString()) 
+                                if(String(obj).toLowerCase().includes(searchText.toLowerCase())) {
                                     equle = true
                                     filterOrders.push(orders[i])
                                     return
-                                } 
-                            }
-                        } else {                               
-                            //console.log('item[key]! strrr  ', obj.toString()) 
-                            if(String(obj).toLowerCase().includes(searchText.toLowerCase())) {
-                                return filterOrders.push(orders[i])
-                            }                     
-                        }                        
-                    }                    
-                })
+                                }                     
+                            }                        
+                        }                    
+                    })
                } else if ( typeof orders[i][arr] == 'string') {
-                String(orders[i][arr]).toLowerCase().includes(searchText.toLowerCase()) ? filterOrders.push(orders[i]) : null
+                    if(String(orders[i][arr]).toLowerCase().includes(searchText.toLowerCase())) {
+                        equle = true
+                        filterOrders.push(orders[i])
+                        return
+                    } 
+                //String(orders[i][arr]).toLowerCase().includes(searchText.toLowerCase()) ? filterOrders.push(orders[i]) : null
                } else if (typeof orders[i][arr] == 'object') {
                 console.log('333333333333!!')
                }
-            }            
-        }        
+               ///o
+            } 
+            
+            ///
+        }     
+        console.log('555555555!!', filterOrders)   
         if(filterOrders.length === 0) {
             dispatch(setFilterOrders(null))
         } else {
@@ -89,7 +104,7 @@ function Search({orders}) {
                     <Text style={{fontWeight: 700}}> X </Text>
                 </TouchableOpacity>
             )}
-            <TouchableOpacity onPress={() => setInputShow(!inputShow)}>
+            <TouchableOpacity onPress={() => setInputShow(true)}>
                 <MaterialIcons name="search" size={24} color="black" style={styles.icon} />
             </TouchableOpacity>
         </View>

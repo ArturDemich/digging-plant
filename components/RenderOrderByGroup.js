@@ -6,6 +6,7 @@ import { DataService } from "../state/dataService"
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
+import { allStyles } from "../styles"
 
 
 const styles = StyleSheet.create({
@@ -158,7 +159,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
                     <View style={styles.orderNames}>
                         <FontAwesome5 name="truck-loading" size={13} color="black" >
                             <Text
-                                style={styles.textStrong}
+                                style={[styles.textStrong, shipmentMethod.toLowerCase().includes('пошта') && allStyles.NPshipment]}
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                             > {shipmentMethod}</Text>
