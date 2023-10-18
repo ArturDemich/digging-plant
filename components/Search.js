@@ -3,43 +3,55 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useEffect, useState } from "react";
 import { setFilterOrders } from "../state/dataSlice";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 
 
-function Search({orders}) {
+function Search({orders, groupOrders, navigation}) {
     const dispatch = useDispatch()
     const [searchText, onChangeText] = useState('')
     const [inputShow, setInputShow ] = useState(false)
+    const navig = useNavigation()
+    const route = useRoute()
 
-    console.log('searchText', searchText)
-    console.log('serach111', orders)
+    //console.log('searchText', navigation)
+    console.log('serach111', route.state?.index)
     
-    const clearInput = () => {
-        onChangeText('')
-        dispatch(setFilterOrders([]))
-        setInputShow(!inputShow)
+     const clearInput = async () => {
+        await onChangeText('')
+        await dispatch(setFilterOrders([]))
+        await setInputShow(false)
     }
    
     useEffect(() => {     
-        console.log('useEffect')
-        inputShow && searchText !== '' ? searchOrders() : null
+        console.log('useEffect', inputShow, navig.getState())
+        inputShow  ? searchOrders(route.state?.index === 1 ? groupOrders : orders) : null
     }, [searchText])
 
-    /* useEffect(() => {
-        //clearInput()
-    }, [orders]) */
+     useEffect(() => {        
+        inputShow ? clearInput() : null
+        const nav = navigation.getState()
+        console.log('searchText!!!!!!!', nav)
 
-    const searchOrders = () => {    
+        return () =>  clearInput() 
+
+    }, [orders, groupOrders]) 
+
+    const searchOrders = (dataOrder) => {    
         let filterOrders = []
+        if(searchText === '' || searchText === ' ') {
+            dispatch(setFilterOrders([]))
+            return
+        }
         console.log('searchOrders')
-        for (let i = 0; i < orders.length; i++) {   // всі замовлення      
-            let equle = false
-            for (let arr in orders[i]) {            // одне замовлення 
-                if(equle) {
-                    return
-                }
-                if(Array.isArray(orders[i][arr])) {  // якщо є масив             
-                    let array = orders[i][arr]                    
+        for (let i = 0; i < dataOrder.length; i++) {   // всі замовлення      
+            let equle 
+            for (let arr in dataOrder[i]) {            // одне замовлення 
+                 if(equle) {
+                    break
+                } 
+                if(Array.isArray(dataOrder[i][arr])) {  // якщо є масив             
+                    let array = dataOrder[i][arr]                    
                     array.forEach(item => {             // 1об'єкт в масиві
                         if(equle) {
                             return
@@ -54,7 +66,7 @@ function Search({orders}) {
                                 // console.log('item[key]! ', obj[k])
                                     if(obj[k].toLowerCase().includes(searchText.toLowerCase())) {
                                         equle = true
-                                        filterOrders.push(orders[i])
+                                        filterOrders.push(dataOrder[i])
                                         return
                                     } 
                                 }
@@ -62,20 +74,18 @@ function Search({orders}) {
                                 //console.log('item[key]! strrr  ', obj.toString()) 
                                 if(String(obj).toLowerCase().includes(searchText.toLowerCase())) {
                                     equle = true
-                                    filterOrders.push(orders[i])
+                                    filterOrders.push(dataOrder[i])
                                     return
                                 }                     
                             }                        
                         }                    
                     })
-               } else if ( typeof orders[i][arr] == 'string') {
-                    if(String(orders[i][arr]).toLowerCase().includes(searchText.toLowerCase())) {
+               } else if ( typeof dataOrder[i][arr] == 'string') {
+                    if(String(dataOrder[i][arr]).toLowerCase().includes(searchText.toLowerCase())) {
                         equle = true
-                        filterOrders.push(orders[i])
-                        return
+                        filterOrders.push(dataOrder[i])
                     } 
-                //String(orders[i][arr]).toLowerCase().includes(searchText.toLowerCase()) ? filterOrders.push(orders[i]) : null
-               } else if (typeof orders[i][arr] == 'object') {
+               } else if (typeof dataOrder[i][arr] == 'object') {
                 console.log('333333333333!!')
                }
                ///o

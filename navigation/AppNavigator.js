@@ -93,7 +93,7 @@ export default function Navigate() {
                             headerRight: () => {
                                 return (
                                     <View style={{ flexDirection: 'row', gap: 5 }} >
-                                        <Search />
+                                        <Search navigation={navigation} />
                                         <Notification />
                                         <ButtonOut navigation={navigation} token={token}/>
                                     </View>

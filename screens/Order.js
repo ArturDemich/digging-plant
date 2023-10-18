@@ -39,7 +39,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
             return () => dispatch(clearDataChange())
         }, [currentStep])
     )
-
+console.log('order screen')
     return (
         <SafeAreaView style={styles.container} >
             <View style={styles.infoblock}>
