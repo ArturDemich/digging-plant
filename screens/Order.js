@@ -39,7 +39,7 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
             return () => dispatch(clearDataChange())
         }, [currentStep])
     )
-console.log('order screen')
+    
     return (
         <SafeAreaView style={styles.container} >
             <View style={styles.infoblock}>
@@ -68,9 +68,10 @@ console.log('order screen')
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
                         refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
-                        //style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'
+                        ListFooterComponentStyle={{marginBottom: 30}}
+                        ListFooterComponent={<View></View>}
                     />
             }
             <NextStepButton path={route.name} />
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         marginBottom: 3,
-        marginTop: Platform.OS === 'ios' ? -45 : 0,
+        marginTop: Platform.OS === 'ios' ? -45 : 0,        
     },
     loader: {
         height: 'auto',

@@ -5,6 +5,7 @@ const initialState = {
     stepOrders: [],
     groupOrders: [],
     filterOrders: [],
+    filterPlants: [],
     steps: [],
     token: [],
     currentStep: [],    
@@ -38,7 +39,9 @@ export const dataSlice = createSlice({
         },
         setFilterOrders(state, action) {
             state.filterOrders = action.payload
-            console.log('sliceFilter', state.filterOrders)
+        },
+        setFilterPlants(state, action) {
+            state.filterPlants = action.payload
         },
         setCurrentStep(state, action) {
             state.currentStep = action.payload
@@ -141,6 +144,7 @@ export const dataSlice = createSlice({
             state.notifications = []
             state.totalPlantQty = 0
             state.totalOrderQty = 0
+            state.filterPlants = []
         },
     },
 })
@@ -150,7 +154,7 @@ export const {
     cleanState, setCurrentStep, setGroupOrders,
     setStorageId, setDataChange, clearDataChange,
     clearDataChangeItem, setNotifications, setTotalQty,
-    setCurrentColorStep, setFilterOrders
+    setCurrentColorStep, setFilterOrders, setFilterPlants
 } = dataSlice.actions
 
 export default dataSlice.reducer

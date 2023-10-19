@@ -6,6 +6,16 @@ import { clearDataChange } from '../state/dataSlice'
 
 
 const styles = StyleSheet.create({
+    containerNBTN: {
+        elevation: 3,
+        shadowColor: '#d70000',
+        shadowOffset: { width: 0, height: 0 },
+        shadowOpacity: 0.9,
+        shadowRadius: 25, 
+        position: 'absolute', 
+        right: 12, 
+        bottom: 5
+    },
     textBtn: {
         color: 'white',
         fontSize: 14,
@@ -15,13 +25,7 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         backgroundColor: color,
         height: 40,
-        padding: 5,
-        elevation: 3,
-        shadowColor: '#52006A',
-        shadowOffset: { width: -2, height: 4 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-        marginBottom: 3,
+        padding: 5,               
         opacity: 0.95
     }),
     none: {
@@ -105,7 +109,7 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
     
     return (
         <View>
-            {dataChange.length > 0 ? <View style={{ position: 'absolute', right: 7, bottom: 0 }} >
+            {dataChange.length > 0 ? <View style={styles.containerNBTN} >
 
                 <TouchableHighlight
                     style={[styles.buttonStep(setNextStepColor(currentStep.id)), dataChange.length === 0 && styles.none]}

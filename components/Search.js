@@ -1,49 +1,44 @@
 import { connect, useDispatch } from "react-redux"
 import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useEffect, useState } from "react";
-import { setFilterOrders } from "../state/dataSlice";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useEffect, useState, useRef } from "react";
+import { setFilterOrders, setFilterPlants } from "../state/dataSlice";
+import { useRoute } from "@react-navigation/native";
 
 
 
-function Search({orders, groupOrders, navigation}) {
+function Search({orders, groupOrders}) {
     const dispatch = useDispatch()
     const [searchText, onChangeText] = useState('')
     const [inputShow, setInputShow ] = useState(false)
-    const navig = useNavigation()
     const route = useRoute()
-
-    //console.log('searchText', navigation)
-    console.log('serach111', route.state?.index)
+    const inputRef = useRef(null)
     
      const clearInput = async () => {
         await onChangeText('')
         await dispatch(setFilterOrders([]))
         await setInputShow(false)
     }
+
+    useEffect(() => {
+        inputShow ? inputRef.current.focus() : null
+    }, [inputShow])
    
     useEffect(() => {     
-        console.log('useEffect', inputShow, navig.getState())
         inputShow  ? searchOrders(route.state?.index === 1 ? groupOrders : orders) : null
     }, [searchText])
 
      useEffect(() => {        
         inputShow ? clearInput() : null
-        const nav = navigation.getState()
-        console.log('searchText!!!!!!!', nav)
-
         return () =>  clearInput() 
-
     }, [orders, groupOrders]) 
 
     const searchOrders = (dataOrder) => {    
         let filterOrders = []
         if(searchText === '' || searchText === ' ') {
-            dispatch(setFilterOrders([]))
+            route.state?.index === 1 ? dispatch(setFilterPlants([])) : dispatch(setFilterOrders([]))
             return
         }
-        console.log('searchOrders')
         for (let i = 0; i < dataOrder.length; i++) {   // всі замовлення      
             let equle 
             for (let arr in dataOrder[i]) {            // одне замовлення 
@@ -63,7 +58,6 @@ function Search({orders, groupOrders, navigation}) {
                             let obj = item[key]
                             if (typeof obj == 'object') {                                                        
                                 for (let k in obj) {
-                                // console.log('item[key]! ', obj[k])
                                     if(obj[k].toLowerCase().includes(searchText.toLowerCase())) {
                                         equle = true
                                         filterOrders.push(dataOrder[i])
@@ -71,7 +65,6 @@ function Search({orders, groupOrders, navigation}) {
                                     } 
                                 }
                             } else {                               
-                                //console.log('item[key]! strrr  ', obj.toString()) 
                                 if(String(obj).toLowerCase().includes(searchText.toLowerCase())) {
                                     equle = true
                                     filterOrders.push(dataOrder[i])
@@ -86,18 +79,21 @@ function Search({orders, groupOrders, navigation}) {
                         filterOrders.push(dataOrder[i])
                     } 
                } else if (typeof dataOrder[i][arr] == 'object') {
-                console.log('333333333333!!')
-               }
-               ///o
+                let obj = dataOrder[i][arr]
+                for (let k in obj) {                    
+                    if(obj[k].toLowerCase().includes(searchText.toLowerCase())) {
+                        equle = true
+                        filterOrders.push(dataOrder[i])
+                    } 
+                }                
+               }               
             } 
             
-            ///
         }     
-        console.log('555555555!!', filterOrders)   
         if(filterOrders.length === 0) {
-            dispatch(setFilterOrders(null))
+            route.state?.index === 1 ? dispatch(setFilterPlants(null)) : dispatch(setFilterOrders(null))
         } else {
-            dispatch(setFilterOrders(filterOrders))
+            route.state?.index === 1 ? dispatch(setFilterPlants(filterOrders)) : dispatch(setFilterOrders(filterOrders))
         }        
     }
 
@@ -108,6 +104,7 @@ function Search({orders, groupOrders, navigation}) {
                 style={[styles.input, inputShow && styles.inputShow]}
                 onChangeText={onChangeText}
                 value={searchText} 
+                ref={inputRef}
             />
             {inputShow && (
                 <TouchableOpacity onPress={() => clearInput()} style={styles.close}>

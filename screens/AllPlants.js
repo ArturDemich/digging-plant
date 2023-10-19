@@ -13,7 +13,7 @@ import { clearDataChange } from '../state/dataSlice'
 
 
 
-function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, storageId }) {
+function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, storageId, filterPlants }) {
     const [loading, setLoading] = useState(true)
     const { token } = route.params
     const [refresh, setRefresh] = useState(false)
@@ -43,7 +43,6 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, stora
         }, [currentStep])
 
     )
-    console.log('groupOrders', groupOrders)
 
     return (
         <SafeAreaView style={styles.container}>
@@ -64,16 +63,21 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, stora
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >В цьому полі немає рослин з таким сатусом</Text>
+                    </View> : 
+                    filterPlants === null ?
+                    <View style={styles.costLineWrapper}>
+                        <Text style={styles.noneData}>Не знайдено!</Text>
                     </View> :
                     <FlatList
-                        data={groupOrders}
+                        data={filterPlants?.length > 0 ? filterPlants : groupOrders}
                         renderItem={renderItem}
                         keyExtractor={keyExtractor}
                         refreshControl={<RefreshControl onRefresh={onRefresh} refreshing={refresh} />}
                         refreshing={refresh}
-                        //style={{ marginBottom: 10 }}
                         initialNumToRender='4'
                         maxToRenderPerBatch='4'
+                        ListFooterComponentStyle={{marginBottom: 30}}
+                        ListFooterComponent={<View></View>}
                     />
             }
             <NextStepButton path={route.name} />
@@ -87,7 +91,8 @@ const mapStateToProps = state => {
         groupOrders: state.groupOrders,
         currentStep: state.currentStep,
         totalPlantQty: state.totalPlantQty,
-        storageId: state.currentStorageId
+        storageId: state.currentStorageId,
+        filterPlants: state.filterPlants
     }
 }
 export default connect(mapStateToProps)(AllPlantsScreen)
