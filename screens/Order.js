@@ -10,7 +10,7 @@ import { getOrdersStep } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { clearDataChange } from '../state/dataSlice'
 
-function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty, storageId, filterOrders }) {
+function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty, storageId, filterOrders, filterPlantQty, filterOrderQty }) {
     const dispatch = useDispatch()
     const [loading, setLoading] = useState(true)
     const [refresh, setRefresh] = useState(false)
@@ -39,16 +39,16 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
             return () => dispatch(clearDataChange())
         }, [currentStep])
     )
-    
+
     return (
         <SafeAreaView style={styles.container} >
             <View style={styles.infoblock}>
                 <MaterialCommunityIcons name="pine-tree" size={24} color="black">
                     <MaterialCommunityIcons name="pine-tree" size={18} color="black" />
-                    <Text style={styles.textinfo}> всіх рослин: {totalPlantQty} </Text>
+                    <Text style={styles.textinfo}> всіх рослин: {filterPlantQty !== null ? filterPlantQty : totalPlantQty} </Text>
                 </MaterialCommunityIcons>
                 <MaterialCommunityIcons name="clipboard-list-outline" size={24} color="black">
-                    <Text style={styles.textinfo}> замовлень: {totalOrderQty} </Text>
+                    <Text style={styles.textinfo}> замовлень: {filterOrderQty !== null ? filterOrderQty : totalOrderQty} </Text>
                 </MaterialCommunityIcons>
             </View>
             {loading ?
@@ -88,6 +88,8 @@ const mapStateToProps = state => {
         currentStep: state.currentStep,
         totalPlantQty: state.totalPlantQty,
         totalOrderQty: state.totalOrderQty,
+        filterPlantQty: state.filterPlantQty,
+        filterOrderQty: state.filterOrderQty,
         storageId: state.currentStorageId
     }
 }

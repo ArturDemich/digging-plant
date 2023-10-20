@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     },
     textBtnBar: {
         color: 'white',
-        fontSize: 13,
+        fontSize: 12,
         fontWeight: 700,
         alignSelf: 'center',
     },

@@ -15,6 +15,8 @@ const initialState = {
     notifications: [],
     totalPlantQty: 0,
     totalOrderQty: 0,
+    filterPlantQty: null,
+    filterOrderQty: null,
 }
 
 export const dataSlice = createSlice({
@@ -55,6 +57,10 @@ export const dataSlice = createSlice({
         setTotalQty(state, action) {
             state.totalOrderQty = action.payload.orders
             state.totalPlantQty = action.payload.plants
+        },
+        setFilterQty(state, action) {
+            state.filterOrderQty = action.payload.orders
+            state.filterPlantQty = action.payload.plants
         },
         setCurrentColorStep(state, action) {
             const colorStepBtn = {
@@ -145,6 +151,8 @@ export const dataSlice = createSlice({
             state.totalPlantQty = 0
             state.totalOrderQty = 0
             state.filterPlants = []
+            state.filterPlantQty = null,
+            state.filterOrderQty = null
         },
     },
 })
@@ -154,7 +162,8 @@ export const {
     cleanState, setCurrentStep, setGroupOrders,
     setStorageId, setDataChange, clearDataChange,
     clearDataChangeItem, setNotifications, setTotalQty,
-    setCurrentColorStep, setFilterOrders, setFilterPlants
+    setCurrentColorStep, setFilterOrders, setFilterPlants,
+    setFilterQty
 } = dataSlice.actions
 
 export default dataSlice.reducer

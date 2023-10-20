@@ -13,7 +13,7 @@ import { clearDataChange } from '../state/dataSlice'
 
 
 
-function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, storageId, filterPlants }) {
+function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, storageId, filterPlants, filterPlantQty }) {
     const [loading, setLoading] = useState(true)
     const { token } = route.params
     const [refresh, setRefresh] = useState(false)
@@ -49,7 +49,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, stora
             <View style={styles.infoblock}>
                 <MaterialCommunityIcons name="pine-tree" size={24} color="black">
                     <MaterialCommunityIcons name="pine-tree" size={18} color="black" />
-                    <Text style={styles.textinfo}> всіх рослин: {totalPlantQty} </Text>
+                    <Text style={styles.textinfo}> всіх рослин: {filterPlantQty !== null ? filterPlantQty : totalPlantQty} </Text>
                 </MaterialCommunityIcons>
             </View>
             {loading ?
@@ -92,7 +92,8 @@ const mapStateToProps = state => {
         currentStep: state.currentStep,
         totalPlantQty: state.totalPlantQty,
         storageId: state.currentStorageId,
-        filterPlants: state.filterPlants
+        filterPlants: state.filterPlants,
+        filterPlantQty: state.filterPlantQty
     }
 }
 export default connect(mapStateToProps)(AllPlantsScreen)

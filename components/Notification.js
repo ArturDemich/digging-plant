@@ -32,7 +32,7 @@ function Notification({ notifiState, token }) {
     )
 
     return (
-        <View >
+        <View style={{ alignSelf: 'center' }}>
             <Modal
                 animationType="slide"
                 transparent={true}

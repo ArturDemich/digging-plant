@@ -2,7 +2,7 @@ import { connect, useDispatch } from "react-redux"
 import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useEffect, useState, useRef } from "react";
-import { setFilterOrders, setFilterPlants } from "../state/dataSlice";
+import { setFilterOrders, setFilterPlants, setFilterQty } from "../state/dataSlice";
 import { useRoute } from "@react-navigation/native";
 
 
@@ -17,6 +17,11 @@ function Search({orders, groupOrders}) {
      const clearInput = async () => {
         await onChangeText('')
         await dispatch(setFilterOrders([]))
+        await dispatch(setFilterPlants([]))
+        await dispatch(setFilterQty({
+            orders: null,
+            plants: null
+          }))
         await setInputShow(false)
     }
 
@@ -33,7 +38,7 @@ function Search({orders, groupOrders}) {
         return () =>  clearInput() 
     }, [orders, groupOrders]) 
 
-    const searchOrders = (dataOrder) => {    
+    const searchOrders = (dataOrder) => { 
         let filterOrders = []
         if(searchText === '' || searchText === ' ') {
             route.state?.index === 1 ? dispatch(setFilterPlants([])) : dispatch(setFilterOrders([]))
@@ -91,9 +96,33 @@ function Search({orders, groupOrders}) {
             
         }     
         if(filterOrders.length === 0) {
-            route.state?.index === 1 ? dispatch(setFilterPlants(null)) : dispatch(setFilterOrders(null))
+            dispatch(setFilterQty({
+                orders: 0,
+                plants: 0
+              }))
+            if(route.state?.index === 1) {
+                dispatch(setFilterPlants(null))                
+            } else {
+                dispatch(setFilterOrders(null))
+            }
         } else {
-            route.state?.index === 1 ? dispatch(setFilterPlants(filterOrders)) : dispatch(setFilterOrders(filterOrders))
+            let qtyP = 0
+            const total = {
+                orders: 0,
+                plants: 0
+              }
+              route.state?.index === 1 ? 
+              filterOrders.forEach(plant => plant.orders.forEach(order => qtyP += order.qty)) :
+              filterOrders.forEach(order => order.products.forEach(prodact => qtyP += prodact.qty))
+              
+              total.orders = filterOrders.length
+              total.plants = qtyP
+              dispatch(setFilterQty(total))
+            if(route.state?.index === 1) {
+                dispatch(setFilterPlants(filterOrders))                
+            } else {
+                dispatch(setFilterOrders(filterOrders))
+            }
         }        
     }
 
@@ -129,7 +158,9 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         flex: 1,
-        backgroundColor: 'snow'
+        alignItems: 'center',
+        height: 50,
+
         
     },
     input: {
@@ -139,13 +170,15 @@ const styles = StyleSheet.create({
         borderColor: '#7b7b7b',
         paddingLeft: 5,
         width: '100%',
-        minWidth: 130,
+        minWidth: 165,
         maxWidth: 350,
-        //flex: 1
+        height: 30,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.9,
         shadowRadius: 100,
+        alignSelf: 'flex-end',
+        backgroundColor: 'snow',
     },
     inputShow: {
         display: 'flex'
@@ -162,6 +195,7 @@ const styles = StyleSheet.create({
     },
     close: {
         alignSelf: 'center',
-        right: 21,    
+        right: 21,   
+        top: 11 
     }
 })
