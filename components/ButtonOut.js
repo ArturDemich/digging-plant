@@ -1,4 +1,3 @@
-import { StackActions } from '@react-navigation/native'
 import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
@@ -7,23 +6,12 @@ import * as SecureStore from 'expo-secure-store'
 import useDeviceToken from '../hooks/useDeviceToken'
 
 
-const styles = StyleSheet.create({
-    textBtn: {
-        color: 'snow',
-        fontSize: 12,
-        fontWeight: 600,
-        alignSelf: 'center',
-    },
+const styles = StyleSheet.create({    
     buttonStep: {
-        borderRadius: 5,
-        textAlign: "center",
-        textAlignVertical: 'center',
-        alignSelf: 'center',
         justifyContent: 'center',
-        width: 25,
-        marginLeft: 10,
-        marginRight: 10,
-        flexDirection: 'row'
+        width: 30,
+        paddingLeft: 5
+        
     },
 })
 

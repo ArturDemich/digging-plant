@@ -92,7 +92,7 @@ export default function Navigate() {
                             headerTitle: () => <HeaderTitle title={route.params.title} />,
                             headerRight: () => {
                                 return (
-                                    <View style={{ flexDirection: 'row', gap: 5 }} >
+                                    <View style={{ flexDirection: 'row', gap: 2 }} >
                                         <Search navigation={navigation} />
                                         <Notification />
                                         <ButtonOut navigation={navigation} token={token}/>

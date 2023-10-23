@@ -140,7 +140,7 @@ function Search({orders, groupOrders}) {
                     <Text style={{fontWeight: 700}}> X </Text>
                 </TouchableOpacity>
             )}
-            <TouchableOpacity onPress={() => setInputShow(true)}>
+            <TouchableOpacity onPress={() => setInputShow(true)} style={{height: '100%', justifyContent: 'center'}} >
                 <MaterialIcons name="search" size={24} color="black" style={styles.icon} />
             </TouchableOpacity>
         </View>
@@ -157,9 +157,8 @@ export default connect(mapStateToProps)(Search)
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        flex: 1,
         alignItems: 'center',
-        height: 50,
+        height: 56,
 
         
     },
@@ -168,17 +167,18 @@ const styles = StyleSheet.create({
         display: 'none',
         borderRadius: 5,
         borderColor: '#7b7b7b',
-        paddingLeft: 5,
-        width: '100%',
-        minWidth: 165,
-        maxWidth: 350,
-        height: 30,
+        minWidth: 160,
+        maxWidth: 200,
+        height: 32,
         shadowColor: 'black',
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 0.9,
         shadowRadius: 100,
+        elevation: 90,
         alignSelf: 'flex-end',
         backgroundColor: 'snow',
+        left: 28,
+        paddingLeft: 5
     },
     inputShow: {
         display: 'flex'
@@ -189,13 +189,16 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 4,
         borderRadius: 10,
-        marginLeft: 10,
-        marginRight: 5,
-        flex: 1
+        marginLeft: 3,
+        marginRight: 3,
+
     },
     close: {
-        alignSelf: 'center',
-        right: 21,   
-        top: 11 
+        alignItems: 'center',
+        right: 3,   
+        top: 11 ,
+        height: 60,
+        width: 30,
+        justifyContent: 'center'
     }
 })

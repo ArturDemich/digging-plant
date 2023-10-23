@@ -71,11 +71,11 @@ function Notification({ notifiState, token }) {
 
             <TouchableOpacity
                 onPress={() => setShow(!show)}
-                style={{ alignSelf: 'center' }}
+                style={{ alignItems: 'center', height: '100%', justifyContent: 'center', width: 32 }}
             >
                 <Ionicons name="notifications-outline" size={23} color="black" />
                 <Badge
-                    containerStyle={{ position: 'absolute', top: -5, right: -9 }}
+                    containerStyle={{ position: 'absolute', top: 7, right: -4 }}
                     badgeStyle={{ backgroundColor: '#45aa45' }}
                     value={notifiState.length}
                 />
