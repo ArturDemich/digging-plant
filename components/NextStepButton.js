@@ -7,11 +7,11 @@ import { clearDataChange } from '../state/dataSlice'
 
 const styles = StyleSheet.create({
     containerNBTN: {
-        elevation: 3,
-        shadowColor: '#d70000',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.9,
-        shadowRadius: 25, 
+        elevation: 5,
+        //shadowColor: '#d70000',
+        //shadowOffset: { width: 0, height: 0 },
+       //shadowOpacity: 0.9,
+       // shadowRadius: 25, 
         position: 'absolute', 
         right: 12, 
         bottom: 5
@@ -26,7 +26,12 @@ const styles = StyleSheet.create({
         backgroundColor: color,
         height: 40,
         padding: 5,               
-        opacity: 0.95
+        opacity: 0.95,
+        elevation: 5,
+        shadowColor: '#d70000',
+        shadowOffset: { width: 0, height: 0 },        
+        shadowOpacity: 0.9,
+        shadowRadius: 3, 
     }),
     none: {
         display: 'none'

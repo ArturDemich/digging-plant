@@ -52,7 +52,7 @@ export const dataSlice = createSlice({
             state.currentStorageId = action.payload
         },
         setNotifications(state, action) {
-            state.notifications = action.payload.data
+            state.notifications = action.payload
         },
         setTotalQty(state, action) {
             state.totalOrderQty = action.payload.orders

@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
     },
     checkBox: {
         alignSelf: 'center',
-        height: 28,
-        width: 28,
+        height: 32,
+        width: 32,
     },
 })
 

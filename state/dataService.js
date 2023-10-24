@@ -7,57 +7,52 @@ const tok = `${username}:${password}`
 const encodedToken = Buffer.from(tok).toString('base64')
 
 
-const FB_API_URL = 'https://us-central1-digger-3000.cloudfunctions.net/dataDiggerWeb'
 const NOTIFICATIONS_URL = 'https://landshaft.info/modules/viber/digger4.php'
 const SEVE_TOKEN_URL = 'https://us-central1-digger-3000.cloudfunctions.net/saveToken'
 
 export class DataService {
 
     static getStepOrders(stepId, storageId, token) {
-        let stepOrders = axios.post(FB_API_URL, {
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getStepOrders',
-            encodedToken: encodedToken,
-            data: {
-                token: token,
-                stepId: stepId,
-                storageId: storageId,
-            }            
+        let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/getStepOrders', {
+            token: token,
+            stepId: stepId,
+            storageId: storageId,
+        }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
                 alert(error)
                 console.log(error);
             })
+
+            console.log('getStepOrders')
         return stepOrders
     }
 
     static getGroupOrders(stepId, storageId, token) {
-        let groupOrders = axios.post(FB_API_URL, {
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getStepOrders',
-            encodedToken: encodedToken,
-            data:{
-                token: token,
-                stepId: stepId,
-                storageId: storageId,
-                groupByOrder: false
-            }            
+        let groupOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/getStepOrders', {
+            token: token,
+            stepId: stepId,
+            storageId: storageId,
+            groupByOrder: false
+        }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
                 alert(error)
                 console.log(error);
             })
+            console.log('getStepOrdersGroup')
         return groupOrders
     }
 
     static getStoragesDig(token) {
+        console.log('getStorages')
 
-        return axios.post(FB_API_URL, {
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getStorages',
-            encodedToken: encodedToken,
-            data: {
-                token: token
-            }
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getStorages', { token: token }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -66,15 +61,11 @@ export class DataService {
             })
     }
 
-
     static getSteps(token) {
+console.log('getSteps')
 
-        return axios.post(FB_API_URL, { 
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getSteps',
-            encodedToken: encodedToken,
-            data: {
-            token: token 
-            }            
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getSteps', { token: token }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -85,14 +76,10 @@ export class DataService {
 
 
     static getToken(log, pass) {
+        console.log('getToken')
 
-        return axios.post(FB_API_URL, { 
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getToken',
-            encodedToken: encodedToken,
-            data: {
-                login: log,
-                password: pass
-            }
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getToken', { login: log, password: pass }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -102,14 +89,10 @@ export class DataService {
     }
 
     static getOrderInfo(token, orderId) {
+        console.log('getOrderInfo')
 
-        return axios.post(FB_API_URL, {
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getOrderInfo',
-            encodedToken: encodedToken,
-            data:{
-                token: token, 
-                orderid: orderId
-            }
+        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getOrderInfo', { token: token, orderid: orderId }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -120,14 +103,13 @@ export class DataService {
 
 
     static setNextStepGroup(token, dataOrders) {
+        console.log('setNextOrderStep')
 
-        let stepOrders = axios.post(FB_API_URL, {
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/setNextOrderStep',
-            encodedToken: encodedToken,
-            data: {
-                token: token,
-                stepdata: dataOrders
-            }            
+        let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/setNextOrderStep', {
+            token: token,
+            stepdata: dataOrders
+        }, {
+            headers: { 'Authorization': 'Basic ' + encodedToken }
         })
             .then((response) => response.data)
             .catch((error) => {
@@ -138,8 +120,8 @@ export class DataService {
         return stepOrders
     }
 
-/////////////////////////
     static getNotifi(token) {
+        console.log('getNotifications')
 
         return axios.post(NOTIFICATIONS_URL, { method: 'getNotifications', token: token },
             {
@@ -152,6 +134,7 @@ export class DataService {
             })
     }
     static updateNotifi(token, messageid, mstatus) {
+        console.log('updateNotificationStatus')
 
         return axios.post(NOTIFICATIONS_URL, {
             method: 'updateNotificationStatus',
@@ -167,6 +150,7 @@ export class DataService {
     }
 
     static deleteNotifi(token, messageid) {
+        console.log('deleteNotification')
 
         return axios.post(NOTIFICATIONS_URL, {
             method: 'deleteNotification',
@@ -181,6 +165,7 @@ export class DataService {
     }
 
     static sendTokenDevice = (userTok, deviceTok, log) => {
+        console.log('SEVE_TOKEN_URL')
         axios.post(SEVE_TOKEN_URL, {
              userToken: userTok,
              deviceToken: deviceTok,

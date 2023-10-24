@@ -3,16 +3,15 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { setFilterOrders, setFilterPlants, setFilterQty } from "../state/dataSlice";
-import { useRoute } from "@react-navigation/native";
 
 
 
-function Search({orders, groupOrders}) {
+function Search({orders, groupOrders, navigation}) {
     const dispatch = useDispatch()
     const [searchText, onChangeText] = useState('')
     const [inputShow, setInputShow ] = useState(false)
-    const route = useRoute()
     const inputRef = useRef(null)
+    const routeIdx = navigation.getState().routes[1].state?.index
     
      const clearInput = async () => {
         await onChangeText('')
@@ -24,13 +23,13 @@ function Search({orders, groupOrders}) {
           }))
         await setInputShow(false)
     }
-
+    
     useEffect(() => {
         inputShow ? inputRef.current.focus() : null
     }, [inputShow])
    
     useEffect(() => {     
-        inputShow  ? searchOrders(route.state?.index === 1 ? groupOrders : orders) : null
+        inputShow  ? searchOrders(routeIdx === 1 ? groupOrders : orders) : null
     }, [searchText])
 
      useEffect(() => {        
@@ -41,7 +40,7 @@ function Search({orders, groupOrders}) {
     const searchOrders = (dataOrder) => { 
         let filterOrders = []
         if(searchText === '' || searchText === ' ') {
-            route.state?.index === 1 ? dispatch(setFilterPlants([])) : dispatch(setFilterOrders([]))
+            routeIdx === 1 ? dispatch(setFilterPlants([])) : dispatch(setFilterOrders([]))
             return
         }
         for (let i = 0; i < dataOrder.length; i++) {   // всі замовлення      
@@ -100,7 +99,7 @@ function Search({orders, groupOrders}) {
                 orders: 0,
                 plants: 0
               }))
-            if(route.state?.index === 1) {
+            if(routeIdx === 1) {
                 dispatch(setFilterPlants(null))                
             } else {
                 dispatch(setFilterOrders(null))
@@ -111,14 +110,14 @@ function Search({orders, groupOrders}) {
                 orders: 0,
                 plants: 0
               }
-              route.state?.index === 1 ? 
+              routeIdx === 1 ? 
               filterOrders.forEach(plant => plant.orders.forEach(order => qtyP += order.qty)) :
               filterOrders.forEach(order => order.products.forEach(prodact => qtyP += prodact.qty))
               
               total.orders = filterOrders.length
               total.plants = qtyP
               dispatch(setFilterQty(total))
-            if(route.state?.index === 1) {
+            if(routeIdx === 1) {
                 dispatch(setFilterPlants(filterOrders))                
             } else {
                 dispatch(setFilterOrders(filterOrders))
@@ -129,16 +128,20 @@ function Search({orders, groupOrders}) {
     
     return (
         <View style={styles.container}>
+            {inputShow && (
+            <View style={{flexDirection: 'row'}}>
             <TextInput
-                style={[styles.input, inputShow && styles.inputShow]}
+                style={styles.input}
                 onChangeText={onChangeText}
                 value={searchText} 
                 ref={inputRef}
+                inputMode="search"
             />
-            {inputShow && (
+            
                 <TouchableOpacity onPress={() => clearInput()} style={styles.close}>
                     <Text style={{fontWeight: 700}}> X </Text>
                 </TouchableOpacity>
+                </View>
             )}
             <TouchableOpacity onPress={() => setInputShow(true)} style={{height: '100%', justifyContent: 'center'}} >
                 <MaterialIcons name="search" size={24} color="black" style={styles.icon} />
@@ -158,13 +161,11 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        height: 56,
-
-        
+        height: 56, 
     },
     input: {
         borderWidth: 1,
-        display: 'none',
+        display: 'flex',
         borderRadius: 5,
         borderColor: '#7b7b7b',
         minWidth: 160,
@@ -178,10 +179,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         backgroundColor: 'snow',
         left: 28,
-        paddingLeft: 5
-    },
-    inputShow: {
-        display: 'flex'
+        paddingLeft: 5,        
     },
     icon:{
         shadowColor: 'black',
@@ -199,6 +197,6 @@ const styles = StyleSheet.create({
         top: 11 ,
         height: 60,
         width: 30,
-        justifyContent: 'center'
+        justifyContent: 'center',
     }
 })

@@ -104,7 +104,8 @@ export const getNotifiThunk = (token) => async (dispatch) => {
   try {
     const res = await DataService.getNotifi(token)
     if (res.success) {
-      dispatch(setNotifications(res));
+      const filterNote = res.data.filter(elem => elem.is_automatic == 0)
+      dispatch(setNotifications(filterNote));
     } else {
       alert(res.errors[0])
     }

@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
         fontWeight: 600,
     },
     checkBox: {
-        height: 25,
-        width: 25,
+        height: 27,
+        width: 27,
     },
 
 })
