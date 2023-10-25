@@ -88,20 +88,6 @@ console.log('getSteps')
             })
     }
 
-    static getOrderInfo(token, orderId) {
-        console.log('getOrderInfo')
-
-        return axios.post('http://194.42.196.141:41001/UTP/hs/api/getOrderInfo', { token: token, orderid: orderId }, {
-            headers: { 'Authorization': 'Basic ' + encodedToken }
-        })
-            .then((response) => response.data)
-            .catch((error) => {
-                alert(error.response.data)
-                console.log(error);
-            })
-    }
-
-
     static setNextStepGroup(token, dataOrders) {
         console.log('setNextOrderStep')
 

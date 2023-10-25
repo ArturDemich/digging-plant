@@ -18,7 +18,7 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, stora
     const { token } = route.params
     const [refresh, setRefresh] = useState(false)
     const dispatch = useDispatch()
-
+    
     const renderItem = useCallback(({ item }) => {
         return <RenderPlantsGroup item={item} rightToChange={currentStep.rightToChange} />
     }, [currentStep])

@@ -26,7 +26,7 @@ function ButtonOut({ navigation, token }) {
         } else {
             await SecureStore.deleteItemAsync('token')
         }
-       // await registerDeviceToken(token[0].token, false)
+        await registerDeviceToken(token[0].token, false)
     }
  
     return (

@@ -21,7 +21,7 @@ const useCheckStorages = () => {
             })
 
         }        
-        //registerDeviceToken(token[0].token, true)
+        registerDeviceToken(token[0].token, true)
     }
     return {checkStorages}
 }

@@ -93,20 +93,10 @@ const styles = StyleSheet.create({
 
 function RenderOrders({ orders, token, rightToChange }) {
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
-    const [comentInfo, setComentInfo] = useState('-')
-    const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders
+    const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId, comment } = orders
 
     let qty = 0
     products.forEach(el => qty += el.qty)
-
-    const getComent = async () => {
-        const res = await DataService.getOrderInfo(token, orderId)
-        setComentInfo(res.data[0].comment)
-    }
-
-    useEffect(() => {
-        getComent()
-    }, [orders])
     
     return (
         <View style={styles.rowFront} >
@@ -163,7 +153,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                             style={{ fontWeight: 800, fontSize: 13 }}
-                        > - {comentInfo} </Text>
+                        > - {comment} </Text>
                     </MaterialCommunityIcons>
                 </View>
                 <View >

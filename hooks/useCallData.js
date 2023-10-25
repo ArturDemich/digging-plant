@@ -10,7 +10,7 @@ const useCallData = () => {
     const callData = async (token) => {
         await dispatch(getDigStorages(token))
         await dispatch(getStep(token))
-       // await registerDeviceToken(token, true)        
+        await registerDeviceToken(token, true)        
     }
 
     return {callData}
