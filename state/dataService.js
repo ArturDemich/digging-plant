@@ -9,8 +9,21 @@ const encodedToken = Buffer.from(tok).toString('base64')
 
 const NOTIFICATIONS_URL = 'https://landshaft.info/modules/viber/digger4.php'
 const SEVE_TOKEN_URL = 'https://us-central1-digger-3000.cloudfunctions.net/saveToken'
+const NEW_V_URL = 'https://digger-3000-default-rtdb.europe-west1.firebasedatabase.app/newVersion.json?print=pretty'
 
 export class DataService {
+
+    static getNewVersion() {
+        let newVersion = axios.get(NEW_V_URL)
+            .then((response) => response.data)            
+            .catch((error) => {
+                alert(error)
+                console.log(error);
+            })
+
+            console.log('newVersion')
+        return newVersion
+    }
 
     static getStepOrders(stepId, storageId, token) {
         let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/getStepOrders', {

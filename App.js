@@ -4,6 +4,7 @@ import { Provider as StoreProvider } from 'react-redux'
 import { store } from './state/store'
 import { StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
+import NewVersion from './components/NewVersionModal'
 
 
 
@@ -16,6 +17,7 @@ export default function App() {
       <NavigationContainer>        
         <Navigate />
       </NavigationContainer>      
+      <NewVersion />
     </StoreProvider>
   )
 }

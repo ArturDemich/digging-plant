@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, Platform } from 're
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
 import { setStorageId } from '../state/dataSlice'
+import { DataService } from '../state/dataService'
 
 
 const styles = StyleSheet.create({
@@ -50,6 +51,7 @@ const styles = StyleSheet.create({
 function MainScreen({ navigation, digStorages }) {
     const dispatch = useDispatch()
 
+    DataService.getNewVersion()
     function renderFildsButton({ item }) {
         return (
             <TouchableOpacity

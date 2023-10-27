@@ -81,6 +81,17 @@ export const getStep = (token) => async (dispatch) => {
   }
 }
 
+export const getNewVersion = () => async (dispatch) => {
+  try {
+    const res = await DataService.getNewVersion()
+    
+    console.log('PARSSSSS', res)
+    return await res
+  } catch (error) {
+    console.log("Get_STEP ERROR Thunk: " + JSON.stringify(error));
+  }
+}
+
 export const getTokenThunk = (log, pass) => async (dispatch) => {
   try {
     const res = await DataService.getToken(log, pass)
