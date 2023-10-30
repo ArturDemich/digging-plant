@@ -11,6 +11,7 @@ const initialState = {
     currentStep: [],    
     currentStorageId: '',
     currentColorStep: '',
+    searchText: '',
     dataChange: [],
     notifications: [],
     totalPlantQty: 0,
@@ -50,6 +51,9 @@ export const dataSlice = createSlice({
         },
         setStorageId(state, action) {
             state.currentStorageId = action.payload
+        },
+        setSearchText(state, action) {
+            state.searchText = action.payload
         },
         setNotifications(state, action) {
             state.notifications = action.payload
@@ -146,6 +150,7 @@ export const dataSlice = createSlice({
             state.currentStep = []
             state.groupOrders = []
             state.currentStorageId = ''
+            state.searchText = ''
             state.dataChange = []
             state.notifications = []
             state.totalPlantQty = 0
@@ -163,7 +168,7 @@ export const {
     setStorageId, setDataChange, clearDataChange,
     clearDataChangeItem, setNotifications, setTotalQty,
     setCurrentColorStep, setFilterOrders, setFilterPlants,
-    setFilterQty
+    setFilterQty, setSearchText
 } = dataSlice.actions
 
 export default dataSlice.reducer

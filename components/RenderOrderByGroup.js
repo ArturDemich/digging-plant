@@ -2,7 +2,6 @@ import Checkbox from "expo-checkbox"
 import { memo, useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
-import { DataService } from "../state/dataService"
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentStorageId, token }) {
+function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentStorageId }) {
     const dispatch = useDispatch()
     const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange, comment } = order
     const { characteristic, product, unit } = plant

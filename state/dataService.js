@@ -21,7 +21,7 @@ export class DataService {
                 console.log(error);
             })
 
-            console.log('newVersion')
+            //console.log('newVersion')
         return newVersion
     }
 
@@ -39,7 +39,7 @@ export class DataService {
                 console.log(error);
             })
 
-            console.log('getStepOrders')
+            //.log('getStepOrders')
         return stepOrders
     }
 
@@ -57,12 +57,12 @@ export class DataService {
                 alert(error)
                 console.log(error);
             })
-            console.log('getStepOrdersGroup')
+            //console.log('getStepOrdersGroup')
         return groupOrders
     }
 
     static getStoragesDig(token) {
-        console.log('getStorages')
+        //console.log('getStorages')
 
         return axios.post('http://194.42.196.141:41001/UTP/hs/api/getStorages', { token: token }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
@@ -75,7 +75,7 @@ export class DataService {
     }
 
     static getSteps(token) {
-console.log('getSteps')
+// console.log('getSteps')
 
         return axios.post('http://194.42.196.141:41001/UTP/hs/api/getSteps', { token: token }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
@@ -89,7 +89,7 @@ console.log('getSteps')
 
 
     static getToken(log, pass) {
-        console.log('getToken')
+       // console.log('getToken')
 
         return axios.post('http://194.42.196.141:41001/UTP/hs/api/getToken', { login: log, password: pass }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
@@ -102,7 +102,7 @@ console.log('getSteps')
     }
 
     static setNextStepGroup(token, dataOrders) {
-        console.log('setNextOrderStep')
+       // console.log('setNextOrderStep')
 
         let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/setNextOrderStep', {
             token: token,
@@ -120,7 +120,7 @@ console.log('getSteps')
     }
 
     static getNotifi(token) {
-        console.log('getNotifications')
+      //  console.log('getNotifications')
 
         return axios.post(NOTIFICATIONS_URL, { method: 'getNotifications', token: token },
             {
@@ -133,7 +133,7 @@ console.log('getSteps')
             })
     }
     static updateNotifi(token, messageid, mstatus) {
-        console.log('updateNotificationStatus')
+      //  console.log('updateNotificationStatus')
 
         return axios.post(NOTIFICATIONS_URL, {
             method: 'updateNotificationStatus',
@@ -149,7 +149,7 @@ console.log('getSteps')
     }
 
     static deleteNotifi(token, messageid) {
-        console.log('deleteNotification')
+      //  console.log('deleteNotification')
 
         return axios.post(NOTIFICATIONS_URL, {
             method: 'deleteNotification',
@@ -164,7 +164,7 @@ console.log('getSteps')
     }
 
     static sendTokenDevice = (userTok, deviceTok, log) => {
-        console.log('SEVE_TOKEN_URL')
+      //  console.log('SEVE_TOKEN_URL')
         axios.post(SEVE_TOKEN_URL, {
              userToken: userTok,
              deviceToken: deviceTok,

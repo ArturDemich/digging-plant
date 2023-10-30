@@ -36,12 +36,12 @@ export default function Navigate() {
         } else {
             tokenStor = await SecureStore.getItemAsync('token')
         }
-        let tokenPars = JSON.parse(tokenStor)      // set change!!!!!! 
+        let tokenPars = JSON.parse(tokenStor)
         if (tokenPars) {
            await dispatch(setToken(tokenPars))
         }
     }
-console.log('appNavigator', token.length)
+
     useEffect(() => {        
         token.length == 0 ? checkToken() :  callData(token[0].token)       
     }, [ token]) 

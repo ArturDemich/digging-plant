@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Modal, Text, TouchableOpacity, View } from "react-native";
+import { Linking, Modal, Text, TouchableOpacity, View } from "react-native";
 import { getNewVersion } from "../state/dataThunk";
 import { useDispatch } from "react-redux";
 import Constants from 'expo-constants';
@@ -14,9 +14,14 @@ function NewVersion() {
     const dispatch = useDispatch()
     const ver = Constants.manifest.version
 
+    const refreshApp = () => {
+        Linking.openURL(version?.url)
+        setShow(!show)
+    }
+
     const get = async () => {
         const data = await dispatch(getNewVersion()) 
-        if(data?.version == ver) {
+        if(ver < data?.version ) {
             setShow(true)
         }
         setVersion(data)
@@ -25,7 +30,7 @@ function NewVersion() {
     useEffect(() => {
         get()
     }, [])
-    console.log('version modal',  version)
+    
     return(
         <View>
             <Modal
@@ -37,16 +42,16 @@ function NewVersion() {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text
-                            style={styles.textStyle}
+                            style={styles.textStr}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
-                        >Все файно! Є нова версія!! </Text>
+                        >Все файно! </Text>
                         
-                            <Text >Оновити зараз?</Text>
+                            <Text style={styles.textStyle}>Є нова версія додатка!! Оновити зараз?</Text>
                         <View style={styles.btnBlock}>
                             <TouchableOpacity
                                 onPress={() => setShow(!show)}
-                                style={styles.buttonModal}
+                                style={styles.buttonClose}
                             >
                                 <Text
                                     style={styles.modalText}
@@ -55,7 +60,7 @@ function NewVersion() {
                                 >Пізніше</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={() => setShow(!show)}
+                                onPress={() => refreshApp()}
                                 style={styles.buttonModal}
                             >
                                 <Text
@@ -80,20 +85,20 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: 'center',
-        backgroundColor: '#a1a1a1a8',
-        
+        backgroundColor: '#00002329',
     },
     modalView: {
-        flex: 1,
-        margin: 20,
+        width: 300,
+        flexDirection: 'column',
+        margin: 1,
         backgroundColor: "white",
         borderRadius: 10,
-        paddingLeft: 10,
-        paddingRight: 10,
+        paddingLeft: 5,
+        paddingRight: 5,
         paddingBottom: 5,
         paddingTop: 5,
         alignItems: "center",
-        //justifyContent: 'center',
+        justifyContent: 'center',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -102,28 +107,23 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        //minHeight: '20%',
-        //maxHeight: '80%',
-        // minWidth: 300,
-        height: 50,
-        width: 280,
-        //gap: 5,
+        minHeight: '15%',
+        maxHeight: '70%',
     },
 
     btnBlock: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
-
+        justifyContent: 'space-between',       
+        flex: 1,
+        width: "100%"
     },
 
     buttonModal: {
-        marginRight: 5,
         borderRadius: 3,
         textAlign: "center",
         backgroundColor: "#45aa45",
-        width: 80,
-        textAlignVertical: 'center',
-        alignSelf: 'center',
+        width: 110,        
+        alignSelf: 'flex-end',
         height: 35,
         elevation: 3,
         justifyContent: 'center',
@@ -133,15 +133,20 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         height: 35,
         elevation: 3,
-        minWidth: 100,
-        backgroundColor: "red",
-        marginEnd: 5,
+        width: 110,
+        alignSelf: 'flex-end',
+        backgroundColor: "#999999e6",
         justifyContent: 'center',
-
     },
     textStyle: {
         fontWeight: 500,
         fontSize: 18,
+        color: '#555555',
+        marginBottom: 40
+    },
+    textStr: {
+        fontWeight: 600,
+        fontSize: 21,        
     },
     modalText: {
         textAlign: "center",

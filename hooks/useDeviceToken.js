@@ -36,7 +36,6 @@ const useDeviceToken = () => {
                       return;
                   }
                   tokenExpo = (await Notifications.getExpoPushTokenAsync()).data
-                  console.log('pushToken', tokenExpo)
                   await DataService.sendTokenDevice(userToken, tokenExpo, loged)
               } else {
                   alert('Must use physical device for Push Notifications')
