@@ -115,7 +115,7 @@ function RenderOrders({ orders, rightToChange }) {
             <View style={styles.costLineWrapper}>
                 <View style={styles.orderInfo}>
                     <View style={styles.infoContainer}>
-                        <TouchableOpacity onPress={() => dispatch(setSearchText(customerName))}>
+                        <TouchableOpacity style={{flex: 1}} onPress={() => dispatch(setSearchText(customerName))}>
                             <Text style={styles.orderClient}
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
