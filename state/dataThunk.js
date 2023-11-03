@@ -1,5 +1,7 @@
 import { DataService } from "./dataService"
 import * as SecureStore from 'expo-secure-store'
+import * as FileSystem from 'expo-file-system'
+import RNFS from 'react-native-fs'
 import {
   setDigStorages, setStepOrders,
   setSteps, setToken, setCurrentStep,
@@ -131,6 +133,38 @@ export const setNextStepGroupThunk = (token, dataOrders) => async () => {
     } else {
       console.log('Успішно!', res.success)
     }
+  } catch (error) {
+    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+  }
+}
+
+export const setOrderLabels = (token, dataOrders) => async () => {
+  try {
+    const res = await DataService.getOrderLabels(token, dataOrders)
+    console.log('thunkLLLL', res)
+    const fileContent = res; 
+
+    // Створюємо папку для зберігання файлу
+    const folderUri = `${RNFS.DownloadDirectoryPath}/printPd`; // Папка для зберігання PDF
+    await FileSystem.makeDirectoryAsync(folderUri, { intermediates: true });
+
+    // Визначаємо ім'я файлу
+    const fileName = 'example.pdf'; // Замініть це на бажане ім'я файлу
+    const fileUri = `${folderUri}${fileName}.pdf`
+
+    await RNFS.writeFile(fileUri, fileContent, 'base64')
+    // Повний шлях до файлу
+    //const fileUriToSave = `${folderUri}${fileName}`;
+
+    // Зберігаємо вміст в файл
+   /*  await FileSystem.writeAsStringAsync(fileUriToSave, fileContent, {
+      encoding: FileSystem.EncodingType.Base64, // Якщо вміст відомий як base64, встановіть це значення
+    }); */
+    /* if (res.errors?.length > 0) {
+      alert(res.errors[0])
+    } else {
+      console.log('Успішно!', res)
+    } */
   } catch (error) {
     console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
   }

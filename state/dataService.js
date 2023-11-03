@@ -119,6 +119,22 @@ export class DataService {
         return stepOrders
     }
 
+    static getOrderLabels(token, dataOrders) {
+        // console.log('getOrderLabels')
+ 
+         return axios.post('http://194.42.196.141:41001/UTP/hs/api/getOrderLabels', { 
+            token: token, 
+            data: dataOrders 
+        }, {
+             headers: { 'Authorization': 'Basic ' + encodedToken }
+         })
+             .then((response) => response.data)
+             .catch((error) => {
+                 alert(error.response.data)
+                 console.log(error);
+             })
+     }
+
     static getNotifi(token) {
       //  console.log('getNotifications')
 
@@ -132,6 +148,9 @@ export class DataService {
                 console.log(error);
             })
     }
+
+    
+
     static updateNotifi(token, messageid, mstatus) {
       //  console.log('updateNotificationStatus')
 

@@ -33,7 +33,8 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
             productid: product.id,
             characteristicid: characteristic.id,
             unitid: unit.id,
-            actionqty: Number(qtyState)
+            actionqty: Number(qtyState),
+            qty: Number(qtyState)
         }
         dispatch(setDataChange(orders))
     }
