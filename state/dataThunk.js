@@ -146,13 +146,13 @@ export const setOrderLabels = (token, dataOrders) => async () => {
     //const fileContent = Buffer.from(res).toString('base64')    
     
     // Створюємо папку для зберігання файлу
-    const folderUri = `${RNFS.DownloadDirectoryPath}/printPdf`; // Папка для зберігання PDF    
- const h = FileSystem.documentDirectory
+    const folderUri = `${RNFS.DownloadDirectoryPath}/printPdf`; // Папка для зберігання PDF   
+ 
     // Визначаємо ім'я файлу
     const fileName = '/example.pdf'; // Замініть це на бажане ім'я файлу
     const fileUri = `${folderUri}${fileName}`
-    console.log('fileUri', h)
-    RNFS.write(fileUri, res)
+    console.log('fileUri', res)
+    RNFS.write(fileUri, res._bodyBlob._data)
       .then(() => {
         console.log('PDF-файл успішно збережено за шляхом:', filePath);
       })

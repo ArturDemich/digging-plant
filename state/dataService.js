@@ -119,7 +119,7 @@ export class DataService {
         return stepOrders
     }
 
-    static getOrderLabels(token, dataOrders) {
+    /* static getOrderLabels(token, dataOrders) {
         // console.log('getOrderLabels')
  
          return axios.post('http://194.42.196.141:41001/UTP/hs/api/getOrderLabels', { 
@@ -128,16 +128,50 @@ export class DataService {
         }, {
              headers: { 
                 'Authorization': 'Basic ' + encodedToken,
-                'Accept': 'application/pdf', // Важливо вказати очікуваний формат відповіді (PDF)
-                'Response-Type': 'arraybuffer',
-            }
+                'Accept': 'application/pdf', // Важливо вказати очікуваний формат відповіді (PDF)                
+            },
+            //responseType: 'blob'
          })
-             .then((response) => response.data)
+             .then((response) => response)
              .catch((error) => {
                  alert(error.response.data)
                  console.log(error);
              })
-     }
+     } */
+
+     static async getOrderLabels(token, dataOrders) {
+        const apiUrl = 'http://194.42.196.141:41001/UTP/hs/api/getOrderLabels';
+        const headers = {
+            //'Accept': 'application/pdf',
+            'Authorization': 'Basic ' + encodedToken,
+            'Content-Type': 'application/json',
+        };
+    
+        const requestOptions = {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({
+                token: token,
+                data: dataOrders,
+            }),
+        };
+    
+        try {
+            const response = await fetch(apiUrl, requestOptions);
+            console.log('response', response._bodyBlob)
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+           
+            const blobData = await response;
+    
+            // Тут ви можете обробити Blob-дані, наприклад, зберегти файл або відобразити їх
+            return blobData;
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 
     static getNotifi(token) {
       //  console.log('getNotifications')
