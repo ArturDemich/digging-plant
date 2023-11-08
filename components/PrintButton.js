@@ -6,6 +6,7 @@ import { clearDataChange } from '../state/dataSlice'
 import * as FileSystem from 'expo-file-system'
 import RNFS from 'react-native-fs'
 import { useEffect } from 'react'
+//import { BleManager } from 'react-native-bluetooth-escpos-printer';
 
 
 
@@ -72,9 +73,31 @@ const colorStepBtn = {
 
 function PrintButton({ path, currentStorageId, token, currentStep, dataChange }) {
     const dispatch = useDispatch()
+    /* const bleManager = new BleManager()
+
+    const scanForPrinters = () => {
+        bleManager.startDeviceScan(null, null, (error, device) => {
+            console.log('device.name', device.name)
+            console.log('device.name22', device)
+          if (error) {
+            console.error('Error scanning for devices:', error);
+            return;
+          }
+      
+          if (device.name === 'Назва вашого принтера') {
+            console.log('Found printer with address:', device.id);
+            // Зупинити сканування після знаходження принтера
+            bleManager.stopDeviceScan();
+            // Збережіть цю адресу для подальшого використання при підключенні
+            const printerAddress = device.id;
+            connectToBluetoothPrinter(printerAddress);
+          }
+        });
+      }; */
 
     useEffect(() => {
         requestExternalStoragePermission()
+        //scanForPrinters()
     }, [])
 
     async function requestExternalStoragePermission() {

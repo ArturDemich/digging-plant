@@ -2,6 +2,7 @@ import { DataService } from "./dataService"
 import * as SecureStore from 'expo-secure-store'
 import * as FileSystem from 'expo-file-system'
 import RNFS from 'react-native-fs'
+import { Buffer } from 'buffer'
 import {
   setDigStorages, setStepOrders,
   setSteps, setToken, setCurrentStep,
@@ -141,30 +142,24 @@ export const setNextStepGroupThunk = (token, dataOrders) => async () => {
 export const setOrderLabels = (token, dataOrders) => async () => {
   try {
     const res = await DataService.getOrderLabels(token, dataOrders)
-    console.log('thunkLLLL', res)
-    const fileContent = res; 
-
+    
+    //const fileContent = Buffer.from(res).toString('base64')    
+    
     // Створюємо папку для зберігання файлу
-    const folderUri = `${RNFS.DownloadDirectoryPath}/printPd`; // Папка для зберігання PDF
-    await FileSystem.makeDirectoryAsync(folderUri, { intermediates: true });
-
+    const folderUri = `${RNFS.DownloadDirectoryPath}/printPdf`; // Папка для зберігання PDF    
+ const h = FileSystem.documentDirectory
     // Визначаємо ім'я файлу
-    const fileName = 'example.pdf'; // Замініть це на бажане ім'я файлу
-    const fileUri = `${folderUri}${fileName}.pdf`
-
-    await RNFS.writeFile(fileUri, fileContent, 'base64')
-    // Повний шлях до файлу
-    //const fileUriToSave = `${folderUri}${fileName}`;
-
-    // Зберігаємо вміст в файл
-   /*  await FileSystem.writeAsStringAsync(fileUriToSave, fileContent, {
-      encoding: FileSystem.EncodingType.Base64, // Якщо вміст відомий як base64, встановіть це значення
-    }); */
-    /* if (res.errors?.length > 0) {
-      alert(res.errors[0])
-    } else {
-      console.log('Успішно!', res)
-    } */
+    const fileName = '/example.pdf'; // Замініть це на бажане ім'я файлу
+    const fileUri = `${folderUri}${fileName}`
+    console.log('fileUri', h)
+    RNFS.write(fileUri, res)
+      .then(() => {
+        console.log('PDF-файл успішно збережено за шляхом:', filePath);
+      })
+      .catch((error) => {
+        console.error('Помилка збереження PDF-файлу:', error);
+      });
+    
   } catch (error) {
     console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
   }

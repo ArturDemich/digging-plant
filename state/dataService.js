@@ -126,7 +126,11 @@ export class DataService {
             token: token, 
             data: dataOrders 
         }, {
-             headers: { 'Authorization': 'Basic ' + encodedToken }
+             headers: { 
+                'Authorization': 'Basic ' + encodedToken,
+                'Accept': 'application/pdf', // Важливо вказати очікуваний формат відповіді (PDF)
+                'Response-Type': 'arraybuffer',
+            }
          })
              .then((response) => response.data)
              .catch((error) => {
