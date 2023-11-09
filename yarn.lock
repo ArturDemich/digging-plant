@@ -5644,6 +5644,11 @@
     "base-64" "0.1.0"
     "glob" "^7.2.3"
 
+"react-native-bluetooth-escpos-printer@^0.0.5":
+  "integrity" "sha512-a+GTlz8dctb48wkoJ8woE7gV24NCOoA13J95A+RFEKhjONEWf3/dP5pIqrrlO5fsf/2QYDeMfU3P8bIVQoEqig=="
+  "resolved" "https://registry.npmjs.org/react-native-bluetooth-escpos-printer/-/react-native-bluetooth-escpos-printer-0.0.5.tgz"
+  "version" "0.0.5"
+
 "react-native-codegen@^0.71.6":
   "integrity" "sha512-e5pR4VldIhEaFctfSAEgxbng0uG4gjBQxAHes3EKLdosH/Av90pQfSe9IDVdFIngvNPzt8Y14pNjrtqov/yNIg=="
   "resolved" "https://registry.npmjs.org/react-native-codegen/-/react-native-codegen-0.71.6.tgz"
@@ -5686,6 +5691,11 @@
   "resolved" "https://registry.npmjs.org/react-native-pager-view/-/react-native-pager-view-6.1.2.tgz"
   "version" "6.1.2"
 
+"react-native-permissions@^3.10.1":
+  "integrity" "sha512-Gc5BxxpjZn4QNUDiVeHOO0vXh3AH7ToolmwTJozqC6DsxV7NAf3ttap+8BSmzDR8WxuAM3Cror+YNiBhHJx7/w=="
+  "resolved" "https://registry.npmjs.org/react-native-permissions/-/react-native-permissions-3.10.1.tgz"
+  "version" "3.10.1"
+
 "react-native-ratings@8.0.4":
   "integrity" "sha512-Xczu5lskIIRD6BEdz9A0jDRpEck/SFxRqiglkXi0u67yAtI1/pcJC76P4MukCbT8K4BPVl+42w83YqXBoBRl7A=="
   "resolved" "https://registry.npmjs.org/react-native-ratings/-/react-native-ratings-8.0.4.tgz"
@@ -5716,7 +5726,7 @@
   "resolved" "https://registry.npmjs.org/react-native-tab-view/-/react-native-tab-view-3.1.1.tgz"
   "version" "3.1.1"
 
-"react-native@*", "react-native@>=0.59", "react-native@0.71.14":
+"react-native@*", "react-native@>=0.55.4", "react-native@>=0.59", "react-native@>=0.63.3", "react-native@0.71.14":
   "integrity" "sha512-7uhzas8aKpU2EARhlONt7yiclh+7PXEOJk469ewpQyId8Owq5WNtZvQm/z3k4mHUriMeQ37vgSGkOInSKcCazw=="
   "resolved" "https://registry.npmjs.org/react-native/-/react-native-0.71.14.tgz"
   "version" "0.71.14"
@@ -5782,7 +5792,7 @@
     "object-assign" "^4.1.1"
     "react-is" "^16.12.0 || ^17.0.0 || ^18.0.0"
 
-"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.2.0", "react@>=17.0.0", "react@18.2.0":
+"react@*", "react@^16.0.0 || ^17.0.0 || ^18.0.0", "react@^16.8 || ^17.0 || ^18.0", "react@^16.8.0 || ^17.0.0 || ^18.0.0", "react@^16.9.0 || ^17.0.0 || ^18", "react@^18.2.0", "react@>=16.13.1", "react@>=17.0.0", "react@18.2.0":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"

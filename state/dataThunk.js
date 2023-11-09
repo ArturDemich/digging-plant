@@ -3,6 +3,7 @@ import * as SecureStore from 'expo-secure-store'
 import * as FileSystem from 'expo-file-system'
 import RNFS from 'react-native-fs'
 import { Buffer } from 'buffer'
+import RNFetchBlob from 'react-native-blob-util'
 import {
   setDigStorages, setStepOrders,
   setSteps, setToken, setCurrentStep,
@@ -147,11 +148,12 @@ export const setOrderLabels = (token, dataOrders) => async () => {
     
     // Створюємо папку для зберігання файлу
     const folderUri = `${RNFS.DownloadDirectoryPath}/printPdf`; // Папка для зберігання PDF   
+    //const docPath = RNFetchBlob.fs.dirs.DownloadDir;
  
     // Визначаємо ім'я файлу
     const fileName = '/example.pdf'; // Замініть це на бажане ім'я файлу
     const fileUri = `${folderUri}${fileName}`
-    console.log('fileUri', res)
+    console.log('fileUri', docPath)
     RNFS.write(fileUri, res._bodyBlob._data)
       .then(() => {
         console.log('PDF-файл успішно збережено за шляхом:', filePath);
