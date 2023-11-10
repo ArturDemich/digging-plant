@@ -9,7 +9,7 @@ import RenderOrders from '../components/RenderOrders'
 import { getOrdersStep } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { clearDataChange } from '../state/dataSlice'
-import PrintButton from '../components/PrintButton'
+import PrintButton from '../components/printer/PrintButton'
 
 function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty, storageId, filterOrders, filterPlantQty, filterOrderQty }) {
     const dispatch = useDispatch()
