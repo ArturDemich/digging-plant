@@ -1,16 +1,34 @@
-import { View, Text, StyleSheet, TouchableHighlight, PermissionsAndroid, Platform, Modal, TouchableOpacity } from 'react-native'
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    TouchableHighlight, 
+    PermissionsAndroid, 
+    Platform, 
+    Modal, 
+    TouchableOpacity,
+    ActivityIndicator,
+    DeviceEventEmitter,
+    NativeEventEmitter,        
+    ScrollView,
+    ToastAndroid,
+    Button,
+    Alert,
+} from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk, setOrderLabels } from '../../state/dataThunk'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { clearDataChange } from '../../state/dataSlice'
 import * as FileSystem from 'expo-file-system'
 import RNFS from 'react-native-fs'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { BluetoothEscposPrinter, BluetoothManager } from 'react-native-bluetooth-escpos-printer';
-import { Alert } from 'react-native'
 import { PERMISSIONS, RESULTS, requestMultiple } from 'react-native-permissions'
-import { useCallback } from 'react'
-//import { BleManager } from 'react-native-bluetooth-escpos-printer';
+//import { styles } from "./styles"
+import ItemList from "./ItemList"
+import SamplePrint from "./SamplePrint"
+import { DataService } from '../../state/dataService'
+
 
 
 
@@ -118,13 +136,34 @@ const styles = StyleSheet.create({
       fontSize: 15,
       fontWeight: 700
   },
+  /////////////
+  container: {
+    flex: 1,
+    paddingTop: 40,
+    paddingHorizontal: 20,
+    backgroundColor: 'gray'
+  },
+  containerList: { flex: 1, flexDirection: 'column' },
+  bluetoothStatusContainer: { justifyContent: 'flex-end', alignSelf: 'flex-end' },
+  bluetoothStatus: color => ({
+    backgroundColor: color,
+    padding: 8,
+    borderRadius: 2,
+    color: 'white',
+    paddingHorizontal: 14,
+    marginBottom: 20,
+  }),
+  bluetoothInfo: { textAlign: 'center', fontSize: 16, color: '#FFC806', marginBottom: 20 },
+  sectionTitle: { fontWeight: 'bold', fontSize: 18, marginBottom: 12 },
+  printerInfo: { textAlign: 'center', fontSize: 16, color: '#E9493F', marginBottom: 20 },
+
 })
 
 
 function PrintButton({ path, currentStorageId, token, currentStep, dataChange }) {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
-    const [availablePrinters, setAvailablePrinters] = useState([])
+    /* const [availablePrinters, setAvailablePrinters] = useState([])
     const [BToN, setBToN] = useState()
     
     const scanBluetoothDevice = async () => {        
@@ -162,7 +201,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
 
               BluetoothManager.scanDevices().then(
                 (s) => {
-                  console.log('scanDevices11', s)
+                  console.log('scanDevices11',  BluetoothManager.scanDevices())
                   const pairedDevices = s.paired
                   const found = s.found            
                   try {
@@ -174,7 +213,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
                   }
                 },
                 (er) => {           
-                    console.log(er)
+                    console.log('scanDevicesError', er)
                 }
               )
           } else {
@@ -216,24 +255,318 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
       
     }, [])
     
-    console.log('PrintButton', BToN )
+    console.log('PrintButton', BToN ) */
+
+  const [pairedDevices, setPairedDevices] = useState([]);
+  const [foundDs, setFoundDs] = useState([]);
+  const [bleOpend, setBleOpend] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [name, setName] = useState("");
+  const [boundAddress, setBoundAddress] = useState("");
+
+  
+
+  useEffect(() => {
+    BluetoothManager.isBluetoothEnabled().then(
+      (enabled) => {
+        setBleOpend(Boolean(enabled));
+        setLoading(false);
+      },
+      (err) => {
+        err;
+      }
+    );
+
+    if (Platform.OS === "ios") {
+      let bluetoothManagerEmitter = new NativeEventEmitter(BluetoothManager);
+      bluetoothManagerEmitter.addListener(
+        BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
+        (rsp) => {
+          deviceAlreadPaired(rsp);
+        }
+      );
+      bluetoothManagerEmitter.addListener(
+        BluetoothManager.EVENT_DEVICE_FOUND,
+        (rsp) => {
+          deviceFoundEvent(rsp);
+        }
+      );
+      bluetoothManagerEmitter.addListener(
+        BluetoothManager.EVENT_CONNECTION_LOST,
+        () => {
+          setName("");
+          setBoundAddress("");
+        }
+      );
+    } else if (Platform.OS === "android") {
+      DeviceEventEmitter.addListener(
+        BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
+        (rsp) => {
+          deviceAlreadPaired(rsp);
+        }
+      );
+      DeviceEventEmitter.addListener(
+        BluetoothManager.EVENT_DEVICE_FOUND,
+        (rsp) => {
+          deviceFoundEvent(rsp);
+        }
+      );
+      DeviceEventEmitter.addListener(
+        BluetoothManager.EVENT_CONNECTION_LOST,
+        () => {
+          setName("");
+          setBoundAddress("");
+        }
+      );
+      DeviceEventEmitter.addListener(
+        BluetoothManager.EVENT_BLUETOOTH_NOT_SUPPORT,
+        () => {
+          ToastAndroid.show(
+            "Device Not Support Bluetooth !",
+            ToastAndroid.LONG
+          );
+        }
+      );
+    }
+
+    console.log(pairedDevices.length);
+    if (pairedDevices.length < 1) {
+      scan();
+      console.log("scanning...");
+    } else {
+      const firstDevice = pairedDevices[0];
+      console.log('length  :' + pairedDevices.length);
+      console.log(firstDevice);
+      connect(firstDevice);
+
+      // connect(firstDevice);
+      // console.log(pairedDevices.length + "hello");
+    }
+  },[pairedDevices]);
+  // deviceFoundEvent,pairedDevices,scan,boundAddress
+  // boundAddress, deviceAlreadPaired, deviceFoundEvent, pairedDevices, scan
+
+
+  const deviceAlreadPaired = useCallback(
+    (rsp) => {
+      var ds = null;
+      if (typeof rsp.devices === "object") {
+        ds = rsp.devices;
+      } else {
+        try {
+          ds = JSON.parse(rsp.devices);
+        } catch (e) {}
+      }
+      if (ds && ds.length) {
+        let pared = pairedDevices;
+        if (pared.length < 1) {
+          pared = pared.concat(ds || []);
+        }
+        setPairedDevices(pared);
+      }
+    },
+    [pairedDevices]
+  );
+  // const deviceAlreadPaired = useCallback(
+  //   async rsp => {
+  //     try {
+  //       var ds = null;
+  //       if (typeof rsp.devices === 'object') {
+  //         ds = rsp.devices;
+  //       } else {
+  //         try {
+  //           ds = JSON.parse(rsp.devices);
+  //         } catch (e) {}
+  //       }
+  //       if (ds && ds.length) {
+  //         let pared = pairedDevices;
+  //         if (pared.length < 1) {
+  //           pared = pared.concat(ds || []);
+  //         }
+  //         setPairedDevices(pared);
+  //       }
+  //     } catch (error) {
+  //       // Handle any errors that occurred during the asynchronous operations
+  //       console.error(error);
+  //     }
+  //   },
+  //   [pairedDevices],
+  // );
+
+  const deviceFoundEvent = useCallback(
+    (rsp) => {
+      var r = null;
+      try {
+        if (typeof rsp.device === "object") {
+          r = rsp.device;
+        } else {
+          r = JSON.parse(rsp.device);
+        }
+      } catch (e) {
+        // ignore error
+      }
+
+      if (r) {
+        let found = foundDs || [];
+        if (found.findIndex) {
+          let duplicated = found.findIndex(function (x) {
+            return x.address == r.address;
+          });
+          if (duplicated == -1) {
+            found.push(r);
+            setFoundDs(found);
+          }
+        }
+      }
+    },
+    [foundDs]
+  );
+
+  // const connect = (row) => {
+  //   setLoading(true);
+  //   BluetoothManager.connect(row.address).then(
+  //     (s) => {
+  //       setLoading(false);
+  //       setBoundAddress(row.address);
+  //       setName(row.name || "UNKNOWN");
+  //       console.log("Connected to device:", row.name);
+  //     },
+  //     (e) => {
+  //       setLoading(false);
+  //       alert(e);
+  //     }
+  //   );
+  // };
+
+  const connect = async (row) => {
+    try {
+      setLoading(true);
+      await BluetoothManager.connect(row.address);
+      setLoading(false);
+      setBoundAddress(row.address);
+      setName(row.name || 'UNKNOWN');
+      console.log('Connected to device:', row);
+    } catch (e) {
+      setLoading(false);
+      alert(e);
+    }
+  };
+
+  const unPair = (address) => {
+    setLoading(true);
+    BluetoothManager.unpaire(address).then(
+      (s) => {
+        setLoading(false);
+        setBoundAddress("");
+        setName("");
+      },
+      (e) => {
+        setLoading(false);
+        alert(e);
+      }
+    );
+  };
+
+  const scanDevices = useCallback(() => {
+    setLoading(true);
+    BluetoothManager.scanDevices().then(
+      (s) => {
+        // const pairedDevices = s.paired;
+        var found = s.found;
+        try {
+          found = JSON.parse(found); //@FIX_it: the parse action too weired..
+        } catch (e) {
+          //ignore
+        }
+        var fds = foundDs;
+        if (found && found.length) {
+          fds = found;
+        }
+        setFoundDs(fds);
+        setLoading(false);
+      },
+      (er) => {
+        setLoading(false);
+        // ignore
+      }
+    );
+  }, [foundDs]);
+
+  const scan = useCallback(() => {
+    try {
+      async function blueTooth() {
+        const permissions = {
+          title: "HSD bluetooth meminta izin untuk mengakses bluetooth",
+          message:
+            "HSD bluetooth memerlukan akses ke bluetooth untuk proses koneksi ke bluetooth printer",
+          buttonNeutral: "Lain Waktu",
+          buttonNegative: "Tidak",
+          buttonPositive: "Boleh",
+        };
+
+        const bluetoothConnectGranted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
+          permissions
+        );
+        if (bluetoothConnectGranted === PermissionsAndroid.RESULTS.GRANTED) {
+          const bluetoothScanGranted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
+            permissions
+          );
+          if (bluetoothScanGranted === PermissionsAndroid.RESULTS.GRANTED) {
+            scanDevices();
+          }
+        } else {
+          // ignore akses ditolak
+        }
+      }
+      blueTooth();
+    } catch (err) {
+      console.warn(err);
+    }
+  }, [scanDevices]);
+
+  const scanBluetoothDevice = async () => {
+    setLoading(true);
+    try {
+      const request = await requestMultiple([
+        PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
+        PERMISSIONS.ANDROID.BLUETOOTH_SCAN,
+        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
+      ]);
+
+      if (
+        request["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED
+      ) {
+        scanDevices();
+        setLoading(false);
+      } else {
+        setLoading(false);
+      }
+    } catch (err) {
+      setLoading(false);
+    }
+  };
+
     return (
-      <>
+      <View style={{backgroundColor: 'gray', width: 300, flex: 1, display: 'flex', position: 'relative', height: 300}}>
         <Modal
           animationType="slide"
           transparent={true}
           visible={show}
           onRequestClose={() => setShow(!show)}
+          
         >
-                <View style={styles.centeredView}>
+                {/* <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text
                             style={styles.textStr}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
-                        >Все файно! </Text>
+                        >Надрукувати етикетки ?</Text>
                         
-                            <Text style={styles.textStyle}>********</Text>
+                            <Text style={styles.textStyle}>Прінтер: Тестович</Text>
+                            <Text style={styles.textStyle}>Список прінтерів...</Text>
                         <View style={styles.btnBlock}>
                             <TouchableOpacity
                                 onPress={() => setShow(!show)}
@@ -243,7 +576,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
                                     style={styles.modalText}
                                     allowFontScaling={true}
                                     maxFontSizeMultiplier={1}
-                                >*****</Text>
+                                >Ні</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => setShow(!show)}
@@ -253,11 +586,60 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
                                     style={styles.modalText}
                                     allowFontScaling={true}
                                     maxFontSizeMultiplier={1}
-                                >*****</Text>
+                                >Так</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
-                </View>
+                </View> */}
+                <ScrollView style={styles.container}>
+                    <View style={styles.bluetoothStatusContainer}>
+                        <Text style={styles.bluetoothStatus(bleOpend ? "#47BF34" : "#A8A9AA")}>
+                        Bluetooth {bleOpend ? "Active" : "Not Active"}
+                            </Text>
+                        </View>
+                        {!bleOpend && (
+                            <Text style={styles.bluetoothInfo}>Please activate your bluetooth</Text>
+                        )}
+                        <Text style={styles.sectionTitle}>
+                            Printer connected to the application:
+                        </Text>
+                        {boundAddress.length > 0 && (
+                            <ItemList
+                            label={name}
+                            value={boundAddress}
+                            onPress={() => unPair(boundAddress)}
+                            actionText="Disconnect"
+                            color="#E9493F"
+                            />
+                        )}
+                        {boundAddress.length < 1 && (
+                            <Text style={styles.printerInfo}>
+                            There is no printer connected yet
+                            </Text>
+                        )}
+                        <Text style={styles.sectionTitle}>
+                            Bluetooth connected to this cellphone:
+                        </Text>
+                        {loading ? <ActivityIndicator animating={true} /> : null}
+                        <View style={styles.containerList}>
+                            {pairedDevices.map((item, index) => {
+                            return (
+                                <ItemList
+                                key={index}
+                                onPress={() => connect(item)}
+                                label={item.name}
+                                value={item.address}
+                                connected={item.address === boundAddress}
+                                actionText="Connect"
+                                color="#00BCD4"
+                                />
+                            );
+                            })}
+                        </View>
+                        <SamplePrint token={token} dataChange={dataChange} />
+                        <Button onPress={() => scanBluetoothDevice()} title="Scan Bluetooth" />
+                    <View style={{ height: 100 }} />
+                </ScrollView>
             </Modal>
         <View>
             {dataChange.length > 0 ? <View style={styles.containerNBTN} >
@@ -276,7 +658,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
                 </TouchableHighlight>
             </View> : null}
         </View>
-      </>
+      </View>
     )
 }
 

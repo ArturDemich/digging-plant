@@ -129,7 +129,7 @@ export class DataService {
         }, {
              headers: { 
                 'Authorization': 'Basic ' + encodedToken,
-                'Accept': 'application/pdf', // Важливо вказати очікуваний формат відповіді (PDF)                
+                //'Accept': 'application/pdf', // Важливо вказати очікуваний формат відповіді (PDF)                
             },
             //responseType: 'blob'
          })

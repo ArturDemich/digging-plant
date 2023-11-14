@@ -143,24 +143,30 @@ export const setNextStepGroupThunk = (token, dataOrders) => async () => {
 export const setOrderLabels = (token, dataOrders) => async () => {
   try {
     const res = await DataService.getOrderLabels(token, dataOrders)
+
+    const data = res.data
+    //console.log('thunkdata', data)
+    const dataBase64 = Buffer.from(data, 'binary').toString('base64');
     
-    //const fileContent = Buffer.from(res).toString('base64')    
+    
+     //const fileContent = Buffer.from(res).toString('base64')    
     
     // Створюємо папку для зберігання файлу
-    const folderUri = `${RNFS.DownloadDirectoryPath}/printPdf`; // Папка для зберігання PDF   
+    //const folderUri = `${RNFS.DownloadDirectoryPath}/printPdf`; // Папка для зберігання PDF   
     //const docPath = RNFetchBlob.fs.dirs.DownloadDir;
  
     // Визначаємо ім'я файлу
-    const fileName = '/example.pdf'; // Замініть це на бажане ім'я файлу
-    const fileUri = `${folderUri}${fileName}`
-    console.log('fileUri', docPath)
-    RNFS.write(fileUri, res._bodyBlob._data)
+    //const fileName = '/example.pdf'; // Замініть це на бажане ім'я файлу
+    //const fileUri = `${folderUri}${fileName}`
+    //console.log('fileUri', docPath)
+    /* RNFS.write(fileUri, data)
       .then(() => {
         console.log('PDF-файл успішно збережено за шляхом:', filePath);
       })
       .catch((error) => {
         console.error('Помилка збереження PDF-файлу:', error);
-      });
+      });  */
+      return {dataBase64, data}
     
   } catch (error) {
     console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
