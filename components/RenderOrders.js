@@ -1,13 +1,14 @@
 import Checkbox from "expo-checkbox"
-import { memo, useEffect, useState } from "react"
+import { memo, useState } from "react"
 import { StyleSheet, Text, View } from "react-native"
-import { connect } from "react-redux"
+import { connect, useDispatch } from "react-redux"
 import shortid from "shortid"
-import { DataService } from "../state/dataService"
 import RenderPlants from "./RenderPlants"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { allStyles } from "../styles"
+import { TouchableOpacity } from "react-native"
+import { setSearchText } from "../state/dataSlice"
 
 
 
@@ -87,36 +88,33 @@ const styles = StyleSheet.create({
         height: 25,
         width: 25,
     },
-
+    toucheble: {
+        elevation: 1,
+        borderWidth: 0.1,
+        borderColor: '#0531000a'
+        }
 })
 
 
-function RenderOrders({ orders, token, rightToChange }) {
+function RenderOrders({ orders, rightToChange }) {
+    const dispatch = useDispatch()
     const [selectedAllOrder, setSelectedAllOrder] = useState(false)
-    const [comentInfo, setComentInfo] = useState('-')
-    const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId } = orders
+    const { customerName, orderNo, shipmentMethod, shipmentDate, products, orderId, comment } = orders
 
     let qty = 0
-    products.forEach(el => qty += el.qty)
-
-    const getComent = async () => {
-        const res = await DataService.getOrderInfo(token, orderId)
-        setComentInfo(res.data[0].comment)
-    }
-
-    useEffect(() => {
-        getComent()
-    }, [orders])
+    products.forEach(el => qty += el.qty)    
     
     return (
         <View style={styles.rowFront} >
             <View style={styles.costLineWrapper}>
                 <View style={styles.orderInfo}>
                     <View style={styles.infoContainer}>
+                    <TouchableOpacity style={{flex: 1}} onPress={() => dispatch(setSearchText(customerName))}>
                         <Text style={styles.orderClient}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{customerName}</Text>
+                        </TouchableOpacity>
                         {rightToChange ?
                             <Checkbox
                                 value={selectedAllOrder}
@@ -126,6 +124,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                             /> : null}
                     </View>
                     <View style={styles.viewGroup}>
+                    <TouchableOpacity style={styles.toucheble} onPress={() => dispatch(setSearchText(shipmentMethod))}>
                         <FontAwesome5 name="truck-loading" size={14} color="black" >
                             <Text
                                 style={[styles.orderShipment, shipmentMethod.toLowerCase().includes('пошта') && allStyles.NPshipment ]}
@@ -133,6 +132,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                                 maxFontSizeMultiplier={1}
                             ><Text style={styles.textStr}> {shipmentMethod}</Text> </Text>
                         </FontAwesome5>
+                        </TouchableOpacity>
                         <MaterialCommunityIcons name="pine-tree" size={20} color="black">
                             <MaterialCommunityIcons name="pine-tree" size={14} color="black" />
                             <Text
@@ -143,6 +143,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                         </MaterialCommunityIcons>
                     </View>
                     <View style={styles.viewGroup}>
+                    <TouchableOpacity onPress={() => dispatch(setSearchText(shipmentDate))}>
                         <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="black" >
                             <Text
                                 style={styles.orderShipment}
@@ -150,6 +151,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                                 maxFontSizeMultiplier={1}
                             > {shipmentDate}</Text>
                         </MaterialCommunityIcons>
+                        </TouchableOpacity>
                         <MaterialCommunityIcons name="clipboard-list-outline" size={19} color="black">
                             <Text
                                 style={styles.orderNum}
@@ -163,7 +165,7 @@ function RenderOrders({ orders, token, rightToChange }) {
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                             style={{ fontWeight: 800, fontSize: 13 }}
-                        > - {comentInfo} </Text>
+                        > - {comment} </Text>
                     </MaterialCommunityIcons>
                 </View>
                 <View >
@@ -181,8 +183,5 @@ function RenderOrders({ orders, token, rightToChange }) {
     )
 }
 
-const mapStateToProps = state => ({
-    token: state.token,
-})
 
-export default connect(mapStateToProps)(memo(RenderOrders))
+export default memo(RenderOrders)

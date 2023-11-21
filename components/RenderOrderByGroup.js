@@ -2,7 +2,6 @@ import Checkbox from "expo-checkbox"
 import { memo, useEffect, useState } from "react"
 import { SafeAreaView, StyleSheet, Text, TextInput, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
-import { DataService } from "../state/dataService"
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
@@ -85,18 +84,12 @@ const styles = StyleSheet.create({
     },
 })
 
-function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentStorageId, token }) {
+function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentStorageId }) {
     const dispatch = useDispatch()
-    const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange } = order
+    const { orderId, orderNo, customerName, qty, shipmentDate, shipmentMethod, lastChange, comment } = order
     const { characteristic, product, unit } = plant
     const [orderCheckBox, setOrderCheckBox] = useState(selectedAll)
     const [qtyInput, setQtyInput] = useState(qty)
-    const [comentInfo, setComentInfo] = useState('0') 
-
-    const getInfo = async () => {
-        const res = await DataService.getOrderInfo(token, orderId)
-        setComentInfo(res.data[0].comment)
-    }
 
     const setModalState = () => {
         const orders = {
@@ -132,8 +125,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
         }
     }
 
-    useEffect(() => {
-        getInfo()
+    useEffect(() => {        
         if (selectedAll === true && orderCheckBox === true) {
             setModalState()
         } else if (orderCheckBox === false) {
@@ -222,7 +214,7 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
                         style={styles.textClient}
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
-                    ><Text style={{ fontWeight: 800 }}> - {comentInfo} </Text></Text> 
+                    ><Text style={{ fontWeight: 800 }}> - {comment} </Text></Text> 
                 </MaterialCommunityIcons>   
             </View>
         </SafeAreaView>
@@ -232,7 +224,6 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
 const mapStateToProps = state => ({
     currentStep: state.currentStep,
     currentStorageId: state.currentStorageId,
-    token: state.token,
     groupOrders: state.groupOrders
 })
 

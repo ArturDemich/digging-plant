@@ -99,24 +99,7 @@ export class DataService {
                 alert(error.response.data)
                 console.log(error);
             })
-    }
-
-    static getOrderInfo(token, orderId) {
-
-        return axios.post(FB_API_URL, {
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getOrderInfo',
-            encodedToken: encodedToken,
-            data:{
-                token: token, 
-                orderid: orderId
-            }
-        })
-            .then((response) => response.data)
-            .catch((error) => {
-                alert(error.response.data)
-                console.log(error);
-            })
-    }
+    }    
 
 
     static setNextStepGroup(token, dataOrders) {

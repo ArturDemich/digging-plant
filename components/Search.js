@@ -2,20 +2,23 @@ import { connect, useDispatch } from "react-redux"
 import { MaterialIcons } from '@expo/vector-icons';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useEffect, useState, useRef } from "react";
-import { setFilterOrders, setFilterPlants, setFilterQty } from "../state/dataSlice";
+import { setFilterOrders, setFilterPlants, setFilterQty, setSearchText  } from "../state/dataSlice";
 import { useRoute } from "@react-navigation/native";
 
 
 
-function Search({orders, groupOrders}) {
-    const dispatch = useDispatch()
-    const [searchText, onChangeText] = useState('')
+function Search({orders, groupOrders, searchText}) {
+    const dispatch = useDispatch()   
     const [inputShow, setInputShow ] = useState(false)
     const route = useRoute()
     const inputRef = useRef(null)
+
+    const changeText = (val) => {
+        dispatch(setSearchText(val))
+    }
     
      const clearInput = async () => {
-        await onChangeText('')
+       await dispatch(setSearchText(''))
         await dispatch(setFilterOrders([]))
         await dispatch(setFilterPlants([]))
         await dispatch(setFilterQty({
@@ -29,7 +32,8 @@ function Search({orders, groupOrders}) {
         inputShow ? inputRef.current.focus() : null
     }, [inputShow])
    
-    useEffect(() => {     
+    useEffect(() => {  
+        searchText ?  setFilter() : null     
         inputShow  ? searchOrders(route.state?.index === 1 ? groupOrders : orders) : null
     }, [searchText])
 
@@ -37,6 +41,11 @@ function Search({orders, groupOrders}) {
         inputShow ? clearInput() : null
         return () =>  clearInput() 
     }, [orders, groupOrders]) 
+
+    const setFilter = () => {
+        searchOrders(route.state?.index === 1 ? groupOrders : orders)
+        setInputShow(true)
+    }
 
     const searchOrders = (dataOrder) => { 
         let filterOrders = []
@@ -131,7 +140,7 @@ function Search({orders, groupOrders}) {
         <View style={styles.container}>
             <TextInput
                 style={[styles.input, inputShow && styles.inputShow]}
-                onChangeText={onChangeText}
+                onChangeText={changeText}
                 value={searchText} 
                 ref={inputRef}
             />
@@ -151,6 +160,7 @@ function Search({orders, groupOrders}) {
 const mapStateToProps = state => ({
     orders: state.stepOrders,
     groupOrders: state.groupOrders,
+    searchText: state.searchText
 })
 export default connect(mapStateToProps)(Search)
 
@@ -159,9 +169,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flex: 1,
         alignItems: 'center',
-        height: 50,
-
-        
+        height: 50,        
     },
     input: {
         borderWidth: 1,
