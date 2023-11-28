@@ -47,14 +47,9 @@ const SamplePrint = ({token, dataChange}) => {
       await setLabes(data)
     }
     useEffect(() => {
-      dataLabes()
+      //dataLabes()
     }, [])
-   // console.log('dataLabes()', labes)
-    /* const sendData = async () => {
-        const dataLabes =  await dispatch(setOrderLabels(token[0].token, dataChange))
-        await dispatch(clearDataChange())  
-        return dataLabes 
-    } */
+   
   return (
     <View>
       <Text>Sample Print Instruction</Text>      

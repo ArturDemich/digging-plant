@@ -4,8 +4,7 @@ import {
     StyleSheet, 
     TouchableHighlight, 
     PermissionsAndroid, 
-    Platform, 
-    Modal,     
+    Platform,          
     ActivityIndicator,
     DeviceEventEmitter,
     NativeEventEmitter,        
@@ -14,6 +13,7 @@ import {
     Button,
     Alert,
 } from 'react-native'
+import Modal from "react-native-modal";
 import { connect, useDispatch } from 'react-redux'
 import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk, setOrderLabels } from '../../state/dataThunk'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
@@ -136,7 +136,10 @@ const styles = StyleSheet.create({
   /////////////
   container: {
     //flex: 1,
-    height: 200,
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    elevation: 3,
+    width: '80%',
     paddingTop: 40,
     paddingHorizontal: 20,
     backgroundColor: '#8c9f91f2'
@@ -549,45 +552,18 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
     return (
       <View >
         <Modal
-          animationType="slide"
+          animationIn="slideInLeft"
+          animationOut="slideOutLeft"
           transparent={true}
-          visible={show}
-          onRequestClose={() => setShow(!show)}          
-        >
-                {/* <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text
-                            style={styles.textStr}
-                            allowFontScaling={true}
-                            maxFontSizeMultiplier={1}
-                        >Надрукувати етикетки ?</Text>
-                        
-                            <Text style={styles.textStyle}>Прінтер: Тестович</Text>
-                            <Text style={styles.textStyle}>Список прінтерів...</Text>
-                        <View style={styles.btnBlock}>
-                            <TouchableOpacity
-                                onPress={() => setShow(!show)}
-                                style={styles.buttonClose}
-                            >
-                                <Text
-                                    style={styles.modalText}
-                                    allowFontScaling={true}
-                                    maxFontSizeMultiplier={1}
-                                >Ні</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => setShow(!show)}
-                                style={styles.buttonModal}
-                            >
-                                <Text
-                                    style={styles.modalText}
-                                    allowFontScaling={true}
-                                    maxFontSizeMultiplier={1}
-                                >Так</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </View> */}
+          isVisible={show}
+          onBackButtonPress={() => setShow(!show)} 
+          onBackdropPress={() => setShow(!show)}  
+          animationInTiming={700}
+          animationOutTiming={700}
+          swipeDirection={['left']}
+          onSwipeComplete={() => setShow(!show)}
+          style={{ margin: 1}}       
+        > 
                 <ScrollView style={styles.container}>
                     <View style={styles.bluetoothStatusContainer}>
                         <Text style={styles.bluetoothStatus(bleOpend ? "#47BF34" : "#A8A9AA")}>
