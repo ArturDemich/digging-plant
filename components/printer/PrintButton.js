@@ -5,8 +5,7 @@ import {
     TouchableHighlight, 
     PermissionsAndroid, 
     Platform, 
-    Modal, 
-    TouchableOpacity,
+    Modal,     
     ActivityIndicator,
     DeviceEventEmitter,
     NativeEventEmitter,        
@@ -19,8 +18,6 @@ import { connect, useDispatch } from 'react-redux'
 import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk, setOrderLabels } from '../../state/dataThunk'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { clearDataChange } from '../../state/dataSlice'
-import * as FileSystem from 'expo-file-system'
-import RNFS from 'react-native-fs'
 import { useEffect, useState, useCallback } from 'react'
 import { BluetoothEscposPrinter, BluetoothManager } from 'react-native-bluetooth-escpos-printer';
 import { PERMISSIONS, RESULTS, requestMultiple } from 'react-native-permissions'
@@ -138,10 +135,11 @@ const styles = StyleSheet.create({
   },
   /////////////
   container: {
-    flex: 1,
+    //flex: 1,
+    height: 200,
     paddingTop: 40,
     paddingHorizontal: 20,
-    backgroundColor: 'gray'
+    backgroundColor: '#8c9f91f2'
   },
   containerList: { flex: 1, flexDirection: 'column' },
   bluetoothStatusContainer: { justifyContent: 'flex-end', alignSelf: 'flex-end' },
@@ -549,13 +547,12 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
   };
 
     return (
-      <View style={{backgroundColor: 'gray', width: 300, flex: 1, display: 'flex', position: 'relative', height: 300}}>
+      <View >
         <Modal
           animationType="slide"
           transparent={true}
           visible={show}
-          onRequestClose={() => setShow(!show)}
-          
+          onRequestClose={() => setShow(!show)}          
         >
                 {/* <View style={styles.centeredView}>
                     <View style={styles.modalView}>
