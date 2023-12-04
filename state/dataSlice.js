@@ -18,6 +18,7 @@ const initialState = {
     totalOrderQty: 0,
     filterPlantQty: null,
     filterOrderQty: null,
+    btPermission: []
 }
 
 export const dataSlice = createSlice({
@@ -48,6 +49,9 @@ export const dataSlice = createSlice({
         },
         setCurrentStep(state, action) {
             state.currentStep = action.payload
+        },
+        setBTPermission(state, action) {
+            state.btPermission = action.payload
         },
         setStorageId(state, action) {
             state.currentStorageId = action.payload
@@ -157,7 +161,8 @@ export const dataSlice = createSlice({
             state.totalOrderQty = 0
             state.filterPlants = []
             state.filterPlantQty = null,
-            state.filterOrderQty = null
+            state.filterOrderQty = null,
+            state.btPermission = []
         },
     },
 })
@@ -168,7 +173,7 @@ export const {
     setStorageId, setDataChange, clearDataChange,
     clearDataChangeItem, setNotifications, setTotalQty,
     setCurrentColorStep, setFilterOrders, setFilterPlants,
-    setFilterQty, setSearchText
+    setFilterQty, setSearchText, setBTPermission
 } = dataSlice.actions
 
 export default dataSlice.reducer

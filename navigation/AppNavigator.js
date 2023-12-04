@@ -15,6 +15,7 @@ import { Platform, View } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import useCallData from '../hooks/useCallData'
 import Search from '../components/Search'
+import { useBluetoothPermissions } from '../hooks/useBTPermission'
 
 
 
@@ -28,6 +29,7 @@ export default function Navigate() {
     const digStorages = useSelector((state) => state.digStorages);
     const {callData} = useCallData()
     const navigation = useNavigation()
+    const {btPermissions} = useBluetoothPermissions()
        
     const checkToken = async () => {
         let tokenStor 

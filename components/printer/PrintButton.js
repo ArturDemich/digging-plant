@@ -571,7 +571,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
                             </Text>
                         </View>
                         {!bleOpend && (
-                            <Text style={styles.bluetoothInfo}>Please activate your bluetooth</Text>
+                            <Text style={styles.bluetoothInfo}>Включіть bluetooth</Text>
                         )}
                         <Text style={styles.sectionTitle}>
                             Printer connected to the application:
