@@ -52,6 +52,8 @@ export const dataSlice = createSlice({
         },
         setBTPermission(state, action) {
             state.btPermission = action.payload
+            console.log('permissionpermission', state.btPermission)
+
         },
         setStorageId(state, action) {
             state.currentStorageId = action.payload

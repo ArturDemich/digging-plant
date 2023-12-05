@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
 })
 
 
-function PrintButton({ path, currentStorageId, token, currentStep, dataChange }) {
+function PrintButton({ path, currentStorageId, token, currentStep, dataChange, btPermission }) {
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
     /* const [availablePrinters, setAvailablePrinters] = useState([])
@@ -268,7 +268,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
   
 
   useEffect(() => {
-    BluetoothManager.isBluetoothEnabled().then(
+    /* BluetoothManager.isBluetoothEnabled().then(
       (enabled) => {
         setBleOpend(Boolean(enabled));
         setLoading(false);
@@ -276,30 +276,40 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
       (err) => {
         err;
       }
-    );
+    ); */
 
-    if (Platform.OS === "ios") {
-      let bluetoothManagerEmitter = new NativeEventEmitter(BluetoothManager);
-      bluetoothManagerEmitter.addListener(
-        BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
-        (rsp) => {
-          deviceAlreadPaired(rsp);
-        }
-      );
-      bluetoothManagerEmitter.addListener(
-        BluetoothManager.EVENT_DEVICE_FOUND,
-        (rsp) => {
-          deviceFoundEvent(rsp);
-        }
-      );
-      bluetoothManagerEmitter.addListener(
-        BluetoothManager.EVENT_CONNECTION_LOST,
-        () => {
-          setName("");
-          setBoundAddress("");
-        }
-      );
-    } else if (Platform.OS === "android") {
+    if (show && btPermission["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED) {
+      BluetoothManager.isBluetoothEnabled().then(
+          (enabled) => {
+              if(!enabled) {                    
+                  Alert.alert(
+                      `Bluetooth ${String(enabled)}`, 
+                      'Вімкнути Bluetooth ?', 
+                      [{
+                          text: "OK",
+                          onPress: () => BluetoothManager.enableBluetooth().then(() => console.log('Bluetooth - ON'))
+                      },
+                      {
+                          text: "NO"                           
+                      }]
+                      )
+                      
+              } else {
+                
+                  
+              }    
+              setBleOpend(Boolean(enabled))           
+          },
+          (err) => {
+            err
+          }
+        )       
+    } else {
+     
+    }
+    
+
+    if (Platform.OS === "android") {
       DeviceEventEmitter.addListener(
         BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
         (rsp) => {
@@ -332,18 +342,15 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
 
     console.log(pairedDevices.length);
     if (pairedDevices.length < 1) {
-      scan();
+      //scan();
       console.log("scanning...");
     } else {
       const firstDevice = pairedDevices[0];
       console.log('length  :' + pairedDevices.length);
       console.log(firstDevice);
       connect(firstDevice);
-
-      // connect(firstDevice);
-      // console.log(pairedDevices.length + "hello");
     }
-  },[pairedDevices]);
+  },[pairedDevices, show]);
   // deviceFoundEvent,pairedDevices,scan,boundAddress
   // boundAddress, deviceAlreadPaired, deviceFoundEvent, pairedDevices, scan
 
@@ -423,22 +430,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange })
     [foundDs]
   );
 
-  // const connect = (row) => {
-  //   setLoading(true);
-  //   BluetoothManager.connect(row.address).then(
-  //     (s) => {
-  //       setLoading(false);
-  //       setBoundAddress(row.address);
-  //       setName(row.name || "UNKNOWN");
-  //       console.log("Connected to device:", row.name);
-  //     },
-  //     (e) => {
-  //       setLoading(false);
-  //       alert(e);
-  //     }
-  //   );
-  // };
-
+  
   const connect = async (row) => {
     try {
       setLoading(true);
@@ -639,7 +631,8 @@ const mapStateToProps = (state) => ({
     currentStep: state.currentStep,
     dataChange: state.dataChange,
     token: state.token,
-    currentStorageId: state.currentStorageId
+    currentStorageId: state.currentStorageId,
+    btPermission: state.btPermission
 })
 
 export default connect(mapStateToProps)(PrintButton)

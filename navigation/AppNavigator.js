@@ -7,7 +7,7 @@ import FildScreen from '../screens/Fild'
 import FildsScreen from '../screens/FildsScreen'
 import { useDispatch, useSelector } from 'react-redux'
 import LoginScreen from '../screens/Login'
-import { setToken } from '../state/dataSlice'
+import { setBTPermission, setToken } from '../state/dataSlice'
 import ButtonOut from '../components/ButtonOut'
 import HeaderTitle from '../components/HeaderTitle'
 import Notification from '../components/Notification'
@@ -15,7 +15,6 @@ import { Platform, View } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import useCallData from '../hooks/useCallData'
 import Search from '../components/Search'
-import { useBluetoothPermissions } from '../hooks/useBTPermission'
 
 
 
@@ -29,8 +28,8 @@ export default function Navigate() {
     const digStorages = useSelector((state) => state.digStorages);
     const {callData} = useCallData()
     const navigation = useNavigation()
-    const {btPermissions} = useBluetoothPermissions()
        
+
     const checkToken = async () => {
         let tokenStor 
         if(Platform.OS === 'web') {
