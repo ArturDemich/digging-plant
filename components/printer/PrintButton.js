@@ -17,7 +17,7 @@ import Modal from "react-native-modal";
 import { connect, useDispatch } from 'react-redux'
 import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk, setOrderLabels } from '../../state/dataThunk'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
-import { clearDataChange } from '../../state/dataSlice'
+import { clearDataChange, setBTPermission } from '../../state/dataSlice'
 import { useEffect, useState, useCallback } from 'react'
 import { BluetoothEscposPrinter, BluetoothManager } from 'react-native-bluetooth-escpos-printer';
 import { PERMISSIONS, RESULTS, requestMultiple } from 'react-native-permissions'
@@ -25,6 +25,7 @@ import { PERMISSIONS, RESULTS, requestMultiple } from 'react-native-permissions'
 import ItemList from "./ItemList"
 import SamplePrint from "./SamplePrint"
 import { DataService } from '../../state/dataService'
+import { useBluetoothPermissions } from '../../hooks/useBTPermission';
 
 
 
@@ -264,51 +265,63 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
   const [boundAddress, setBoundAddress] = useState("");
+  
+  const alertBToN = () => {
+    BluetoothManager.isBluetoothEnabled().then(
+      (enabled) => {
+        setBleOpend(Boolean(enabled)) 
+          if(!enabled) {                    
+              Alert.alert(
+                  `Bluetooth відключений`, 
+                  'Для друку етикеток вімкніть Bluetooth ?', 
+                  [{
+                      text: "Так",
+                      onPress: () => BluetoothManager.enableBluetooth().then(() => setShow(!show))
+                  },
+                  {
+                      text: "Ні"                      
+                  }]
+                  )
+                  
+          } else {                
+            setShow(!show)
+          }    
+                    
+      },
+      (err) => {
+        err
+      }
+    )   
+  }
+
+  const setPermission = async () => {
+    const permission = await useBluetoothPermissions()
+    dispatch(setBTPermission(permission))
+    permission["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED ? alertBToN() : null
+  }
+
+  const checkBToN = async () => {
+    if (btPermission["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED) {      
+      alertBToN()
+    } else {
+      Alert.alert(
+        `Додатку потрібен доступ до Bluetooth`, 
+        'Для друку етикеток надайте дозвіл!', 
+        [{
+            text: "Так",
+            onPress: () => setPermission()
+        },
+        {
+            text: "Ні"                      
+        }]
+        )  
+    }
+    
+  }
 
   
 
   useEffect(() => {
-    /* BluetoothManager.isBluetoothEnabled().then(
-      (enabled) => {
-        setBleOpend(Boolean(enabled));
-        setLoading(false);
-      },
-      (err) => {
-        err;
-      }
-    ); */
-
-    if (show && btPermission["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED) {
-      BluetoothManager.isBluetoothEnabled().then(
-          (enabled) => {
-              if(!enabled) {                    
-                  Alert.alert(
-                      `Bluetooth ${String(enabled)}`, 
-                      'Вімкнути Bluetooth ?', 
-                      [{
-                          text: "OK",
-                          onPress: () => BluetoothManager.enableBluetooth().then(() => console.log('Bluetooth - ON'))
-                      },
-                      {
-                          text: "NO"                           
-                      }]
-                      )
-                      
-              } else {
-                
-                  
-              }    
-              setBleOpend(Boolean(enabled))           
-          },
-          (err) => {
-            err
-          }
-        )       
-    } else {
-     
-    }
-    
-
     if (Platform.OS === "android") {
       DeviceEventEmitter.addListener(
         BluetoothManager.EVENT_DEVICE_ALREADY_PAIRED,
@@ -350,7 +363,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
       console.log(firstDevice);
       connect(firstDevice);
     }
-  },[pairedDevices, show]);
+  },[pairedDevices]);
   // deviceFoundEvent,pairedDevices,scan,boundAddress
   // boundAddress, deviceAlreadPaired, deviceFoundEvent, pairedDevices, scan
 
@@ -611,7 +624,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
 
                 <TouchableHighlight
                     style={[styles.buttonStep]}
-                    onPress={() => setShow(!show)}
+                    onPress={() => checkBToN()}
                 >
                     <MaterialCommunityIcons name="printer-wireless" size={24} color="snow" >                    
                         <Text
