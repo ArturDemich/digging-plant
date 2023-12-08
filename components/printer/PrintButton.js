@@ -163,102 +163,8 @@ const styles = StyleSheet.create({
 
 
 function PrintButton({ path, currentStorageId, token, currentStep, dataChange, btPermission }) {
-    const dispatch = useDispatch()
-    const [show, setShow] = useState(false)
-    /* const [availablePrinters, setAvailablePrinters] = useState([])
-    const [BToN, setBToN] = useState()
-    
-    const scanBluetoothDevice = async () => {        
-        try {
-          const request = await requestMultiple([
-            PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
-            PERMISSIONS.ANDROID.BLUETOOTH_SCAN,
-            PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION,
-          ]);
-    
-          if (request["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED) {
-            BluetoothManager.isBluetoothEnabled().then(
-                (enabled) => {
-                    if(!enabled) {                    
-                        Alert.alert(
-                            `Bluetooth ${String(enabled)}`, 
-                            'Вімкнути Bluetooth ?', 
-                            [{
-                                text: "OK",
-                                onPress: () => BluetoothManager.enableBluetooth().then(() => console.log('Bluetooth - ON'))
-                            },
-                            {
-                                text: "NO"                           
-                            }]
-                            )
-                    } else {
-                        //setBToN(enabled)
-                        
-                    }               
-                },
-                (err) => {
-                  err
-                }
-              )
-
-              BluetoothManager.scanDevices().then(
-                (s) => {
-                  console.log('scanDevices11',  BluetoothManager.scanDevices())
-                  const pairedDevices = s.paired
-                  const found = s.found            
-                  try {
-                    found = JSON.parse(found); //@FIX_it: the parse action too weired..
-                    console.log('scanDevices', found)
-                  } catch (e) {
-                    //ignore
-                    console.log(e)
-                  }
-                },
-                (er) => {           
-                    console.log('scanDevicesError', er)
-                }
-              )
-          } else {
-           
-          }
-        } catch (err) {
-          console.log('scanBluetoothDevice',  err)
-        }
-      };
-
-      const scanDs =  () => {
-        console.log('scanDevices00')
-        BluetoothManager.scanDevices().then(
-          (s) => {
-            console.log('scanDevices11', s)
-            const pairedDevices = s.paired
-            const found = s.found            
-            try {
-              found = JSON.parse(found); //@FIX_it: the parse action too weired..
-              console.log('scanDevices', found)
-            } catch (e) {
-              //ignore
-            }
-          },
-          (er) => {           
-            
-          }
-        )
-      }
-    
-
-    useEffect(() => {      
-        scanBluetoothDevice()
-        //scanDs()
-    }, [])
-    
-
-    useEffect(() => {
-      
-    }, [])
-    
-    console.log('PrintButton', BToN ) */
-
+  const dispatch = useDispatch()
+  const [show, setShow] = useState(false)
   const [pairedDevices, setPairedDevices] = useState([]);
   const [foundDs, setFoundDs] = useState([]);
   const [bleOpend, setBleOpend] = useState(false);
@@ -268,8 +174,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
   
   const alertBToN = () => {
     BluetoothManager.isBluetoothEnabled().then(
-      (enabled) => {
-        setBleOpend(Boolean(enabled)) 
+      (enabled) => {        
           if(!enabled) {                    
               Alert.alert(
                   `Bluetooth відключений`, 
@@ -282,16 +187,16 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
                       text: "Ні"                      
                   }]
                   )
-                  
-          } else {                
+          } else { 
             setShow(!show)
-          }    
-                    
+          }   
+          setBleOpend(Boolean(enabled)) 
       },
       (err) => {
         err
       }
     )   
+    
   }
 
   const setPermission = async () => {
@@ -317,9 +222,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
         )  
     }
     
-  }
-
-  
+  }  
 
   useEffect(() => {
     if (Platform.OS === "android") {
@@ -332,9 +235,10 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
       DeviceEventEmitter.addListener(
         BluetoothManager.EVENT_DEVICE_FOUND,
         (rsp) => {
+          console.log('VENT_DEVICE_FOUND', rsp);
           deviceFoundEvent(rsp);
         }
-      );
+      );      
       DeviceEventEmitter.addListener(
         BluetoothManager.EVENT_CONNECTION_LOST,
         () => {
@@ -351,19 +255,24 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
           );
         }
       );
-    }
+    }  
+  },[]);
 
+  useEffect(() => {
     console.log(pairedDevices.length);
+
     if (pairedDevices.length < 1) {
       //scan();
+      scanDevice()
+     //BluetoothManager.scanDevices().then(() => console.log("gggggg..."))
       console.log("scanning...");
     } else {
       const firstDevice = pairedDevices[0];
       console.log('length  :' + pairedDevices.length);
-      console.log(firstDevice);
-      connect(firstDevice);
+      //console.log(firstDevice);
+      //connect(firstDevice);
     }
-  },[pairedDevices]);
+  }, [pairedDevices, show])
   // deviceFoundEvent,pairedDevices,scan,boundAddress
   // boundAddress, deviceAlreadPaired, deviceFoundEvent, pairedDevices, scan
 
@@ -371,8 +280,10 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
   const deviceAlreadPaired = useCallback(
     (rsp) => {
       var ds = null;
+      console.log('deviceAlreadPaired', rsp)
       if (typeof rsp.devices === "object") {
         ds = rsp.devices;
+        //console.log('deviceAlreadPaired', ds)
       } else {
         try {
           ds = JSON.parse(rsp.devices);
@@ -387,39 +298,16 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
       }
     },
     [pairedDevices]
-  );
-  // const deviceAlreadPaired = useCallback(
-  //   async rsp => {
-  //     try {
-  //       var ds = null;
-  //       if (typeof rsp.devices === 'object') {
-  //         ds = rsp.devices;
-  //       } else {
-  //         try {
-  //           ds = JSON.parse(rsp.devices);
-  //         } catch (e) {}
-  //       }
-  //       if (ds && ds.length) {
-  //         let pared = pairedDevices;
-  //         if (pared.length < 1) {
-  //           pared = pared.concat(ds || []);
-  //         }
-  //         setPairedDevices(pared);
-  //       }
-  //     } catch (error) {
-  //       // Handle any errors that occurred during the asynchronous operations
-  //       console.error(error);
-  //     }
-  //   },
-  //   [pairedDevices],
-  // );
+  );  
 
   const deviceFoundEvent = useCallback(
     (rsp) => {
       var r = null;
+      console.log('deviceFoundEvent', rsp)
       try {
         if (typeof rsp.device === "object") {
           r = rsp.device;
+          //console.log('deviceFoundEvent', r)
         } else {
           r = JSON.parse(rsp.device);
         }
@@ -442,7 +330,6 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
     },
     [foundDs]
   );
-
   
   const connect = async (row) => {
     try {
@@ -473,14 +360,14 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
     );
   };
 
-  const scanDevices = useCallback(() => {
+  const scanDevice = () => {
     setLoading(true);
     BluetoothManager.scanDevices().then(
-      (s) => {
-        // const pairedDevices = s.paired;
+      (s) => {        
         var found = s.found;
+        console.log('scanDevices', s)
         try {
-          found = JSON.parse(found); //@FIX_it: the parse action too weired..
+          found = JSON.parse(found);
         } catch (e) {
           //ignore
         }
@@ -492,13 +379,14 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
         setLoading(false);
       },
       (er) => {
+        console.log('scanDeviceserer', er)
         setLoading(false);
         // ignore
       }
     );
-  }, [foundDs]);
+  }
 
-  const scan = useCallback(() => {
+  /* const scan = useCallback(() => {
     try {
       async function blueTooth() {
         const permissions = {
@@ -530,7 +418,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
     } catch (err) {
       console.warn(err);
     }
-  }, [scanDevices]);
+  }, [scanDevices]); */
 
   const scanBluetoothDevice = async () => {
     setLoading(true);
@@ -544,7 +432,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
       if (
         request["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED
       ) {
-        scanDevices();
+        scanDevice();
         setLoading(false);
       } else {
         setLoading(false);
@@ -554,6 +442,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
     }
   };
 
+  //console.log('foundDs', foundDs)
     return (
       <View >
         <Modal
@@ -572,31 +461,31 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
                 <ScrollView style={styles.container}>
                     <View style={styles.bluetoothStatusContainer}>
                         <Text style={styles.bluetoothStatus(bleOpend ? "#47BF34" : "#A8A9AA")}>
-                        Bluetooth {bleOpend ? "Active" : "Not Active"}
+                        Bluetooth {bleOpend ? "Працює" : "Відключено"}
                             </Text>
                         </View>
                         {!bleOpend && (
                             <Text style={styles.bluetoothInfo}>Включіть bluetooth</Text>
                         )}
                         <Text style={styles.sectionTitle}>
-                            Printer connected to the application:
+                            Підключений принтер:
                         </Text>
                         {boundAddress.length > 0 && (
                             <ItemList
                             label={name}
                             value={boundAddress}
                             onPress={() => unPair(boundAddress)}
-                            actionText="Disconnect"
+                            actionText="Відключити"
                             color="#E9493F"
                             />
                         )}
                         {boundAddress.length < 1 && (
                             <Text style={styles.printerInfo}>
-                            There is no printer connected yet
+                            Не підключено...
                             </Text>
                         )}
                         <Text style={styles.sectionTitle}>
-                            Bluetooth connected to this cellphone:
+                            Раніше підключені пристрої:
                         </Text>
                         {loading ? <ActivityIndicator animating={true} /> : null}
                         <View style={styles.containerList}>
@@ -608,14 +497,14 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
                                 label={item.name}
                                 value={item.address}
                                 connected={item.address === boundAddress}
-                                actionText="Connect"
+                                actionText="Підключити"
                                 color="#00BCD4"
                                 />
                             );
                             })}
                         </View>
                         <SamplePrint token={token} dataChange={dataChange} />
-                        <Button onPress={() => scanBluetoothDevice()} title="Scan Bluetooth" />
+                        <Button onPress={() => scanBluetoothDevice()} title="Пошук Bluetooth" />
                     <View style={{ height: 100 }} />
                 </ScrollView>
             </Modal>
