@@ -25,6 +25,8 @@
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-native": "0.71.14",
+    "react-native-android-location-enabler": "^2.0.1",
+    "react-native-android-location-services-dialog-box": "^2.8.2",
     "react-native-bluetooth-escpos-printer": "^0.0.5",
     "react-native-elements": "^3.4.3",
     "react-native-modal": "^13.0.1",

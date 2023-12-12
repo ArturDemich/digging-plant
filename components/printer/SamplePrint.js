@@ -1,10 +1,9 @@
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Button, StyleSheet, Text, View, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { BluetoothTscPrinter } from 'react-native-bluetooth-escpos-printer';
 import { useDispatch } from 'react-redux';
 import { setOrderLabels } from '../../state/dataThunk';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { MaterialCommunityIcons} from '@expo/vector-icons';
 
 
 async function printreciept(labe) {  
@@ -41,23 +40,34 @@ async function printreciept(labe) {
 const SamplePrint = ({token, dataChange}) => {
     const dispatch = useDispatch()
     const [labes, setLabes] = useState()
+    const [loading, setLoading] = useState(true)
 
     const dataLabes = async () => {
       const data = await dispatch(setOrderLabels(token[0].token, dataChange))
       await setLabes(data)
+      setLoading(false)
+      console.log('dataLabes', data)
     }
     useEffect(() => {
-      //dataLabes()
+      dataLabes()
     }, [])
    
   return (
-    <View>
-      <Text>Sample Print Instruction</Text>      
-      <View style={styles.btn}>
-        <Button
-          title="Print Receipt"
+    <View>         
+      <View style={styles.btn}> 
+        {loading && <ActivityIndicator size="large" color="#45aa45" animating={true} />}       
+        {!loading && <TouchableHighlight
+          style={[styles.buttonStep]}
           onPress={() => printreciept(labes)}
-        />
+        >
+          <MaterialCommunityIcons name="printer-wireless" size={24} color="snow" >                    
+              <Text
+                style={styles.textBtn}
+                allowFontScaling={true}
+                maxFontSizeMultiplier={1}
+              > Друкувати</Text>
+          </MaterialCommunityIcons>
+        </TouchableHighlight>}
       </View>
     </View>
   );
@@ -67,6 +77,23 @@ export default SamplePrint;
 
 const styles = StyleSheet.create({
   btn: {
-    marginBottom: 8,
+    marginBottom: 0,
   },
+  textBtn: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 900,   
+},
+buttonStep: {
+    borderRadius: 10,
+    backgroundColor: 'green',
+    height: 40,
+    padding: 5,               
+    opacity: 0.95,
+    elevation: 5,
+    shadowColor: 'gray',
+    shadowOffset: { width: 0, height: 0 },        
+    shadowOpacity: 0.9,
+    shadowRadius: 3, 
+},
 });

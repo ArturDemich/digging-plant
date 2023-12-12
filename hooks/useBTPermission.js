@@ -2,6 +2,7 @@ import { PERMISSIONS, requestMultiple } from 'react-native-permissions'
 
 export const useBluetoothPermissions = async () => {   
     try {
+        console.log('useBluetoothPermissions')
         const result = await requestMultiple([
             PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
             PERMISSIONS.ANDROID.BLUETOOTH_SCAN,

@@ -12,6 +12,7 @@ import {
     ToastAndroid,
     Button,
     Alert,
+    Linking
 } from 'react-native'
 import Modal from "react-native-modal";
 import { connect, useDispatch } from 'react-redux'
@@ -26,6 +27,8 @@ import ItemList from "./ItemList"
 import SamplePrint from "./SamplePrint"
 import { DataService } from '../../state/dataService'
 import { useBluetoothPermissions } from '../../hooks/useBTPermission';
+//import { promptForEnableLocationIfNeeded, isLocationEnabled } from 'react-native-android-location-enabler';
+
 
 
 
@@ -143,7 +146,7 @@ const styles = StyleSheet.create({
     width: '80%',
     paddingTop: 40,
     paddingHorizontal: 20,
-    backgroundColor: '#8c9f91f2'
+    backgroundColor: '#97bba9d9'
   },
   containerList: { flex: 1, flexDirection: 'column' },
   bluetoothStatusContainer: { justifyContent: 'flex-end', alignSelf: 'flex-end' },
@@ -162,7 +165,7 @@ const styles = StyleSheet.create({
 })
 
 
-function PrintButton({ path, currentStorageId, token, currentStep, dataChange, btPermission }) {
+function PrintButton({ path, currentStorageId, token, currentStep, dataChange, btPermission, currentColor }) {
   const dispatch = useDispatch()
   const [show, setShow] = useState(false)
   const [pairedDevices, setPairedDevices] = useState([]);
@@ -258,12 +261,38 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
     }  
   },[]);
 
+  /* async function handleEnabledPressed() {
+    if (Platform.OS === 'android') {
+      const checkEnabled = await isLocationEnabled();
+      console.log('checkEnabled', checkEnabled)
+      try {
+        const enableResult = await promptForEnableLocationIfNeeded();
+        console.log('enableResult', enableResult);
+        // The user has accepted to enable the location services
+        // data can be :
+        //  - "already-enabled" if the location services has been already enabled
+        //  - "enabled" if user has clicked on OK button in the popup
+      } catch (error) {
+        if (error instanceof Error) {
+          console.error(error.message);
+          // The user has not accepted to enable the location services or something went wrong during the process
+          // "err" : { "code" : "ERR00|ERR01|ERR02|ERR03", "message" : "message"}
+          // codes :
+          //  - ERR00 : The user has clicked on Cancel button in the popup
+          //  - ERR01 : If the Settings change are unavailable
+          //  - ERR02 : If the popup has failed to open
+          //  - ERR03 : Internal error
+        }
+      }
+    }
+  } */
+
   useEffect(() => {
     console.log(pairedDevices.length);
 
     if (pairedDevices.length < 1) {
       //scan();
-      scanDevice()
+      show && scanDevice()
      //BluetoothManager.scanDevices().then(() => console.log("gggggg..."))
       console.log("scanning...");
     } else {
@@ -271,11 +300,9 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
       console.log('length  :' + pairedDevices.length);
       //console.log(firstDevice);
       //connect(firstDevice);
-    }
+    }    
   }, [pairedDevices, show])
-  // deviceFoundEvent,pairedDevices,scan,boundAddress
-  // boundAddress, deviceAlreadPaired, deviceFoundEvent, pairedDevices, scan
-
+  
 
   const deviceAlreadPaired = useCallback(
     (rsp) => {
@@ -380,6 +407,13 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
       },
       (er) => {
         console.log('scanDeviceserer', er)
+        Alert.alert(
+          `Геолокацію не включено!`, 
+          'Для пошуку принтерів вімкніть Геолокацію!', 
+          [{
+              text: "Зрозуміло",              
+          }]
+          )  
         setLoading(false);
         // ignore
       }
@@ -408,7 +442,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
             permissions
           );
           if (bluetoothScanGranted === PermissionsAndroid.RESULTS.GRANTED) {
-            scanDevices();
+            scanDevice();
           }
         } else {
           // ignore akses ditolak
@@ -418,9 +452,9 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
     } catch (err) {
       console.warn(err);
     }
-  }, [scanDevices]); */
+  }, [scanDevice]); */
 
-  const scanBluetoothDevice = async () => {
+  /* const scanBluetoothDevice = async () => {
     setLoading(true);
     try {
       const request = await requestMultiple([
@@ -432,7 +466,8 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
       if (
         request["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED
       ) {
-        scanDevice();
+        scan()
+        //scanDevice();
         setLoading(false);
       } else {
         setLoading(false);
@@ -440,7 +475,7 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
     } catch (err) {
       setLoading(false);
     }
-  };
+  }; */
 
   //console.log('foundDs', foundDs)
     return (
@@ -453,20 +488,20 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
           onBackButtonPress={() => setShow(!show)} 
           onBackdropPress={() => setShow(!show)}  
           animationInTiming={700}
-          animationOutTiming={700}
+          animationOutTiming={70}
           swipeDirection={['left']}
           onSwipeComplete={() => setShow(!show)}
           style={{ margin: 1}}       
         > 
                 <ScrollView style={styles.container}>
-                    <View style={styles.bluetoothStatusContainer}>
+                    {/* <View style={styles.bluetoothStatusContainer}>
                         <Text style={styles.bluetoothStatus(bleOpend ? "#47BF34" : "#A8A9AA")}>
                         Bluetooth {bleOpend ? "Працює" : "Відключено"}
                             </Text>
-                        </View>
+                    </View>
                         {!bleOpend && (
                             <Text style={styles.bluetoothInfo}>Включіть bluetooth</Text>
-                        )}
+                        )} */}
                         <Text style={styles.sectionTitle}>
                             Підключений принтер:
                         </Text>
@@ -479,15 +514,14 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
                             color="#E9493F"
                             />
                         )}
-                        {boundAddress.length < 1 && (
+                        {boundAddress.length < 1 && !loading ? (
                             <Text style={styles.printerInfo}>
                             Не підключено...
                             </Text>
-                        )}
+                        ) : loading && <ActivityIndicator size="large" color="#45aa45" animating={true} />}
                         <Text style={styles.sectionTitle}>
                             Раніше підключені пристрої:
-                        </Text>
-                        {loading ? <ActivityIndicator animating={true} /> : null}
+                        </Text>                        
                         <View style={styles.containerList}>
                             {pairedDevices.map((item, index) => {
                             return (
@@ -496,15 +530,28 @@ function PrintButton({ path, currentStorageId, token, currentStep, dataChange, b
                                 onPress={() => connect(item)}
                                 label={item.name}
                                 value={item.address}
-                                connected={item.address === boundAddress}
+                                connected={item.address === boundAddress}                                
                                 actionText="Підключити"
                                 color="#00BCD4"
                                 />
                             );
                             })}
                         </View>
-                        <SamplePrint token={token} dataChange={dataChange} />
-                        <Button onPress={() => scanBluetoothDevice()} title="Пошук Bluetooth" />
+                        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                        <TouchableHighlight
+                            style={[styles.buttonStep, {backgroundColor: 'blue'}]}
+                            onPress={() => scanDevice()}
+                        >
+                            <MaterialCommunityIcons name="printer-search" size={24} color="snow" >                    
+                                <Text
+                                    style={styles.textBtn}
+                                    allowFontScaling={true}
+                                    maxFontSizeMultiplier={1}
+                                > Пошук</Text>
+                            </MaterialCommunityIcons>
+                        </TouchableHighlight> 
+                        {boundAddress.length > 0 ? <SamplePrint token={token} dataChange={dataChange} /> : <Text>Підключіть принтер</Text>}
+                        </View>
                     <View style={{ height: 100 }} />
                 </ScrollView>
             </Modal>
@@ -534,7 +581,8 @@ const mapStateToProps = (state) => ({
     dataChange: state.dataChange,
     token: state.token,
     currentStorageId: state.currentStorageId,
-    btPermission: state.btPermission
+    btPermission: state.btPermission,
+    currentColor: state.currentColorStep,
 })
 
 export default connect(mapStateToProps)(PrintButton)
