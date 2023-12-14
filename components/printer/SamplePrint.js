@@ -39,7 +39,7 @@ async function printreciept(labe) {
 
 const SamplePrint = ({token, dataChange}) => {
     const dispatch = useDispatch()
-    const [labes, setLabes] = useState()
+    const [labes, setLabes] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const dataLabes = async () => {
@@ -50,13 +50,15 @@ const SamplePrint = ({token, dataChange}) => {
     }
     useEffect(() => {
       dataLabes()
+
+      return () => setLabes(null)
     }, [])
    
   return (
     <View>         
       <View style={styles.btn}> 
         {loading && <ActivityIndicator size="large" color="#45aa45" animating={true} />}       
-        {!loading && <TouchableHighlight
+        {!loading && labes ? <TouchableHighlight
           style={[styles.buttonStep]}
           onPress={() => printreciept(labes)}
         >
@@ -67,7 +69,9 @@ const SamplePrint = ({token, dataChange}) => {
                 maxFontSizeMultiplier={1}
               > Друкувати</Text>
           </MaterialCommunityIcons>
-        </TouchableHighlight>}
+        </TouchableHighlight>
+        : null
+        }
       </View>
     </View>
   );
