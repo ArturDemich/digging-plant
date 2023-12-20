@@ -14,7 +14,7 @@ import Modal from "react-native-modal";
 import { connect, useDispatch } from 'react-redux'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { setBTPermission } from '../../state/dataSlice'
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, memo } from 'react'
 import { BluetoothManager } from 'react-native-bluetooth-escpos-printer';
 import { RESULTS, } from 'react-native-permissions'
 import ItemList from "./ItemList"
@@ -153,11 +153,10 @@ const styles = StyleSheet.create({
 })
 
 
-function PrintButton({ token, dataChange, btPermission}) {
+const PrintButton = memo(({ token, dataChange, btPermission}) => {
   const dispatch = useDispatch()
   const [show, setShow] = useState(false)
   const [pairedDevices, setPairedDevices] = useState([]);
-  const [foundDs, setFoundDs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
   const [boundAddress, setBoundAddress] = useState("");
@@ -222,13 +221,13 @@ function PrintButton({ token, dataChange, btPermission}) {
           deviceAlreadPaired(rsp);
         }
       );
-      DeviceEventEmitter.addListener(
+       /* DeviceEventEmitter.addListener(
         BluetoothManager.EVENT_DEVICE_FOUND,
         (rsp) => {
           console.log('VENT_DEVICE_FOUND', rsp);
           deviceFoundEvent(rsp);
         }
-      );      
+      );  */      
       DeviceEventEmitter.addListener(
         BluetoothManager.EVENT_CONNECTION_LOST,
         () => {
@@ -246,7 +245,7 @@ function PrintButton({ token, dataChange, btPermission}) {
         }
       );
     }  
-  },[pairedDevices]);
+  },[]);
  
   useEffect(() => {
     if (pairedDevices.length < 1) {  
@@ -266,8 +265,7 @@ function PrintButton({ token, dataChange, btPermission}) {
       row.name = printerName
 
       if(printerAddress.length > 0) {
-        connect(row)
-        setPrinterSStore(row)
+        connect(row)        
       } else {
         show && scanDevice()
       }
@@ -283,7 +281,7 @@ function PrintButton({ token, dataChange, btPermission}) {
   const deviceAlreadPaired = useCallback(
     (rsp) => {
       var ds = null;
-      console.log('deviceAlreadPaired', rsp)
+      
       if (typeof rsp.devices === "object") {
         ds = rsp.devices;       
       } else {
@@ -297,12 +295,13 @@ function PrintButton({ token, dataChange, btPermission}) {
           pared = pared.concat(ds || []);
         }
         setPairedDevices(pared);
+        console.log('deviceAlreadPaired', pared)
       }
     },
     [pairedDevices]
   );  
 
-  const deviceFoundEvent = useCallback(
+  /* const deviceFoundEvent = useCallback(
     (rsp) => {
       var r = null;
       console.log('deviceFoundEvent', rsp)
@@ -324,13 +323,15 @@ function PrintButton({ token, dataChange, btPermission}) {
           });
           if (duplicated == -1) {
             found.push(r);
-            setFoundDs(found);
+            //setFoundDs(found);
+            console.log('found', found)
+            setPairedDevices((prevDevice) => [...prevDevice, found])
           }
         }
       }
     },
     [foundDs]
-  );
+  ); */
   
   const connect = async (row) => {
     try {
@@ -366,22 +367,32 @@ function PrintButton({ token, dataChange, btPermission}) {
     );
   };
 
-  const scanDevice = () => {
+  const scanDevice = async () => {
     setLoading(true);
+    await console.log('scanDevices', pairedDevices)
     BluetoothManager.scanDevices().then(
-      (s) => {        
-        var found = s.found;
-        console.log('scanDevices', s)
+      (s) => { 
         try {
-          found = JSON.parse(found);
+        var foundDs = JSON.parse(s);
+        var found = foundDs.found
+        var paired = foundDs.paired
         } catch (e) {
           //ignore
         }
-        var fds = foundDs;
         if (found && found.length) {
-          fds = found;
+          var allDevise = foundDs.paired  
+          console.log('scanDevices', foundDs)
+          found.forEach(elem => {
+            let duplicated = allDevise.findIndex(function (x) {
+              return x.address == elem.address;
+            })
+            if(duplicated == -1) {
+              allDevise.push(elem)
+            }
+          })
+          setPairedDevices(allDevise)
         }
-        setFoundDs(fds);
+        console.log('scanDevices22', allDevise)        
         setLoading(false);
       },
       (er) => {
@@ -398,6 +409,7 @@ function PrintButton({ token, dataChange, btPermission}) {
     );
   }
   
+  console.log('pairedDevices pairedDevices', pairedDevices)
     return (
       <View >
         <Modal
@@ -456,19 +468,20 @@ function PrintButton({ token, dataChange, btPermission}) {
                         </View> : null}
                         <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                         <TouchableHighlight
-                            style={[styles.buttonStep, {backgroundColor: 'blue'}]}
+                            style={[styles.buttonStep, {backgroundColor: 'blue', width: 100}]}
                             onPress={() => {
                               scanDevice()
                               setDevicesBlock(true)
                             }}
                         >
-                            <MaterialCommunityIcons name="printer-search" size={24} color="snow" >                    
+                            {!loading ? <MaterialCommunityIcons name="printer-search" size={24} color="snow" >                    
                                 <Text
                                     style={styles.textBtn}
                                     allowFontScaling={true}
                                     maxFontSizeMultiplier={1}
                                 > Пошук</Text>
-                            </MaterialCommunityIcons>
+                            </MaterialCommunityIcons> : 
+                            <ActivityIndicator size="large" color="snow" animating={true} />}
                         </TouchableHighlight> 
                         {boundAddress.length > 0 ? <SamplePrint token={token} dataChange={dataChange} /> : <Text style={{color: 'blue'}} >Підключіть принтер</Text>}
                         </View>
@@ -494,7 +507,7 @@ function PrintButton({ token, dataChange, btPermission}) {
         </View>
       </View>
     )
-}
+})
 
 const mapStateToProps = (state) => ({
     dataChange: state.dataChange,
@@ -502,5 +515,5 @@ const mapStateToProps = (state) => ({
     btPermission: state.btPermission,
 })
 
-export default connect(mapStateToProps)(PrintButton)
+export default connect(mapStateToProps)( PrintButton)
 
