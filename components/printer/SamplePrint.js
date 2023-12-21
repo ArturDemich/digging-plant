@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, ActivityIndicator } from 'react-native';
 import { BluetoothTscPrinter } from 'react-native-bluetooth-escpos-printer';
-import { useDispatch } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { setOrderLabels } from '../../state/dataThunk';
 import { MaterialCommunityIcons} from '@expo/vector-icons';
 
@@ -77,7 +77,12 @@ const SamplePrint = ({token, dataChange}) => {
   );
 };
 
-export default SamplePrint;
+const mapStateToProps = (state) => ({
+  token: state.token,
+  dataChange: state.dataChange
+})
+
+export default connect(mapStateToProps) (SamplePrint);
 
 const styles = StyleSheet.create({
   btn: {
