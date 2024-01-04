@@ -4,6 +4,7 @@ import { connect, useDispatch } from 'react-redux'
 import { getTokenThunk } from '../state/dataThunk'
 import * as SecureStore from 'expo-secure-store'
 import logoIcon from '../assets/logoIcon.png'
+import CurrentVersion from '../components/CurrentVersion'
 
 const styles = StyleSheet.create({
     container: {
@@ -141,6 +142,7 @@ function LoginScreen() {
                         > Увійти </Text>
                     </TouchableHighlight>
                 </View>}
+                <CurrentVersion />
         </SafeAreaView>
     );
 };

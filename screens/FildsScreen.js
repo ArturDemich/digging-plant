@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect, useDispatch } from 'react-redux'
 import { setStorageId } from '../state/dataSlice'
 import { DataService } from '../state/dataService'
+import CurrentVersion from '../components/CurrentVersion'
 
 
 const styles = StyleSheet.create({
@@ -87,6 +88,7 @@ function MainScreen({ navigation, digStorages }) {
                     style={{padding: 10}}
                 />
             </View>
+            <CurrentVersion />
         </SafeAreaView>
     )
 }

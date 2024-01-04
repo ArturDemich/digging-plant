@@ -7,7 +7,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "devusb": "npx expo start --localhost --android"
+    "devusb": "npx expo start --localhost --android",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-navigation/material-top-tabs": "^6.2.4",
@@ -39,6 +40,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "expo-dev-client": "~2.2.1",
+    "patch-package": "^8.0.0",
     "react-dom": "18.2.0"
   },
   "private": true

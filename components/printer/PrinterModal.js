@@ -16,12 +16,13 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { setBTPermission } from '../../state/dataSlice'
 import { useEffect, useState, useCallback, memo } from 'react'
 import { BluetoothManager } from 'react-native-bluetooth-escpos-printer';
-import { RESULTS, } from 'react-native-permissions'
+//import { RESULTS, } from 'react-native-permissions'
 import ItemList from "./ItemList"
 import SamplePrint from "./SamplePrint"
 import { useBluetoothPermissions } from '../../hooks/useBTPermission';
 import * as SecureStore from 'expo-secure-store';
 import PrinterButton from './PrinterButton';
+import { PermissionsAndroid } from 'react-native';
 
 
 const styles = StyleSheet.create({    
@@ -98,11 +99,11 @@ const PrinterModal = memo(({ btPermission}) => {
   const setPermission = async () => {
     const permission = await useBluetoothPermissions()
     dispatch(setBTPermission(permission))
-    permission["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED ? alertBToN() : null
+    permission[PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION] === PermissionsAndroid.RESULTS.GRANTED ? alertBToN() : null
   }
 
   const checkBToN = async () => {
-    if (btPermission["android.permission.ACCESS_FINE_LOCATION"] === RESULTS.GRANTED) {      
+    if (btPermission[PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION] === PermissionsAndroid.RESULTS.GRANTED) {      
       alertBToN()
     } else {
       Alert.alert(
