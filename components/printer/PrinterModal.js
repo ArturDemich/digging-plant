@@ -149,8 +149,8 @@ const PrinterModal = memo(({ btPermission}) => {
   },[]);
  
   useEffect(() => {
-    if (pairedDevices.length < 1) {  
-      boundAddress.length <= 0 && show && checkPrinter()          
+    if (pairedDevices?.length < 1) {  
+      boundAddress?.length <= 0 && show && checkPrinter()          
       console.log("scanning...");
     }    
   }, [pairedDevices, show])
@@ -165,7 +165,7 @@ const PrinterModal = memo(({ btPermission}) => {
       row.address = printerAddress
       row.name = printerName
 
-      if(printerAddress.length > 0) {
+      if(printerAddress?.length > 0) {
         connect(row)        
       } else {
         show && scanDevice()
@@ -190,9 +190,9 @@ const PrinterModal = memo(({ btPermission}) => {
           ds = JSON.parse(rsp.devices);
         } catch (e) {}
       }
-      if (ds && ds.length) {
+      if (ds && ds?.length) {
         let pared = pairedDevices;
-        if (pared.length < 1) {
+        if (pared?.length < 1) {
           pared = pared.concat(ds || []);
         }
         setPairedDevices(pared);
@@ -247,7 +247,7 @@ const PrinterModal = memo(({ btPermission}) => {
         } catch (e) {
           //ignore
         }
-        if (found && found.length) {
+        if (found && found?.length) {
           var allDevise = foundDs.paired  
           console.log('scanDevices', foundDs)
           found.forEach(elem => {
@@ -297,7 +297,7 @@ const PrinterModal = memo(({ btPermission}) => {
                         <Text style={styles.sectionTitle}>
                             Підключений принтер:
                         </Text>
-                        {boundAddress.length > 0 && (
+                        {boundAddress?.length > 0 && (
                             <ItemList
                             label={name}
                             value={boundAddress}
@@ -306,12 +306,12 @@ const PrinterModal = memo(({ btPermission}) => {
                             color="#E9493F"
                             />
                         )}
-                        {boundAddress.length < 1 && !loading ? (
+                        {boundAddress?.length < 1 && !loading ? (
                             <Text style={styles.printerInfo}>
                             Не підключено...
                             </Text>
                         ) : loading && <ActivityIndicator size="large" color="#45aa45" animating={true} />}
-                        {boundAddress.length >= 0 && devicesBlock ?  <View>
+                        {boundAddress?.length >= 0 && devicesBlock ?  <View>
                           <Text style={styles.sectionTitle}>
                               Раніше підключені пристрої:
                           </Text>                        
@@ -351,7 +351,7 @@ const PrinterModal = memo(({ btPermission}) => {
                             </MaterialCommunityIcons> : 
                             <ActivityIndicator size="large" color="snow" animating={true} />}
                         </TouchableHighlight> 
-                        {boundAddress.length > 0 ? <SamplePrint /> : <Text style={{color: 'blue'}} >Підключіть принтер</Text>}
+                        {boundAddress?.length > 0 ? <SamplePrint /> : <Text style={{color: 'blue'}} >Підключіть принтер</Text>}
                         </View>
                     <View style={{ height: 100 }} />
                 </ScrollView>
