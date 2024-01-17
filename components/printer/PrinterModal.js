@@ -16,7 +16,6 @@ import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { setBTPermission } from '../../state/dataSlice'
 import { useEffect, useState, useCallback, memo } from 'react'
 import { BluetoothManager } from 'react-native-bluetooth-escpos-printer';
-//import { RESULTS, } from 'react-native-permissions'
 import ItemList from "./ItemList"
 import SamplePrint from "./SamplePrint"
 import { useBluetoothPermissions } from '../../hooks/useBTPermission';
@@ -170,8 +169,7 @@ const PrinterModal = memo(({ btPermission}) => {
       } else {
         show && scanDevice()
       }
-    }
-    console.log('checkPrinter', printerAddress)
+    }    
   }, [boundAddress])
 
   const setPrinterSStore = async (row) => {
@@ -195,8 +193,7 @@ const PrinterModal = memo(({ btPermission}) => {
         if (pared?.length < 1) {
           pared = pared.concat(ds || []);
         }
-        setPairedDevices(pared);
-        console.log('deviceAlreadPaired', pared)
+        setPairedDevices(pared);        
       }
     },
     [pairedDevices]
@@ -209,8 +206,7 @@ const PrinterModal = memo(({ btPermission}) => {
       setLoading(false);
       setDevicesBlock(false);
       setBoundAddress(row.address);
-      setName(row.name || 'UNKNOWN');      
-      console.log('Connected to device:', row);
+      setName(row.name || 'UNKNOWN'); 
     } catch (e) {
       setLoading(false);
       ToastAndroid.show(
@@ -237,8 +233,7 @@ const PrinterModal = memo(({ btPermission}) => {
   };
 
   const scanDevice = async () => {
-    setLoading(true);
-    await console.log('scanDevices', pairedDevices)
+    setLoading(true);    
     BluetoothManager.scanDevices().then(
       (s) => { 
         try {
@@ -248,8 +243,7 @@ const PrinterModal = memo(({ btPermission}) => {
           //ignore
         }
         if (found && found?.length) {
-          var allDevise = foundDs.paired  
-          console.log('scanDevices', foundDs)
+          var allDevise = foundDs.paired 
           found.forEach(elem => {
             let duplicated = allDevise.findIndex(function (x) {
               return x.address == elem.address;
@@ -259,12 +253,11 @@ const PrinterModal = memo(({ btPermission}) => {
             }
           })
           setPairedDevices(allDevise)
-        }
-        console.log('scanDevices22', allDevise)        
+        }        
         setLoading(false);
       },
       (er) => {
-        console.log('scanDeviceserer', er)
+        console.log('scanDeviceserer Error', er)
         Alert.alert(
           `Геолокацію не включено!`, 
           'Для пошуку принтерів вімкніть Геолокацію!', 
@@ -275,9 +268,8 @@ const PrinterModal = memo(({ btPermission}) => {
         setLoading(false);        
       }
     );
-  }
+  }  
   
-  console.log('pairedDevices pairedDevices', pairedDevices)
     return (
       <View >
         <Modal
@@ -300,7 +292,6 @@ const PrinterModal = memo(({ btPermission}) => {
                         {boundAddress?.length > 0 && (
                             <ItemList
                             label={name}
-                            value={boundAddress}
                             onPress={() => unPair(boundAddress)}
                             actionText="Відключити"
                             color="#E9493F"
@@ -325,7 +316,6 @@ const PrinterModal = memo(({ btPermission}) => {
                                     setPrinterSStore(item)                                    
                                   }}
                                   label={item.name}
-                                  value={item.address}
                                   connected={item.address === boundAddress}                                
                                   actionText="Підключити"
                                   color="#00BCD4"

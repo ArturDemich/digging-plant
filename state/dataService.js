@@ -20,8 +20,6 @@ export class DataService {
                 alert(error)
                 console.log(error);
             })
-
-            //console.log('newVersion')
         return newVersion
     }
 
@@ -38,8 +36,6 @@ export class DataService {
                 alert(error)
                 console.log(error);
             })
-
-            //.log('getStepOrders')
         return stepOrders
     }
 
@@ -57,13 +53,10 @@ export class DataService {
                 alert(error)
                 console.log(error);
             })
-            //console.log('getStepOrdersGroup')
         return groupOrders
     }
 
     static getStoragesDig(token) {
-        //console.log('getStorages')
-
         return axios.post('http://194.42.196.141:41001/UTP/hs/api/getStorages', { token: token }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
@@ -75,8 +68,6 @@ export class DataService {
     }
 
     static getSteps(token) {
-// console.log('getSteps')
-
         return axios.post('http://194.42.196.141:41001/UTP/hs/api/getSteps', { token: token }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
@@ -89,8 +80,6 @@ export class DataService {
 
 
     static getToken(log, pass) {
-       // console.log('getToken')
-
         return axios.post('http://194.42.196.141:41001/UTP/hs/api/getToken', { login: log, password: pass }, {
             headers: { 'Authorization': 'Basic ' + encodedToken }
         })
@@ -102,8 +91,6 @@ export class DataService {
     }
 
     static setNextStepGroup(token, dataOrders) {
-       // console.log('setNextOrderStep')
-
         let stepOrders = axios.post('http://194.42.196.141:41001/UTP/hs/api/setNextOrderStep', {
             token: token,
             stepdata: dataOrders
@@ -120,7 +107,6 @@ export class DataService {
     }
 
      static getOrderLabels(token, dataOrders) {
-        console.log('getOrderLabels', dataOrders, token)
         return axios.post('https://convertpdfto.azurewebsites.net/convert', {
             URL: 'http://194.42.196.141:41001/UTP/hs/api/getOrderLabels',
             encodedToken: encodedToken,
@@ -141,8 +127,6 @@ export class DataService {
 
 
     static getNotifi(token) {
-      //  console.log('getNotifications')
-
         return axios.post(NOTIFICATIONS_URL, { method: 'getNotifications', token: token },
             {
                 headers: { 'Accept': '*/*' }
@@ -157,8 +141,6 @@ export class DataService {
     
 
     static updateNotifi(token, messageid, mstatus) {
-      //  console.log('updateNotificationStatus')
-
         return axios.post(NOTIFICATIONS_URL, {
             method: 'updateNotificationStatus',
             token: token,
@@ -173,8 +155,6 @@ export class DataService {
     }
 
     static deleteNotifi(token, messageid) {
-      //  console.log('deleteNotification')
-
         return axios.post(NOTIFICATIONS_URL, {
             method: 'deleteNotification',
             token: token,
@@ -188,7 +168,6 @@ export class DataService {
     }
 
     static sendTokenDevice = (userTok, deviceTok, log) => {
-      //  console.log('SEVE_TOKEN_URL')
         axios.post(SEVE_TOKEN_URL, {
              userToken: userTok,
              deviceToken: deviceTok,

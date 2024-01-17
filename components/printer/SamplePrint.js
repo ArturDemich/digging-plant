@@ -7,8 +7,7 @@ import { MaterialCommunityIcons} from '@expo/vector-icons';
 
 
 async function printreciept(labe) {  
-  const images = labe.images
-  console.log('lab', labe)
+  const images = labe.images 
 
   images.forEach(async image =>  {
     try { 
@@ -46,8 +45,13 @@ const SamplePrint = ({token, dataChange}) => {
       const data = await dispatch(setOrderLabels(token[0].token, dataChange))
       await setLabes(data)
       setLoading(false)
-      console.log('dataLabes', data)
     }
+
+    const repitQry = () => {
+      setLoading(true)
+      dataLabes()
+    }
+    
     useEffect(() => {
       dataLabes()
 
@@ -57,7 +61,10 @@ const SamplePrint = ({token, dataChange}) => {
   return (
     <View>         
       <View style={styles.btn}> 
-        {loading && <ActivityIndicator size="large" color="#45aa45" animating={true} />}       
+        {loading && <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <Text style={{color: 'green', fontWeight: 900, fontSize: 18}}>Зачекайте...</Text> 
+            <ActivityIndicator size="large" color="#45aa45" animating={true} />
+          </View>}       
         {!loading && labes ? <TouchableHighlight
           style={[styles.buttonStep]}
           onPress={() => printreciept(labes)}
@@ -70,6 +77,18 @@ const SamplePrint = ({token, dataChange}) => {
               > Друкувати</Text>
           </MaterialCommunityIcons>
         </TouchableHighlight>
+        : !loading && !labes ?
+        <TouchableHighlight
+          style={[styles.buttonStep, {backgroundColor: '#ff7302', justifyContent: 'center'}]}
+          onPress={() => repitQry()
+          }
+        >
+          <Text
+            style={styles.textBtn}
+            allowFontScaling={true}
+            maxFontSizeMultiplier={1}
+          > Повторити запит</Text>
+        </TouchableHighlight> 
         : null
         }
       </View>

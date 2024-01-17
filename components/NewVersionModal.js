@@ -21,7 +21,7 @@ function NewVersion() {
 
     const get = async () => {
         const data = await dispatch(getNewVersion()) 
-        if(ver < data?.version ) {
+        if(String(ver) < String(data?.version) ) {
             setShow(true)
         }
         setVersion(data)
@@ -45,9 +45,9 @@ function NewVersion() {
                             style={styles.textStr}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
-                        >Все файно! </Text>
-                        
-                            <Text style={styles.textStyle}>Є нова версія додатка!! Оновити зараз?</Text>
+                        >Все файно! </Text>                        
+                        <Text style={{fontSize: 17}}>Є нова версія додатка!!</Text>
+                        <Text style={styles.textStyle}>Оновити зараз?</Text>
                         <View style={styles.btnBlock}>
                             <TouchableOpacity
                                 onPress={() => setShow(!show)}
@@ -142,7 +142,9 @@ const styles = StyleSheet.create({
         fontWeight: 500,
         fontSize: 18,
         color: '#555555',
-        marginBottom: 40
+        marginBottom: 40,
+        paddingLeft: 5,
+        paddingRight: 5,        
     },
     textStr: {
         fontWeight: 600,

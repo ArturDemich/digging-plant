@@ -6,7 +6,7 @@ const CurrentVersion = () => {
     const ver = Constants.manifest.version
 
     return (
-        <Text>V {ver}</Text>
+        <Text style={{backgroundColor: '#d8fff2'}}>V {ver}</Text>
     )
 }
 

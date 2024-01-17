@@ -1,7 +1,7 @@
-import { TouchableOpacity, Text, View, StyleSheet, ActivityIndicator } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet} from 'react-native';
 import React from 'react';
 
-const ItemList = ({ label, value, onPress, connected, actionText, color = '#00BCD4' }) => {
+const ItemList = ({ label, onPress, connected, actionText, color = '#00BCD4' }) => {
   return (
     <View style={styles.container}>
       <View>

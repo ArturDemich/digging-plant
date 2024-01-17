@@ -4,6 +4,7 @@ import { connect, useDispatch } from 'react-redux'
 import { setStorageId } from '../state/dataSlice'
 import { DataService } from '../state/dataService'
 import CurrentVersion from '../components/CurrentVersion'
+import NewVersion from '../components/NewVersionModal'
 
 
 const styles = StyleSheet.create({
@@ -88,6 +89,7 @@ function MainScreen({ navigation, digStorages }) {
                     style={{padding: 10}}
                 />
             </View>
+            <NewVersion />
             <CurrentVersion />
         </SafeAreaView>
     )
