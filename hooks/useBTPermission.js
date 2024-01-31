@@ -9,6 +9,7 @@ export const useBluetoothPermissions = async () => {
             PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
         ];
         const result = await PermissionsAndroid.requestMultiple(bluetoothPermissions);
+        
         return result
     } catch (error) {
         console.error('Error requesting Bluetooth permissions:', error);

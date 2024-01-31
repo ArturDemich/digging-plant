@@ -181,6 +181,8 @@ function RenderOrders({ orders, rightToChange }) {
                             orderId={orderId}
                             prodactElem={elem}
                             selectedAllOrder={selectedAllOrder}
+                            shipmentMethod={shipmentMethod}
+                            customerName={customerName}
                         />
                     )}
                 </View>

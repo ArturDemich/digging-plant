@@ -105,27 +105,7 @@ export class DataService {
 
         return stepOrders
     }
-
-     static getOrderLabels(token, dataOrders) {
-        return axios.post('https://convertpdfto.azurewebsites.net/convert', {
-            URL: 'http://194.42.196.141:41001/UTP/hs/api/getOrderLabels',
-            encodedToken: encodedToken,
-            data: {
-                token: token,
-                data: dataOrders
-            }
-        },        
-        {headers: {'Content-Type': 'application/json'}}
-        )
-        .then((response) => response)
-        .catch((error) => {
-            alert('Помилка отримання етикеток', error)
-            console.log('getOrderLabelsError', error);
-        })       
-    }
-
-
-
+    
     static getNotifi(token) {
         return axios.post(NOTIFICATIONS_URL, { method: 'getNotifications', token: token },
             {

@@ -9,6 +9,7 @@ import RenderPlantsGroup from '../components/RenderPlantsGroup'
 import { getGroupOrdersThunk } from '../state/dataThunk'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { clearDataChange } from '../state/dataSlice'
+import PrinterModal from '../components/printer/PrinterModal'
 
 
 
@@ -27,12 +28,12 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, stora
     const getGroupOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
-        await dispatch(getGroupOrdersThunk(currentStep, storageId, token[0].token))
+        await dispatch(getGroupOrdersThunk(currentStep, storageId.id, token[0].token))
     }
 
     const onRefresh = async () => {
         setRefresh(true)
-        await dispatch(getGroupOrdersThunk(currentStep, storageId, token[0].token))
+        await dispatch(getGroupOrdersThunk(currentStep, storageId.id, token[0].token))
         setRefresh(false)
     }
 
@@ -81,7 +82,8 @@ function AllPlantsScreen({ route, groupOrders, currentStep, totalPlantQty, stora
                     />
             }
             <NextStepButton path={route.name} />
-            <ButtonsBar storageId={storageId} />
+            <PrinterModal />
+            <ButtonsBar />
         </SafeAreaView>
     )
 }

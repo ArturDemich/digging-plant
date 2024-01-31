@@ -9,7 +9,7 @@ const initialState = {
     steps: [],
     token: [],
     currentStep: [],    
-    currentStorageId: '',
+    currentStorageId: {},
     currentColorStep: '',
     searchText: '',
     dataChange: [],
@@ -126,7 +126,7 @@ export const dataSlice = createSlice({
                 state.dataChange = orders
             } else {
                 state.dataChange = [...orders, action.payload]
-            }
+            }            
         },
 
         clearDataChangeItem(state, action) {
@@ -153,7 +153,7 @@ export const dataSlice = createSlice({
             state.filterOrders = []
             state.currentStep = []
             state.groupOrders = []
-            state.currentStorageId = ''
+            state.currentStorageId = {}
             state.searchText = ''
             state.dataChange = []
             state.notifications = []

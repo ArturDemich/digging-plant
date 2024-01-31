@@ -13,7 +13,7 @@ function FildScreen({ currentColor, token, digStorages }) {
 
     useEffect(() => {
         if (digStorages.length === 1) {
-            dispatch(setStorageId(digStorages[0].id))
+            dispatch(setStorageId(digStorages[0]))
         }
     }, [])
 

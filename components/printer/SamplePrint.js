@@ -1,15 +1,9 @@
-import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableHighlight, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { BluetoothTscPrinter } from 'react-native-bluetooth-escpos-printer';
-import { connect, useDispatch } from 'react-redux';
-import { setOrderLabels } from '../../state/dataThunk';
 import { MaterialCommunityIcons} from '@expo/vector-icons';
 
 
-async function printreciept(labe) {  
-  const images = labe.images 
-
-  images.forEach(async image =>  {
+export async function printreciept(labe) {  
     try { 
       let options = {
         width: 52,
@@ -23,8 +17,8 @@ async function printreciept(labe) {
         x: 0, 
         y: 0, 
         mode: BluetoothTscPrinter.BITMAP_MODE.OVERWRITE,
-        width: 430,      
-        image: image
+        width: 425,      
+        image: labe
       }],    
       }
       await BluetoothTscPrinter.printLabel(options)  // Друк зображення   
@@ -33,41 +27,16 @@ async function printreciept(labe) {
       alert(e.message || 'ERROR');
       console.log('ERROR', e)
     }
-  });  
 }
 
-const SamplePrint = ({token, dataChange}) => {
-    const dispatch = useDispatch()
-    const [labes, setLabes] = useState(null)
-    const [loading, setLoading] = useState(true)
-
-    const dataLabes = async () => {
-      const data = await dispatch(setOrderLabels(token[0].token, dataChange))
-      await setLabes(data)
-      setLoading(false)
-    }
-
-    const repitQry = () => {
-      setLoading(true)
-      dataLabes()
-    }
-    
-    useEffect(() => {
-      dataLabes()
-
-      return () => setLabes(null)
-    }, [])
-   
+const SamplePrint = ({press}) => {
+  
   return (
     <View>         
       <View style={styles.btn}> 
-        {loading && <View style={{flexDirection: 'row', alignItems: 'center'}}>
-            <Text style={{color: 'green', fontWeight: 900, fontSize: 18}}>Зачекайте...</Text> 
-            <ActivityIndicator size="large" color="#45aa45" animating={true} />
-          </View>}       
-        {!loading && labes ? <TouchableHighlight
+      <TouchableHighlight
           style={[styles.buttonStep]}
-          onPress={() => printreciept(labes)}
+          onPress={() => press()}
         >
           <MaterialCommunityIcons name="printer-wireless" size={24} color="snow" >                    
               <Text
@@ -77,31 +46,13 @@ const SamplePrint = ({token, dataChange}) => {
               > Друкувати</Text>
           </MaterialCommunityIcons>
         </TouchableHighlight>
-        : !loading && !labes ?
-        <TouchableHighlight
-          style={[styles.buttonStep, {backgroundColor: '#ff7302', justifyContent: 'center'}]}
-          onPress={() => repitQry()
-          }
-        >
-          <Text
-            style={styles.textBtn}
-            allowFontScaling={true}
-            maxFontSizeMultiplier={1}
-          > Повторити запит</Text>
-        </TouchableHighlight> 
-        : null
-        }
       </View>
     </View>
   );
 };
 
-const mapStateToProps = (state) => ({
-  token: state.token,
-  dataChange: state.dataChange
-})
 
-export default connect(mapStateToProps) (SamplePrint);
+export default SamplePrint;
 
 const styles = StyleSheet.create({
   btn: {

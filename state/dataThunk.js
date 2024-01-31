@@ -51,7 +51,7 @@ export const getGroupOrdersThunk = (stepId, storageId, token) => async (dispatch
       console.log('Something went wrong!', res.errors)
     }
   } catch (error) {
-    console.log("GetStep_ORDERS ERROR Thunk: " + JSON.stringify(error));
+    console.log("GetStep_GroupORDERS ERROR Thunk: " + JSON.stringify(error));
   }
 }
 
@@ -97,7 +97,7 @@ export const getNewVersion = () => async (dispatch) => {
 export const getTokenThunk = (log, pass) => async (dispatch) => {
   try {
     const res = await DataService.getToken(log, pass)
-    console.log(res)
+   
     if (res.success) {
       dispatch(setToken(res.data))
       if(Platform.OS === 'web') {
@@ -114,8 +114,10 @@ export const getTokenThunk = (log, pass) => async (dispatch) => {
 }
 
 export const getNotifiThunk = (token) => async (dispatch) => {
+  
   try {
     const res = await DataService.getNotifi(token)
+   
     if (res.success) {
       const filterNote = res.data.filter(elem => elem.is_automatic == 0)
       dispatch(setNotifications(filterNote));
@@ -123,7 +125,7 @@ export const getNotifiThunk = (token) => async (dispatch) => {
       alert(res.errors[0])
     }
   } catch (error) {
-    console.log("Get_STEP ERROR Thunk: " + JSON.stringify(error));
+    console.log("Get_Notifi ERROR Thunk: " + JSON.stringify(error));
   }
 }
 
@@ -136,22 +138,9 @@ export const setNextStepGroupThunk = (token, dataOrders) => async () => {
       console.log('Успішно!', res.success)
     }
   } catch (error) {
-    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+    console.log("Get_NextStep ERROR ThunkSet: " + JSON.stringify(error));
   }
 }
-
-export const setOrderLabels = (token, dataOrders) => async () => {
-  try {
-    const res = await DataService.getOrderLabels(token, dataOrders)
-    const data = res.data
-    console.log('thunkdata', data.images.length)    
-
-    return data    
-  } catch (error) {
-    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
-  }
-}
-
 
 export const updateNotifiThunk = (token, messageid, mstatus) => async () => {
   try {
@@ -162,7 +151,7 @@ export const updateNotifiThunk = (token, messageid, mstatus) => async () => {
       console.log('Something went wrong!', res.errors)
     }
   } catch (error) {
-    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+    console.log("updateNotifi ERROR ThunkSet: " + JSON.stringify(error));
   }
 }
 
@@ -175,7 +164,7 @@ export const deleteNotifiThunk = (token, messageid) => async () => {
       console.log('Something went wrong!', res.errors)
     }
   } catch (error) {
-    console.log("Get_STEP ERROR ThunkSet: " + JSON.stringify(error));
+    console.log("deleteNotifi ERROR ThunkSet: " + JSON.stringify(error));
   }
 }
 

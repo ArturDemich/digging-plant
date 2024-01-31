@@ -94,13 +94,18 @@ function RenderOrderByGroup({ order, selectedAll, plant, currentStep, currentSto
 
     const setModalState = () => {
         const orders = {
-            storageId: currentStorageId,
+            storageId: currentStorageId.id,
             currentstepId: currentStep.id,
             orderId: orderId,
             productid: product.id,
             characteristicid: characteristic.id,
             unitid: unit.id,
-            actionqty: Number(qtyInput)
+            actionqty: Number(qtyInput),
+            productName: product.name,
+            characteristicName: characteristic.name,
+            shipmentMethod: shipmentMethod,
+            customerName: customerName,
+            currentStorage: currentStorageId.name
         }
         dispatch(setDataChange(orders))
     }

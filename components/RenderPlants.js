@@ -7,7 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 
 
-function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem, currentStep, orders }) {
+function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem, currentStep, orders, shipmentMethod, customerName, navigation }) {
     const dispatch = useDispatch()
     const { characteristic, lastChange, product, qty, unit } = prodactElem
     const [plantCheckBox, setPlantCheckBox] = useState(selectedAllOrder)
@@ -27,14 +27,19 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
 
     const setModalState = () => {
         const orders = {
-            storageId: currentStorageId,
+            storageId: currentStorageId.id,
             currentstepId: currentStep.id,
             orderId: orderId,
             productid: product.id,
             characteristicid: characteristic.id,
             unitid: unit.id,
             actionqty: Number(qtyState),
-            qty: Number(qtyState)
+            qty: Number(qtyState),
+            productName: product.name,
+            characteristicName: characteristic.name,
+            shipmentMethod: shipmentMethod,
+            customerName: customerName,
+            currentStorage: currentStorageId.name
         }
         dispatch(setDataChange(orders))
     }
@@ -61,7 +66,7 @@ function RenderPlants({ currentStorageId, orderId, selectedAllOrder, prodactElem
             setModalState()
         }
     }, [selectedAllOrder, plantCheckBox, orders])
-
+    
     return (
         <View style={styles.infoBlock}>
             <View style={styles.costLineWrapper}>

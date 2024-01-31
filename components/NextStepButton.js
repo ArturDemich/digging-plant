@@ -72,9 +72,9 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
         await dispatch(setNextStepGroupThunk(token[0].token, dataChange))
         await dispatch(clearDataChange())
         if (pathValue === "Замовлення") {
-            await dispatch(getOrdersStep(currentStep, currentStorageId, token[0].token))
+            await dispatch(getOrdersStep(currentStep, currentStorageId.id, token[0].token))
         } else if (pathValue === "Рослини Замовлення") {
-            await dispatch(getGroupOrdersThunk(currentStep, currentStorageId, token[0].token))
+            await dispatch(getGroupOrdersThunk(currentStep, currentStorageId.id, token[0].token))
         }
     }
 

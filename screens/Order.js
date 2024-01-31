@@ -25,12 +25,12 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
     const getOrders = async () => {
         setLoading(true)
         await new Promise((resolve) => setTimeout(resolve, 200))
-        await dispatch(getOrdersStep(currentStep, storageId, token[0].token))
+        await dispatch(getOrdersStep(currentStep, storageId.id, token[0].token))
     }
 
     const onRefresh = async () => {
         setRefresh(true)
-        await dispatch(getOrdersStep(currentStep, storageId, token[0].token))
+        await dispatch(getOrdersStep(currentStep, storageId.id, token[0].token))
         setRefresh(false)
     }
 
@@ -76,8 +76,8 @@ function OrdersScreen({ orders, route, currentStep, totalPlantQty, totalOrderQty
                     />
             }
             <NextStepButton path={route.name} />
-            <PrinterModal path={route.name} />
-            <ButtonsBar storageId={storageId} token={token} />
+            <PrinterModal />
+            <ButtonsBar />
 
         </SafeAreaView>
     )

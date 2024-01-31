@@ -59,7 +59,7 @@ function MainScreen({ navigation, digStorages }) {
             <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                    dispatch(setStorageId(item.id))
+                    dispatch(setStorageId(item))
                     navigation.navigate('Поле', { title: item.name })
                 }}
             >
