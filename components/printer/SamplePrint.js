@@ -1,12 +1,32 @@
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Dimensions } from 'react-native';
 import { BluetoothTscPrinter } from 'react-native-bluetooth-escpos-printer';
 import { MaterialCommunityIcons} from '@expo/vector-icons';
 
 
 export async function printreciept(labe) {  
+  const screenWidth = Math.floor(Dimensions.get('window').width);
+  let imgWidth 
+  switch (screenWidth) {
+    case 800:
+      imgWidth = 880
+      break;
+  case 490:
+      imgWidth = 522
+      break;
+  case 411:
+      imgWidth = 433
+      break;
+  case 392:
+      imgWidth = 415 
+      break;
+    default:
+      imgWidth = screenWidth * 1.055
+      break;
+  }
+
     try { 
       let options = {
-        width: 52,
+        width: 51,
         height: 30,
         gap: 1,
         direction: BluetoothTscPrinter.DIRECTION.FORWARD,
@@ -17,7 +37,7 @@ export async function printreciept(labe) {
         x: 0, 
         y: 0, 
         mode: BluetoothTscPrinter.BITMAP_MODE.OVERWRITE,
-        width: 425,      
+        width: imgWidth,      
         image: labe
       }],    
       }

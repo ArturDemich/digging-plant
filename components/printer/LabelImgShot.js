@@ -32,6 +32,8 @@ const LabelImgShot = ({ labelOff, dataChange }) => {
             format: "jpg",
             quality: 1.0,
             result: 'base64',
+            //width: 520,
+            //height: 200
         }).then(
              (uri) => {
                  volleyPrint(uri, item.actionqty)                
@@ -68,7 +70,7 @@ const LabelImgShot = ({ labelOff, dataChange }) => {
     return (
         <View >
             <ViewShot ref={ref}>
-                <View style={{ backgroundColor: '#ffffff', paddingLeft: 8, paddingRight: 10, paddingTop: 3,  maxWidth: 310 }}>
+                <View style={{ backgroundColor: '#ffffff', paddingLeft: 8, paddingRight: 10, paddingTop: 3,  maxWidth: 315 }}>
                     <View style={{height: 85, borderBottomWidth: 2}} >
                         <Text style={{ fontSize: 13, fontWeight: 600, }}>{item?.characteristicName}</Text>
                         <MaterialCommunityIcons name="pine-tree" size={17} color="black">
