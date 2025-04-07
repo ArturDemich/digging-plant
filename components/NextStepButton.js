@@ -1,9 +1,10 @@
-import { View, Text, StyleSheet, TouchableHighlight, ActivityIndicator } from 'react-native'
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getGroupOrdersThunk, getOrdersStep, setNextStepGroupThunk } from '../state/dataThunk'
 import { MaterialIcons } from '@expo/vector-icons'
 import { clearDataChange } from '../state/dataSlice'
 import { useState } from 'react'
+import TouchableVibrate from './TouchableVibrate'
 
 
 const styles = StyleSheet.create({
@@ -125,7 +126,7 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
             {dataChange.length > 0 ? 
                 <View style={styles.containerNBTN} >
                     
-                    <TouchableHighlight
+                    <TouchableVibrate
                         style={[styles.buttonStep(setNextStepColor(currentStep.id)), dataChange.length === 0 && styles.none]}
                         onPress={() => sendData(path).then(() => setLoding(false))}
                     >
@@ -140,7 +141,7 @@ function NextStepButton({ path, currentStorageId, token, currentStep, dataChange
                                     maxFontSizeMultiplier={1}
                                 > {setNextStepName(currentStep.id)} </Text>
                             </MaterialIcons>}
-                    </TouchableHighlight>
+                    </TouchableVibrate>
                 </View> : 
             null}
         </View>

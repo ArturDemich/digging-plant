@@ -2,11 +2,11 @@ import {
     View, 
     Text, 
     StyleSheet, 
-    TouchableHighlight,
 } from 'react-native'
 import { connect } from 'react-redux'
 import { MaterialCommunityIcons} from '@expo/vector-icons'
 import { memo } from 'react'
+import TouchableVibrate from '../TouchableVibrate'
 
 
 const styles = StyleSheet.create({
@@ -42,7 +42,7 @@ const PrinterButton = memo(({ checkBToN, dataChange}) => {
       <View >
             {dataChange.length > 0 ? <View style={styles.containerNBTN} >
 
-                <TouchableHighlight
+                <TouchableVibrate
                     style={[styles.buttonStep]}
                     onPress={() => checkBToN()}
                 >
@@ -53,7 +53,7 @@ const PrinterButton = memo(({ checkBToN, dataChange}) => {
                             maxFontSizeMultiplier={1}
                         > Друк</Text>
                     </MaterialCommunityIcons>
-                </TouchableHighlight>
+                </TouchableVibrate>
             </View> : null}        
       </View>
     )

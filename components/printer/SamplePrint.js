@@ -1,10 +1,22 @@
-import { StyleSheet, Text, View, TouchableHighlight, Dimensions } from 'react-native';
-import { BluetoothTscPrinter } from 'react-native-bluetooth-escpos-printer';
+import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { BluetoothTscPrinter, BluetoothEscposPrinter } from 'react-native-bluetooth-escpos-printer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import * as SecureStore from 'expo-secure-store';
+import { KEYLableStorage, KEYPrinTypeStorage, PrinterType, SizeLabel } from './constatsPrinter';
+import TouchableVibrate from '../TouchableVibrate';
 
+const printEscPos = async (labe, labelSize) => {
+  await BluetoothEscposPrinter.printPic(labe, {
+    width: labelSize === SizeLabel.Forty ? 320 : 390,   // 320 for 40mm; 390 for 50mm;
+    left: labelSize === SizeLabel.Forty ? 40 : 0,        // 40 for 40mm; 0 for 50mm;
+  })
+  await BluetoothEscposPrinter.printText("\x1D\x0C", {});
+};
 
 export async function printreciept(labe) {
   const screenWidth = Math.floor(Dimensions.get('window').width);
+  const labelWidth = await SecureStore.getItemAsync(KEYLableStorage);
+  const printType = await SecureStore.getItemAsync(KEYPrinTypeStorage);
   let imgWidth
   switch (screenWidth) {
     case 800:
@@ -26,7 +38,7 @@ export async function printreciept(labe) {
 
   try {
     let options = {
-      width: 51,
+      width: Number(labelWidth),
       height: 30,
       gap: 1,
       direction: BluetoothTscPrinter.DIRECTION.FORWARD,
@@ -41,7 +53,8 @@ export async function printreciept(labe) {
         image: labe
       }],
     }
-    await BluetoothTscPrinter.printLabel(options)  // Друк зображення   
+    printType === PrinterType.TSC && await BluetoothTscPrinter.printLabel(options)
+    printType === PrinterType.ESC && await printEscPos(labe, Number(labelWidth))
 
   } catch (e) {
     alert(e.message || 'ERROR');
@@ -54,7 +67,7 @@ const SamplePrint = ({ press }) => {
   return (
     <View>
       <View style={styles.btn}>
-        <TouchableHighlight
+        <TouchableVibrate
           style={[styles.buttonStep]}
           onPress={() => press()}
         >
@@ -65,7 +78,7 @@ const SamplePrint = ({ press }) => {
               maxFontSizeMultiplier={1}
             > Друкувати</Text>
           </MaterialCommunityIcons>
-        </TouchableHighlight>
+        </TouchableVibrate>
       </View>
     </View>
   );

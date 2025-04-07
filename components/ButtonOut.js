@@ -1,9 +1,10 @@
-import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { cleanState } from '../state/dataSlice'
 import { Feather } from '@expo/vector-icons'
 import * as SecureStore from 'expo-secure-store'
 import useDeviceToken from '../hooks/useDeviceToken'
+import TouchableVibrate from './TouchableVibrate'
 
 
 const styles = StyleSheet.create({    
@@ -30,7 +31,7 @@ function ButtonOut({ navigation, token }) {
     }
  
     return (
-        <TouchableOpacity
+        <TouchableVibrate
             style={[styles.buttonStep]}
             onPress={() => {
                 deleteToken()
@@ -39,7 +40,7 @@ function ButtonOut({ navigation, token }) {
             }}
         >
             <Feather name="log-out" size={24} color="black" />
-        </TouchableOpacity>
+        </TouchableVibrate>
     )
 }
 

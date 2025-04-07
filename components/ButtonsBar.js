@@ -1,7 +1,8 @@
-import { View, Text, StyleSheet, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { clearDataChange, setCurrentColorStep, setCurrentStep } from '../state/dataSlice'
 import { getGroupOrdersThunk, getOrdersStep } from '../state/dataThunk'
+import TouchableVibrate from './TouchableVibrate'
 
 
 const styles = StyleSheet.create({
@@ -124,7 +125,7 @@ function ButtonsBar({route, steps, currentStep}) {
     return (
         <View style={styles.statusBar}>
             {steps.map((step) => (
-                <TouchableHighlight
+                <TouchableVibrate
                     key={step.id}
                     style={[styles.buttonsBar(setColor(step.id)), currentStep.id === step.id && styles.selectedButtons]}
                     onPress={() => setDataState(step)}
@@ -134,7 +135,7 @@ function ButtonsBar({route, steps, currentStep}) {
                         allowFontScaling={true}
                         maxFontSizeMultiplier={1}
                     > {setStepName(step.id)} </Text>
-                </TouchableHighlight>
+                </TouchableVibrate>
             ))}
         </View>
     )

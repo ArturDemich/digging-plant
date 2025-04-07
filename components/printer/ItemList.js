@@ -1,5 +1,6 @@
-import { TouchableOpacity, Text, View, StyleSheet} from 'react-native';
+import { Text, View, StyleSheet} from 'react-native';
 import React from 'react';
+import TouchableVibrate from '../TouchableVibrate';
 
 const ItemList = ({ label, onPress, connected, actionText, color = '#00BCD4' }) => {
   return (
@@ -9,9 +10,9 @@ const ItemList = ({ label, onPress, connected, actionText, color = '#00BCD4' }) 
       </View>
       {connected && <Text style={styles.connected}>Підключено</Text>}
       {!connected && (
-        <TouchableOpacity onPress={onPress} style={styles.button(color)}>
+        <TouchableVibrate onPress={onPress} style={styles.button(color)}>
           <Text style={styles.actionText}>{actionText}</Text>
-        </TouchableOpacity>
+        </TouchableVibrate>
       )}
     </View>
   );
