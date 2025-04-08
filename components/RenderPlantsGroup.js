@@ -1,11 +1,12 @@
 import Checkbox from "expo-checkbox"
 import { memo, useState } from "react"
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native"
+import { Text, StyleSheet, View, Vibration } from "react-native"
 import shortid from "shortid"
 import RenderOrderByGroup from "./RenderOrderByGroup"
 import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons'
 import { setSearchText } from "../state/dataSlice"
 import { connect, useDispatch } from "react-redux"
+import TouchableVibrate from "./TouchableVibrate"
 
 
 
@@ -134,17 +135,20 @@ const RenderPlantsGroup = memo(({ item, scrollToTop, currentColor, rightToChange
         <View style={styles.rowFront}>
             <View style={styles.costLineWrapper}>
                 <View style={styles.infoContainer}>                    
-                    <TouchableOpacity style={{flex: 1}} onPress={() => searchPoint(item.product.name)}>
+                    <TouchableVibrate style={{flex: 1}} onPress={() => searchPoint(item.product.name)}>
                         <Text style={styles.plantName}
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{item.product.name}</Text>
-                    </TouchableOpacity>
+                    </TouchableVibrate>
                     {rightToChange && item.orders.length > 1 ?
                         <Checkbox
                             value={selectedAll}
                             color='#45aa45'
-                            onValueChange={() => setSelectedAll(!selectedAll)}
+                            onValueChange={() => {
+                                Vibration.vibrate(10)
+                                setSelectedAll(!selectedAll)
+                            }}
                             style={styles.checkBox}
                         /> : null}
                 </View>
@@ -154,7 +158,7 @@ const RenderPlantsGroup = memo(({ item, scrollToTop, currentColor, rightToChange
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         >{item.characteristic.name}</Text>
-                        <TouchableOpacity style={styles.toucheble(currentColor)} onPress={() => searchPoint(item.storage?.id)}>
+                        <TouchableVibrate style={styles.toucheble(currentColor)} onPress={() => searchPoint(item.storage?.id)}>
                                 <Entypo name="location" size={20} color="black">
                                     <Text 
                                         style={styles.location}
@@ -162,7 +166,7 @@ const RenderPlantsGroup = memo(({ item, scrollToTop, currentColor, rightToChange
                                         maxFontSizeMultiplier={1}
                                         > {item.storage?.name}</Text>
                                 </Entypo>
-                        </TouchableOpacity>
+                        </TouchableVibrate>
                     </View>
                     <MaterialCommunityIcons name="pine-tree" size={20} color="black">
                         <MaterialCommunityIcons name="pine-tree" size={14} color="black" />

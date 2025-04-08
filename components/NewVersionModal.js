@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Linking, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Linking, Modal, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import Constants from 'expo-constants';
 import { StyleSheet } from "react-native";
+import TouchableVibrate from "./TouchableVibrate";
 
 
 
@@ -45,7 +46,7 @@ function NewVersion({ }) {
                         <Text style={{ fontSize: 17 }}>Є нова версія додатка!!</Text>
                         <Text style={styles.textStyle}>Оновити зараз?</Text>
                         <View style={styles.btnBlock}>
-                            <TouchableOpacity
+                            <TouchableVibrate
                                 onPress={() => setShow(!show)}
                                 style={styles.buttonClose}
                             >
@@ -54,8 +55,8 @@ function NewVersion({ }) {
                                     allowFontScaling={true}
                                     maxFontSizeMultiplier={1}
                                 >Пізніше</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
+                            </TouchableVibrate>
+                            <TouchableVibrate
                                 onPress={() => refreshApp()}
                                 style={styles.buttonModal}
                             >
@@ -64,7 +65,7 @@ function NewVersion({ }) {
                                     allowFontScaling={true}
                                     maxFontSizeMultiplier={1}
                                 >Оновити</Text>
-                            </TouchableOpacity>
+                            </TouchableVibrate>
                         </View>
                     </View>
                 </View>

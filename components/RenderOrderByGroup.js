@@ -1,11 +1,12 @@
 import Checkbox from "expo-checkbox"
 import { memo, useEffect, useState } from "react"
-import { SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native"
+import { SafeAreaView, StyleSheet, Text, TextInput, Vibration, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
 import { clearDataChangeItem, setDataChange, setSearchText } from "../state/dataSlice"
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { allStyles } from "../styles"
+import TouchableVibrate from "./TouchableVibrate"
 
 
 const styles = StyleSheet.create({
@@ -154,16 +155,16 @@ const RenderOrderByGroup = memo(({ order, selectedAll, plant, currentStep, scrol
     
     return (
         <SafeAreaView style={styles.viewContainer}>            
-            <TouchableOpacity style={{flex: 1}} onPress={() => searchPoint(customerName)}>
+            <TouchableVibrate style={{flex: 1}} onPress={() => searchPoint(customerName)}>
                 <Text style={styles.nameClient}
                     allowFontScaling={true}
                     maxFontSizeMultiplier={1}
                 >{customerName}</Text>
-            </TouchableOpacity>
+            </TouchableVibrate>
             <View style={styles.infoBlock}>
                 <View style={styles.orderInfoBlock}>
                     <View style={styles.orderNames}>
-                        <TouchableOpacity style={{flex: 1}} onPress={() => searchPoint(shipmentMethod)}>
+                        <TouchableVibrate style={{flex: 1}} onPress={() => searchPoint(shipmentMethod)}>
                             <FontAwesome5 name="truck-loading" size={13} color="black" >
                                 <Text
                                     style={[styles.textStrong, shipmentMethod.toLowerCase().includes('пошта') && allStyles.NPshipment]}
@@ -171,7 +172,7 @@ const RenderOrderByGroup = memo(({ order, selectedAll, plant, currentStep, scrol
                                     maxFontSizeMultiplier={1}
                                 > {shipmentMethod}</Text>
                             </FontAwesome5> 
-                        </TouchableOpacity>                       
+                        </TouchableVibrate>                       
                         
                         <MaterialCommunityIcons name="truck-delivery-outline" size={18} color="black" >
                         <Text
@@ -213,6 +214,7 @@ const RenderOrderByGroup = memo(({ order, selectedAll, plant, currentStep, scrol
                                 value={orderCheckBox}
                                 color='#45aa45'
                                 onValueChange={() => {
+                                    Vibration.vibrate(10)
                                     setOrderCheckBox(!orderCheckBox)
                                 }}
                                 style={styles.checkBox}

@@ -1,11 +1,12 @@
 import { Ionicons } from '@expo/vector-icons'
 import { useFocusEffect } from '@react-navigation/core'
 import { useCallback, useState} from 'react'
-import { FlatList, Modal, RefreshControl, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Modal, RefreshControl, StyleSheet, Text, View } from 'react-native'
 import { Badge } from 'react-native-elements'
 import { connect, useDispatch } from 'react-redux'
 import { getNotifiThunk } from '../state/dataThunk'
 import RenderNotifi from './RenderNotifi'
+import TouchableVibrate from './TouchableVibrate'
 
 
 
@@ -55,7 +56,7 @@ function Notification({ notifiState, token }) {
                             /> :
                             <Text >Повідомлень немає</Text>
                         }
-                        <TouchableOpacity
+                        <TouchableVibrate
                             onPress={() => setShow(!show)}
                             style={styles.buttonModal}
                         >
@@ -64,12 +65,12 @@ function Notification({ notifiState, token }) {
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                             >Закрити</Text>
-                        </TouchableOpacity>
+                        </TouchableVibrate>
                     </View>
                 </View>
             </Modal>
 
-            <TouchableOpacity
+            <TouchableVibrate
                 onPress={() => setShow(!show)}
                 style={{ alignItems: 'center', height: '100%', justifyContent: 'center', width: 32 }}
             >
@@ -79,7 +80,7 @@ function Notification({ notifiState, token }) {
                     badgeStyle={{ backgroundColor: '#45aa45' }}
                     value={notifiState.length}
                 />
-            </TouchableOpacity>
+            </TouchableVibrate>
         </View>
 
     )

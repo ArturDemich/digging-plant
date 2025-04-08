@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, TouchableHighlight, SafeAreaView, TextInput, ActivityIndicator, Image, Platform } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, TextInput, ActivityIndicator, Image, Platform } from 'react-native'
 import { connect, useDispatch } from 'react-redux'
 import { getNewVersion, getTokenThunk } from '../state/dataThunk'
 import * as SecureStore from 'expo-secure-store'
 import logoIcon from '../assets/logoIcon.png'
 import CurrentVersion from '../components/CurrentVersion'
+import TouchableVibrate from '../components/TouchableVibrate'
 
 const styles = StyleSheet.create({
     container: {
@@ -132,7 +133,7 @@ function LoginScreen() {
                         secureTextEntry={true}
                         placeholderTextColor={'gray'}
                     />
-                    <TouchableHighlight
+                    <TouchableVibrate
                         style={styles.button}
                         onPress={() => getToken()}
                     >
@@ -141,7 +142,7 @@ function LoginScreen() {
                             allowFontScaling={true}
                             maxFontSizeMultiplier={1}
                         > Увійти </Text>
-                    </TouchableHighlight>
+                    </TouchableVibrate>
                 </View>}
             <CurrentVersion />
         </SafeAreaView>

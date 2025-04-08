@@ -1,5 +1,6 @@
 node_modules/
 .expo/
+credentials.json
 # android/
 dist/
 npm-debug.*

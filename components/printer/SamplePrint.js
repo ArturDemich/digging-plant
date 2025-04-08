@@ -17,24 +17,28 @@ export async function printreciept(labe) {
   const screenWidth = Math.floor(Dimensions.get('window').width);
   const labelWidth = await SecureStore.getItemAsync(KEYLableStorage);
   const printType = await SecureStore.getItemAsync(KEYPrinTypeStorage);
-  let imgWidth
-  switch (screenWidth) {
+
+  let originalImgWidth;
+  switch (screenWidth) {   //seted for 50mm
     case 800:
-      imgWidth = 880
+      originalImgWidth = 880
       break;
     case 490:
-      imgWidth = 522
+      originalImgWidth = 522
       break;
     case 411:
-      imgWidth = 433
+      originalImgWidth = 433
       break;
     case 392:
-      imgWidth = 415
+      originalImgWidth = 415
       break;
     default:
-      imgWidth = screenWidth * 1.055
+      originalImgWidth = screenWidth * 1.055
       break;
-  }
+  };
+
+  const scale = Number(labelWidth) / 50; // 0.8 if 40mm
+  const imgWidth = Math.floor(originalImgWidth * scale);
 
   try {
     let options = {

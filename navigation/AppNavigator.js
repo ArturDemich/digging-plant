@@ -11,7 +11,7 @@ import { setToken } from '../state/dataSlice'
 import ButtonOut from '../components/ButtonOut'
 import HeaderTitle from '../components/HeaderTitle'
 import Notification from '../components/Notification'
-import { Platform, View } from 'react-native'
+import { Platform, Vibration, View } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 import useCallData from '../hooks/useCallData'
 import Search from '../components/Search'
@@ -88,7 +88,10 @@ export default function Navigate() {
                                 name='Поле'
                                 component={FildScreen}
                                 options={({ route, navigation }) => ({
-                                    headerLeft: () => (navigation.getState().index == 0 ? null : <HeaderBackButton style={{ marginHorizontal: 0, }} onPress={() => navigation.goBack()} />),
+                                    headerLeft: () => (navigation.getState().index == 0 ? null : <HeaderBackButton style={{ marginHorizontal: 0, }} onPress={() => {
+                                        Vibration.vibrate(10)
+                                        navigation.goBack()
+                                    }} />),
                                     headerTitle: () => <HeaderTitle title={route.params.title} />,
                                     headerRight: () => {
                                         return (

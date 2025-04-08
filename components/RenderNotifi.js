@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native"
 import { Ionicons } from '@expo/vector-icons'
-import { TouchableOpacity } from "react-native"
 import { deleteNotifiThunk, getNotifiThunk, updateNotifiThunk } from "../state/dataThunk"
 import { useDispatch } from "react-redux"
+import TouchableVibrate from "./TouchableVibrate"
 
 
 
@@ -28,7 +28,7 @@ function RenderNotifi({ notifi, token }) {
     return (
         <View style={styles.renderRow}>
             <View style={styles.renderBlock}>
-                <TouchableOpacity
+                <TouchableVibrate
                     onPress={() => updateNotifi()}
                 >
                     {item.message_status === 'new' ?
@@ -36,14 +36,14 @@ function RenderNotifi({ notifi, token }) {
                         item.message_status === 'read' ?
                             <Ionicons name="eye-sharp" size={24} color="black" /> : null
                     }
-                </TouchableOpacity>
+                </TouchableVibrate>
                 <Text style={styles.renderText}>{item.message_body}</Text>
             </View>
-            <TouchableOpacity
+            <TouchableVibrate
                 onPress={() => deleteNotifi()}
             >
                 <Ionicons name="md-trash-outline" size={24} color="black" />
-            </TouchableOpacity>
+            </TouchableVibrate>
         </View>
     )
 }

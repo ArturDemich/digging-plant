@@ -1,12 +1,13 @@
 import Checkbox from "expo-checkbox"
 import { memo, useState } from "react"
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native"
+import { StyleSheet, Text, Vibration, View } from "react-native"
 import { connect, useDispatch } from "react-redux"
 import shortid from "shortid"
 import RenderPlants from "./RenderPlants"
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import { allStyles } from "../styles"
 import { setSearchText } from "../state/dataSlice"
+import TouchableVibrate from "./TouchableVibrate"
 
 
 
@@ -136,23 +137,26 @@ const RenderOrders = memo(({ order, currentColor, scrollToTop, rightToChange }) 
             <View style={styles.costLineWrapper}>
                 <View style={styles.orderInfo}>
                     <View style={styles.infoContainer}>
-                        <TouchableOpacity style={{flex: 1}} onPress={() => searchPoint(customerName)}>
+                        <TouchableVibrate style={{flex: 1}} onPress={() => searchPoint(customerName)}>
                             <Text style={styles.orderClient}
                                 allowFontScaling={true}
                                 maxFontSizeMultiplier={1}
                             >{customerName}</Text>
-                        </TouchableOpacity>
+                        </TouchableVibrate>
                         {rightToChange && products.length > 1 ?
                             <Checkbox
                                 value={selectedAllOrder}
                                 color='#45aa45'
-                                onValueChange={() => setSelectedAllOrder(!selectedAllOrder)}
+                                onValueChange={() => {
+                                    Vibration.vibrate(10)
+                                    setSelectedAllOrder(!selectedAllOrder)
+                                }}
                                 style={styles.checkBox}
                             /> : null}
                     </View>
                     <View style={styles.viewGroup}>
                         <View style={styles.shipment}>
-                        <TouchableOpacity style={styles.toucheble(currentColor)} onPress={() => searchPoint(shipmentMethod)}>
+                        <TouchableVibrate style={styles.toucheble(currentColor)} onPress={() => searchPoint(shipmentMethod)}>
                             <FontAwesome5 name="truck-loading" size={14} color="black" >                                
                                     <Text
                                         style={[styles.orderShipment, shipmentMethod.toLowerCase().includes('пошта') && allStyles.NPshipment ]}
@@ -160,8 +164,8 @@ const RenderOrders = memo(({ order, currentColor, scrollToTop, rightToChange }) 
                                         maxFontSizeMultiplier={1}
                                     ><Text style={styles.textStr}> {shipmentMethod}</Text> </Text>  
                             </FontAwesome5>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.toucheble(currentColor)} onPress={() => searchPoint(shipmentDate)}>
+                        </TouchableVibrate>
+                        <TouchableVibrate style={styles.toucheble(currentColor)} onPress={() => searchPoint(shipmentDate)}>
                             <MaterialCommunityIcons name="truck-delivery-outline" size={22} color="black" >
                                 <Text
                                     style={styles.orderShipment}
@@ -169,7 +173,7 @@ const RenderOrders = memo(({ order, currentColor, scrollToTop, rightToChange }) 
                                     maxFontSizeMultiplier={1}
                                 > {shipmentDate} </Text>
                             </MaterialCommunityIcons>
-                        </TouchableOpacity>
+                        </TouchableVibrate>
                         </View>
                         <MaterialCommunityIcons name="pine-tree" size={20} color="black">
                             <MaterialCommunityIcons name="pine-tree" size={14} color="black" />

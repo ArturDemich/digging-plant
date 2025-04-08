@@ -2,7 +2,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   FlatList,
   Platform,
 } from "react-native";
@@ -10,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { connect, useDispatch } from "react-redux";
 import { setStorageId } from "../state/dataSlice";
 import CurrentVersion from "../components/CurrentVersion";
+import TouchableVibrate from "../components/TouchableVibrate";
 
 const styles = StyleSheet.create({
   container: {
@@ -94,7 +94,7 @@ function MainScreen({ navigation, digStorages }) {
   function renderFildsButton({ item }) {
     
     return (
-      <TouchableOpacity
+      <TouchableVibrate
         style={styles.button}
         onPress={() => {
           navToOrders(item).finally(() => navigation.navigate("Поле", { title: item.name }))          
@@ -108,7 +108,7 @@ function MainScreen({ navigation, digStorages }) {
         >          
           {item.name}
         </Text>
-      </TouchableOpacity>
+      </TouchableVibrate>
     );
   }
 

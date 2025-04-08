@@ -1,10 +1,11 @@
 import React, { memo } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity } from 'react-native'
+import { Text, StyleSheet, View } from 'react-native'
 import { useDispatch, connect } from 'react-redux'
 import { setSearchText } from '../state/dataSlice'
 import { MaterialCommunityIcons, Entypo } from '@expo/vector-icons'
 import CheckInputBox from './CheckInputBox'
 import shortid from 'shortid'
+import TouchableVibrate from './TouchableVibrate'
 
 
 
@@ -46,7 +47,7 @@ const RenderPlants = memo(({ orderId, selectedAllOrder, prodactElem, currentStep
                                 maxFontSizeMultiplier={1}
                             > {qty} шт</Text>
                         </MaterialCommunityIcons>
-                        <TouchableOpacity style={styles.toucheble(currentColor)} onPress={() => searchPoint(storage?.id)}>
+                        <TouchableVibrate style={styles.toucheble(currentColor)} onPress={() => searchPoint(storage?.id)}>
                             <Entypo name="location" size={20} color="black">
                                 <Text 
                                     style={styles.location}
@@ -54,7 +55,7 @@ const RenderPlants = memo(({ orderId, selectedAllOrder, prodactElem, currentStep
                                     maxFontSizeMultiplier={1}
                                     > {storage?.name}</Text>
                             </Entypo>
-                        </TouchableOpacity>
+                        </TouchableVibrate>
                     </View>
                     
                     {currentStep.rightToChange ? 

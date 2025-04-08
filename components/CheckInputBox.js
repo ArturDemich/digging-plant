@@ -1,6 +1,6 @@
 import Checkbox from "expo-checkbox";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, Vibration, View } from "react-native";
 import { useDispatch } from "react-redux";
 import { clearDataChangeItem, setDataChange } from "../state/dataSlice";
 
@@ -103,6 +103,7 @@ const CheckInputBox = ({ orderId, selectedAllOrder, prodactElem, currentStep, sh
                  value={plantCheckBox}
                  color='#45aa45'
                  onValueChange={() => {
+                    Vibration.vibrate(10)
                      setPlantCheckBox(!plantCheckBox)
                  }}
                  style={styles.checkBox}

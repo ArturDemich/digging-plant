@@ -1,8 +1,9 @@
 import { connect, useDispatch } from "react-redux"
 import { MaterialIcons } from '@expo/vector-icons';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useEffect, useState, useRef } from "react";
 import { setFilterOrders, setFilterPlants, setFilterQty, setLodingOrders, setLodingPlants, setSearchText } from "../state/dataSlice";
+import TouchableVibrate from "./TouchableVibrate";
 
 
 
@@ -160,14 +161,14 @@ function Search({orders, groupOrders, navigation, searchText}) {
                     inputMode="search"
                 />
             
-                <TouchableOpacity onPress={() => clearInput()} style={styles.close}>
+                <TouchableVibrate onPress={() => clearInput()} style={styles.close}>
                     <Text style={{fontWeight: 600, fontSize: 22}}> X </Text>
-                </TouchableOpacity>
+                </TouchableVibrate>
             </View>
             )}
-            <TouchableOpacity onPress={() => handleIconSearche()} style={{height: '100%', justifyContent: 'center'}} >
+            <TouchableVibrate onPress={() => handleIconSearche()} style={{height: '100%', justifyContent: 'center'}} >
                 <MaterialIcons name="search" size={24} color="black" style={styles.icon} />
-            </TouchableOpacity>
+            </TouchableVibrate>
         </View>
     )
 
