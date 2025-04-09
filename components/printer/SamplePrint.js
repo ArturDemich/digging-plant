@@ -51,7 +51,7 @@ export async function printreciept(labe) {
       sound: 1,
       image: [{
         x: 0,
-        y: 0,
+        y: 20,
         mode: BluetoothTscPrinter.BITMAP_MODE.OVERWRITE,
         width: imgWidth,
         image: labe
