@@ -1,6 +1,6 @@
 {
   "name": "digger",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",

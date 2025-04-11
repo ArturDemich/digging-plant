@@ -29,11 +29,11 @@ const LabelImgShot = ({ labelOff, dataChange }) => {
 
     const shot = () => {
         captureRef(ref, {
-            format: "jpg",
+            format: "png",
             quality: 1.0,
             result: 'base64',
-            width: 320,  //520
-            height: 150  //200
+           // width: 320,  //520
+            //height: 150  //200
         }).then(
              (uri) => {
                  volleyPrint(uri, item.actionqty)                
