@@ -9,6 +9,7 @@ import {
   Alert,
   FlatList,
   Pressable,
+  TextInput,
 } from 'react-native'
 import Modal from "react-native-modal";
 import { connect, useDispatch } from 'react-redux'
@@ -23,7 +24,7 @@ import * as SecureStore from 'expo-secure-store';
 import PrinterButton from './PrinterButton';
 import { PermissionsAndroid } from 'react-native';
 import LabelImgShot from './LabelImgShot';
-import { KEYLableStorage, KEYPrinTypeStorage, PrinterType, SizeLabel } from './constatsPrinter';
+import { KEYLableGapStorage, KEYLableHeightStorage, KEYLableImg_XStorage, KEYLableImg_YStorage, KEYLableStorage, KEYPrinTypeStorage, PrinterType, SizeLabel } from './constatsPrinter';
 import TouchableVibrate from '../TouchableVibrate';
 
 
@@ -65,8 +66,13 @@ const styles = StyleSheet.create({
   printerInfo: { textAlign: 'center', fontSize: 16, color: '#E9493F', marginBottom: 20 },
   labeleSizeBlock: {
     alignSelf: 'flex-start',
-    marginTop: 8,
-    marginBottom: 8
+    marginBottom: 8,
+    paddingBottom: 12,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    borderBottomWidth: 1,
+    borderColor: 'rgba(131, 131, 131, 0.28)',
   },
   labeleSizeItem: {
     flexDirection: 'row',
@@ -97,6 +103,38 @@ const styles = StyleSheet.create({
     shadowColor: 'unset',
     backgroundColor: "rgba(255, 255, 255, 0.39)",
   },
+  inputQty: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    paddingHorizontal: 8,
+    fontSize: 14,
+    minWidth: 50,
+    maxWidth: 100,
+    minHeight: 30,
+    paddingVertical: 0,
+    textAlign: "center",
+    backgroundColor: "#fff",
+    marginTop: 8,
+    width: 70,
+  },
+  labeleSetingVal: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 8,
+    alignItems: 'center',
+    paddingVertical: 2,
+    paddingHorizontal: 3,
+    paddingRight: 13,
+    //width: 80,
+    //height: 40,
+    elevation: 3,
+    borderWidth: 1,
+    borderColor: "rgba(131, 131, 131, 0.18)",
+    borderRadius: 5,
+    shadowColor: "rgba(131, 131, 131, 0.67)",
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+  },
 })
 
 
@@ -110,9 +148,19 @@ const PrinterModal = memo(({ btPermission }) => {
   const [boundAddress, setBoundAddress] = useState("");
   const [devicesBlock, setDevicesBlock] = useState(true);
   const [printOn, setPrintOn] = useState(false);
-  const [selectedSizeLabel, setSelectedSizeLabel] = useState(null);
-  const [selectedPrinterType, setSelectedPrinterType] = useState(null);
   const [settingOn, setSettingOn] = useState(false);
+  const [selectedSizeLabel, setSelectedSizeLabel] = useState(null);
+  const [selectedHeightLabel, setSelectedHeightLabel] = useState(null);
+  const [selectedGapImg_YLabel, setSelectedGap_YLabel] = useState(null);
+  const [selectedGapImg_XLabel, setSelectedGap_XLabel] = useState(null);
+  const [gapLabel, setGapLabel] = useState(null);
+  const [selectedPrinterType, setSelectedPrinterType] = useState(null);
+  const [isEditingGap, setIsEditingGap] = useState(false);
+  const [isEditingW, setIsEditingW] = useState(false);
+  const [isEditingH, setIsEditingH] = useState(false);
+  const [isEditingY, setIsEditingY] = useState(false);
+  const [isEditingX, setIsEditingX] = useState(false);
+  const [moreSeting, setMoreSeting] = useState(false);
 
   const alertBToN = () => {
     BluetoothManager.isBluetoothEnabled().then(
@@ -164,20 +212,72 @@ const PrinterModal = memo(({ btPermission }) => {
     }
   };
 
+  const checkLabelStorHellper = async ({ storedValue, stateValue, defaultValue, setState, storageKey }) => {
+    if (storedValue && !stateValue) {
+      setState(storedValue)
+    } else {
+      await SecureStore.setItemAsync(storageKey, defaultValue);
+      setState(defaultValue)
+    }
+  };
+
   const checkLabelSizeStor = async () => {
     if (Platform.OS !== 'web') {
-      const size = await SecureStore.getItemAsync(KEYLableStorage);
+      const label_W = await SecureStore.getItemAsync(KEYLableStorage);
+      const label_H = await SecureStore.getItemAsync(KEYLableHeightStorage);
+      const label_Gap = await SecureStore.getItemAsync(KEYLableGapStorage);
+      const label_Y = await SecureStore.getItemAsync(KEYLableImg_YStorage);
+      const label_X = await SecureStore.getItemAsync(KEYLableImg_XStorage);
       const printerType = await SecureStore.getItemAsync(KEYPrinTypeStorage);
-      if (size && printerType) {
-        !selectedSizeLabel && setSelectedSizeLabel(Number(size))
-        !selectedPrinterType && setSelectedPrinterType(printerType)
-      } else {
-        await SecureStore.setItemAsync(KEYLableStorage, SizeLabel.Forty.toString());
-        await SecureStore.setItemAsync(KEYPrinTypeStorage, PrinterType.TSC);
-        setSelectedSizeLabel(SizeLabel.Forty)
-        setSelectedPrinterType(PrinterType.TSC)
-      }
+      await checkLabelStorHellper({
+        storedValue: label_W,
+        stateValue: selectedSizeLabel,
+        defaultValue: SizeLabel.Fifty.toString(),
+        setState: setSelectedSizeLabel,
+        storageKey: KEYLableStorage
+      })
+      await checkLabelStorHellper({
+        storedValue: label_H,
+        stateValue: selectedHeightLabel,
+        defaultValue: '30',
+        setState: setSelectedHeightLabel,
+        storageKey: KEYLableHeightStorage
+      })
+      await checkLabelStorHellper({
+        storedValue: label_Gap,
+        stateValue: gapLabel,
+        defaultValue: '3',
+        setState: setGapLabel,
+        storageKey: KEYLableGapStorage
+      })
+      await checkLabelStorHellper({
+        storedValue: label_Y,
+        stateValue: selectedGapImg_YLabel,
+        defaultValue: '10',
+        setState: setSelectedGap_YLabel,
+        storageKey: KEYLableImg_YStorage
+      })
+      await checkLabelStorHellper({
+        storedValue: label_X,
+        stateValue: selectedGapImg_XLabel,
+        defaultValue: '0',
+        setState: setSelectedGap_XLabel,
+        storageKey: KEYLableImg_XStorage
+      })
+      await checkLabelStorHellper({
+        storedValue: printerType,
+        stateValue: selectedPrinterType,
+        defaultValue: PrinterType.TSC,
+        setState: setSelectedPrinterType,
+        storageKey: KEYPrinTypeStorage
+      })
     }
+  };
+
+  const handleSetPropLabel = async ({ setStateEdit, storageKey, stateValue }) => {
+    setStateEdit(false);
+    console.log('handleSetGapLabel', stateValue)
+    await SecureStore.setItemAsync(storageKey, stateValue);
   };
 
   useEffect(() => {
@@ -215,6 +315,12 @@ const PrinterModal = memo(({ btPermission }) => {
       console.log("scanning...");
     }
   }, [pairedDevices, show])
+
+  useEffect(() => {
+    if (printOn && moreSeting) {
+      setMoreSeting(false)
+    }
+  }, [printOn])
 
   const checkPrinter = useCallback(async () => {
     const row = {}
@@ -332,10 +438,12 @@ const PrinterModal = memo(({ btPermission }) => {
     )
   };
 
-  const handleSetSizeLabel = async (size) => {
+  const handleSetSizeLabel = async (w) => {
     if (Platform.OS !== 'web') {
-      await SecureStore.setItemAsync(KEYLableStorage, size.toString());
-      setSelectedSizeLabel(size)
+      await SecureStore.setItemAsync(KEYLableStorage, w.toString());
+      await SecureStore.setItemAsync(KEYLableHeightStorage, '30');
+      setSelectedSizeLabel(w.toString())
+      setSelectedHeightLabel('30')
     }
   };
 
@@ -345,6 +453,8 @@ const PrinterModal = memo(({ btPermission }) => {
       setSelectedPrinterType(type)
     }
   };
+
+  const item = true
 
   return (
     <View >
@@ -362,65 +472,153 @@ const PrinterModal = memo(({ btPermission }) => {
         style={{ margin: 1 }}
       >
         <View style={styles.container}>
-        <TouchableVibrate onPress={() => setSettingOn(!settingOn)} style={{alignSelf: 'flex-end', padding: 5}}>
+          <View style={{ flexDirection: 'row', justifyContent: 'flex-end', gap: 8 }}>
+            {(settingOn && selectedPrinterType === PrinterType.TSC) &&
+              <TouchableVibrate
+                style={[styles.labeleSetingVal, { marginTop: 0, marginBottom: 2, width: 90, alignSelf: 'flex-end' }]}
+                onPress={() => setMoreSeting(!moreSeting)}
+              >
+                <MaterialIcons name="settings" size={16} color="rgb(83, 83, 83)" />
+                <Text style={styles.labeleSizeText}>{moreSeting ? 'Менше' : 'Більше'}</Text>
+              </TouchableVibrate>}
+
+            <TouchableVibrate onPress={() => setSettingOn(!settingOn)} style={{ alignSelf: 'flex-end', padding: 5 }}>
               <MaterialIcons name="settings" size={24} color="rgb(83, 83, 83)" />
-        </TouchableVibrate>
+            </TouchableVibrate>
+          </View>
           {settingOn &&
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, }}>
-            <View style={styles.labeleSizeBlock}>
-              <Text style={{ fontWeight: 600, fontSize: 14, color: "rgb(56, 56, 56)", }}>Розмір етикетки:</Text>
-              <TouchableVibrate
-                style={[styles.labeleSizeItem, selectedSizeLabel === SizeLabel.Fifty && styles.labeleSizeLock]}
-                onPress={() => handleSetSizeLabel(SizeLabel.Fifty)}
-                disabled={selectedSizeLabel === SizeLabel.Fifty}
-              >
-                <MaterialCommunityIcons name="sticker-text-outline" size={24} color="rgb(83, 83, 83)" />
-                <Text style={styles.labeleSizeText}>50x30mm</Text>
-                {selectedSizeLabel === SizeLabel.Fifty && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
-              </TouchableVibrate>
+            <>
+              <View style={{ justifyContent: 'space-between', paddingRight: 20, }}>
+                <Text style={{ fontWeight: 600, fontSize: 16, color: "rgb(56, 56, 56)", }}>Обери прінтер:</Text>
+                <View style={styles.labeleSizeBlock}>
+                  <TouchableVibrate
+                    style={[styles.labeleSizeItem, { gap: 3 }, selectedPrinterType === PrinterType.TSC && styles.labeleSizeLock]}
+                    onPress={() => handleSetPrinterType(PrinterType.TSC)}
+                    disabled={selectedPrinterType === PrinterType.TSC}
+                  >
+                    <View style={{ alignItems: 'center' }}>
+                      <MaterialCommunityIcons name="printer-wireless" size={22} color="rgb(83, 83, 83)" />
+                      <Text style={{ fontSize: 6 }}>(TSC)</Text>
+                    </View>
+                    <Text style={{ fontSize: 14, fontWeight: 600, width: 80 }}>Великий </Text>
+                    {selectedPrinterType === PrinterType.TSC && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
+                  </TouchableVibrate>
 
 
-              <TouchableVibrate
-                style={[styles.labeleSizeItem, selectedSizeLabel === SizeLabel.Forty && styles.labeleSizeLock]}
-                onPress={() => handleSetSizeLabel(SizeLabel.Forty)}
-                disabled={selectedSizeLabel === SizeLabel.Forty}
-              >
-                <MaterialCommunityIcons name="sticker-text-outline" size={24} color="rgb(83, 83, 83)" />
-                <Text style={styles.labeleSizeText}>40x30mm</Text>
-                {selectedSizeLabel === SizeLabel.Forty && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
-              </TouchableVibrate>
-            </View>
-
-            <View style={styles.labeleSizeBlock}>
-              <Text style={{ fontWeight: 600, fontSize: 14, color: "rgb(56, 56, 56)", }}>Обери прінтер:</Text>
-              <TouchableVibrate
-                style={[styles.labeleSizeItem, { gap: 3 }, selectedPrinterType === PrinterType.TSC && styles.labeleSizeLock]}
-                onPress={() => handleSetPrinterType(PrinterType.TSC)}
-                disabled={selectedPrinterType === PrinterType.TSC}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="printer-wireless" size={22} color="rgb(83, 83, 83)" />
-                  <Text style={{ fontSize: 6 }}>(TSC)</Text>
+                  <TouchableVibrate
+                    style={[styles.labeleSizeItem, { gap: 3 }, selectedPrinterType === PrinterType.ESC && styles.labeleSizeLock]}
+                    onPress={() => handleSetPrinterType(PrinterType.ESC)}
+                    disabled={selectedPrinterType === PrinterType.ESC}
+                  >
+                    <View style={{ alignItems: 'center' }}>
+                      <MaterialCommunityIcons name="printer-pos" size={22} color="rgb(83, 83, 83)" />
+                      <Text style={{ fontSize: 6 }}>(ESC)</Text>
+                    </View>
+                    <Text style={{ fontSize: 13, fontWeight: 600, width: 80 }}>Маленький</Text>
+                    {selectedPrinterType === PrinterType.ESC && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
+                  </TouchableVibrate>
                 </View>
-                <Text style={{ fontSize: 14, fontWeight: 600, width: 80 }}>Великий </Text>
-                {selectedPrinterType === PrinterType.TSC && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
-              </TouchableVibrate>
+              </View>
+
+              <View style={{ justifyContent: 'space-between', paddingRight: 20, }}>
+                <Text style={{ fontWeight: 600, fontSize: 16, color: "rgb(56, 56, 56)", }}>Розмір етикетки:</Text>
+                <View style={styles.labeleSizeBlock}>
+                  <TouchableVibrate
+                    style={[styles.labeleSizeItem, selectedSizeLabel === SizeLabel.Fifty.toString() && styles.labeleSizeLock]}
+                    onPress={() => handleSetSizeLabel(SizeLabel.Fifty)}
+                    disabled={selectedSizeLabel === SizeLabel.Fifty.toString()}
+                  >
+                    <MaterialCommunityIcons name="sticker-text-outline" size={24} color="rgb(83, 83, 83)" />
+                    <Text style={styles.labeleSizeText}>50x30mm</Text>
+                    {selectedSizeLabel === SizeLabel.Fifty.toString() && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
+                  </TouchableVibrate>
 
 
-              <TouchableVibrate
-                style={[styles.labeleSizeItem, { gap: 3 }, selectedPrinterType === PrinterType.ESC && styles.labeleSizeLock]}
-                onPress={() => handleSetPrinterType(PrinterType.ESC)}
-                disabled={selectedPrinterType === PrinterType.ESC}
-              >
-                <View style={{ alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="printer-pos" size={22} color="rgb(83, 83, 83)" />
-                  <Text style={{ fontSize: 6 }}>(ESC)</Text>
+                  <TouchableVibrate
+                    style={[styles.labeleSizeItem, selectedSizeLabel === SizeLabel.Forty.toString() && styles.labeleSizeLock]}
+                    onPress={() => handleSetSizeLabel(SizeLabel.Forty)}
+                    disabled={selectedSizeLabel === SizeLabel.Forty.toString()}
+                  >
+                    <MaterialCommunityIcons name="sticker-text-outline" size={24} color="rgb(83, 83, 83)" />
+                    <Text style={styles.labeleSizeText}>40x30mm</Text>
+                    {selectedSizeLabel === SizeLabel.Forty.toString() && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
+                  </TouchableVibrate>
                 </View>
-                <Text style={{ fontSize: 13, fontWeight: 600, width: 80}}>Маленький</Text>
-                {selectedPrinterType === PrinterType.ESC && <Entypo name="check" size={24} color='rgba(106, 159, 53, 0.95)' />}
-              </TouchableVibrate>
-            </View>
-          </View> }
+              </View>
+
+              {selectedPrinterType === PrinterType.TSC && (
+                moreSeting &&
+                <>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, }}>
+                    <View style={{ alignSelf: 'flex-start', marginBottom: 8 }}>
+                      <Text style={{ fontWeight: 600, fontSize: 16, color: "rgb(56, 56, 56)", }}>Ширина:</Text>
+                      <InputValue
+                        stateEdit={isEditingW}
+                        setStateEdit={setIsEditingW}
+                        inputValue={selectedSizeLabel}
+                        setInputValue={setSelectedSizeLabel}
+                        handleSetState={handleSetPropLabel}
+                        storageKey={KEYLableStorage}
+                      />
+                    </View>
+
+                    <View style={{ alignSelf: 'flex-start', marginBottom: 8, minWidth: 110 }}>
+                      <Text style={{ fontWeight: 600, fontSize: 16, color: "rgb(56, 56, 56)", }}>Висота:</Text>
+                      <InputValue
+                        stateEdit={isEditingH}
+                        setStateEdit={setIsEditingH}
+                        inputValue={selectedHeightLabel}
+                        setInputValue={setSelectedHeightLabel}
+                        handleSetState={handleSetPropLabel}
+                        storageKey={KEYLableHeightStorage}
+                      />
+                    </View>
+                  </View>
+
+
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, }}>
+                    <View style={{ alignSelf: 'flex-start', marginBottom: 8, minWidth: 110 }}>
+                      <Text style={{ fontWeight: 600, fontSize: 16, color: "rgb(56, 56, 56)", }}>Відступ зверху:</Text>
+                      <InputValue
+                        stateEdit={isEditingY}
+                        setStateEdit={setIsEditingY}
+                        inputValue={selectedGapImg_YLabel}
+                        setInputValue={setSelectedGap_YLabel}
+                        handleSetState={handleSetPropLabel}
+                        storageKey={KEYLableImg_YStorage}
+                      />
+                    </View>
+
+                    <View style={{ alignSelf: 'flex-start', marginBottom: 8, minWidth: 110 }}>
+                      <Text style={{ fontWeight: 600, fontSize: 16, color: "rgb(56, 56, 56)", }}>Відступ зліва:</Text>
+                      <InputValue
+                        stateEdit={isEditingX}
+                        setStateEdit={setIsEditingX}
+                        inputValue={selectedGapImg_XLabel}
+                        setInputValue={setSelectedGap_XLabel}
+                        handleSetState={handleSetPropLabel}
+                        storageKey={KEYLableImg_XStorage}
+                      />
+                    </View>
+                  </View>
+
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingRight: 20, }}>
+                    <View style={{ alignSelf: 'flex-start', marginBottom: 8, paddingBottom: 12, }}>
+                      <Text style={{ fontWeight: 600, fontSize: 16, color: "rgb(56, 56, 56)", }}>Відступ:</Text>
+                      <InputValue
+                        stateEdit={isEditingGap}
+                        setStateEdit={setIsEditingGap}
+                        inputValue={gapLabel}
+                        setInputValue={setGapLabel}
+                        handleSetState={handleSetPropLabel}
+                        storageKey={KEYLableGapStorage}
+                      />
+                    </View>
+                  </View>
+                </>
+              )}
+            </>
+          }
 
 
           <Text style={styles.sectionTitle}>
@@ -499,3 +697,38 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(PrinterModal)
 
+
+
+const InputValue = ({ stateEdit, setStateEdit, inputValue, setInputValue, handleSetState, storageKey }) => {
+
+  return (
+    <View style={{ gap: 4, flexDirection: "row", alignItems: 'center' }}>
+      {stateEdit ? (
+        <View style={{ gap: 4, flexDirection: "row", }}>
+          <TextInput
+            style={styles.inputQty}
+            value={inputValue}
+            onChangeText={setInputValue}
+            keyboardType="numeric"
+            onBlur={async () => await handleSetState({
+              setStateEdit,
+              stateValue: inputValue,
+              storageKey
+            })}
+            autoFocus={stateEdit}
+          />
+        </View>
+      ) : (
+        <View style={{ alignSelf: 'flex-end' }}>
+          <TouchableVibrate
+            style={styles.labeleSetingVal}
+            onPress={() => setStateEdit(true)}
+          >
+            <MaterialCommunityIcons name="pen-lock" size={16} color={'rgb(87, 87, 87)'} />
+            <Text style={[styles.labeleSizeText, { color: 'rgb(70, 70, 70)', minWidth: 28, textAlign: 'center' }]}>{inputValue} mm</Text>
+          </TouchableVibrate>
+        </View>
+      )}
+    </View>
+  )
+};

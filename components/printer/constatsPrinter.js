@@ -1,4 +1,8 @@
 export const KEYLableStorage = 'labelWeight';
+export const KEYLableHeightStorage = 'labelHeight';
+export const KEYLableGapStorage = 'labelGap';
+export const KEYLableImg_YStorage = 'labelImg_Y';
+export const KEYLableImg_XStorage = 'labelImg_X';
 export const KEYPrinTypeStorage = 'printerType';
 export const SizeLabel = {
   Fifty: 50,

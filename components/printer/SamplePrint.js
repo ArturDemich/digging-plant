@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 import { BluetoothTscPrinter, BluetoothEscposPrinter } from 'react-native-bluetooth-escpos-printer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as SecureStore from 'expo-secure-store';
-import { KEYLableStorage, KEYPrinTypeStorage, PrinterType, SizeLabel } from './constatsPrinter';
+import { KEYLableGapStorage, KEYLableHeightStorage, KEYLableImg_XStorage, KEYLableImg_YStorage, KEYLableStorage, KEYPrinTypeStorage, PrinterType, SizeLabel } from './constatsPrinter';
 import TouchableVibrate from '../TouchableVibrate';
 
 const printEscPos = async (labe, labelSize) => {
@@ -17,6 +17,10 @@ export async function printreciept(labe) {
   const screenWidth = Math.floor(Dimensions.get('window').width);
   const labelWidth = await SecureStore.getItemAsync(KEYLableStorage);
   const printType = await SecureStore.getItemAsync(KEYPrinTypeStorage);
+  const labelHeight = await SecureStore.getItemAsync(KEYLableHeightStorage);
+  const labelGap = await SecureStore.getItemAsync(KEYLableGapStorage);
+  const labelImg_X = await SecureStore.getItemAsync(KEYLableImg_XStorage);
+  const labelImg_Y = await SecureStore.getItemAsync(KEYLableImg_YStorage);
 
   let originalImgWidth;
   switch (screenWidth) {   //seted for 50mm
@@ -43,15 +47,15 @@ export async function printreciept(labe) {
   try {
     let options = {
       width: Number(labelWidth),
-      height: 30,
-      gap: 1,
+      height: Number(labelHeight),
+      gap: Number(labelGap), // 1 old
       direction: BluetoothTscPrinter.DIRECTION.FORWARD,
       reference: [0, 0],
       tear: BluetoothTscPrinter.TEAR.ON,
       sound: 1,
       image: [{
-        x: 0,
-        y: 20,
+        x: Number(labelImg_X),
+        y: Number(labelImg_Y), // 20 old | normal 10
         mode: BluetoothTscPrinter.BITMAP_MODE.OVERWRITE,
         width: imgWidth,
         image: labe
